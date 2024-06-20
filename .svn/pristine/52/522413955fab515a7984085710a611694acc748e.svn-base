@@ -1,7 +1,0 @@
-a.mover:hover, a.mover:active {color: red;}
-.center-page-align {
-    text-align: center;
-  }
-  .m-b-50{
-    margin-bottom: 50px;
-  }

@@ -1,9 +1,0 @@
-<div class="custom-message-alert" *ngIf="message.message != ''">
-    <div class="alert-model {{message.type}}">
-        <i *ngIf="message.type == 'INFO'" class="flaticon-information-1"></i>
-        <i *ngIf="message.type == 'ERROR'" class="flaticon-cross-circular-button"></i>
-        <i *ngIf="message.type == 'SUCCESS'" class="fa fa-check-circle"></i>
-        <span class="alert-title">{{message.type}} :</span>
-        <span class="alert-desc">{{message.message}}</span>
-    </div>
-</div>

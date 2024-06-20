@@ -1,9 +1,0 @@
-export const environment = {
-  production: false,
-  name: "qa",
-  useHash: true,
-  serverUrl: "http://162.55.48.199:8050/careonline-social/",
-  careOnlineWebUrl: "http://162.55.48.199:1991/CareOnLine/#/",
-  directoryUrl: "http://162.55.48.199:1992/careonline-directory/#/",
-  webSocketUrl: "http://162.55.48.199:8050/careonline-social/ws"
-};

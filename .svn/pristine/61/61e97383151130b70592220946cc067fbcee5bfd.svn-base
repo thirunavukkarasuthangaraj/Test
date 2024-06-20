@@ -1,6 +1,0 @@
-  <ng-container *ngFor="let item of  WidgetList;let lastItem = last;" >
-   <ndc-dynamic *ngIf="item.show && item.ready" [ndcDynamicComponent]="widget[item.widgetName]"
-   [ndcDynamicInputs]="item.widgetData"  [ndcDynamicOutputs]="outputs"></ndc-dynamic>
-   <div *ngIf="lastItem" intersectionObserver 
-    (visibilityChange)="onVisibilityChanged(item.widgetType, $event)"></div>
-</ng-container>

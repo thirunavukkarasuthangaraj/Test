@@ -1,6 +1,0 @@
-@import "./screens/authentication";
-@import "./screens/business";
-@import "./screens/directory_landing";
-@import "./screens/directory_home";
-@import "./screens/directory_professional_list";
-@import "./screens/directory_profile";

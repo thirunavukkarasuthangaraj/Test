@@ -1,6 +1,0 @@
-<ngx-spinner class="custom-spinner" bdColor="none" size="default" color="#f00707" type="ball-clip-rotate">
-  <!-- <p style="color: #f00707" > Loading... </p> -->
-</ngx-spinner>
-<ngx-spinner class="custom-spinner" bdColor="none" size="default" color="#f00707" type="ball-clip-rotate"
-  [name]="'msgspinner'"></ngx-spinner>
-<router-outlet></router-outlet>
