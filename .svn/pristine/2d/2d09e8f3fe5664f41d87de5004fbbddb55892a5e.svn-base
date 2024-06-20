@@ -1,0 +1,133 @@
+<app-header></app-header>
+<div class="authentication">
+  <div class="color-line"></div>
+  <div class="row background">
+    <div class="col-sm-12 col-md-5 ">
+      <div class="auth-content banner">
+        <!-- <div class="auth-content-overlay"></div> -->
+        <img  style=" height: 413px;" src="assets/images/login_banner.png" />
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-5">
+      <div class="register-container">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="hpanel margin-top p10">
+              <div class="">
+                <div class="text-center">
+                  <!-- <h3>CareOnline</h3>
+                        <small>Empowering You</small> -->
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="50%" />
+                  <div class="text-center" *ngIf="signupCheckEmail" style="color: red">
+                    <p>You have already Signed Up on CareOnline, please check your email to complete Registration</p>
+                  </div>
+                  <div class="text-center" *ngIf="MsgFailed" style="color: red;">
+                    <p>
+                      User has been already registered for this email. Kindly
+                      <a [routerLink]="[ '/login']">login</a> or Use
+                      <a [routerLink]="[ '/Forgotpassword']"> Forgot Password</a>
+                    </p>
+                  </div>
+                </div>
+                <form [formGroup]="signupForm" (ngSubmit)="signUp()" *ngIf="!Msg" class="app-form">
+                  <div class="row">
+                    <div class="form-group col-lg-6">
+                      <label>First Name</label>
+                      <input id="fname" type="text" formControlName="firstName" class="form-control" trim="blur" required/>
+                      <div *ngIf="
+                          e.firstName.invalid &&
+                          (e.firstName.dirty || e.firstName.touched)
+                        ">
+                        <div *ngIf="e.firstName.errors.required" style="color: red;">
+                          First Name is required
+                        </div>
+                        <div *ngIf="e.firstName.errors.pattern" style="color: red;">First Name must contain alphabet
+                          only</div>
+                        <!-- <div *ngIf="e.firstName.errors.cannotContainSpace" style="color: red;">First Name cannot contain space</div> -->
+                      </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>Last Name</label>
+                      <input id="lname" type="text" formControlName="lastName" class="form-control" trim="blur" />
+                      <div *ngIf="
+                          e.lastName.invalid &&
+                          (e.lastName.dirty || e.lastName.touched)
+                        ">
+                        <div *ngIf="e.lastName.errors.required" style="color: red;">
+                          Last Name is required
+                        </div>
+                        <div *ngIf="e.lastName.errors.pattern" style="color: red;">Last Name must contain alphabet only
+                        </div>
+                        <!-- <div *ngIf="e.lastName.errors.cannotContainSpace" style="color: red;">Last Name cannot contain space</div> -->
+
+                      </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                      <label>Email Address</label>
+                      <input id="email" type="text" formControlName="email" class="form-control" value="" trim="blur" />
+                      <div *ngIf="
+                          e.email.invalid && (e.email.dirty || e.email.touched)
+                        ">
+                        <div *ngIf="e.email.errors.required" style="color: red;">
+                          Please enter Email address
+                        </div>
+                        <!-- <div *ngIf="e.email.errors.email" style="color: red;">
+                          Enter vaild Email-id
+                        </div> -->
+                        <div *ngIf="e.email.errors.pattern" style="color: red;">
+                          Enter vaild Email address
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div>
+                                  <re-captcha (resolved)="resolved($event)"   siteKey="6Le4duAUAAAAABP4P5bbkAdF1tfMmV902iKsCoo2"></re-captcha>
+                                </div> -->
+                  <div class="form-group padding-left-0">
+                    <!-- <label class="form-check-label c" for="condition"> -->
+                    <!-- By Clicking "Join now",you agree to the CareOnline -->
+                    <p>By clicking "Join now" I accept that I have read and agreed to</p>
+                    <p>CareOnline's<a  class="t_c"><u>Terms of Use</u></a> and
+                      <a  class="t_c"><u>Privacy Policy</u></a></p>
+
+                    <!-- </label> -->
+                  </div>
+                  <div class="text-center">
+                    <button class="btn primary-btn btn-sm" [disabled]="!signupForm.valid" type="submit">
+                      Join now
+                    </button>
+                    <button type="button" class="btn secondary-btn btn-sm" style="margin-left: 10px;"
+                      (click)="Datareset()">
+                      Cancel
+                    </button>
+                  </div>
+                  <!-- <div class="form-group">
+                                  <label for="file">Choose File</label>
+                                  <input type="file"
+                                         id="file"
+                                         (change)="handleFileInput($event.target.files)">
+                                </div> -->
+                </form>
+                <div class="text-center" *ngIf="Msg">
+                  <p>Activation Link has been sent to your email address.</p>
+                  <button class="btn primary-btn btn-sm" [routerLink]="['/login']"
+                    routerLinkActive="router-link-active">
+                    Thank you
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <a [routerLink]="['/memberDirectory']" routerLinkActive="router-link-active"></a>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,17 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-featured-jobs',
+  templateUrl: './featured-jobs.component.html',
+  styleUrls: ['./featured-jobs.component.scss']
+})
+export class FeaturedJobsComponent implements OnInit {
+  img: any = 'assets/images/userAvatar.png';
+  constructor() { 
+    // this.img = 'assets/images/gallery/company.png';
+  }
+
+  ngOnInit() {
+  }
+
+}

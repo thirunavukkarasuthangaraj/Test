@@ -1,0 +1,50 @@
+<ng-container      >
+  <div class="hpanel margin-bottom-5"  >
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-12 widget-welcome">
+          <a href="" class="pull-left">
+            <img class="rounded-circle" src="assets/images/userAvatar.png" style="max-height:35px!important" alt="">
+          </a>
+          <div class="namee">
+            SFrancis
+          </div>
+          <div class="posttin">
+            <div class="row pdin">
+              <div class="col-sm-12">
+                Building the next generation platform connecting recruiters and job seekers.
+              </div>
+            </div>
+
+           <div class="pddd">
+            <div class="row ">
+              Work
+            </div>
+            <div class="row ">
+              Founder at GigSumo
+            </div>
+           </div>
+           <div class="pddd">
+            <div class="row ">
+              Location
+            </div>
+            <div class="row ">
+              San Francisco, California
+            </div>
+           </div>
+            <div class="pddd">
+              <div class="row ">
+                Joined
+              </div>
+              <div class="row ">
+                Oct 2, 2021
+              </div>
+            </div>
+            <button *ngIf="!following" (click)="follow()"  class="btn btn-primary btn-block btn-sm">Follow</button>
+            <button  *ngIf="following" class="btn btn-primary btn-block btn-sm">Following</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

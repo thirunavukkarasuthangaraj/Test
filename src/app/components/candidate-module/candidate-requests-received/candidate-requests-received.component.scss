@@ -1,0 +1,261 @@
+.view-card {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+
+  img {
+    height: 57px;
+  }
+
+  .details-grid {
+    display: grid;
+
+    .view-name {
+      font-weight: 500;
+    }
+
+
+
+    .view-title {
+      font-weight: 400;
+    }
+    .view-time {
+      font-size: 10px;
+      display: flex;
+      column-gap: 5px;
+      align-items: center;
+    }
+  }
+}
+
+.top-eye{
+  margin: 4px 0px;
+  padding:0 4px;
+}
+
+.fig {
+  font-weight: 500;
+  position: relative;
+  top: 12px;
+}
+.views-text {
+  margin-left: 5px;
+}
+
+
+
+.wert {
+  position: relative;
+  text-align: center;
+  top: 5rem;
+}
+
+.dropdox {
+
+  padding: 10px;
+  width: 365px;
+  height: 119px;
+  text-align: center;
+  display: grid;
+  border: dashed 1px #20384b;
+  margin: 0 auto;
+  border-radius: 7px;
+
+  input {
+    opacity: 0;
+    // position: absolute;
+    // z-index: 2;
+    // width: 100%;
+    // height: 100%;
+    // top: 0;
+    // left: 0;
+  }
+}
+
+.files-list {
+  max-width: fit-content;
+  margin-top: 1.5rem;
+  margin-left: 15px;
+
+  .single-files {
+
+    .name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #353f4a;
+      margin: 4px;
+      cursor: pointer;
+    }
+
+    .size {
+      font-size: 12px;
+      font-weight: 500;
+      color: #a4a4a4;
+      margin: 0;
+      margin-bottom: 0.25rem;
+    }
+
+    .info {
+      width: 100%;
+      text-align: center;
+      display: inline-flex;
+      line-height: 1;
+      background: #cbdaf1;
+      padding: 3px 5px;
+      margin: 20px 3px;
+      border-radius: 3px;
+    }
+  }
+}
+
+#aad{
+  color: #5f5d5d;
+    cursor: pointer;
+    height: 29px;
+    border-radius: 2.5px;
+
+    padding: 16px 45px 35px 42px;
+    // border: dashed 3px #1f2c38;
+    border: dashed 1px #63cfbe;
+
+}
+
+// @media (min-width: 768px)
+.modal-dialog {
+  width: 330px !important;
+  margin: 30px auto;
+}
+.modal-header {
+   padding: 15px 15px 15px 15px !important;
+    /* background: white !important; */
+    border-radius: 3px;
+    background: #49a7a9;
+    color: #fff;
+  }
+.modal-body {
+padding: 0px 15px !important;
+}
+
+.modal-footer {
+background: #f7f9fa;
+border-radius: 3px !important;
+padding: 4px;
+text-align: center;
+}
+
+.tiimes {
+  font-size: 20px;
+  // line-height: 0px;
+  cursor: pointer;
+  position: relative;
+  top: -1px;
+}
+
+.modal-title {
+font-size: 19px;
+font-weight: 300;
+}
+input[type="radio"], input[type="checkbox"] {
+margin: 3px 6px 0;
+float: left;
+line-height: normal;
+}
+.btn-save{
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+.btn-close{
+  font-size: 19px;
+  padding: 7px;
+}
+
+
+.f-r{
+  display: -webkit-box;
+  display: flex;
+  width: 122px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  flex-direction: column-reverse;
+  margin-inline-start: auto;
+  padding: 6px;
+}
+
+
+.more-opt {
+
+  justify-content: right;
+}
+.verticalLine {
+  //height: 300px;
+  border-left: 1px solid #000900;
+  //position: absolute;
+  //left: 50%;
+}
+.starightrow{
+  display: -webkit-box;
+     -webkit-box-align: center;
+     align-items: center;
+     display: flex;
+     -webkit-box-orient: horizontal;
+     -webkit-box-direction: normal;
+     flex-direction: row;
+     flex-wrap: nowrap;
+
+     margin-left: -7px;
+
+}
+.line-tag{
+  margin-top: 1px;
+  margin-bottom: 1px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.margin-cardheight{
+    height: 122px;
+    margin-bottom: 5px;
+}
+.text-wrap-text{
+    white-space: nowrap;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.arrowclassreq{
+  color: white;
+  // position: absolute;
+  // right: 0;
+  // margin-right: 10px;
+
+}
+.blue-color {
+  color: #1272f0;
+}
+.f-1{
+  display: flex;
+  align-items: center;
+}
+.applicants-info {
+  display: flex;
+  align-items: center; /* Align items vertically */
+}
+
+.applicants-count {
+  margin-right: 5px; /* Adjust margin as needed */
+}
+.pointer {
+  cursor: pointer;
+}
+.bg-heart {
+  color: red;
+}
+
+.flx-strt {
+  align-items: flex-start!important;
+}
+
+.consistent-height {
+  height: 72px!important;
+}

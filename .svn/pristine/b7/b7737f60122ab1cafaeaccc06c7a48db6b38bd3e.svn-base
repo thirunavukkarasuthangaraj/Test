@@ -1,0 +1,1362 @@
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
+import { AppSettings } from 'src/app/services/AppSettings';
+import { SearchData } from 'src/app/services/searchData';
+import { ImageCroppedEvent } from "ngx-image-cropper";
+import { UtilService } from 'src/app/services/util.service';
+import Swal from "sweetalert2";
+import { CustomValidator } from '../../Helper/custom-validator';
+import { whiteSpaceValidator } from '../../Helper/whitespaceValidator';
+import { ActivatedRoute, Router } from '@angular/router';
+declare var $: any;
+
+@Component({
+  selector: 'app-profile-banner',
+  templateUrl: './profile-banner.component.html',
+  styleUrls: ['./profile-banner.component.scss']
+})
+export class ProfileBannerComponent implements OnInit {
+  userId: any;
+  requestPending: boolean = false;
+  stateListAU: any = [];
+  imageChangedEvent: any = "";
+  stateListIN: any = [];
+  @ViewChild("myFileInput", { static: false }) myFileInput;
+  @ViewChild("myFileInput1", { static: false }) myFileInput1;
+  @ViewChild("myFileInput2", { static: false }) myFileInput2;
+  personalInfoForm: FormGroup;
+  modalRef: BsModalRef;
+  stateListCA: any = [];
+  commonVariables: any = {};
+  requestSent: boolean = false;
+  connected: boolean = false;
+  notConnected: boolean = false;
+  bannerimg: any = "";
+  profilePhoto: any = "";
+  educationElement: any = {};
+  businesslogs: any = "";
+  commonVarEventEmitter: Subscription;
+  experelement: any = {};
+  backdropConfig = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    keyboard: false,
+  };
+
+  backdropConfig1 = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    keyboard: false,
+    class: 'modal-sm',
+  };
+
+  eventSubscription: Subscription;
+  photoId: any;
+  infoData: any = {};
+  adminFlag: boolean = false;
+  constructor(    private searchData: SearchData,
+    private util: UtilService,
+    private api: ApiService,
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private _route: ActivatedRoute,
+    private router: Router,) {
+     this.userId = this._route.queryParams['_value'].userId
+
+    this.commonVarEventEmitter = this.searchData
+    .getCommonVariables()
+    .subscribe((res) => {
+      this.commonVariables = res;
+    });
+
+    this.eventSubscription = this.searchData
+      .getBooleanValue()
+      .subscribe((res) => {
+        this.weird = res;
+      });
+   }
+
+  clientTypeList: any = []
+  ngOnInit() {
+    this.clientTypeList = ['Direct Hire', 'Direct Client', 'Systems Integrator', 'Prime Vendor', 'Vendor', 'Supplier', 'Staffing Agency']
+    this.personalInfoForm = this.fb.group(
+      {
+        userType: [null, [Validators.required]],
+        nonApplicable: [false],
+        firstName: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern("^[A-Za-z ]+$"),
+            whiteSpaceValidator.cannotContainSpace,
+          ],
+        ], //, whiteSpaceValidator.cannotContainSpace
+        lastName: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern("^[A-Za-z ]+$"),
+            whiteSpaceValidator.cannotContainSpace,
+          ],
+        ], //, whiteSpaceValidator.cannotContainSpace
+        pitch: [null],
+        photo: [""],
+        npiNo: [null],
+        phoneNo: [
+          "",
+          Validators.compose([
+            Validators.maxLength(15),
+            Validators.pattern(/^[\d -]+$/),
+          ]),
+        ],
+        email: [
+          "",
+          Validators.compose([Validators.required, Validators.email]),
+        ],
+        state: ["", Validators.compose([Validators.required])],
+        zipcode: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[0-9]*$/),
+          ]),
+        ],
+        secondaryEmail: ["", Validators.compose([Validators.email])],
+        organisation: [""],
+        city: ["", Validators.compose([Validators.required])],
+        country: ["", Validators.compose([Validators.required])],
+      },
+      {
+        validator: CustomValidator.mustMismatch("email", "secondaryEmail"),
+      }
+    );
+
+
+    this.query()
+  }
+
+
+  onEnterNpiNo(event: any) {
+    if (event.target.value != "") {
+      var a = event.target.value;
+      this.util.startLoader();
+      this.api.query("user/npi/registry/" + a).subscribe((res) => {
+        if (res.code == "00000" && res.data != null) {
+          this.util.stopLoader();
+          var aboutMe = res.data.npidata.aboutMe;
+          var careOnlineNo = res.data.npidata.careOnlineNo;
+          var city = res.data.npidata.city;
+          var country = res.data.npidata.country;
+          var firstName = res.data.npidata.firstName;
+          var lastName = res.data.npidata.lastName;
+          var gender = res.data.npidata.gender;
+          var zipcode = res.data.npidata.zipcode;
+          var phoneNo = res.data.npidata.phoneNo;
+          var state = res.data.npidata.state;
+          var title = res.data.npidata.title;
+          var taxonomyCode = res.data.npidata.taxonomyCode;
+          var addressLine1 = res.data.npidata.addressLine1;
+          this.personalInfoForm.patchValue({
+            country: country,
+            aboutMe: aboutMe,
+            city: city,
+            state: state,
+            // firstName : firstName,
+            // lastName : lastName,
+            zipcode: zipcode,
+            phoneNo: phoneNo,
+            title: title,
+          });
+        } else {
+          this.util.stopLoader();
+          this.personalInfoForm.patchValue({
+            country: null,
+            aboutMe: null,
+            city: null,
+            state: null,
+            // firstName : firstName,
+            // lastName : lastName,
+            zipcode: null,
+            phoneNo: null,
+            title: null,
+          });
+        }
+      },err => {
+        this.util.stopLoader(); 
+      });
+    }
+  }
+
+  filterNo(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  reject() {
+    var data: any = {};
+    data.userId = localStorage.getItem("userId");
+    data.connectedUser = this.userId;
+    data.status = "REJECTED";
+    this.util.startLoader();
+    this.api.create("user/connect/accept", data).subscribe((res) => {
+      if (res.code == "00000") {
+        this.util.stopLoader();
+        this.notConnected = true;
+        this.connected = false;
+        this.requestSent = false;
+        this.requestPending = false;
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Connection Request",
+          text: "Connection request rejected",
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      } else if (res.code == "88889") {
+        this.util.stopLoader();
+        this.notConnected = true;
+        this.connected = false;
+        this.requestSent = false;
+        this.requestPending = false;
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Oops...",
+          text: "Something went wrong. Please try after some time.",
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+  ngAfterViewInit() {
+    this.validateUser()
+  }
+
+  accept() {
+    var data: any = {};
+    data.userId = localStorage.getItem("userId");
+    data.connectedUser = this.userId;
+    data.status = "CONNECTED";
+    this.util.startLoader();
+    this.api.create("user/connect/accept", data).subscribe((res) => {
+      if (res.code == "00000") {
+        this.util.stopLoader();
+        this.connected = true;
+        this.requestSent = false;
+        this.requestPending = false;
+        this.notConnected = false;
+
+        //successfully accepted
+        Swal.fire({
+          icon: "success",
+          title: "Request accepted successfully",
+          // title: "Connection Request",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      } else if (res.code == "88889") {
+        this.util.stopLoader();
+        this.connected = false;
+        this.requestSent = false;
+        this.requestPending = false;
+        this.notConnected = true;
+        //some error occured
+        // setTimeout(function () {
+        //   Swal.fire("Oops! Something went wrong!");
+        // }, 500);
+        Swal.fire({
+          icon: "info",
+          title:"Oops...",
+          text: "Connection accept request failed. Please try after a while.",
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+  userTypeValue: any;
+  restrictedUserType: any;
+  changeUserTypeFlag: boolean = false
+  onChangeIam(value) {
+
+    if(value != this.restrictedUserType){
+      this.commonVariables.previousFlag = false
+      this.searchData.setCommonVariables(this.commonVariables)
+      // this.commonVariables.previousFlag = false
+    }else if(value == this.restrictedUserType){
+      this.commonVariables.previousFlag = true
+      this.searchData.setCommonVariables(this.commonVariables)
+    }
+
+
+    if(this.changeUserTypeFlag == false){
+      this.userTypeValue = "";
+    if (value == "HEALTHCARE" && value != this.infoData.userType) {
+      this.userTypeValue = "Medical/ Healthcare Professional";
+      this.phyPrompt = true;
+      this.studentPrompt = false;
+      this.searchData.setBooleanValue(true);
+    } else if (value == "student" && value != this.infoData.userType) {
+      this.studentPrompt = true;
+      this.phyPrompt = false;
+      this.searchData.setBooleanValue(true);
+    } else if (value == "adminPersonnel" && value != this.infoData.userType) {
+      this.phyPrompt = true;
+      this.studentPrompt = false;
+      this.searchData.setBooleanValue(true);
+      this.userTypeValue = "Administrative Healthcare personnel";
+    } else if (
+      (value == "Other" && this.infoData.userType != "adminPersonnel") ||
+      (value == "Other" && this.infoData.userType != "HEALTHCARE")
+    ) {
+      this.phyPrompt = true;
+      this.studentPrompt = false;
+      this.searchData.setBooleanValue(true);
+      this.userTypeValue = "Other";
+    }
+    }
+  }
+
+  onKeyZip(event: any, value, index) {
+    if (value == "user") {
+      let data: any = {};
+      data.countryCode = "US";
+      data.zipCode = event.target.value;
+      data.stateCode = "";
+      // this.util.startLoader();
+      if(data.zipCode.length === 5){
+        this.api.create("country/geodetails", data).subscribe((res) => {
+          if (res && res != null && res.length > 0 && event.target.value != "") {
+            // this.util.stopLoader();
+            res.forEach((ele) => {
+              let cityName = ele.cityName;
+              let stateName = ele.stateName;
+              this.personalInfoForm.patchValue({
+                city: cityName,
+                state: stateName,
+              });
+            });
+          } else {
+            // this.util.stopLoader();
+            // this.personalInfoForm.patchValue({
+            //   city: null,
+            //   state: null,
+            //   // street : null
+            // });
+          }
+        },err => {
+          this.util.stopLoader(); 
+           
+         });
+      } else {
+        this.personalInfoForm.patchValue({
+          city: null,
+          state: null,
+          // street : null
+        });
+      }
+    } 
+  }
+
+  connect() {
+    var data: any = {};
+    data.userId = this.userId;
+    data.requestedBy = localStorage.getItem("userId");
+    this.util.startLoader();
+    this.api.create("user/connect", data).subscribe((res) => {
+      if (res.code == "00000") {
+        this.util.stopLoader();
+        //message to show connect request is sent successfully
+        this.requestSent = true;
+        this.notConnected = false;
+        this.connected = false;
+        setTimeout(function () {
+          Swal.fire({
+            icon: "success",
+            title: "Request sent successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }, 200);
+      } else if (res.code == "88888") {
+        this.util.stopLoader();
+        this.requestSent = false;
+        this.notConnected = true;
+        this.connected = false;
+        Swal.fire({
+          icon: "info",
+          title: "Request failed",
+          text: "Request coundn't be sent now. Please try after some time.",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }else if (res.code =='U0031'){
+        this.util.stopLoader()
+        // this.query()
+        // this.reload()
+        // let datas: any = {};
+        // datas.userId = this.userId
+        // this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(["personalProfile"], { queryParams: datas });
+        // });
+        this.fetchForeignUser()
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+  query() {
+    this.util.startLoader();
+    this.api.query("user/" + this.userId).subscribe((res) => {
+      if(res && res.code === "00000"){
+      this.util.stopLoader();
+      this.infoData = res;
+      this.getData()
+      // this.validateUser();
+      }
+    },err => {
+      this.util.stopLoader(); 
+    });
+  }
+
+  validateUser() {
+    if (this.userId == localStorage.getItem("userId")) {
+      // this.localUser = true
+      this.commonVariables.localUser = true;
+      this.searchData.setCommonVariables(this.commonVariables);
+      // this.query();
+    } else {
+      // this.localUser = false
+      this.commonVariables.localUser = false;
+      this.searchData.setCommonVariables(this.commonVariables);
+      this.fetchForeignUser();
+    }
+  }
+
+  fetchForeignUser() {
+    var data: any = {};
+    data.userId = this.userId;
+    data.requestedBy = localStorage.getItem("userId");
+    this.util.startLoader();
+    this.api.create("user/home", data).subscribe((res) => {
+      if(res){
+        this.util.stopLoader();
+      this.searchResponse = res;
+      this.validateConnection();
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+  searchResponse: any;
+  
+  validateConnection() {
+    this.userId = this.searchResponse.userId;
+    if (this.searchResponse.connected == "true") {
+      this.connected = true;
+    } else {
+      this.connected = false;
+    }
+    // console.log("request sent checking")
+    // console.log(this.searchResponse.connectionStatus)
+
+    if (this.searchResponse.connectionStatus == "REQUEST_SENT") {
+      this.requestSent = true;
+      this.connected = false;
+      this.notConnected = false;
+      this.requestPending = false;
+    } else if (this.searchResponse.connectionStatus == "NOT_CONNECTED") {
+      this.notConnected = true;
+      this.connected = false;
+      this.requestPending = false;
+      this.requestSent = false;
+    } else if (this.searchResponse.connectionStatus == "REQUEST_PENDING") {
+      this.requestPending = true;
+      this.connected = false;
+      this.notConnected = false;
+      this.requestSent = false;
+    } else if (this.searchResponse.connectionStatus == "CONNECTED") {
+      this.connected = true;
+      this.notConnected = false;
+      this.requestPending = false;
+      this.requestSent = false;
+    }
+    this.query();
+  }
+
+
+  sendMessage(userId: String) {
+    var userData: any = {};
+    userData.userId = this.userId;
+    userData.groupId = this.userId;
+    userData.type = 'USER'
+    this.router.navigate(["message"], { queryParams: userData });
+  }
+
+  uploadPhotoHere(){
+    this.myFileInput2.nativeElement.click(); 
+  }
+
+  uploadPhoto(){
+    this.myFileInput1.nativeElement.click(); 
+  }
+  
+
+  closeImage() {
+    const formData: FormData = new FormData();
+    //this.imageChangedEvent = undefined;
+    this.fileUploadName = undefined;
+    this.modalRef1.hide();
+    // $("#profileimage").val("");
+    this.img.src = AppSettings.ServerUrl + "download/" + this.photoId;
+    // this.myFileInput.nativeElement.value = '';
+    $("#profileimage").val("");
+  }
+
+  userType;
+  getData() {
+
+    if(this.infoData.userType !== 'student') {
+      this.infoData.workExperience.forEach((ele) => {
+        if (this.infoData.workExperience.length > 1) {
+          if (ele.badge == true) {
+            this.experelement.city = ele.city;
+            this.experelement.title = ele.title;
+            this.experelement.state = ele.state;
+            this.experelement.country = ele.country;
+            this.experelement.organisationName = ele.organisationName;
+          }
+        } else if (this.infoData.workExperience.length == 1) {
+          this.infoData.workExperience.forEach((ele) => {
+            this.experelement.city = ele.city;
+            this.experelement.title = ele.title;
+            this.experelement.state = ele.state;
+            this.experelement.country = ele.country;
+            this.experelement.organisationName = ele.organisationName;
+          });
+        }
+      });
+    } else if(this.infoData.userType === 'student'){
+      this.educationElement = {};
+    this.infoData.educationDetail.forEach((ele) => {
+      if (this.infoData.educationDetail.length > 1) {
+        if (ele.currentlyPursued == true && ele.showThisOnProfile == true) {
+          this.educationElement.schoolName = ele.schoolName;
+          this.educationElement.speciality = ele.speciality;
+          this.educationElement.street = ele.street;
+          this.educationElement.zipcode = ele.zipcode;
+          this.educationElement.currentlyPursued = ele.currentlyPursued;
+          this.educationElement.state = ele.state;
+          this.educationElement.city = ele.city;
+          this.educationElement.country = ele.country;
+        }
+      } else if (this.infoData.educationDetail.length == 1) {
+        this.infoData.educationDetail.forEach((ele) => {
+          this.educationElement.schoolName = ele.schoolName;
+          this.educationElement.speciality = ele.speciality;
+          this.educationElement.street = ele.street;
+          this.educationElement.zipcode = ele.zipcode;
+          this.educationElement.currentlyPursued = ele.currentlyPursued;
+          this.educationElement.state = ele.state;
+          this.educationElement.city = ele.city;
+          this.educationElement.country = ele.country;
+        });
+      }
+    });
+    }
+
+
+    
+    if(this.infoData.banner!=='undefined' && this.infoData.banner!=='undefined'){
+      this.bannerimg = { src: AppSettings.photoUrl + this.infoData.banner };
+      }
+
+      if(this.infoData.photo!=='undefined' && this.infoData.photo!=='undefined'){
+        this.profilePhoto = { src: AppSettings.photoUrl + this.infoData.photo };
+        }
+  }
+
+
+  onChangeCountry(event, value, index) {
+    if (value == "user") {
+      this.personalInfoForm.patchValue({
+        state: null,
+        zipcode: null,
+        city: null,
+        country: event,
+      });
+    } 
+    if (event == "United States") {
+    } else if (event == "AU") {
+      const countryCode = event;
+      this.stateListAU = [];
+      this.util.startLoader();
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+         if(res){
+          this.util.stopLoader();
+          this.stateListAU = res;
+         }
+        },err => {
+          this.util.stopLoader(); 
+        });
+    } else if (event == "IN") {
+      const countryCode = event;
+      this.stateListIN = [];
+      this.util.startLoader();
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+         if(res){
+          this.util.stopLoader();
+          this.stateListIN = res;
+         }
+        },err => {
+          this.util.stopLoader(); 
+        });
+    } else if (event == "CA") {
+      const countryCode = event;
+      this.stateListCA = [];
+      this.util.startLoader();
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+         if(res){
+          this.util.stopLoader();
+          this.stateListCA = res;
+         }
+        },err => {
+          this.util.stopLoader(); 
+        });
+    } else {
+    }
+  }
+
+  img: any = {};
+  img4: any = {};
+
+  infoEdit(template: TemplateRef<any>, value) {
+    this.util.startLoader();
+
+    if (value == "previous") {
+      this.changeUserTypeFlag = true
+      this.commonVariables.previousFlag = true
+      this.searchData.setCommonVariables(this.commonVariables)
+      this.restrictedUserType = this.userType
+    }
+
+      this.api.query("user/" + this.userId).subscribe((res) => {
+       if(res){
+         this.infoData = res;
+         setTimeout(() => {
+          this.util.stopLoader();
+         }, 1000);
+
+       }
+      },err => {
+        this.util.stopLoader(); 
+      });
+
+    setTimeout(() => {
+      this.modalRef = this.modalService.show(template, this.backdropConfig);
+    var u = this.infoData;
+    this.getStates();
+    this.getCountry()
+    this.onChangePhysician(u.userType);
+    this.personalInfoForm.patchValue(u);
+    if(this.commonVariables.previousFlag==true){
+      document.getElementById("userType1").focus()
+    }
+
+    if (
+      this.infoData.photo != null &&
+      this.infoData.photo != undefined &&
+      this.infoData.photo != ""
+    ) {
+      this.photoId = this.infoData.photo;
+      this.img4.src = AppSettings.ServerUrl + "download/" + this.photoId;
+    } else {
+      this.img4.src = null;
+    }
+    this.reValidate("state");
+    this.reValidate("userType");
+    this.reValidate("city");
+    this.reValidate("country");
+    this.personalInfoForm
+      .get("zipcode")
+      .setValidators([Validators.required, Validators.pattern(/^[0-9]*$/)]);
+    this.personalInfoForm.get("zipcode").updateValueAndValidity();
+
+    this.personalInfoForm
+      .get("firstName")
+      .setValidators([Validators.required, Validators.pattern("^[A-Za-z ]+$")]);
+    this.personalInfoForm.get("firstName").updateValueAndValidity();
+
+    this.personalInfoForm
+      .get("lastName")
+      .setValidators([Validators.required, Validators.pattern("^[A-Za-z ]+$")]);
+    this.personalInfoForm.get("lastName").updateValueAndValidity();
+
+    this.personalInfoForm
+      .get("phoneNo")
+      .setValidators([
+        Validators.maxLength(15),
+        Validators.pattern(/^[\d -]+$/),
+      ]);
+    this.personalInfoForm.get("phoneNo").updateValueAndValidity();
+
+    this.personalInfoForm
+      .get("email")
+      .setValidators([Validators.required, Validators.email]);
+    this.personalInfoForm.get("email").updateValueAndValidity();
+
+    this.personalInfoForm
+      .get("secondaryEmail")
+      .setValidators([Validators.email]);
+    this.personalInfoForm.get("secondaryEmail").updateValueAndValidity();
+    }, 1000);
+    // this.util.stopLoader()
+  }
+
+  reValidate(value) {
+    this.personalInfoForm.get(value).setValidators([Validators.required]);
+    this.personalInfoForm.get(value).updateValueAndValidity();
+  }
+
+
+  onChangePhysician(val) {
+    if (val == "HEALTHCARE") {
+      this.commonVariables.studentFlag = false;
+      this.searchData.setCommonVariables(this.commonVariables);
+    } else if (val == "student") {
+      this.commonVariables.studentFlag = true;
+      this.searchData.setCommonVariables(this.commonVariables);
+    } else if (val == "adminPersonnel") {
+      this.commonVariables.studentFlag = false;
+      this.searchData.setCommonVariables(this.commonVariables);
+    } else if (val == "Other") {
+      this.commonVariables.studentFlag = false;
+      this.searchData.setCommonVariables(this.commonVariables);
+    }
+  }
+
+
+  closePhoto() {
+    this.modalRef.hide();
+    // this.fileUploadName = ''
+    this.myFileInput.nativeElement.value = "";
+  }
+
+  closePhoto2() {
+    this.modalRef2.hide();
+    this.myFileInput2.nativeElement.value = null
+  }
+  bannerdata;
+  fileUploadName;
+  fileUploadName2;
+  fileToUpload: File;
+  fileToUpload2: File;
+  imageLoaded() {
+    const formData: FormData = new FormData();
+    formData.append("file", this.fileToUpload, this.fileUploadName);
+    this.util.startLoader();
+    this.api.create("upload/image", formData).subscribe((res) => {
+      this.util.stopLoader();
+      this.photoId = res.fileId;
+      this.modalclose();
+      formData.delete("file");
+      if (res.fileId) {
+        this.infoData.banner =  this.photoId
+        this.api.create("user/saveUser", this.infoData).subscribe((res) => {
+          if(res.code === '00000') {
+            this.reload()
+          }
+        })
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+  modalRef1: BsModalRef | null;
+
+  imageLoaded1() {
+    const formData: FormData = new FormData();
+    formData.append("file", this.fileToUpload, this.fileUploadName);
+    this.api.create("upload/image", formData).subscribe((res) => {
+      this.photoId = res.fileId;
+      this.modalRef1.hide();
+      // $("#profileimage").val("")
+      this.img4 = {};
+      this.img4.src = AppSettings.ServerUrl + "download/" + this.photoId;
+    });
+  }
+
+  imageLoaded2() {
+    this.util.startLoader();
+    const formData: FormData = new FormData();
+    formData.append("file", this.fileToUpload, this.fileUploadName);
+    // setTimeout(() => {
+    this.api.create("upload/image", formData).subscribe((res) => {
+
+      if(res){
+        this.photoId = res.fileId;
+      this.modalRef2.hide();
+      // $("#profileimage").val("")
+      this.img4 = {};
+      this.img4.src = AppSettings.ServerUrl + "download/" + this.photoId;
+      this.infoData.photo = this.photoId;
+
+
+
+      this.api.create("user/saveUser", this.infoData).subscribe((res) => {
+        if (res.code == "00000") {
+          this.reload()
+        }else {
+          this.util.stopLoader()
+          this.modalRef2.hide();
+          Swal.fire({
+            icon: "info",
+            title:"Oops...",
+            text: "Something went wrong. Please try after a while.",
+            showConfirmButton: false,
+            timer: 4000
+          });
+        }
+      },err => {
+        this.util.stopLoader(); 
+         
+       });
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+
+  fileChangeEvent(event, popupName): void {
+    this.imageChangedEvent = event;
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+     if (event.target.files && event.target.files[0]) {
+      this.fileUploadName = event.target.files[0].name;
+      this.myFileInput.nativeElement.value;
+    }
+
+     if (!acceptedImageTypes.includes( event.target.files[0].type)) {
+         Swal.fire('', 'Please upload the correct file type   (Only .jpg, .png, .jpeg)', 'info');
+         this.myFileInput.nativeElement.value = "";
+          this.modalRef.hide();
+     }else{
+       this.PopupServicevlaues(popupName);
+      }
+
+  }
+
+  fileChangeEvent1(event, popupName): void {
+    this.imageChangedEvent = event;
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+     if (event.target.files && event.target.files[0]) {
+      this.fileUploadName = event.target.files[0].name;
+      this.myFileInput1.nativeElement.value;
+    }
+
+     if (!acceptedImageTypes.includes( event.target.files[0].type)) {
+         Swal.fire('', 'Please upload the correct file type   (Only .jpg, .png, .jpeg)', 'info');
+         this.myFileInput1.nativeElement.value = "";
+          this.modalRef1.hide();
+     }else{
+       this.PopupServicevlaues1(popupName);
+      }
+
+  }
+
+  modalRef2: BsModalRef | null;
+  fileChangeEvent2(event, popupName): void {
+    this.imageChangedEvent = event;
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+     if (event.target.files && event.target.files[0]) {
+      this.fileUploadName = event.target.files[0].name;
+      this.myFileInput2.nativeElement.value;
+    }
+
+     if (!acceptedImageTypes.includes( event.target.files[0].type)) {
+         Swal.fire('', 'Please upload the correct file type   (Only .jpg, .png, .jpeg)', 'info');
+         this.myFileInput2.nativeElement.value = "";
+          this.modalRef2.hide();
+     }else{
+       this.PopupServicevlaues2(popupName);
+      }
+
+  }
+
+  PopupServicevlaues(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      animated: true,
+      backdrop: "static",
+    });
+  }
+
+  PopupServicevlaues1(template: TemplateRef<any>) {
+    this.modalRef1 = this.modalService.show(template, {
+      animated: true,
+      backdrop: "static",
+    });
+  }
+
+  PopupServicevlaues2(template: TemplateRef<any>) {
+    this.modalRef2 = this.modalService.show(template, {
+      animated: true,
+      backdrop: "static",
+    });
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
+
+  croppedImage: any = "";
+  
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    // console.log("this.v-- "+this.croppedImage.name);
+    // console.log("this.croppedImage-- "+this.croppedImage);
+
+    const byteString = window.atob(
+      event.base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
+    );
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: "image/jpeg" });
+
+    this.fileToUpload = new File([blob], this.fileUploadName, {
+      type: "image/jpeg",
+    });
+  }
+
+  modalclose() {
+    this.modalRef.hide();
+    this.myFileInput.nativeElement.value = "";
+  }
+
+  getStates() {
+    this.stateListIN = [];
+    this.util.startLoader();
+    this.api
+      .query("country/getAllStates?countryCode=" + "IN")
+      .subscribe((res) => {
+        if(res){
+          this.util.stopLoader();
+          this.stateListIN = res;
+        }
+      },err => {
+        this.util.stopLoader(); 
+      });
+    this.stateListCA = [];
+    this.util.startLoader()
+    this.api
+      .query("country/getAllStates?countryCode=" + "CA")
+      .subscribe((res) => {
+        if(res){
+          this.util.stopLoader()
+          this.stateListCA = res;
+        }
+      },err => {
+        this.util.stopLoader(); 
+      });
+    this.stateListCA = [];
+    this.util.startLoader()
+    this.api
+      .query("country/getAllStates?countryCode=" + "AU")
+      .subscribe((res) => {
+        if(res){
+          this.util.stopLoader()
+          this.stateListAU = res;
+        }
+      },err => {
+        this.util.stopLoader(); 
+      });
+  }
+  countryList: any = [];
+  getCountry() {
+    this.util.startLoader();
+    this.api.query("country/getAllCountries").subscribe((res) => {
+      if(res){
+        this.util.stopLoader();
+        res.forEach((ele) => {
+          this.countryList.push(ele);
+        });
+      }
+    },err => {
+      this.util.stopLoader(); 
+    });
+  }
+
+  removeConnection() {
+    let connData: any = {};
+    connData.userId = this.userId;
+    this.util.startLoader();
+    // console.log('connData.userId', connData.userId)
+    this.api.create("user/connect/remove", connData).subscribe((res) => {
+      // console.log('Remove Connection : ', res)
+      if (res.code === "00000") {
+        this.util.stopLoader();
+        // this.user.connectionStatus="NOT_CONNECTED";
+        // this.user.connected = false;
+        // this.initCard();
+        this.requestSent = false;
+        this.notConnected = true;
+        this.connected = false;
+
+        Swal.fire({
+          icon: "success",
+          title: "Connection removed successfully",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        // console.log('Connection removed successfull')
+      } else if (res.code === "88888") {
+        this.util.stopLoader();
+        // console.log('Unable to remove connection')
+        Swal.fire({
+          icon: "info",
+          title: "Unable to remove connection. Please try after some time.",
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+  indexOne: boolean = false;
+  indexTwo: boolean = false;
+  indexZero: boolean = false;
+  reload() {
+    let datas: any = {};
+    datas.userId = localStorage.getItem("userId");
+    this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
+      this.router.navigate(["personalProfile"], { queryParams: datas });
+    });
+  }
+
+  // cancelConnectionRequest(userId: String){
+    cancelConnectionRequest() {
+      let cancelData: any = {};
+      // cancelData.userId = userId
+      cancelData.userId = this.userId;
+      // console.log('connData.userId', cancelData.userId)
+      this.util.startLoader();
+      this.api.create("user/connect/cancel", cancelData).subscribe((res) => {
+        // console.log('Cancel Connection : ', res);
+        if (res.code === "00000") {
+          this.util.stopLoader();
+          // console.log('Connect request cancelled successfully');
+          // this.user.connectionStatus="NOT_CONNECTED";
+          // this.initCard();
+          this.requestSent = false;
+          this.notConnected = true;
+          this.connected = false;
+          Swal.fire({
+            icon: "success",
+            title: "Connection request cancelled",
+            showConfirmButton: false,
+            timer: 4000,
+          });
+        } else if (res.code === "88888") {
+          this.util.stopLoader();
+          // console.log('Unable to Cancel connection');
+          Swal.fire({
+            icon: "info",
+            title: "Cancel request failed",
+            text: "Unable to cancel connection. Please try after some time.",
+            showConfirmButton: false,
+            timer: 4000,
+          });
+          this.fetchForeignUser()
+        } 
+      },err => {
+        this.util.stopLoader(); 
+         
+       });
+    }
+    studModRef: BsModalRef;
+    studPrompt: boolean = false
+    medPrompt: boolean = false
+    openStudPromptNested() {
+      this.studPrompt = true
+      this.medPrompt = false
+      // this.studModRef = this.modalService.show(studentPrompTemplate, {
+      //   animated: true,
+      //   backdrop: true,
+      //   ignoreBackdropClick: true,
+      //   class: "second",
+      //   keyboard: false,
+      // });
+
+    }
+
+    showImage: boolean = false
+
+    get p() {
+      return this.personalInfoForm.controls;
+    }
+
+    uploadBannerHere(){
+      this.myFileInput.nativeElement.click(); 
+    }
+
+    phyModRef: BsModalRef;
+
+    openPhyPromptNested() {
+      this.medPrompt = true
+      this.studPrompt = false
+      // this.phyModRef = this.modalService.show(physicianPrompTemplate, {
+      //   animated: true,
+      //   backdrop: true,
+      //   ignoreBackdropClick: true,
+      //   class: "second",
+      //   keyboard: false,
+      // });
+    }
+
+    
+  decline(): void {
+    this.modalRef.hide();
+    this.phyPrompt = false;
+    this.searchData.setBooleanValue(false);
+    // this.isSuperAdmin = false
+    this.commonVariables.similarOrgFlag = false
+    this.searchData.setCommonVariables(this.commonVariables)
+    // this.img = {};
+    // this.img.src = AppSettings.ServerUrl + "download/" + this.infoData.photo;
+    if (this.commonVariables.previousFlag == true) {
+      this.reload();
+    }
+  }
+
+  weird: boolean = false;
+
+  changeToPhysician() {
+    // this.phyPrompt = true;
+    // this.studentPrompt = false;
+    this.searchData.setBooleanValue(true);
+    // this.phyModRef.hide();
+    this.modalRef.hide();
+    this.infoSave();
+  }
+
+
+  hidePhyPrompt() {
+    this.medPrompt = false
+    // this.studentPrompt = false;
+    this.searchData.setBooleanValue(false);
+    // this.phyModRef.hide();
+    // this.phyPrompt = false;
+    this.personalInfoForm.patchValue({ userType: this.infoData.userType });
+  }
+
+  changeToStudent() {
+    // this.studentPrompt = true;
+    this.searchData.setBooleanValue(true);
+    // this.studModRef.hide();
+    this.modalRef.hide();
+    this.infoSave();
+  }
+
+  hideStudPrompt() {
+    this.studPrompt = false
+    // console.log("this is called")
+    // this.studentPrompt = false;
+    // this.phyPrompt = false;
+    this.searchData.setBooleanValue(false);
+    // this.studModRef.hide();
+    this.personalInfoForm.patchValue({ userType: this.infoData.userType });
+  }
+
+    // onChangePhysician1(physicianPrompTemplate, studentPrompTemplate) {
+    //   // console.log("this is entered")
+    //   if (this.phyPrompt == true) {
+    //     this.openPhyPromptNested(physicianPrompTemplate);
+    //   } else if (this.studentPrompt == true) {
+    //     this.openStudPromptNested(studentPrompTemplate);
+    //   }
+    // }
+
+    onChangePhysician1() {
+      // console.log("this is entered")
+      if (this.phyPrompt == true) {
+        this.openPhyPromptNested();
+      } else if (this.studentPrompt == true) {
+        this.openStudPromptNested();
+      }
+    }
+
+    pisubmit: boolean = false
+    image: any = {};
+    phyPrompt: boolean = false;
+    studModalShown: boolean = false;
+    studentPrompt: boolean = false;
+    physicianFlag: boolean = false;
+    infoSave() {
+      this.pisubmit = true;
+      if (this.personalInfoForm.valid) {
+        this.infoData.userType = this.personalInfoForm.value.userType;
+        this.infoData.npiNo = this.personalInfoForm.value.npiNo;
+        this.infoData.pitch = this.personalInfoForm.value.pitch;
+        this.infoData.firstName = this.personalInfoForm.value.firstName;
+        this.infoData.email = this.personalInfoForm.value.email;
+        this.infoData.lastName = this.personalInfoForm.value.lastName;
+        this.infoData.title = this.personalInfoForm.value.title;
+        this.infoData.organisation = this.personalInfoForm.value.organisation;
+        this.infoData.photo = this.photoId;
+        this.img.src = AppSettings.ServerUrl + "download/" + this.infoData.photo;
+        this.infoData.city = this.personalInfoForm.value.city;
+        this.infoData.zipcode = this.personalInfoForm.value.zipcode;
+        this.infoData.phoneNo = this.personalInfoForm.value.phoneNo;
+        this.infoData.country = this.personalInfoForm.value.country;
+        this.infoData.state = this.personalInfoForm.value.state;
+        this.infoData.secondaryEmail = this.personalInfoForm.value.secondaryEmail;
+        this.util.startLoader();
+        this.api.create("user/saveUser", this.infoData).subscribe((res) => {
+          if (res.code == "00000") {
+            this.modalRef.hide();
+            this.reload()
+          }
+        },err => {
+          this.util.stopLoader(); 
+           
+         });
+      } 
+    }
+
+
+    // openModal5(template: TemplateRef<any>) {
+    //   this.modalRef5 = this.modalService.show(template, this.backdropConfig1);
+    // }
+
+    openSweetalert(){
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+  
+      swalWithBootstrapButtons
+        .fire({
+          title: "Remove Profile Photo?",
+          text: "Are you sure you want to delete the profile photo?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.infoData.photo = null
+            this.api.create("user/saveUser", this.infoData).subscribe((res) => {
+              if (res.code == "00000") {
+                this.reload()
+              }else {
+                this.util.stopLoader()
+                this.modalRef2.hide();
+                Swal.fire({
+                  icon: "info",
+                  title:"Oops...",
+                  text: "Something went wrong. Please try after a while.",
+                  showConfirmButton: false,
+                  timer: 4000
+                });
+              }
+            },err => {
+              this.util.stopLoader(); 
+               
+             });
+            
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // Swal.fire({
+            //   position: "center",
+            //   icon: "success",
+            //   title: "Work experience is safe",
+            //   showConfirmButton: false,
+            //   timer: 3000,
+            // });
+          }
+        });
+    }
+   
+    modalRef5: BsModalRef
+    yes(): void {
+      this.infoData.photo = null
+      this.api.create("user/saveUser", this.infoData).subscribe((res) => {
+        if (res.code == "00000") {
+          this.reload()
+        }else {
+          this.util.stopLoader()
+          this.modalRef2.hide();
+          Swal.fire({
+            icon: "info",
+            title:"Oops...",
+            text: "Something went wrong. Please try after a while.",
+            showConfirmButton: false,
+            timer: 4000
+          });
+        }
+      },err => {
+        this.util.stopLoader(); 
+         
+       });
+
+      this.modalRef5.hide();
+
+    }
+   
+    no(): void {
+      this.modalRef5.hide();
+    }
+    
+
+    onHidden(): void {
+      // console.log('Dropdown is hidden');
+    }
+    onShown(): void {
+      // console.log('Dropdown is shown');
+    }
+    isOpenChange(): void {
+      // console.log('Dropdown state is changed');
+    }
+    
+}

@@ -1,0 +1,91 @@
+<div [class.community-menu-sticky]="communitymenustick" #communitymenusticky>
+  <div class="business-menu post-box-shadow cursor-ponit bg-wtxjkis">
+    <ul id="grouplist side-menu" class="list-group nav custom-post-menu">
+      <ng-container>
+        <li class="list-group-item cursor-ponit" [ngClass]="{'active':commondata.menu=='communityhome'}"
+          (click)="menuclick('communityhome')">
+          <span class="nav-label">Home </span>
+        </li>
+        <li class="list-group-item cursor-ponit" [ngClass]="{'active':commondata.menu=='communityabout'}"
+          (click)="menuclick('communityabout')" routerLinkActive="router-link-active">
+          <span class="nav-label"> About us </span>
+        </li>
+
+        <!-- <li class="list-group-item cursor-ponit oiu" [ngClass]="{'active':commondata.menu=='memberspage'}"
+          (click)="menuclick('memberspage')"
+          *ngIf=" values.joined=='true' && commondata.isSuperAdmin==false && commondata.isAdmin==false"
+          routerLinkActive="router-link-active">
+          <span class="nav-label"> Members </span>
+        </li> -->
+      </ng-container>
+    </ul>
+  </div>
+  <div class="hpanel"  style="margin-top: -2px;">
+    <div class="panel-body nav-padding-0" style=" border-top: none !important;">
+      <div >
+        <div class="panel-heading hr-react oiu" [ngClass]="{'subactive':commondata.menu=='memberspage'}">
+          <div class="panel-tools" *ngIf="commondata.adminviewnavigation && membersflage==true">
+            <a (click)="communitymembers = !communitymembers" [attr.aria-expanded]="!communitymembers">
+              <i *ngIf="communitymembers" class="fa fa-chevron-down"></i>
+              <i *ngIf="!communitymembers" class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <div *ngIf="!communityType" class="cursor-ponit" (click)="comMethod('memberspage')" routerLinkActive="active"> Members
+            <span *ngIf="values.joinReqCnt > 0 && ( isAdmin === 'true' || isCommunitySuperAdmin === 'true')" class="join-req">{{ values.joinReqCnt}}</span>
+          </div>
+          <div *ngIf="communityType && ( isAdmin === 'true' || isCommunitySuperAdmin === 'true' || isJoined == 'true')" class="cursor-ponit" (click)="comMethod('memberspage')" routerLinkActive="active"> Members
+            <span *ngIf="values.joinReqCnt > 0 && (isAdmin === 'true' || isCommunitySuperAdmin === 'true') " class="join-req">{{ values.joinReqCnt}}</span>
+          </div>
+          <div *ngIf="communityType && (isJoined === 'false' && isAdmin === 'false' && isCommunitySuperAdmin === 'false')" routerLinkActive="active"> Members
+          </div>
+        </div>
+        <div class="custom-panel" *ngIf=" commondata.adminviewnavigation && membersflage==true" [collapse]="communitymembers" [isAnimated]="true">
+          <ul id="grouplist" class="list-group cursor-ponit ">
+            <ng-container>
+              <li class=" list-group-item line_bw active cursor-ponit" *ngIf="communityType"
+                [ngClass]="{'subactive':commondata.menu=='request'}" (click)="menuclick('request')"
+                routerLinkActive="router-link-active" class="common-font-12"> Request received
+                <!-- <button class="btn btn-danger c-button joinreqcnt" style="border-radius: 15px !important;" type="button"
+                  *ngIf="values.joinReqCnt > 0"> -->
+                <!-- <span *ngIf="values.joinReqCnt > 0" class="join-req">{{ values.joinReqCnt}}</span> -->
+                <!-- </button> -->
+              </li>
+              <li class=" list-group-item active cursor-ponit" [ngClass]="{'subactive':commondata.menu=='Invite'}"
+                style="border: none;" (click)="menuclick('Invite')" class="common-font-12"
+                routerLinkActive="router-link-active">Invite Members
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf=" commondata.adminviewnavigation && membersflage==true">
+        <div class="panel-heading hr-react oiu" (click)="communitymanagepage = !communitymanagepage"
+          [attr.aria-expanded]="!communitymanagepage" [ngClass]="{'subactive':commondata.menu=='managepages'}">
+          <div class="panel-tools">
+            <a [attr.aria-expanded]="!communitymanagepage">
+              <i *ngIf="communitymanagepage" class="fa fa-chevron-down"></i>
+              <i *ngIf="!communitymanagepage" class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <!-- (click)="comMethod('communitypageadmin')" -->
+          <div class="cursor-ponit" (click)="comMethod('communitypageadmin')"> Manage Page </div>
+        </div>
+        <div class="custom-panel" [collapse]="communitymanagepage" [isAnimated]="true">
+          <ul id="grouplist" class="list-group cursor-ponit">
+            <ng-container>
+              <li class="list-group-item line_bw active cursor-ponit"
+                [ngClass]="{'subactive':commondata.menu=='communitypageadmin'}"
+                (click)="menuclick('communitypageadmin')" routerLinkActive="router-link-active" class="common-font-12">
+                Page Admins
+              </li>
+              <li class="list-group-item active cursor-ponit" [ngClass]="{'subactive':commondata.menu=='deactivate'}"
+                style="border: none;" (click)="menuclick('deactivate')" class="common-font-12"
+                *ngIf="isSuperAdmin === 'true'" routerLinkActive="router-link-active">Deactivate Community
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

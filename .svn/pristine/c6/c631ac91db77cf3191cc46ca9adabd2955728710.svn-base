@@ -1,0 +1,45 @@
+<!-- <section class="breadcrumbs">
+    <ul>
+        <li>Home</li>
+        <li>Directory</li>
+        <li>Physicians</li>
+        <li>Specialities</li>
+    </ul>
+</section> -->
+<section class="padding-left-20 padding-right-20 directory-title">
+  <h3>Search by State</h3>
+</section>
+
+<section class="directory-list-section">
+  <div class="container">
+    <div class="row">
+      <ul class="col-list-4 m-b-50">
+        <li
+          *ngFor="
+            let d of stateData
+          "
+        >
+          <a class="mover" (click)="stateclick(d)">{{ d.stateName }}</a>
+          <!-- <a class="mover"(click)="clickdata()" routerLink='/directory/hcp/country/{{countryCode}}/state/{{d.stateCode}}/city'>{{d.stateName}}</a> -->
+        </li>
+      </ul>
+    </div>
+    <!--<pagination-controls
+      class="center-page-align"
+      (pageChange)="page = $event"
+    ></pagination-controls>-->
+  </div>
+</section>
+
+<section class="directory-search-footer">
+  <div class="container">
+    <div class="search-by-content">
+      <span>Search by </span>
+      <ul>
+        <li><a>Healthcare Professionals </a></li>
+        <li><a>Healthcare Organisation</a></li>
+        <li><a>Communities </a></li>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,502 @@
+<ng-container>
+  <div (click)="scrollLeft()" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+    class="filter-show-hidden-design-left">
+    <div class="left-scroll-buttons">
+      <div>
+        <app-svg-templates [svgType]="'CHEVRON_LEFT'"></app-svg-templates>
+      </div>
+    </div>
+  </div>
+  <div class="header-filters-container" [formGroup]="candidateFilterForm" id="scrollContainer">
+    <div class="dropdown-filter-input-container reduce-mr-rt">
+      <input placeholder="Posted" type="text"
+        class="form-control input-sm candidate-posted-day-ticker-space filter-selected-form-control" yPosition="below"
+        xPosition="after" [matMenuTriggerFor]="menu1" id="postedDays" formControlName="postedDayRange" readonly>
+      <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu1">
+        <app-svg-templates [svgType]="'DOWN_WHITE'"></app-svg-templates>
+      </span>
+      <span class="filter-count-ticker" [matMenuTriggerFor]="menu1">
+        1
+      </span>
+    </div>
+    <!-- </div> -->
+    <mat-menu #menu1="matMenu">
+
+      <div  *ngIf="isEnabled" class="content-container-mini-loader" style="height: 400px">
+        <app-common-skeleton  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+      </div>
+
+      <div class="col-sm-12 checkboxclassRadio" [ngClass]="{'disabled': filterApplied==true}">
+        <div class="filter-title form-group">
+          <span class="card-header- tab-title custom-text "><b> Posted (Days)</b></span>
+        </div>
+           <div class="custom-form-check">
+            <input class="form-check-input"  formControlName="postedDayRange"
+              [value]="POSTED_ANY" style="display: none;" type="radio" id="exampleRadio00">
+            <label class="form-check-label custom-radio-label custom-text " for="exampleRadio00" (click)="onPostedDaysChange(POSTED_ANY)">
+              {{POSTED_ANY}}
+            </label>
+          </div>
+
+          <div class="custom-form-check">
+            <input class="form-check-input" formControlName="postedDayRange"
+              [value]="POSTED_TODAY" style="display: none;" type="radio" id="exampleRadio11">
+            <label class="form-check-label custom-radio-label custom-text " for="exampleRadio11"(click)="onPostedDaysChange(POSTED_TODAY)">
+              {{POSTED_TODAY}}
+            </label>
+          </div>
+
+
+          <div class="custom-form-check">
+            <input class="form-check-input" formControlName="postedDayRange"
+              [value]="POSTED_LAST_7_DAYS" style="display: none;" type="radio" id="exampleRadio44">
+            <label class="form-check-label custom-radio-label custom-text " for="exampleRadio44"(click)="onPostedDaysChange(POSTED_LAST_7_DAYS)">
+              {{POSTED_LAST_7_DAYS}}
+            </label>
+          </div>
+
+          <div class="custom-form-check">
+            <input class="form-check-input" formControlName="postedDayRange"
+              [value]="POSTED_LAST_14_DAYS" style="display: none;" type="radio" id="exampleRadio22">
+            <label class="form-check-label custom-radio-label custom-text " for="exampleRadio22"(click)="onPostedDaysChange(POSTED_LAST_14_DAYS)">
+              {{POSTED_LAST_14_DAYS}}
+            </label>
+          </div>
+
+          <div class="custom-form-check">
+            <input class="form-check-input" formControlName="postedDayRange"
+              [value]="POSTED_LAST_30_DAYS" style="display: none;" type="radio" id="exampleRadio33">
+            <label class="form-check-label custom-radio-label custom-text " for="exampleRadio33"(click)="onPostedDaysChange(POSTED_LAST_30_DAYS)">
+              {{POSTED_LAST_30_DAYS}}
+            </label>
+          </div>
+      </div>
+    </mat-menu>
+
+    <div class="dropdown-filter-input-container" [ngClass]="{'reduce-mr-rt': sourceCount > 0}">
+      <input formControlName="candidateSourceContent" placeholder="Candidate Source" type="text"
+        class="form-control input-sm dropdown-filter-input" yPosition="below" xPosition="after"
+        [matMenuTriggerFor]="menu2" [ngClass]="{'filter-selected-form-control candidate-source-ticker-space': sourceCount > 0}"
+        id="candidateSource" readonly>
+      <!-- <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu2">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span> -->
+
+      <span *ngIf="sourceCount == 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu2">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span>
+      <span *ngIf="sourceCount > 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu2">
+        <app-svg-templates [svgType]="'DOWN_WHITE'"></app-svg-templates>
+      </span>
+      <span *ngIf="sourceCount > 0" class="filter-count-ticker" [matMenuTriggerFor]="menu2">
+        {{sourceCount}}
+      </span>
+    </div>
+    <mat-menu #menu2="matMenu">
+
+      <div *ngIf="isEnabled"  class="content-container-mini-loader" style="height:480px">
+        <div class="col-sm-12 form-group">
+          <div class="filter-title">
+            <span><b> Candidate Source </b></span>
+          </div>
+        </div>
+        <div formArrayName="source">
+          <div *ngFor="let jobs of jobSourcesFormarray.controls; let i=index">
+            <div [formGroupName]="i">
+              <div class="custom-checkbox col-sm-12" title="Search All filters">
+                <label class="checkbox-label font-normal">
+                  <input type="checkbox" formControlName="allPlatFormCandidates"
+                    (change)="jobSoucecheck($event,'allPlatFormCandidates','horizontal')" />
+                  <span class="checkmark" style="top: -5px"></span>
+                  <p class="label-ppp"> Platform Candidates</p>
+                </label>
+              </div>
+              <div class="custom-checkbox col-sm-12" title="Search All filters"
+                *ngIf="userType!='JOB_SEEKER' && userType!='student'">
+                <label class="checkbox-label font-normal">
+                  <input type="checkbox" formControlName="all" (change)="jobSoucecheck($event,'all','horizontal')" />
+                  <span class="checkmark" style="top: -5px"></span>
+                  <p class="label-ppp"> All</p>
+                </label>
+              </div>
+              <div class="col-sm-12" *ngIf="owner">
+                <div class="custom-checkbox" title="Search My Candidates">
+                  <label class="checkbox-label font-normal">
+
+                    <input type="checkbox" formControlName="myCandidates"
+                      (change)="jobSoucecheck($event,'myCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <div>
+                      <p class="label-ppp"> {{ userType!='JOB_SEEKER' ? 'My Candidates' : 'My Profile'}}</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                <div class="custom-checkbox" title="Search Bench Candidates">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="benchNetworkCandidates"
+                      (change)="jobSoucecheck($event,'benchNetworkCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Bench Sales Network</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                <div class="custom-checkbox" title="Search Freelancer Network">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="freeLancerNetworkCandidates"
+                      (change)="jobSoucecheck($event,'freeLancerNetworkCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Freelancer Network</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                <div class="custom-checkbox" title="Search MTA Network">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="mtaNetworkCandidates"
+                      (change)="jobSoucecheck($event,'mtaNetworkCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> MTA Network</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                <div class="custom-checkbox" title="Search Job seeker Network">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="jobSeekerNetworkCandidates"
+                      (change)="jobSoucecheck($event,'jobSeekerNetworkCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Job Seeker Network</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                <div class="custom-checkbox" title="Search Team Candidates">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="teamCandidates"
+                      (change)="jobSoucecheck($event,'teamCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Team Candidates</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!FeaSugg && !filterApplied">
+                <div class="custom-checkbox" title="Search Featured Candidates">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="featured"
+                      (change)="jobSoucecheck($event,'featured','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Featured Candidates</p>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12" *ngIf="!FeaSugg && !filterApplied">
+                <div class="custom-checkbox" title="Search Suggested Candidates">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="suggestedCandidates"
+                      (change)="jobSoucecheck($event,'suggestedCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Suggested Candidates</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <app-common-skeleton   *ngIf="isEnabled"  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+
+      </div>
+
+
+      <section (click)="onMenuItemClick($event)" *ngIf="!isEnabled">
+        <div class="col-sm-12 form-group"  >
+          <div class="filter-title">
+            <span><b> Candidate Source</b></span>
+          </div>
+        </div>
+           <div formArrayName="source">
+            <div *ngFor="let jobs of jobSourcesFormarray.controls; let i=index">
+              <div [formGroupName]="i">
+                <div class="custom-checkbox col-sm-12" title="Search All filters">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="allPlatFormCandidates"
+                      (change)="jobSoucecheck($event,'allPlatFormCandidates','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> Platform Candidates</p>
+                  </label>
+                </div>
+                <div class="custom-checkbox col-sm-12" title="Search All filters"
+                  *ngIf="userType!='JOB_SEEKER' && userType!='student'">
+                  <label class="checkbox-label font-normal">
+                    <input type="checkbox" formControlName="all" (change)="jobSoucecheck($event,'all','horizontal')" />
+                    <span class="checkmark" style="top: -5px"></span>
+                    <p class="label-ppp"> All</p>
+                  </label>
+                </div>
+                <div class="col-sm-12" *ngIf="owner">
+                  <div class="custom-checkbox" title="Search My Candidates">
+                    <label class="checkbox-label font-normal">
+
+                      <input type="checkbox" formControlName="myCandidates"
+                        (change)="jobSoucecheck($event,'myCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <div>
+                        <p class="label-ppp"> {{ userType!='JOB_SEEKER' ? 'My Candidates' : 'My Profile'}}</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                  <div class="custom-checkbox" title="Search Bench Candidates">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="benchNetworkCandidates"
+                        (change)="jobSoucecheck($event,'benchNetworkCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Bench Sales Network</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                  <div class="custom-checkbox" title="Search Freelancer Network">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="freeLancerNetworkCandidates"
+                        (change)="jobSoucecheck($event,'freeLancerNetworkCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Freelancer Network</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                  <div class="custom-checkbox" title="Search MTA Network">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="mtaNetworkCandidates"
+                        (change)="jobSoucecheck($event,'mtaNetworkCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> MTA Network</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                  <div class="custom-checkbox" title="Search Job seeker Network">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="jobSeekerNetworkCandidates"
+                        (change)="jobSoucecheck($event,'jobSeekerNetworkCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Job Seeker Network</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!filterApplied  && userType !='student'">
+                  <div class="custom-checkbox" title="Search Team Candidates">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="teamCandidates"
+                        (change)="jobSoucecheck($event,'teamCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Team Candidates</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!FeaSugg && !filterApplied">
+                  <div class="custom-checkbox" title="Search Featured Candidates">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="featured"
+                        (change)="jobSoucecheck($event,'featured','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Featured Candidates</p>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!FeaSugg && !filterApplied">
+                  <div class="custom-checkbox" title="Search Suggested Candidates">
+                    <label class="checkbox-label font-normal">
+                      <input type="checkbox" formControlName="suggestedCandidates"
+                        (change)="jobSoucecheck($event,'suggestedCandidates','horizontal')" />
+                      <span class="checkmark" style="top: -5px"></span>
+                      <p class="label-ppp"> Suggested Candidates</p>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+          </div>
+       </section>
+    </mat-menu>
+
+    <div class="dropdown-filter-input-container"  [ngClass]="{'reduce-mr-rt': engagementTypeCount >0}">
+      <input formControlName="engagementTypeContent" placeholder="Engagement Type" type="text" readonly
+        [ngClass]="{'filter-selected-form-control candidate-engagement-type-ticker-space': engagementTypeCount > 0}"
+        class="form-control input-sm dropdown-filter-input" yPosition="below" xPosition="after"
+        [matMenuTriggerFor]="menu3" id="engagementType">
+      <!-- <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu3">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span> -->
+
+      <span *ngIf="engagementTypeCount == 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu3">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span>
+      <span *ngIf="engagementTypeCount > 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu3">
+        <app-svg-templates [svgType]="'DOWN_WHITE'"></app-svg-templates>
+      </span>
+      <span *ngIf="engagementTypeCount > 0" class="filter-count-ticker" [matMenuTriggerFor]="menu3">
+        {{engagementTypeCount}}
+      </span>
+    </div>
+    <mat-menu #menu3="matMenu">
+      <div  class="content-container-mini-loader" style="height:450px"  >
+
+      <section (click)="onMenuItemClick($event)">
+        
+        <div class="col-sm-12 form-group">
+          <div class="filter-title">
+            <span><b> Engagement Type</b></span>
+          </div>
+        </div>
+        <div class="custom-checkbox  col-sm-12" title="{{checkbox.label}}"
+          *ngFor="let checkbox of availableForCheckboxes;let i = index; let lastItem = last">
+          <label class="checkbox-label font-normal">
+            <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+              (change)="availableCheckboxChange($event,checkbox.label,'horizontal')" />
+            <span class="checkmark" style="top: -5px"></span>
+            <p class="label-ppp"> {{ checkbox.label }}</p>
+          </label>
+        </div>
+      </section>
+      <app-common-skeleton   *ngIf="isEnabled"  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+
+      </div>
+    </mat-menu>
+
+    <div class="dropdown-filter-input-container" *ngIf="showWorkAuthorization">
+      <input placeholder="Work Authorization" type="text" class="form-control input-sm dropdown-filter-input"
+        yPosition="below" xPosition="after" [matMenuTriggerFor]="menu4" id="workAuthorization">
+      <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu4">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span>
+    </div>
+    <mat-menu #menu4="matMenu">
+      <div  class="content-container-mini-loader" style="height:450px"  >
+
+      <section (click)="onMenuItemClick($event)">
+        <div class="row" *ngIf="showWorkAuthorization">
+          <div class="col-sm-12 form-group">
+            <div class="filter-title">
+              <span><b> Work Authorization</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showWorkAuthorization">
+          <div class="custom-checkbox  col-sm-12" title="{{checkbox.label}}"
+            *ngFor="let checkbox of WACheckboxes;let i = index; let lastItem = last">
+            <label class="checkbox-label font-normal">
+              <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+                (change)="workAuthcheckbox($event,checkbox.label,'horizontal')" />
+              <span class="checkmark" style="top: -5px"></span>
+              <p class="label-ppp"> {{ checkbox.label }}</p>
+            </label>
+          </div>
+        </div>
+      </section>
+      <app-common-skeleton   *ngIf="isEnabled"  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+
+      </div>
+    </mat-menu>
+
+    <div class="dropdown-filter-input-container" [ngClass]="{'reduce-mr-rt': availabilityCount > 0}">
+      <input formControlName="availabilityContent" placeholder="Availability" type="text"
+        [ngClass]="{'filter-selected-form-control candidate-availability-ticker-space': availabilityCount > 0}"
+        class="form-control input-sm dropdown-filter-input" yPosition="below" xPosition="after"
+        [matMenuTriggerFor]="menu5" id="availability" readonly>
+      <!-- <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu5">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span> -->
+      <span *ngIf="availabilityCount == 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu5">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span>
+      <span *ngIf="availabilityCount > 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu5">
+        <app-svg-templates [svgType]="'DOWN_WHITE'"></app-svg-templates>
+      </span>
+      <span *ngIf="availabilityCount > 0" class="filter-count-ticker" [matMenuTriggerFor]="menu5">
+        {{availabilityCount}}
+      </span>
+    </div>
+
+    <mat-menu #menu5="matMenu">
+      <div  class="content-container-mini-loader" style="height:300px"  >
+      <section (click)="onMenuItemClick($event)">
+        <div class="col-sm-12 form-group">
+          <div class="filter-title">
+            <span><b> Availability</b></span>
+          </div>
+        </div>
+        <div class="custom-checkbox  col-sm-12" title="{{checkbox.label}}"
+          *ngFor="let checkbox of availablecheckbox;let i = index; let lastItem = last">
+          <label class="checkbox-label font-normal">
+            <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+              (change)="availabletype($event,checkbox.label,'horizontal')" />
+            <span class="checkmark" style="top: -5px"></span>
+            <p class="label-ppp"> {{ checkbox.label }}</p>
+          </label>
+        </div>
+      </section> 
+      <app-common-skeleton   *ngIf="isEnabled"  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+    </div>
+    </mat-menu>
+
+
+    <div class="dropdown-filter-input-container"  [ngClass]="{'reduce-mr-rt': statusCount > 1}">
+      <input formControlName="statusContent" placeholder="status" type="text"
+      [ngClass]="{'filter-selected-form-control candidate-job-status-ticker-space': statusCount > 0}"
+        class="form-control input-sm dropdown-filter-input" yPosition="below" xPosition="after"
+        [matMenuTriggerFor]="menu6" id="status" readonly>
+      <!-- <span class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu5">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span> -->
+      <span *ngIf="statusCount == 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu6">
+        <app-svg-templates [svgType]="'DOWN'"></app-svg-templates>
+      </span>
+      <span *ngIf="statusCount > 0" class="dropdown-filter-input-svg" [matMenuTriggerFor]="menu6">
+        <app-svg-templates [svgType]="'DOWN_WHITE'"></app-svg-templates>
+      </span>
+      <span *ngIf="statusCount > 0" class="filter-count-ticker" [matMenuTriggerFor]="menu6">
+        {{statusCount}}
+      </span>
+    </div>
+
+    <mat-menu #menu6="matMenu">
+      <div  class="content-container-mini-loader" style="height:300px"  >
+      <section (click)="onMenuItemClick($event)">
+        <div class="col-sm-12 form-group">
+          <div class="filter-title">
+            <span><b> Status</b></span>
+          </div>
+        </div>
+        <div class="custom-checkbox  col-sm-12" title="{{checkbox.label}}"
+          *ngFor="let checkbox of statusCheckboxes ;let i = index; let lastItem = last">
+          <label class="checkbox-label font-normal">
+            <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+              (change)="statusChange($event.target.checked , checkbox?.label)" />
+            <span class="checkmark" style="top: -5px"></span>
+            <p class="label-ppp"> {{ checkbox.label }}</p>
+          </label>
+        </div>
+      </section>
+      <app-common-skeleton   *ngIf="isEnabled"  [NameOftheScreen]="'CheckboxSelection'"></app-common-skeleton>
+
+      </div>
+    </mat-menu>
+
+
+  </div>
+  <div (click)="scrollRight()" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+    class="filter-show-hidden-design-right">
+    <div class="right-scroll-buttons">
+      <div>
+        <app-svg-templates [svgType]="'CHEVRON_RIGHT'"></app-svg-templates>
+      </div>
+    </div>
+  </div>
+</ng-container>

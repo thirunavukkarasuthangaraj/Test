@@ -1,0 +1,48 @@
+.main{
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+}
+.paddFotter{
+  padding: 5px !important;
+}
+
+.discol{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.mt-10{
+  margin-top: 5px;
+}
+.red{
+  color:#c3002f;;
+}
+.required:after {
+  content:" *";
+  color:#c3002f;;
+}
+.circle-text {
+  color: #fff;
+  font-size: 15px;
+}
+
+.close-model{
+  font-size: 27px;
+  margin-right: 4px;
+}
+.m-r-6{
+  margin-right: 6px;
+}
+.m-r-20{
+  margin-right: 20px
+}
+.img-show-hide{
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  margin-right: 9px;
+}
+
+

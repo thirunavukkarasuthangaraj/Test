@@ -1,0 +1,155 @@
+
+<div class="hpanel margin-bottom-5 contact-panel"
+  [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED' && userDataInput?.memberType!='OWNER'}">
+  <div class="panel-body  minheight165 couers border-radius-top-left-right-6 border-radius-bottom-left-right-0"
+    [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED' && userDataInput?.memberType!='OWNER'}">
+    <div title="{{ userDataInput.teamName }}">
+      <div class="mt-20" (click)="visitTeam(userDataInput)">
+        <div class="btnwidt-100" style="cursor: pointer"
+          [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED' && userDataInput?.memberType!='OWNER'}">
+          <h4 class="cardEillpise card-title-font font-bold" style="text-transform: capitalize;"
+            title="{{ userDataInput.teamName }}">{{ userDataInput.teamName }}</h4>
+          <p class="font-bold cardEillpise card-subtitle-font" title="{{userDataInput.name}}"
+            *ngIf="userDataInput.teamsOwnerId!=userId"> By {{userDataInput.name}}</p>
+
+
+        </div>
+      </div>
+
+    </div>
+    <div class="flt-rtt6"
+      *ngIf="acceptRejectBtn=='true' && userDataInput?.status!='DEACTIVATED'|| userDataInput.memberStatus=='RequestsReceived' && userDataInput?.status!='DEACTIVATED'">
+      <button type="button" class="btn btn-sm btn-primary b-5  btn-xs"
+        (click)="accept(userDataInput);$event.stopPropagation();">Accept</button>
+
+      <div class="btn-group three_icon_cmon1 hovers" dropdown>
+        <a id="button-animated" dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+        </a>
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown" role="menu"
+          style="right: 0;left: auto;" aria-labelledby="button-animated">
+          <li role="menuitem">
+            <a class="dropdown-item common-font-12 padd" (click)="reject(userDataInput)">Reject</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="flt-rtt col-sm-6">
+      <div *ngIf="userDataInput.teamsOwnerId==userId"><img class="crown" title="Owner" src="assets/icon/crown_.PNG"
+          alt=""></div>
+      <!-- <div *ngIf="userDataInput.teamsOwnerId==userId" class="btn-group" dropdown>
+        <a id="button-animated" dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+        </a>
+
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown" role="menu"
+          style="right: 0;left: auto;" aria-labelledby="button-animated">
+          <li *ngIf="userDataInput?.status!='DEACTIVATED'" role="menuitem"><a class="dropdown-item"
+              (click)="mgsBtn(userDataInput)"> Message</a></li>
+          <li *ngIf="userDataInput?.status=='ACTIVE'" role="menuitem"><a class="dropdown-item"
+              (click)="deleteTeam(userDataInput, 'delete')"> Deactivate Team</a></li>
+          <li *ngIf="userDataInput?.status=='DEACTIVATED'" role="menuitem"><a
+              class="dropdown-item" (click)="activateTeam(userDataInput)"> Activate Team</a></li>
+        </ul>
+      </div> -->
+      <div *ngIf="userDataInput.teamsOwnerId === userId" class="btn-group">
+        <button style="margin-top:-5px"mat-icon-button [matMenuTriggerFor]="menu">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" class="Vthree-dote">
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngIf="userDataInput?.status !== 'DEACTIVATED'" (click)="mgsBtn(userDataInput)">
+            Message
+          </button>
+          <button mat-menu-item *ngIf="userDataInput?.status === 'ACTIVE'" (click)="deleteTeam(userDataInput, 'delete')">
+            Deactivate Team
+          </button>
+          <button mat-menu-item *ngIf="userDataInput?.status === 'DEACTIVATED'" (click)="activateTeam(userDataInput)">
+            Activate Team
+          </button>
+        </mat-menu>
+      </div>
+
+
+
+      <div
+        *ngIf="userDataInput.memberType=='MEMBER' && acceptRejectBtn!='true' && userDataInput.memberStatus=='ACTIVE' && userDataInput?.status=='ACTIVE'"
+        class="btn-group" dropdown>
+        <a id="button-animated" dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dot1">
+        </a>
+
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown" role="menu"
+          style="right: 0;left: auto;" aria-labelledby="button-animated">
+          <li role="menuitem"><a class="dropdown-item" (click)="mgsBtn(userDataInput)"> Message</a></li>
+          <li role="menuitem"><a class="dropdown-item" (click)="deleteTeam(userDataInput, 'leave')"> Leave Team</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qwpoi1" [ngClass]="{'qwpoi': userDataInput.memberType!='OWNER'}">
+      <img *ngIf=" userDataInput?.status=== 'DEACTIVATED'" height="25px"
+        src="assets/icon/Blocked-PNG-File.png" alt="" (click)="$event.stopPropagation();">
+      <p *ngIf=" userDataInput?.status === 'DEACTIVATED' ">Deactivated</p>
+    </div>
+
+
+    <div style="padding-bottom: 79px; display: flex;" (click)="visitTeam(userDataInput)">
+
+      <div class="margin-l-20" *ngIf="stopcheckbox">
+        <div class="custom-checkbox">
+          <label class="checkbox-label font-normal">
+            <input type="checkbox" [(ngModel)]="userDataInput.isSelected"
+              [disabled]="showCheckBox != 0 && (showCheckBox >0 && userDataInput.isSelected==false) "
+              (ngModelChange)="onNgModelChange($event , userDataInput?.teamId)" name="list_name" />
+            <span class="checkmark" style="top: -5px"></span>
+          </label>
+        </div>
+      </div>
+
+      <ng-container  *ngFor="let member of userDataInput.members;let i = index;">
+        <img [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED' && userDataInput?.memberType!='OWNER'}"
+          *ngIf="i<5 && member.image != null && member.image != undefined" alt="logo" class="img-circle mt-5 netCard"
+          src="{{member.image}}" />
+
+        <div class="mt-5 netCard" [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED' && userDataInput?.memberType!='OWNER'}"
+          *ngIf="i<5 && (member.image == null || member.image == undefined)">
+          <div class="circles h-w-32" [style.background-color]="getColortwo(member?.firstName, member?.lastName)">
+            <div class="circle-text ft-16 pd-tp-2">{{ getInitialstwo(member?.firstName,
+              member?.lastName) }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+
+
+  <div class="panel-footer contact-footer footPadding">
+    <div class="row">
+      <div class="col-md-4 common-font-12 border-right">
+        <div class="contact-stat">
+          <span>Post: </span>
+          <strong>{{userDataInput.postCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-4 common-font-12 border-right couers"
+        [ngClass]="{'deactivated': userDataInput?.status=='DEACTIVATED'}" (click)="redirectPage(userDataInput)">
+        <div class="contact-stat">
+          <span>Member: </span>
+          <strong>{{userDataInput.memberCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-stat">
+          <span>Views: </span> <strong>{{userDataInput.viewCnt}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- </div> -->

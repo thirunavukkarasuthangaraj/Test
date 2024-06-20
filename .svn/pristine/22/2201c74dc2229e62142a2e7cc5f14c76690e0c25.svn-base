@@ -1,0 +1,86 @@
+.profile-memeber-container {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    margin-top: 5px;
+    position: relative;
+    .profile-view {
+      display: flex;
+      justify-content: flex-start;
+      text-decoration: none;
+      font-weight: 400;
+      .profile-photo {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        box-sizing: border-box;
+        background-clip: content-box;
+        border-radius: 50%;
+      }
+      .business, .community {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .profile-detail {
+        padding: 0 0 0 8px;
+        flex: 1 0 0;
+        .profile-section-detail {
+          line-height: 1.33333;
+          position: relative;
+          overflow: hidden;
+          font-size: 1.6rem;
+          /* line-height: 1.75; */
+          font-weight: 600;
+          color: rgba(0, 0, 0, 0.9);
+          margin: 0;
+          padding: 0;
+          .profile-name {
+            display: inline;
+            overflow: visible;
+            word-break: break-word;
+            vertical-align: middle;
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            margin: 0 auto;
+            position: relative;
+            line-height: 2rem;
+            max-height: 4rem;
+            -webkit-line-clamp: 1;
+          }
+        }
+        .profile-headline {
+          word-break: break-word;
+          .profile-inline {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            margin: 0 auto;
+            position: relative;
+            line-height: 2rem;
+            max-height: 4rem;
+            -webkit-line-clamp: 2;
+          }
+        }
+      }
+    }
+  }
+  .profile-member-container::after {
+    display: block;
+    content: "";
+    margin: 12px 0 0 64px;
+    position: absolute;
+    top: 100%;
+    border-bottom: 1px solid #cfcfcf;
+    width: calc(100% - 48px);
+  }
+  
+  .btn i {
+    font-size: 9px !important;
+  }
+  

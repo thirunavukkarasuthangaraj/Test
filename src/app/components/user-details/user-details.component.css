@@ -1,0 +1,141 @@
+.form-group .date-icon {
+  position: absolute;
+  top: 10px;
+  right: 24px;
+  cursor: pointer;
+}
+
+.content {
+  padding: 5px 128px 40px 156px;
+  min-width: 320px;
+  background-color: #f0f0e9;
+}
+
+/* .required-field::before {
+  content: "*";
+  color: red;
+  float: right;
+} */
+
+.city {
+  padding-left: 0px;
+}
+
+.state {
+  padding-right: 0px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.c-btn {
+  font-size: 12px !important;
+}
+
+.multsel {
+  border-width: 0.5px;
+  line-height: 0.25;
+  border-radius: 3px;
+  font-size: 12px !important;
+  padding: 5px 10px;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 34px;
+  color: #948a8a;
+}
+
+label {
+  text-align: right;
+}
+
+.radio_c {
+  border: 1px solid #63cfbe;
+}
+
+.searchBar {
+  width: 60%;
+  margin-top: 2rem;
+}
+
+.nav-right {
+  float: right !important;
+  margin-right: 20px;
+  margin-top: 1rem;
+}
+
+.photo {
+  margin-top: 5px;
+  width: 56%;
+}
+
+.containerR:hover input ~ .checkmarkR {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerR input:checked ~ .checkmarkR {
+  background-color: #eee;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmarkR:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerR input:checked ~ .checkmarkR:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerR .checkmarkR:after {
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #63cfbe;
+}
+
+.photoNav {
+  height: 35px;
+  width: 35px;
+  margin-top: 9px;
+}
+
+.m-r-56 {
+  margin-right: 56px;
+}
+
+.hpanel .panel-body .btn-group .edit-pencil {
+  border-radius: 50%;
+  border: none;
+  color: transparent;
+  line-height: 25px;
+}
+
+.hpanel .panel-body .btn-group .edit-pencil:hover {
+  background-color: #c6ccdd;
+}
+
+.hpanel .panel-body .btn-group .edit-pencil:active {
+  background-color: #b6bfd6;
+}
+
+.sp {
+  margin-left: -10px;
+}
+
+.pad-left-410 {
+  padding-left: 410px;
+}
+
+.delBG {
+  cursor: pointer;
+  color: #63cfbe !important;
+  font-size: 15px;
+  margin-bottom: -26px;
+}
+/*# sourceMappingURL=user-details.component.css.map */

@@ -1,0 +1,84 @@
+<div *ngIf="candidateDetails?.createdBy == userId" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+  class="show-hidden-design-left">
+  <div *ngIf="showChevron || showChevron1" class="left-scroll-buttons">
+    <div (click)="scrollLeft()">
+      <app-svg-templates [svgType]="'CHEVRON_LEFT'"></app-svg-templates>
+    </div>
+  </div>
+</div>
+
+<div class="hpanel mar-bt-0">
+  <div class="panel-body pad-0 border-radius-top-left-right-6 border-radius-bottom-left-right-0" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <ul class="nav navbar-nav no-borders menu-scroll-view"
+      [ngClass]="{'menu-scroll-view-1': candidateDetails?.createdBy != userId}" id="scrollContainer12">
+      <li display="dynamic" class="menu-item" [ngClass]="{'active': pageName=='profileSummary'}"
+        routerLinkActive="router-link-active" title="Profile Summary" (click)="onChange('profileSummary')">
+        <a>
+          Profile
+        </a>
+        <!-- <a>
+          Profile Summary
+        </a> -->
+      </li>
+      <li display="dynamic" class="menu-item" [ngClass]="{'active': pageName=='candidateDetails'}"
+        routerLinkActive="router-link-active" title="Candidate Details" (click)="onChange('candidateDetails')">
+        <a>
+          Details
+        </a>
+      </li>
+      <li *ngIf="candidateDetails?.createdBy == userId" [ngClass]="{'active': pageName=='cInvited'}"
+        (click)="onChange('cInvited')" display="dynamic" class="menu-item" routerLinkActive="router-link-active"
+        title="Job Invites">
+        <a> Job Invites </a>
+      </li>
+      <li *ngIf="candidateDetails?.createdBy == userId" [ngClass]="{'active': pageName=='candidate-requests-received'}"
+        (click)="onChange('candidate-requests-received')" display="dynamic" class="menu-item"
+        routerLinkActive="router-link-active" title="Resume Requests">
+        <a>
+          Resume Requests
+        </a>
+      </li>
+      <li *ngIf="candidateDetails?.createdBy == userId" display="dynamic" (click)="onChange('jobsApplied')"
+        [ngClass]="{'active': pageName=='jobsApplied'}" class="menu-item" routerLinkActive="router-link-active"
+        title="Jobs Applied">
+        <a>
+          Applied
+        </a>
+        <!-- <a>
+          Jobs Applied
+        </a> -->
+      </li>
+      <li *ngIf="candidateDetails?.createdBy == userId" display="dynamic" (click)="onChange('views')"
+        [ngClass]="{'active': pageName=='views'}" class="menu-item" routerLinkActive="router-link-active"
+        title="Views">
+        <a>
+          Views
+        </a>
+      </li>
+      <!-- to be used in the upcoming changes -->
+      <!-- <li *ngIf="candidateDetails?.createdBy == userId" display="dynamic" (click)="onChange('documents')"
+        [ngClass]="{'active': pageName=='documents'}" class="menu-item" routerLinkActive="router-link-active"
+        title="Jobs Applied">
+        <a>
+          Documents
+        </a>
+      </li> -->
+      <li *ngIf="candidateDetails?.createdBy == userId" display="dynamic" (click)="onChange('Clike-like')"
+        [ngClass]="{'active': pageName=='Clike-like'}" class="menu-item" routerLinkActive="router-link-active"
+        title="Likes">
+        <a>
+          Likes
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="candidateDetails?.createdBy == userId" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+  class="show-hidden-design-right">
+  <div *ngIf="showChevron || showChevron1" class="right-scroll-buttons">
+    <div (click)="scrollRight()">
+      <app-svg-templates [svgType]="'CHEVRON_RIGHT'"></app-svg-templates>
+    </div>
+  </div>
+</div>

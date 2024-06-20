@@ -1,0 +1,263 @@
+<!-- <section class="breadcrumbs">
+    <ul>
+        <li>Home</li>
+        <li>Directory</li>
+        <li>Physicians</li>
+        <li>Specialities</li>
+    </ul>
+</section> -->
+
+<section class="directory-professional-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="directory-professional-list">
+          <div class="directory-professional-search">
+            <form class="app-form form-inline">
+              <div class="form-group margin-right-15">
+                <input type="text" class="form-control" [(ngModel)]="doctorSearch" [ngModelOptions]="{standalone: true}"
+                  placeholder="Doctor Name, Speciality, Condition">
+              </div>
+
+              <div class="form-group margin-right-15">
+                <input type="text" class="form-control" [(ngModel)]="doctorSearcAdd"
+                  [ngModelOptions]="{standalone: true}" placeholder="Zip Code or City, State">
+              </div>
+              <button class="btn primary-btn margin-right-15 padding-right-20 padding-left-20" type="button"
+                (click)="getProfileList()"> Search Doctor <i class="fa fa-check"></i></button>
+
+              <div class="form-group m-l-10">
+                <button class="btn primary-btn margin-right-15 padding-right-20 padding-left-20" type="button"
+                (click)="infoEdit(infoTemplate)"> Advance Filters </button>
+                <!-- <select class="form-control" (click)="infoEdit(infoTemplate)">
+                  <option> Advance Filters </option>
+                </select> -->
+              </div>
+
+              <div class="form-group">
+                <button class="btn primary-btn margin-right-15 padding-right-20 padding-left-20" type="button"
+                  (click)="clear()"> Clear </button>
+              </div>
+
+            </form>
+          </div>
+          <div class="directory-professional-result">
+            <ul class="col-list-4  m-b-50">
+              <li
+                *ngFor="let d of userProfile['data']?.hcpprofiles| paginate: { itemsPerPage: 40, currentPage: page,totalItems:userProfile['pageCount']}">
+
+                <a class="mover" [routerLink]="['/directory/profile/'+d.profileId]"> {{d.firstName}} {{d.lastName}}</a>
+              </li>
+            </ul>
+            <pagination-controls class="center-page-align" (click)="pagecount(page)" (pageChange)="page = $event" [maxSize]=0>
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-12 col-xs-12 padding-left-0">
+        <div class="directory-professional-featured">
+          <div class="featured-title">
+            <h3>Featured Specialists</h3>
+          </div>
+          <div class="featured-lists">
+            <div class="list">
+              <p class="highlight">Dr. John Doe, MD</p>
+              <p class="location">Allergy-Immunology, Dallas, TX</p>
+            </div>
+
+            <div class="list">
+              <p class="highlight">Dr. John Doe, MD</p>
+              <p class="location">Allergy-Immunology, Dallas, TX</p>
+            </div>
+
+            <div class="list">
+              <p class="highlight">Dr. John Doe, MD</p>
+              <p class="location">Allergy-Immunology, Dallas, TX</p>
+            </div>
+
+            <div class="list">
+              <p class="highlight">Dr. John Doe, MD</p>
+              <p class="location">Allergy-Immunology, Dallas, TX</p>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<ng-template #infoTemplate>
+  <div class="hpanel ">
+    <div class="panel-heading" style="text-align: center;">
+      <div class="row panel-tools">
+        <button type="button" class="close pull-left" aria-label="Close" (click)="closeInfoModal()">
+          <span style="padding-right: 22px;font-size: 26px" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5">Advance Filters </label>
+
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="advanceForm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row" >
+              <div class="col-md-12">
+                <label for="">Speciality </label>
+                <ng-select [items]="Speciality"  bindLabel="name" bindValue="name" [multiple]=false placeholder="Speciality" formControlName=speciality
+                  dropdownPosition=bottom [(ngModel)]="SpecialitySelect" >
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected" style="margin-right:5px"><span>{{item.name}}</span>
+                      <!-- <label class="form-radio-label ml-2 custom-control-label" >{{item.name}}</label> -->
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Sort By </label>
+                <ng-select [items]="Sort" bindLabel="name" bindValue="name" [multiple]=false placeholder="Sort By" formControlName=Sort
+                  [(ngModel)]="sortBySelected">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-item$="item$">
+                    <div class="custom-control custom-radio">
+                      <input type="radio"  [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected"  [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.name}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.name}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+              <div class="col-md-6">
+                <label for="">Distance </label>
+                <!--Using items input-->
+                <ng-select [items]="Distance" bindLabel="Distance" [multiple]=false placeholder="Distance" formControlName=Distance
+                  [(ngModel)]="DistanceSelect">
+
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-radio">
+                      <input type="radio"  [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.Distance}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.Distance}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="">Insurance </label>
+                <ng-select [items]="Insurance" bindLabel="name" [multiple]=true placeholder="Speciality" formControlName=Insurance
+                  dropdownPosition=bottom  [(ngModel)]="InsuranceSelect">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+
+                    <div class="custom-control custom-radio">
+                      <input type="radio"  [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.name}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.name}}</label> -->
+                    </div>
+
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Conditions Treated </label>
+                <ng-select [items]="Distance" bindLabel="Distance" bindValue="id" [multiple]=false formControlName=ConditionsTreated
+                dropdownPosition=bottom  [(ngModel)]="ConditionsTreated"  placeholder="Conditions Treated">
+                  <!-- placeholder="Conditions Treated" [(ngModel)]="ConditionsTreated"> -->
+
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-radio">
+                      <input type="radio"  [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.Distance}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.Distance}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+              <div class="col-md-6">
+                <label for="">Care Ratings </label>
+                <ng-select [items]="patiant" bindLabel="patiant" bindValue="id" [multiple]=false placeholder="Care Ratings" formControlName=CareRatings
+                  [(ngModel)]="CareRatings ">
+
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-radio">
+                      <input type="radio"  [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.patiant}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.patiant}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Gender </label>
+                <ng-select [items]="Gender" bindLabel="name" bindValue="name" [multiple]=false placeholder="Gender" formControlName=Gender
+                  [(ngModel)]="GenderSelect">
+
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <div class="custom-control custom-radio">
+                      <input type="radio"   [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.name}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.name}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+              <div class="col-md-6">
+                <label for="">Age </label>
+                <ng-select [items]="Age" bindLabel="Age" bindValue="id" [multiple]=false placeholder="Age" formControlName=Age
+                  [(ngModel)]="AgeSelect">
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" >
+                    <div class="custom-control custom-radio">
+                      <input type="radio"   [ngModelOptions]="{ standalone : true }"  [ngModel]="item$.selected" [value]="true" id="item-{{index}}"
+                        name="item-{{index}}"style="margin-right:5px">{{item.Age}}
+                      <!-- <label class="form-radio-label ml-2 custom-control-label">{{item.Age}}</label> -->
+                    </div>
+                  </ng-template>
+
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Accepting New Patients </label>
+                <div>
+                  <mat-radio-group aria-label="Select an option" formControlName=AcceptingNewPatients>
+                    <mat-radio-button value="1">Yes</mat-radio-button>
+                    <mat-radio-button value="2" style="margin-left: 10px;">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="">Telehealth</label>
+                <div>
+                  <section class="example-section" >
+                    <mat-checkbox class="example-margin" formControlName=Telehealth>Providers with Telehealth</mat-checkbox>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"
+      style="border-radius:5px ;padding: 8px !important;display: flex;justify-content: space-around;">
+      <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" (click)="closeInfoModal()">Close</button>
+      <button type="button" class="btn btn-warning btn-sm" (click)="cleardata()">Clear All </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="getAdvancFilter()">Search </button>
+    </div>
+  </div>
+</ng-template>

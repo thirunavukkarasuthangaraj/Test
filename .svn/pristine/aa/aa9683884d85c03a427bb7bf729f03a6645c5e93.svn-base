@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { BusinessProfileCompleteComponent } from './business-profile-complete.component';
+
+describe('BusinessProfileCompleteComponent', () => {
+  let component: BusinessProfileCompleteComponent;
+  let fixture: ComponentFixture<BusinessProfileCompleteComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BusinessProfileCompleteComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BusinessProfileCompleteComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

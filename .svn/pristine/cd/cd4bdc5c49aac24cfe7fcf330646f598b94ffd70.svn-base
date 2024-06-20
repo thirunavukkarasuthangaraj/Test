@@ -1,0 +1,4 @@
+/* @import url(./vendor/bootstrap/dist/css/bootstrap.css); */
+@import url(../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css);
+@import url(./vendor/theme/style.css);
+@import url(./vendor/animate.css/animate.css);

@@ -1,0 +1,183 @@
+<!-- <div class="modal-header" style="padding: 10px !important ;border-radius: 5px;">
+  <div class="main">
+    <div>
+      <h4> Create Network</h4>
+    </div>
+    <div>
+      <button type="button" class="close pull-right close-model" aria-label="Close" (click)="modelhide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal-content">
+
+
+
+  <!-- <div class="modal-header" style="padding: 7px !important ; border-radius: 8px;"> -->
+  <!-- <div class="main"> -->
+  <div class="common-header-flex">
+    <div>Create Network</div>
+    <button>
+      <span (click)="modelhide()" class="common-close">&times;</span>
+    </button>
+  </div>
+  <hr style="margin: 0px !important; padding: 0px !important">
+  <div class="modal-body">
+    <div [formGroup]="networkForm">
+      <div class="row ">
+        <div class="col-md-8 discol">
+          <div class="form-group mt-10">
+            <label for="networkName " class="required">Network Name</label>
+            <div>
+              <input maxlength="31" type="text" class="form-control input-sm" formControlName="networkName"
+                placeholder="Please enter a network name" trim="blur" />
+              <div
+                *ngIf="(submit && f.networkName.invalid) || (f.networkName.invalid && (f.networkName.dirty || f.networkName.touched))"
+                class="error-msg">
+                <div class="red" *ngIf="f.networkName.errors?.pattern">Name must contain alphabet only</div>
+                <div class="red" *ngIf="f.networkName.errors?.required">Network name is required</div>
+                <div class="red" *ngIf="f.networkName.errors?.minLetters">Minimum 5 chars required</div>
+                <div class="red" *ngIf="f.networkName.errors?.maxLetters">Maximum 30 chars allowed</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="mt-10">
+              <label for="">Add Connection</label>
+            </div>
+            <div>
+              <ng-select [multiple]="true" [items]="conditionList" [hideSelected]="false"
+                [(ngModel)]="conditionSelectedItems" name="licenseAuthorityId" bindValue="userId"
+                [closeOnSelect]="false" [hideSelected]="true" bindLabel="userName" formControlName="addconnection"
+                placeholder="Add Connection" required>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="custom-control custom-radio flex">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                      style="margin-right:5px; margin-top: 9px;">
+                    <img *ngIf="item.photo" class="img-show-hide" src="{{url+item.photo}}">
+
+                    <div *ngIf="!item?.photo">
+                      <div class="circles img-show-hide mr-rt-10" [style.background-color]="getColorName(item?.firstName,item.lastName)">
+                        <div class="circle-text">{{ getInitialName(item?.firstName,item.lastName) }}</div>
+                      </div>
+                    </div>
+                    <label class="form-radio-label m-t-5 custom-control-label">{{item.userName}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div *ngIf="(submit && f.addconnection.invalid) ||
+            (f.addconnection.invalid &&
+              (f.addconnection.dirty ||
+                f.addconnection.touched))">
+
+              <div *ngIf="f.addconnection.errors" style="color:#c3002f;float: right;">
+                At least one connection is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="mt-10">
+              <label for="">Network Logo</label>
+            </div>
+            <div>
+              <input type="file" class="form-control input-sm" accept=".jpg, .jpeg, .png" #myFileInput
+                (change)="fileChangeEvent($event, template)" (click)="myFileInput.value = null" />
+
+            </div>
+          </div>
+
+
+          <div>
+
+            <div class="mt-10">
+              <label for="">Description</label>
+            </div>
+            <div>
+              <div class="form-group">
+                <textarea class="form-control input-sm" placeholder="Description" [ngxSummernote]="config"
+                  formControlName="description" name="" id="" rows="3" ></textarea>
+                <div *ngIf="f.description.invalid">
+                  <div *ngIf="f.description.errors.maxword" style="color: #c3002f;float: right;">
+                    Maximum 100 words allowed
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div>
+            <label for="">How it works?</label>
+          </div>
+          <div>
+            <p>
+              You can create personal Networks and add your Connections to
+              specific Networks.
+            </p>
+            <p>
+              You can connect, share and collaborate with your connections in
+              specific Network as a group.
+            </p>
+          </div>
+          <div>
+            <img src="assets/icon/img.png" alt="" srcset="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button type="button" class="btn btn-default btn-sm m-r-6" (click)="modelhide()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary btn-sm m-r-20" [disabled]="!networkForm.valid" (click)="save()">
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<ng-template #template>
+
+  <!-- <button type="button" style="font-size: 31px; padding-right: 17px; padding-top: 7px" class="close pull-right"
+    aria-label="Close" (click)="closePhoto()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h5 style="margin: 10px 10px 10px 10px; padding-top: 10px"> Network Logo </h5>
+  <hr /> -->
+  <div class="modal-content">
+    <div class="common-header-flex">
+      <div>Network Logo</div>
+      <button>
+        <span (click)="closePhoto()" class="common-close">&times;</span>
+      </button>
+    </div>
+    <hr style="margin: 0px !important; padding: 0px !important">
+    <div class="modal-body">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" format="jpeg"
+        (imageCropped)="imageCropped($event)"></image-cropper>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-default " (click)="closePhoto()">Cancel</button>
+          <button class="btn btn-primary " (click)="imageLoaded()">Apply</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

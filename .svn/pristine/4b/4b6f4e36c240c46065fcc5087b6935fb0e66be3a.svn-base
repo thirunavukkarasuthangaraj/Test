@@ -1,0 +1,90 @@
+<app-langding-page-nav-bar></app-langding-page-nav-bar>
+
+<!--
+<div class="app-content">
+  <div class="container flex">
+    <div class="padding-left-0 padding-right-5">
+      <div class="hpanel">
+        <div class="panel-body" style="height: 445px; overflow: hidden ;padding: 0px;">
+
+          <ul class="custom-panel pad">
+            <li *ngFor="let item of WidgetList" class="navmenu" (click)="clickmenu(item.widgetName)"
+              [ngClass]="{ active: selectedmenu == item.widgetName }" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">
+              <a class="navIteam">
+                <div class="nav-margin"> {{item.widgetName}}</div>
+                 <app-suggestions []></app-suggestions>
+
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-left-0 padding-right-0">
+    <router-outlet></router-outlet>
+    <app-suggestions [selectedMenu]="selectedmenu"></app-suggestions>
+  </div>
+</div> -->
+
+
+<div class="app-content container">
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="row hpanel">
+        <div class="col-md-3" >
+          <div class="panel-body menu-show" >
+            <ul class="custom-panel pad">
+              <li *ngFor="let item of WidgetList" class="navmenu" (click)="clickmenu(item)"
+                [ngClass]="{ active: selectedmenu.menu == item.widgetDesc }" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
+                <a class="navIteam">
+                  <div class="nav-margin"> {{item.widgetDesc}}</div>
+                 </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <app-suggestions [selectedMenu]="selectedmenu"></app-suggestions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="app-content">
+  <div class="container flex">
+    <div class="padding-left-0 padding-right-5">
+      <div class="hpanel">
+        <div class="panel-body" style="height: 445px; overflow: hidden ;padding: 0px;">
+
+          <ul class="custom-panel pad">
+            <li *ngFor="let item of WidgetList" class="navmenu" (click)="clickmenu(item.widgetName)"
+             [ngClass]="{ active: selectedmenu == item.widgetName }"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a class="navIteam" >
+                <div class="nav-margin"> {{item.widgetDesc}}</div>
+                <!-- <app-suggestions []></app-suggestions> --
+
+              </a>
+            </li>
+          </ul>
+
+        </div>
+        <div>
+        </div>
+      </div>
+    </div>
+    <div class="padding-left-0 padding-right-0">
+      <router-outlet></router-outlet>
+      <app-suggestions [selectedMenu]="selectedmenu"></app-suggestions>
+    </div>
+
+  </div>
+</div> -->

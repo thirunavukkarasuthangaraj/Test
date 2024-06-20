@@ -1,0 +1,390 @@
+<div class="contanier1">
+    <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-scale-multiple"
+    >
+    <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>
+    <div class="color-line"></div>
+    <div>
+      <app-header></app-header>
+    </div>
+    <!-- <div class="color-line"></div> -->
+    <app-admin-panel-alert></app-admin-panel-alert>
+    <div class="inline" style="min-height: 100vh">
+    <div>
+         <div class="row" *ngIf = "captch">
+        <!-- <div class="col-md-6">
+          <img src="../../../assets/images/sign.png" width="70%" alt="" srcset="">
+        </div> -->
+        <div class="col-md-12">
+            <div class="login-container">
+                <div class="row">
+                    <div class="col-md-12">
+                       <div class="">
+                            <div class="panel-body" style="background-color: white;">
+
+                                  <div >
+                                    <div class="text-center" style="margin-bottom:25px">
+                                      <!-- <h3>CareOnline</h3>
+                                      <small>Empowering You</small> -->
+                                      <img class="app-logo" style="margin-bottom:25px" src="assets/images/CareOnline.jpg" width="50%">
+                                      <p>
+                                        Enter the email address you used to register with CareOnline
+                                    </p>
+                                    </div>
+                                    <form [formGroup]="forgotpasswordForm" (ngSubmit)="forgotPassword()" class="custom-form">
+                                      <!-- <form [formGroup]="forgotpasswordForm" (ngSubmit)="forgotPasswordAppuser()"> -->
+                                        <div class="form-group">
+                                            <label class="control-label" for="username">Email address</label>
+                                            <input type="text" placeholder="Email address"   [disabled]="isDisabled" formControlName="recoverPassword" class="form-control">
+                                            <div *ngIf="pwd.recoverPassword.invalid && (pwd.recoverPassword.dirty || pwd.recoverPassword.touched)"
+                                                  >
+                                              <div *ngIf="pwd.recoverPassword.errors.required" style="color: red;"> Please enter Email Address</div>
+                                              <div *ngIf="pwd.recoverPassword.errors.email" style="color: red;"> Enter valid Email Address</div>
+                                            </div>
+                                        </div>
+                                          <!-- <div style="margin-bottom: 1rem;" >
+                                            <re-captcha (resolved)="resolved($event)"  siteKey="6Le4duAUAAAAABP4P5bbkAdF1tfMmV902iKsCoo2"></re-captcha>
+                                          </div> -->
+                                        <button class="btn primary-btn btn-sm btn-block" [disabled]="!forgotpasswordForm.valid" type="submit">Send</button>
+                                    </form>
+                                  </div>
+
+                                    <div *ngIf ="forgetPasswordMsg">
+                                      <h5 style="color: red;">Sorry, we don't recognise that email address</h5>
+                                      <P>Do you want to <span style="color: blue; cursor: pointer" [routerLink]="['/signUp']" >Sign Up</span>?</P>
+                                    </div>
+
+                                    <div *ngIf = "msgsend">
+                                      Please check the mail for Password
+                                      <button class="btn btn-info btn-block" [routerLink]="['/login']" routerLinkActive="router-link-active" >Thank you</button>
+                                    </div>
+                                    <div *ngIf = "notActive">
+                                      <h5 style="color: red; line-height: 1.5;">
+                                        Account is not yet activated, please check your email to complete registration.
+                                      </h5>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+
+       <!-- app user question start  -->
+       <div *ngIf="appUserQ1">
+         <div class="register-container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <div class="text-center m-b-md">
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                </div>
+                <div class="panel-body">
+                  <form [formGroup]="forgotPasswordAppUserForm" (ngSubmit)="AppuserQuestion()" class="custom-form" >
+                    <div class="row">
+                      <div class="text-center m-b-md">
+                        <h4>Forgot your Password ?</h4>
+                        <h6>Please Answer the Security Question</h6>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Email</label>
+                        <input type="text"  formControlName="AppUserEmail" class="form-control" [attr.disabled]="true">
+                        <div *ngIf="appuser.AppUserEmail.invalid && (appuser.AppUserEmail.dirty || appuser.AppUserEmail.touched)"
+                          class="alert alert-danger">
+                          <div *ngIf="appuser.recoverPassword.errors.required"> Please Enter the Email Address.</div>
+                          <div *ngIf="appuser.recoverPassword.errors.email"> Enter the valid Email Address</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <!-- <label for="name">{{ AppQuestions }}</label> -->
+                        <label>Question</label>
+                        <!-- <label for=""  formControlName="AppUserquestion"> {{AppUserquestion}}</label> -->
+                        <input type="text"  formControlName="AppUserquestion" id="name"  class="form-control" [attr.disabled]="true" >
+                        <!-- {{ AppUserquestion.value }} -->
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Answer</label>
+                        <input type="text" formControlName="AppUserAnswer"   class="form-control" >
+                            <div *ngIf="appuser.AppUserAnswer.invalid && (appuser.AppUserAnswer.dirty || appuser.AppUserAnswer.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="appuser.AppUserAnswer.errors.required"> Please fill the answer.</div>
+                            </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <button class="btn btn-info btn-block" type="submit">Send</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <strong>New to CareOnline?</strong> <a>Sign Up Free</a>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- end  -->
+       <!-- app user question start  -->
+       <div *ngIf="appUserQ2">
+        <div class="register-container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <div class="text-center m-b-md">
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                </div>
+                <div class="panel-body">
+                  <form [formGroup]="forgotPasswordAppUserForm" (ngSubmit)="AppuserQuestionTwo()" class="custom-form">
+                    <div class="row">
+                      <div class="text-center m-b-md">
+                        <h4>Forgot your Password ?</h4>
+                        <h6>Please Answer the Security Question</h6>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Email</label>
+                        <input type="text"  formControlName="AppUserEmail" class="form-control" [attr.disabled]="true">
+                        <div *ngIf="appuser.AppUserEmail.invalid && (appuser.AppUserEmail.dirty || appuser.AppUserEmail.touched)"
+                          class="alert alert-danger">
+                          <div *ngIf="appuser.recoverPassword.errors.required"> Please Enter the Email Address.</div>
+                          <div *ngIf="appuser.recoverPassword.errors.email"> Enter the valid Email Address</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Question</label>
+                        <input type="text"  formControlName="AppUserquestion"  class="form-control" [attr.disabled]="true">
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Answer</label>
+                        <input type="text" formControlName="AppUserAnswer"   class="form-control" >
+                            <div *ngIf="appuser.AppUserAnswer.invalid && (appuser.AppUserAnswer.dirty || appuser.AppUserAnswer.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="appuser.AppUserAnswer.errors.required"> Please fill the answer.</div>
+                            </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <button class="btn btn-info btn-block" type="submit">Send</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <strong>New to CareOnline?</strong> <a>Sign Up Free</a>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- end  -->
+       <!-- app user question start  -->
+       <div *ngIf="appUserQ3">
+        <div class="register-container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <div class="text-center m-b-md">
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                </div>
+                <div class="panel-body">
+                  <form [formGroup]="forgotPasswordAppUserForm" (ngSubmit)="AppuserQuestionThree()" class="custom-form" >
+                    <div class="row">
+                      <div class="text-center m-b-md">
+                        <h4>Forgot your Password ?</h4>
+                        <h6>Please Answer the Security Question</h6>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Email</label>
+                        <input type="text"  formControlName="AppUserEmail" class="form-control" [attr.disabled]="true">
+                        <div *ngIf="appuser.AppUserEmail.invalid && (appuser.AppUserEmail.dirty || appuser.AppUserEmail.touched)"
+                          class="alert alert-danger">
+                          <div *ngIf="appuser.recoverPassword.errors.required"> Please Enter the Email Address.</div>
+                          <div *ngIf="appuser.recoverPassword.errors.email"> Enter the valid Email Address</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Question</label>
+                        <input type="text"  formControlName="AppUserquestion"  class="form-control" [attr.disabled]="true">
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <label>Answer</label>
+                        <input type="text" formControlName="AppUserAnswer"   class="form-control" >
+                            <div *ngIf="appuser.AppUserAnswer.invalid && (appuser.AppUserAnswer.dirty || appuser.AppUserAnswer.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="appuser.AppUserAnswer.errors.required"> Please fill the answer.</div>
+                            </div>
+                      </div>
+                      <div class="form-group col-lg-12">
+                        <button class="btn btn-info btn-block" type="submit">Send</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <strong>New to CareOnline?</strong> <a>Sign Up Free</a>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- end  -->
+
+      <!-- accout block massege start  -->
+      <div *ngIf= "AccountBlockMassege">
+        <div class="register-container" style="">
+          <div class="row">
+            <div class="col-md-8" style="background-color: white;">
+              <div class="">
+                <div class="text-center m-b-md">
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                </div>
+                <div class="panel-body">
+                  <h5>Your Accout has been locked. Please contact Admin</h5>
+                  <button class="btn btn-info btn-block" [routerLink]="['/login']" routerLinkActive="router-link-active" > thank you</button>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <strong>New to CareOnline?</strong> <a>Sign Up Free</a>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end  -->
+
+       <!-- accout block massege start  -->
+       <div *ngIf= "MailSentMassege">
+        <div class="register-container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <div class="text-center m-b-md">
+                  <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                </div>
+                <div class="panel-body">
+                  <div class="text-center">
+                    <H3>Password reset link was sent to your email address</H3>
+                  </div>
+                  <!-- <H3>Password reset link was sent to your email address</H3> -->
+                  <div class="text-center" style="font-size: 45px;">
+                    <a [routerLink]="['/login']" routerLinkActive="router-link-active" style="color: black;" ><i class="pe-7s-mail" aria-hidden="true"></i></a>
+                  </div>
+
+                  <div style="margin-left: 7rem;" >
+                    <p>Please follow the Instruction in the email to setup a new password</p><br>
+                    <p>If you have not received an email please check your spam folder and re-enter the email address</p><br>
+                    <p>If you need further assitance please submit a request through our support portal</p><br>
+                  </div>
+                  <!-- <button class="btn btn-success btn-block" [routerLink]="['/login']" routerLinkActive="router-link-active" > thank you</button> -->
+                  <!-- <div class="row">
+                    <div class="col-md-12 text-center">
+                      <strong>New to CareOnline?</strong> <a>Sign Up Free</a>
+                    </div>
+                </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+      <!-- end  -->
+
+
+     <!-- <app-new-footer></app-new-footer> -->
+
+</div>
+ <!-- captcha start  -->
+ <div *ngIf= "cap">
+  <div class="text-center" style="margin-left: 175px;">
+    <div class="register-container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="">
+            <div class="panel-body" style="background-color: white;">
+              <div class="row"></div>
+              <div class="text-center m-b-md">
+                <img class="app-logo" src="assets/images/CareOnline.jpg" width="35%">
+                <form [formGroup]="CaptchForm">
+                 <p>Forgot password?</p>
+                 <p>Please confirm you are a human</p>
+                 <!-- <input type="checkbox" name="myChk" id="myChk" (click)="triggerSomeEvent()" /> -->
+                 <input type="text" class="form-control" formControlName="cap1"  name="myTxt" id="myTxt" readonly />
+                  <!-- <div class="panel-body"> -->
+                  <div style="margin-bottom: 1rem; margin-top: 1rem;" >
+                    <re-captcha (resolved)="resolved($event)"  siteKey="6Le4duAUAAAAABP4P5bbkAdF1tfMmV902iKsCoo2"></re-captcha>
+                  </div>
+                  <button class="btn btn-info btn-block" type="submit"   [disabled]="isDisabled" (click)="withcapCall($event)">Submit</button>
+                <!-- </div> -->
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h3>CareOnline</h3>
+    <small>Empowering You</small> -->
+    <!-- <img class="app-logo" src="assets/images/CareOnline.jpeg" width="50%">
+    <p>
+      Enter your email address and your password will be reset and emailed to you.
+  </p>
+  </div>
+  <div style="margin-bottom: 1rem;" >
+    <re-captcha (resolved)="resolved($event)"  siteKey="6Le4duAUAAAAABP4P5bbkAdF1tfMmV902iKsCoo2"></re-captcha>
+  </div>
+<button class="btn btn-success btn-block" type="submit" (click)="withcapCall()">Save</button>
+
+</div> -->
+<!-- end  -->
+
+</div>
+</div>
+<div style="margin-top:17rem">
+  <app-new-footer></app-new-footer>
+</div>
+
+
+           <!-- end  -->
+      <!-- <app-footer></app-footer> -->
+  <!-- forgotpassword Modal -->
+  <!-- <ng-template #template>
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+          <div class="color-line"></div>
+          <div class="modal-header">
+              <h4 class="modal-title">Modal title</h4>
+              <small class="font-bold">Lorem Ipsum is simply dummy text.</small>
+          </div>
+          <div class="modal-body">
+              <p><strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                  remaining essentially unchanged.</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="openModal(forgotpwd)">Close</button> -->
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          <!-- </div>
+      </div>
+    </div>
+  </ng-template> -->
+  <!-- forgotpassword Modal end  -->

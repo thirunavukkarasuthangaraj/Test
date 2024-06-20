@@ -1,0 +1,122 @@
+<!-- <div class="container"> -->
+<div class="business-banner-top post-box-shadow">
+  <div class="business-banner">
+    <div class="banner-shadow"></div>
+    <img class="banner-img" [ngStyle]="{'background-image': 'url(' + bannerimg.src + ')'}">
+    <div class="banner-overlay">
+      <div class="banner-edit" *ngIf="admindata?.isAdmin || admindata?.isSuperAdmin">
+        <input type="file" accept=".jpg, .jpeg, .png" #myFileInput (change)="fileChangeEvent($event,template)" />
+        <div class="image-upload"></div>
+        <i class="fa fa-camera" aria-hidden="true"></i>
+      </div>
+      <div class="banner-profile-image">
+        <img class="img-small" src="{{businesslogs.src}}" onerror="this.src='assets/images/gallery/company.png';">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hpanel scroll-header business-banner-top" style="word-wrap: break-word;">
+  <div class="panel-body">
+    <div class="col-md-12">
+
+      <div class="pull-right follow-menu">
+        <div class="row mt-8px right ">
+          <button type="button" *ngIf="admindata?.isAdmin" class="btn primary-btn btn-sm margin-right-20"
+            (click)="adminview(true)"> View as Admin</button>
+          <button type="button" *ngIf="viewasmembers" class="btn primary-btn btn-sm  margin-right-20"
+            (click)="viewasmember(false)"> View as Member</button>
+
+          <button type="button" (click)="sendEmployeeRequest()"
+            *ngIf=" !admindata?.isAdmin && !admindata?.isSuperAdmin && admindata?.isEmployeeRequestRejected"
+            class="btn  primary-btn btn-sm m-r-10"> Send Employee Request </button>
+
+          <button type="button" disabled
+            *ngIf=" !admindata?.isAdmin && !admindata?.isSuperAdmin && admindata?.isEmployeeRequestSent"
+            class="btn  primary-btn btn-sm mr-fn"> Employee Request Sent </button>
+
+          <button type="button" *ngIf=" !admindata?.isAdmin && !admindata?.isSuperAdmin && admindata?.isFollowerInvited"
+            class="btn primary-btn btn-sm m-r-10" (click)="acceptFollowerRequest()"> Accept Follow Request </button>
+
+          <button type="button" *ngIf=" !admindata?.isAdmin && !admindata?.isSuperAdmin && admindata?.isFollowerInvited"
+            class="btn primary-btn btn-sm m-r-10" (click)="rejectFollowerRequest()"> Reject Follow Request </button>
+          <button type="button"
+            *ngIf=" !admindata?.isAdmin && !admindata?.isSuperAdmin && !admindata?.isFollow && !admindata?.isFollowerInvited && admindata!=null"
+            (click)="addfollower()" class="btn primary-btn btn-sm"> Follow </button>
+          <button type="button"
+            *ngIf="!admindata?.isAdmin && !admindata?.isSuperAdmin && admindata?.isFollow && admindata!=null"
+            (click)="removefollower()" class="btn  primary-btn  btn-sm"> Unfollow </button>
+          <button type="button" *ngIf="!admindata?.isAdmin && !admindata?.isSuperAdmin && admindata!=null"
+            (click)="mgsBtn()" class="btn  primary-btn  btn-sm ml-10"> Message </button>
+
+        </div>
+
+        <!-- <div *ngIf="!admindata?.isFollow&&!admindata?.isEmployee">
+              Please follow the business page to view jobs
+            </div> -->
+      </div>
+
+      <div class="qwc">
+        <strong class="bus-hov business-name" [routerLink]="['/landingPage/business']">Business Page</strong>
+        <p class="business-name ellipse1" data-toggle="tooltip" data-placement="top"
+          title="{{bannerdata?.businessName}}">
+          <strong>:</strong>
+          {{bannerdata?.businessName }}
+        </p>
+      </div>
+
+
+      <p class="business-tag ellipse" style="display: none;" data-toggle="tooltip" data-placement="top"
+        title="{{bannerdata?.tagLine }}">
+        {{bannerdata?.tagLine }}</p>
+
+      <p class="business-others"
+        title="{{industryClass +bannerdata?.companyLocationDetails[0].city +  bannerdata?.companyLocationDetails[0].city}} ">
+        {{industryClass | truncate: 30}}
+        <span *ngIf="bannerdata?.companyLocationDetails">|</span>
+
+        {{bannerdata?.companyLocationDetails[0].city}}
+        {{bannerdata?.companyLocationDetails[0].state}}
+        <span *ngIf="bannerdata?.companyLocationDetails">|</span>
+
+        <b>
+          <a class="website" *ngIf="bannerdata?.companyLocationDetails[0]?.website!=undefined"
+            [attr.href]="bannerdata?.companyLocationDetails[0]?.website.includes('http://') ? bannerdata?.companyLocationDetails[0]?.website : 'http://'+bannerdata?.companyLocationDetails[0]?.website"
+            target="_blank">{{bannerdata?.companyLocationDetails[0]?.website }}
+          </a>
+        </b>
+        <span *ngIf="bannerdata?.companyLocationDetails">|</span>
+        <b>
+          <a (click)="followers()">
+            {{ admindata?.noOfFollowers }} {{ admindata?.noOfFollowers === 1 ? 'Follower' : 'Followers' }}
+          </a>
+        </b>
+      </p>
+
+
+
+
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+<ng-template #template>
+  <div class="common-header-flex">
+    <div>Banner Image</div>
+    <button>
+      <span class="common-close" (click)="closePhoto()">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4.5 / 1"
+      format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default" (click)="closePhoto()">Cancel</button>
+        <button class="btn btn-primary" (click)="imageLoaded()">Apply</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

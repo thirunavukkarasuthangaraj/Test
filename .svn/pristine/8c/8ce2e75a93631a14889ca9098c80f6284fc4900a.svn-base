@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-directory-landing',
+  templateUrl: './directory-landing.component.html',
+  styleUrls: ['./directory-landing.component.scss']
+})
+export class DirectoryLandingComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

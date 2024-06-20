@@ -1,0 +1,472 @@
+.pricing-table {
+  width: min(1600px, 100%);
+  margin: auto;
+  margin-top: -15px;
+
+  ul {
+    list-style-type: none;
+    margin-left: -25px;
+  }
+
+}
+
+
+.pricing-card {
+  flex: 1;
+  max-width: 250px;
+  background-color: #fff;
+  margin: 20px 2px;
+  height: 150px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  color: #2d2d2d;
+  transition: .3s linear;
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  .button {
+    background-color: rgba(0, 0, 0, .87);
+    border-color: rgba(0, 0, 0, .87);
+    color: #fff;
+    width: 100%;
+  }
+
+}
+
+
+.pricing-card1 {
+  flex: 1;
+  max-width: 360px;
+  background-color: #fff;
+  margin: 20px 10px;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  color: #2d2d2d;
+  transition: .3s linear;
+
+  &:first-child {
+    margin-left: 0;
+    margin-right: 2px;
+  }
+
+}
+
+h3.pricing-card1-header {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.title-head-price {
+  color: #000;
+
+  .span {
+    color: blue;
+  }
+}
+
+.card-ribbon {
+  position: absolute;
+  overflow: hidden;
+  // top: -10px;
+  // left: -10px;
+  width: 114px;
+  height: 112px;
+}
+
+.card-ribbon span {
+  position: absolute;
+  display: block;
+  width: 123px;
+  padding: 10px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 7px;
+  text-transform: uppercase;
+  text-align: center;
+  left: -33px;
+  top: 10px;
+  transform: rotate(-45deg);
+
+}
+
+.borderbox{
+  border: 4px solid #63cfbe;
+}
+
+.checkbox-selected-add{
+    float: right;
+    margin-right: 25px;
+    margin-top: 5px;
+}
+.card-ribbon::before,
+.card-ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid #2980b9;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.card-ribbon::before {
+  top: 0;
+  right: 0;
+}
+
+.card-ribbon::after {
+  bottom: 0;
+  left: 0;
+}
+
+.bg-head-card {
+  background-color: #fff;
+  margin-top: -10px;
+}
+
+.cardp {
+  text-align: start !important;
+  margin-inline-start: 5px !important;
+  padding-top: 12px;
+}
+
+.pricing-card-header {
+  background: linear-gradient(0deg, #63cfbe 0%, #337ab7 100%);
+  /* display: inline-block; */
+  color: #fff;
+  text-align: center;
+  padding: 12px 30px;
+  border-radius: 0 0 20px 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: 0.4s linear;
+
+
+}
+
+.pricing-card-header1 {
+  background-color: #63cfbe;
+  display: inline-block;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 0 0 20px 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: .4s linear;
+
+}
+
+sup {
+  top: -5px;
+}
+
+.price {
+  font-size: 35px;
+  color: #111;
+  // margin: 40px 0;
+  transition: .2s linear;
+}
+
+.price sup,
+.price span {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+// .pricing-card:hover .pricing-card-header{
+//   box-shadow: 0 0 0 36em #63cfbe;
+// }
+
+// .pricing-card:hover ,.pricing-card:hover .price{
+//   color: #fff;
+// }
+
+.pricing-card li {
+  font-size: 12px;
+  padding: 11px 0;
+  // text-transform: uppercase;
+}
+
+.m-t-m-11 {
+  margin-top: -11px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.fs-21 {
+  font-size: 21px;
+}
+
+.f-w-800 {
+  font-weight: 800;
+}
+
+.tc {
+  text-align: center;
+
+  .flex {
+    justify-content: center;
+  }
+}
+
+.m-t-33 {
+  margin-top: 33px;
+}
+
+.w-100 {
+  width: 100%;
+  margin-bottom: 45px;
+}
+
+.jcentre {
+  display: flex;
+  justify-content: center !important;
+}
+
+.order-btn {
+  display: inline-block;
+  margin-bottom: 40px;
+  border: 2px solid #63cfbe;
+  color: #63cfbe;
+  padding: 12px 37px;
+  border-radius: 8px;
+  /* text-transform: uppercase; */
+  font-weight: 500;
+  transition: 0.3s linear;
+}
+
+.oderbtn-one {
+  background: linear-gradient(0deg, #673ab7 0%, #337ab7 100%);
+  line-height: 33px;
+  width: 79px;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  -webkit-margin-start: 8px;
+  margin-inline-start: 8px;
+  -webkit-margin-end: 7px;
+  margin-inline-end: 7px;
+  margin-bottom: 3px;
+}
+
+.order-btn-1 {
+  margin-bottom: 8px;
+  border: 2px solid #63cfbe;
+  padding: 3px 3px;
+  -webkit-margin-start: 6px;
+  margin-inline-start: 6px;
+  -webkit-margin-end: 4px;
+  border-radius: 8px;
+  transition: 0.3s linear;
+
+}
+
+.btn-dark:hover {
+  background-color: #63cfbe;
+  color: #fff;
+}
+
+.btn-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.m-t-100 {
+  margin-top: 100px;
+  text-align: center;
+
+}
+
+.m-b-12 {
+  margin-top: 7px;
+}
+
+.gray-c {
+  color: #a49e9e;
+}
+
+.gray-c {
+  color: #a49e9e;
+}
+
+.fs-9 {
+  font-size: 9px !important;
+}
+
+.ta-s {
+  text-align: start;
+}
+
+.mt-23 {
+  margin-top: 15px;
+}
+
+@media screen and (max-width:1100px) {
+  .pricing-card {
+    flex: 50%;
+  }
+}
+
+
+
+
+.toggle-button-cover {
+  display: table-cell;
+  position: relative;
+  width: 200px;
+  box-sizing: border-box;
+  margin-bottom: 8px
+}
+
+.button-cover {
+  height: 100px;
+  margin: 20px;
+  background-color: #fff;
+  box-shadow: 0 10px 20px -8px #c5d6d6;
+  border-radius: 4px;
+}
+
+.button-cover:before {
+  counter-increment: button-counter;
+  content: counter(button-counter);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #d7e3e3;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px;
+}
+
+.button-cover,
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
+  position: relative;
+  /* top: 50%; */
+  width: 112px;
+  height: 36px;
+  /* margin: auto 0 auto; */
+  overflow: hidden;
+}
+
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+
+.button.b2 {
+  border-radius: 2px;
+}
+
+.checkbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.knobs {
+  z-index: 2;
+}
+
+.layer {
+  width: 100%;
+  background-color: #ebf7fc;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+/* Button 1 */
+#button-1 .knobs:before {
+  content: "MONTHLY";
+  position: absolute;
+  top: 4px;
+  left: 0px;
+  width: 65px;
+  height: 30px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 9px 4px;
+  border-radius: 34px;
+  transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+  background-color: #3a85b8;
+}
+
+#button-1 .checkbox:checked+.knobs:before {
+  content: "ANNUAL";
+  left: 42px;
+  background-color: #3a85b8;
+}
+
+#button-1 .checkbox:checked~.layer {
+  background-color: #fcebeb;
+}
+
+#button-1 .knobs,
+#button-1 .knobs:before,
+#button-1 .layer {
+  transition: 0.3s ease all;
+}
+
+
+.mr-m-30 {
+  margin-right: -30px;
+}
+
+
+.fs-20{
+  font-size: 20px;
+}
+
+
+
+
+/*
+Payment Information card
+*/
+.details_card {
+  width: 700px;
+  height: 400px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+/*
+Order Summary Card
+*/
+.summary_card {
+  background-color: #fff;
+  width: 350px;
+  height: 400px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+}
+

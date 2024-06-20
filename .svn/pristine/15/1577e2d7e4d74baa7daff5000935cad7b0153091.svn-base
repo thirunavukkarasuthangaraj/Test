@@ -1,0 +1,136 @@
+// button{
+//     width: 140px;
+//     height: 36px;
+//     font-size: 14px
+// }
+
+.search-results {
+    height: 20rem;
+    overflow: scroll;
+  }
+  .font-12s{
+    font-size: 14px;
+    font-style: bold;
+  }
+  .curse-pointer{
+cursor: pointer;
+  }
+
+.r-0-l-auto{
+  right: 0;
+  left: auto;
+}
+
+.ieoslf {
+    position: relative;
+    border-radius: 2px!important;
+    bottom: 1px;
+    left: 9px;
+}
+
+.Vthree-dote {
+  max-height: 3rem;
+  position: relative;
+  bottom: 0.5rem;
+  left: 1rem;
+}
+
+.fnt-12 {
+  font-size: 12px;
+}
+
+  .img-circle {
+    height: 56px !important;
+    width: 56px !important;
+  }
+   .ellipse {
+    text-overflow: ellipsis;
+    width: 95%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.m-t-10{
+  margin-top: 10px;
+}
+
+.Bnav{
+  display: flex;
+  justify-content: 10px;
+  align-self: auto;
+  align-content: center;
+  flex-basis: auto;
+
+}
+.Bnav-item-1{
+  flex-grow: 2;
+}
+.Bnav-item-2{
+  flex-grow: 2;
+}
+.Bnav-item-3{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.Bnav-item-4{
+
+}
+.md-scroll-mask{
+  position: initial
+}
+.name-diff{
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 45px;
+  height: 45px;
+  padding: 0 16px;
+  text-align: left;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.font-bold-14{
+   font-weight: 500;
+    font-size: 16px;
+}
+
+.admin-label {
+  font-size: 14px;
+  font-weight: 600; 
+  margin-top: 10px;
+}
+
+.kljs {
+  position: relative;
+    left: 4.6rem;
+    top: 0.5rem;
+}
+
+.iou {
+    display: grid;
+    grid-gap: 0.5rem;
+    text-align: right;
+    position: relative;
+    left: 6px;
+}
+
+.crown {
+  height: 3rem;
+  position: relative;
+  right: 1rem;
+  width: auto;
+  top: 0rem;
+  left: 2rem;
+}
+
+.crv {
+  border-radius: 3px !important;
+}

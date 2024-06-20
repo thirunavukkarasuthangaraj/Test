@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { BusinesDirectoryHomeComponent } from './busines-directory-home.component';
+
+describe('BusinesDirectoryHomeComponent', () => {
+  let component: BusinesDirectoryHomeComponent;
+  let fixture: ComponentFixture<BusinesDirectoryHomeComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BusinesDirectoryHomeComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BusinesDirectoryHomeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

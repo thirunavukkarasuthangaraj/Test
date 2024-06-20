@@ -1,0 +1,1630 @@
+<div>
+  <input #myFileInputcandidate style="display: none;" type="text" (click)="myFileInputcandidate.value=null"
+    (change)="fileChangeEvent('')" />
+  <div *ngIf="passValues?.length!=0;else noResult" >
+    <div *ngFor="let items of passValues; let lastItem = last; let index = i">
+      <ng-container *ngIf="viewSize === 'large'">
+        <div class="row hpanel">
+          <div id="jobBody" class="panel-body pad-cus hover-border border-radius-top-left-right-6" [ngClass]="{
+                          'disabled': !items?.availability || (items?.status != 'ACTIVE' && items?.jobPostedBy != userId),
+                          'pad-10': viewSize == 'small',
+                          'featured-background': items?.isFeatured==true,
+                          'UpdatedJobHighLight' : jobIdHighLight==items?.jobId
+                         }">
+            <ng-container *ngIf="!loadAPIcall">
+              <div class="col-md-3" (click)="$event.stopPropagation();">
+                <div class="media social-profile social-profileCustom clearfix" [ngClass]="{'flxxy1': applyingJob}">
+                  <a class="pull-left  card-profImg">
+                    <span class="label label-success ui-align-role " title="Vendor"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Vendor'">V
+                    </span>
+                    <span class="label label-success ui-align-role " title="Direct Hire"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType==GigsumoConstant.DIRECT_HIRE">DH</span>
+                    <span class="label label-success ui-align-role" title="Systems Integrator"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Systems Integrator'">SI
+                    </span>
+                    <span class="label label-success ui-align-role" title="Prime Vendor"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Prime Vendor'">PV</span>
+                    <span class="label label-success ui-align-role" title="Recruitment Process Outsourcer"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Recruitment Process Outsourcer'">RPO</span>
+                    <span class="label label-success ui-align-role" title="Staffing Agency"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Staffing Agency'">SA</span>
+                    <span class="label label-success ui-align-role" title="Client"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Client'">C</span>
+                    <span class="label label-success ui-align-role" title="Direct Client"
+                      *ngIf="items?.user?.userType!= 'FREELANCE_RECRUITER' && items?.user?.userType!= 'student' && items?.user?.userType!= 'JOB_SEEKER' && items?.user?.workExperience[0]?.clientType=='Direct Client'">DC</span>
+                    <span class="label label-success ui-align-role" title="Supplier"
+                      *ngIf="items?.user?.workExperience[0]?.clientType=='Supplier'">SP</span>
+                    <span class="label label-success ui-align-role" title="Freelance Recruiter"
+                      *ngIf="items?.user?.userType=='FREELANCE_RECRUITER'">FR</span>
+                    <img *ngIf="items?.user?.photo!=undefined && items?.user?.photo!='assets/images/userAvatar.png'"
+                      src={{items?.user?.photo}}>
+                    <div *ngIf="!items?.user?.photo || items?.user?.photo === 'assets/images/userAvatar.png'">
+                      <div class="circles mr-rt-10" [style.background-color]="getColor(items?.user?.fullname)">
+                        <div class="circle-text ">{{ getInitials(items?.user?.fullname) }}</div>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="media-body" (click)="$event.stopPropagation();">
+                    <div class="flex viewuserCardList" (click)="$event.stopPropagation();">
+                      <div class="custom-checkbox  "
+                        *ngIf="items.inviteStatus==undefined && items.currentStatus == undefined &&applyingJob"
+                        title="Select Job">
+                        <input class="check-btn-ui check-ui" #selected (change)="selectCheckbox(items?.jobId,selected)"
+                          type="checkbox" value="{{items?.isSelected}}" [(ngModel)]="items.isSelected" name="list_name" />
+                      </div>
+                      <h5 class="me-5">{{ (items?.user?.fullname.length > 10) ? (items?.user?.fullname | slice:0:15) +
+                        "..":
+                        (items?.user?.fullname)}}</h5>
+                    </div>
+                    <h6 *ngIf="items.jobPostedBehalfOf != 'null'" title="{{items.jobPostedBehalfOf}}">
+                      {{items.jobPostedBehalfOf}}</h6>
+                    <small class="text-muted"> {{items?.createdOn | date:"MM/dd/yyyy hh:mm:ss a":"+0000"}}
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-9 cardListItm">
+                <div class="row">
+                  <div class=" flex pull-right actItemList">
+                    <div> <button style="color:#fff;"
+                        *ngIf="applyingJob && items.inviteStatus!=null||applyingJob &&items.currentStatus!=null; else statusShow"
+                        type="button" class="btn  status-action-btn dwidth" [ngStyle]="{'background': (items.currentStatus === 'SELECTED') ?'#3CB371' :
+                                 (items.currentStatus === 'REJECTED' ) ?'#fe4052' :
+                                 (items.currentStatus === 'ONBOARDED') ? '#17a2b8' :
+                                 (items.currentStatus === 'INTERVIEW SCHEDULED') ? '#3498db' :
+                                 (items.currentStatus === 'REJECT') ? '#3498db' :
+                                 (items.currentStatus === 'SHORTLISTED'||!applyingJob) ? '#3498db' :
+                                 (items.currentStatus === 'PREONBOARDED') ? '#3498db' :
+                                 (items.currentStatus === 'OFFER WITHDRAWN') ? '#fe4052' :
+                                 (items.inviteStatus === 'ACCEPTED') ? '#008000' :
+                                 (items.inviteStatus === 'REJECTED') ? '#fe4052' :
+                                 (items.currentStatus === 'APPLIED') ? '#008000' :
+                                 (items.inviteStatus === 'INITIATED') ? '#63cfbe' :
+                                 (items.currentStatus === 'INTETEREST_SHOWN') ? '#63cfbe' :
+                                 (items.currentStatus === 'CANDIDATE BACKOUT') ? '#fe4052' :
+                                 (items.currentStatus === 'OFFERED') ? '#fe4052': ''}">
+                        <ng-container *ngIf="items.inviteStatus == 'INITIATED'"> Invited </ng-container>
+                        <ng-container *ngIf="items.inviteStatus === 'INTETEREST_SHOWN'"> Invited </ng-container>
+                        <ng-container *ngIf="items.inviteStatus === 'REJECTED'"> Rejected </ng-container>
+                        <ng-container *ngIf="items.inviteStatus != 'INITIATED'">
+                          {{items.currentStatus|titlecase}}</ng-container>
+                      </button>
+                      <div id="jb_dpDown" [ngClass]="{'disabled':items.status=='BLOCKED'}" class="btn-group" dropdown
+                        *ngIf="items.jobPostedBy==userId ">
+                        <button style="font-size:11px;"
+                          *ngIf="items.status!='DRAFTED'&& items.status!='AWAITING HOST'&& items.status!='BLOCKED' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& applyingJob==false "
+                          data-toggle="dropdown" dropdownToggle class="btn btn-primary sm-listing-btn dropdown-toggle"
+                          aria-expanded="true" [ngStyle]="{'background': (items.status === 'ACTIVE') ?'#63cfbe' :
+                                   (items.status === 'INACTIVE') ?'#e74c3c' :
+                                   (items.status === 'ON HOLD') ? '#ea6f26' :
+                                   (items.status === 'CLOSED') ? '#8c8c8c' :
+                                   (items.status === 'FILLED') ? '#e96c4e' :
+                                   (items.status === 'DEACTIVATED') ? '#e74c3c' :
+                                   (items.status === 'AWAITING HOST') ? '#90baf6' :
+                                   (items.status === 'INACTIVE_DUE_TO_LOW_CREDITS') ? '#e74c3c': ''}">
+                          {{items.status|titlecase}} <i class='fas fa-angle-down fa-lg'
+                            style="margin-left:9px;float:right;margin-top: 0px;" aria-hidden="true"></i>
+                        </button>
+                        <button style="font-size:11px;background-color: #63cfbe;"
+                          *ngIf="items.status=='BLOCKED'&& applyingJob==false" data-toggle="dropdown" dropdownToggle
+                          class="btn btn-primary sm-listing-btn dropdown-toggle" aria-expanded="true">Active
+                          <i class='fas fa-angle-down fa-lg' style="margin-left:9px;float:right;margin-top: 0px;"
+                            aria-hidden="true"></i></button>
+                        <ng-container
+                          *ngIf="items.status!='DRAFTED' &&  items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& items.status!='DEACTIVATED' && items.status!='BLOCKED'&&items.status!='FILLED'&&items.status!='CLOSED'&&items.status!='AWAITING HOST'">
+                          <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            style="right: 0;" aria-labelledby="button-animated">
+                            <li role="menuitem" *ngIf="items.status!='ACTIVE'" (click)="enableJob('ACTIVE',items)"
+                              id="ACTIVE">
+                              <a id="ACTIVE"><i class="fa fa-circle-o fs-status-icon t-active"
+                                  aria-hidden="true"></i>&nbsp;Active </a>
+                            </li>
+                            <li role="menuitem" *ngIf="items.status!='INACTIVE'  " (click)="enableJob('INACTIVE',items)"
+                              id="INACTIVE">
+                              <a id="INACTIVE"><i class="fa fa-circle-o fs-status-icon t-inActive"
+                                  aria-hidden="true"></i>&nbsp;Inactive </a>
+                            </li>
+                            <li role="menuitem" *ngIf="items.status!='ON HOLD' " (click)="enableJob('ON HOLD',items)"
+                              id="ON HOLD">
+                              <a id="ON HOLD"><i class="fa fa-circle-o fs-status-icon t-hold " aria-hidden="true"></i>&nbsp;On
+                                Hold </a>
+                            </li>
+                            <li role="menuitem" *ngIf="items.status!='FILLED'" (click)="enableJob('FILLED',items)">
+                              <a id="FILLED"> <i class="fa fa-circle-o fs-status-icon t-filled"
+                                  aria-hidden="true"></i>&nbsp;Filled </a>
+                            </li>
+                            <li role="menuitem" *ngIf="items.status!='CLOSED' " (click)="enableJob('CLOSED',items)"
+                              id="CLOSED">
+                              <a id="CLOSED"> <i class="fa fa-circle-o fs-status-icon t-close"
+                                  aria-hidden="true"></i>&nbsp;Closed </a>
+                            </li>
+                            <li class="disabled" role="menuitem" id="Deactivated">
+                              <a id="Deactivated"> <i class="fa fa-circle-o fs-status-icon t-close" aria-hidden="true"></i>
+                                Deactivated </a>
+                            </li>
+                          </ul>
+                        </ng-container>
+                      </div>
+                      <div id="jb_dpDown" class="btn-group" dropdown *ngIf="items.jobPostedBy!=userId "> <button
+                          style="font-size:12px;"
+                          *ngIf="items.status!='DRAFTED' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& applyingJob==false && items.status=='ACTIVE'"
+                          data-toggle="dropdown" dropdownToggle class="btn btn-primary sm-listing-btn dropdown-toggle"
+                          aria-expanded="true"
+                          [ngStyle]="{'background': (items.status === 'ACTIVE') ?'#63cfbe' :
+                                                           (items.status === 'INACTIVE_DUE_TO_LOW_CREDITS') ? '#e74c3c': ''}">
+                          {{items.status|titlecase}}
+                        </button>
+                      </div>
+                      <ng-template #statusShow>
+                        <button style="background:#63cfbe ;"
+                          *ngIf="applyingJob && items.inviteStatus==null&& items.currentStatus!='APPLIED'" type="button"
+                          class="btn btn-primary status-action-btn dwidth">Active</button>
+                        <button *ngIf="items.status=='DRAFTED'" type="button"
+                          class="btn btn-warning status-action-btn dwidth">Draft</button>
+                      </ng-template>
+                    </div>
+                    <div [ngClass]="{'disabled':items.status=='BLOCKED'}" class="btn-group"
+                      *ngIf="items.jobPostedBy==userId && !applyingJob &&items.status!='FILLED'&&items.status!='CLOSED'"
+                      dropdown>
+                      <a id="button-animated" dropdownToggle id="jobThreeDot">
+                        <img src="assets/action.png" class="actionIconDot" />
+                      </a>
+                      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                        style="right: 0; left: auto; z-index: 2;margin-top:15px;" aria-labelledby="button-animated">
+                        <!-- <li role="menuitem">
+                                    <a (click)="open(items)">
+                                      <i class="fa fa-eye" aria-hidden="true"></i> View
+                                    </a>
+                                  </li> -->
+                        <li role="menuitem" *ngIf=" items.jobPostedBy==userId ">
+                          <a (click)="editJob(items,jobTemplate)">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                          </a>
+                        </li>
+                        <li (click)="featurejobvalues(items)" role="menuitem"
+                          *ngIf=" items.jobPostedBy==userId  && items.status!='INACTIVE' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS' && items.status!='DEACTIVATED'&& items.status!='DRAFTED'&& items.status!='CLOSED'&& items.status!='AWAITING HOST'&&items.status!='ON HOLD'&&items.status!='FILLED'&& items.isFeature=='null'  &&  userType !='student' && userType !='JOB_SEEKER'  ||   !items.isFeatured  && items.status!='INACTIVE' && items.status!='DRAFTED'&& items.status!='CLOSED'&&items.status!='ON HOLD'&&items.status!='FILLED' && items.status!='AWAITING HOST'&&items.status!='DEACTIVATED'&&  items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& items.jobPostedBy==userId &&  userType !='student' && userType !='JOB_SEEKER' ">
+                          <a>
+                            <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> Upgrade Job
+                          </a>
+                        </li>
+                        <li (click)="downgradeJob(items)" role="menuitem"
+                          *ngIf=" items.jobPostedBy==userId && items.isFeatured && items.status!='INACTIVE' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS' && items.status!='DRAFTED' && items.status!='DEACTIVATED'">
+                          <a><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Downgrade job</a>
+                        </li>
+                        <li (click)="deletedraft(items.jobId)" role="menuitem"
+                          *ngIf=" items.jobPostedBy==userId  && items.status=='DRAFTED'">
+                          <a><i class='fas fa-trash-alt' aria-hidden="true"></i> Discard</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="btn-group pull-right" *ngIf="items.jobPostedBy!=userId && !applyingJob" dropdown>
+                      <a id="button-animated" dropdownToggle>
+                        <img src="assets/action.png" class="actionIconDot" />
+                      </a>
+                      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                        style="right: 0; left: auto; z-index: 2;" aria-labelledby="button-animated">
+                        <li role="menuitem" class="report"
+                          style="display:flex;align-content: space-between;flex-wrap: nowrap;flex-direction: row-reverse;">
+                          <app-flag type="JOB" [id]="items.jobId" [flagTo]="items.jobPostedBy"
+                            [flags]="['Report Job as fake.']">
+                          </app-flag>
+                        </li>
+                        <!-- <li role="menuitem">
+                                    <a (click)="open(items)">
+                                      View
+                                    </a>
+                                  </li> -->
+                        <li (click)="featurejobvalues(items)" role="menuitem"
+                          *ngIf=" items.jobPostedBy==userId && items.isFeature=='null'  &&  userType !='student' && userType !='JOB_SEEKER'  ||   !items.isFeatured && items.jobPostedBy==userId &&  userType !='student' && userType !='JOB_SEEKER' ">
+                          <a>
+                            Upgrade Job
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h6 (click)="open(items);routeBusiness(items)" style="font-weight: bold;" class="jobtitle" *ngIf="!flag">
+                    {{items.jobTitle}}
+                  </h6>
+                  <div (click)="open(items);routeBusiness(items)">
+                    <span *ngIf="!flag">
+                      Experience : {{ items.experienceFrom}} to {{items.experienceTo }}
+                      Years
+                    </span>
+                    <!-- skills -->
+                    <div class="btn-group jobProfileBtngp text-wrapsfilter" style="margin-left: 0px;" (click)="open(items)">
+                      <div style="display: flex; column-gap: 0.5rem;" *ngIf="items?.primarySkills?.length==1">
+                        <div *ngFor="let data of items?.primarySkills; let i = index;">
+                          <div title="{{data}}" class="ioxlp-1-ele">
+                            {{data}}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="display: flex; column-gap: 0.5rem;" *ngIf="items?.primarySkills?.length==2">
+                        <div *ngFor="let data of items?.primarySkills; let i = index;">
+                          <div title="{{data}}" class="ioxlp-2-ele">
+                            {{data}}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="display: flex; column-gap: 0.5rem;" *ngIf="items?.primarySkills?.length==3">
+                        <div *ngFor="let data of items?.primarySkills; let i = index;">
+                          <div title="{{data}}" class="ioxlp-3-ele">
+                            {{data}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; width: 100%;" (click)="open(items)">
+                    <div class="row clientDetailList" *ngIf="!flag"
+                      title=" {{items.clientType}}, {{items.city}}, {{items.state}} ">
+                      <div class="mb-5" title="{{items.clientName}}" *ngIf="items.showClientName">
+                        <i class="fa fa-building-o"> </i>
+                        {{items.clientName | truncate:20}}
+                      </div>
+                      <div class="mb-5" title="{{items.clientType}}" *ngIf="items.showClientType">
+                        <i class="fa fa-briefcase"> </i>
+                        {{items.clientType}}
+                      </div>
+                      <div class="mb-5" title="{{items.city}} , {{items.state}}">
+                        <i *ngIf="items.city || items.state" class="fa fa-map-marker"> </i>
+                        {{items.city}}
+                        <span *ngIf="items.state">,</span> {{items.state}}
+                      </div>
+                      <div title="{{items.jobClassification}}" class="mb-5">
+                        <i class="fa fa-briefcase" title="{{items.jobClassification}}"> </i>
+                        {{items.jobClassification}}
+                      </div>
+                      <div class="mb-5" *ngIf="items?.targetRateFrom!=undefined && items?.targetRateTo!=undefined">
+                        <span title="{{items?.targetRateFrom}} - {{items?.targetRateTo}}">{{items?.country === 'US' ? '$'
+                          :
+                          ''}} {{items?.targetRateFrom}} - {{items?.targetRateTo}}</span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'US'"> USD / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'IN'"> INR / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'CA'"> CAD / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'AU'"> AUD / </span>
+                        <span title="{{items.country}}"
+                          *ngIf="items?.country != 'AU' && items?.country != 'US' && items?.country != 'CA' && items?.country != 'IN'">
+                          CUR / </span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Hourly'">Hr</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Daily'">Day</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Weekly'">Week</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Monthly'">Month</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Yearly'">Year</span>
+                      </div>
+                      <div title="Remote" *ngIf="items.remoteWork" class="mb-5">
+                        <i class="fa fa-map-marker"> </i>
+                        Remote
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="interactive-elements row actItemLk"
+                    [ngClass]="{'disabled': applyingJob==true||items.status=='BLOCKED'}">
+                    <div *ngIf="items.jobPostedBy!=userId && items.viewedByCount > 0" title="{{items.viewedByCount}} Views"
+                      style="cursor: context-menu;" (click)="goTo(items, 'views')">
+                      <i class="fa fa-eye cursor icon-prime-color "> </i> <span class="blue-color">
+                        {{items.viewedByCount}}</span> Views
+                    </div>
+                    <div *ngIf="items.jobPostedBy!=userId && items.viewedByCount == 0" (click)="goTo(items, 'noviews')"
+                      title="0 Views" style="cursor: context-menu;"> <i class="fa fa-eye cursor icon-prime-color "> </i>
+                      <span class="blue-color">
+                        0</span> Views
+                    </div>
+                    <div (click)="goTo(items, 'views')" *ngIf="items.jobPostedBy==userId && items.viewedByCount > 0"
+                      title="{{items.viewedByCount}} Views" style="cursor: pointer;"> <i
+                        class="fa fa-eye cursor icon-prime-color ">
+                      </i> <span class="blue-color">
+                        {{items.viewedByCount}}</span> Views
+                    </div>
+                    <div *ngIf="items.jobPostedBy==userId && items.viewedByCount == 0" (click)="goTo(items, 'noviews')"
+                      title="0 Views"> <i class="fa fa-eye cursor icon-prime-color "> </i>
+                      <span class="blue-color">
+                        0</span> Views
+                    </div>
+                    <div [ngClass]="{'disabled': items.status!='ACTIVE'}" title="Like" (click)="like(items)"
+                      *ngIf="items?.isLiked!=null && !items?.isLiked">
+                      <i class="fa fa-heart pointer icon-prime-color"> </i>
+                    </div>
+                    <div (click)="like(items)" [ngClass]="{'disabled': items.status!='ACTIVE'}" title="Unlike"
+                      *ngIf="items?.isLiked!=null &&  items?.isLiked">
+                      <i class="fa fa-heart liked pointer bg-heart"> </i>
+                    </div>
+                    <div (click)="goTo(items, 'jobs-liked')" title="{{items.likesCount}} Likes"
+                      *ngIf="items.jobPostedBy==userId">
+                      <span class="blue-color" *ngIf="items.likesCount>0">{{items.likesCount}}</span>
+                      <span (click)="goTo(items, 'jobs-liked')" *ngIf="items.likesCount>0"> Like<span
+                          *ngIf="items.likesCount>1">s
+                        </span> </span>
+                      <div title="0 Likes" class="no-views" *ngIf="items.jobPostedBy==userId && items.likesCount == 0"
+                        style="cursor: context-menu!important;"><span class="blue-color" title="0 Likes"> 0 </span> Like
+                      </div>
+                    </div>
+                    <div title="{{items.likesCount}} Likes" *ngIf="items.jobPostedBy!=userId"
+                      style="cursor: context-menu!important;">
+                      <span class="blue-color" *ngIf="items.likesCount>0">{{items.likesCount}}</span>
+                      <span *ngIf="items.likesCount>0"> Like<span *ngIf="items.likesCount>1">s </span> </span>
+                      <div title="0 Likes" class="no-views" *ngIf="items.jobPostedBy!=userId && items.likesCount == 0"
+                        style="cursor: context-menu!important;"><span class="blue-color" title="0 Likes"> 0 </span> Like
+                      </div>
+                    </div>
+                    <div (click)="goTo(items,'jobs-applied')" *ngIf="items.jobPostedBy==userId">
+                      <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i>
+                      <span title="{{items.appliedCount}} Applied" class="blue-color"
+                        *ngIf="items.appliedCount>0">{{items.appliedCount}}</span>
+                      <span title="0 Applied" class="blue-color" *ngIf="items.appliedCount==0"> 0</span>
+                      Applied
+                    </div>
+                    <div (click)="goTo(items,'candidate-applied')" *ngIf="items.jobPostedBy!=userId">
+                      <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i>
+                      <span title="{{items?.candidatesApplied?.length}} Applied" class="blue-color"
+                        *ngIf="items?.candidatesApplied?.length>0">{{items?.candidatesApplied?.length}}</span>
+                      <span title="0 Applied" class="blue-color"
+                        *ngIf="items?.candidatesApplied?.length===0 ||items?.candidatesApplied==null"> 0 </span>
+                      Applied
+                    </div>
+                    <div title="Invites Received Count" (click)="goTo(items,'candidates-invited')"
+                      *ngIf="items.jobPostedBy==userId">
+                      <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i>
+                      <span title="{{items.interestShownCount}} Invites" class="blue-color"
+                        *ngIf="items.interestShownCount>0">{{items.interestShownCount}}</span>
+                      <span title="0 Invites" class="blue-color" *ngIf="items.interestShownCount==0"> 0</span>
+                      Invites
+                    </div>
+                    <div title="Apply" [ngClass]="{'disabled': items.status!='ACTIVE'}"
+                      *ngIf=" items.jobPostedBy!=userId && (userType == 'BENCH_RECRUITER' || userType == 'student' || userType == 'JOB_SEEKER' || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')"
+                      (click)="apply(items, connectionTemplate, candidateSupplyTemplate)">
+                      <i class="fa fa-link icon-prime-color"> </i> Apply
+                    </div>
+                    <div *ngIf=" items.chatHistoryCount > 0" title="{{items.nonSeenMessageCount}} Messages"
+                      style="cursor: context-menu;" (click)="chatuser(items, connectionTemplate)">
+                      <i class="pe-7s-comment icon-prime-color chat-icon"> </i>
+                      <span class="blue-color" *ngIf="items.nonSeenMessageCount>0">{{items.nonSeenMessageCount}}</span>
+                      Chat
+                    </div>
+                    <div *ngIf="items.jobPostedBy!=userId && items.chatHistoryCount == 0"
+                      (click)="chatuser(items, connectionTemplate)" title="No Messages" style="cursor: context-menu;"> <i
+                        class="pe-7s-comment icon-prime-color chat-icon"> </i>
+                      Chat
+                    </div>
+                    <div *ngIf="items.jobPostedBy==userId && items.chatHistoryCount != 0" title="0 Messages"
+                      style="cursor: context-menu;"> <i class="pe-7s-comment icon-prime-color chat-icon"> </i>
+                      Chat
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <app-common-skeleton *ngIf="viewSize === 'large' && loadAPIcall"  [countforView]="10" [NameOftheScreen]="'candidateDetails'">
+            </app-common-skeleton>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="viewSize === 'small'">
+        <div class="hpanel"  joyrideStep="step.two" title="View Job activity" text="Quickly view job applicants, Suggested and featured candidates matching your jobs, .. and more.">
+          <div id="jobBody" class="panel-body border-radius-top-left-right-6" [ngClass]="{
+                          'disabled': !items?.availability,
+                          'pad-0': viewSize == 'small',
+                          'featured-background': items?.isFeatured==true,
+                          'UpdatedJobHighLight' : jobIdHighLight==items?.jobId,
+                          'highLightList' : selectedItem == items?.jobId
+                         }">
+            <ng-container *ngIf="!loadAPIcall">
+              <div class="profile-card pad-10-10-10-10">
+                <div class="bottom-section row">
+                  <div class="col-sm-2" style="margin-top:5px;">
+                    <div class="top-section">
+                      <div *ngIf="items?.user?.photo!=undefined && items?.user?.photo!='assets/images/userAvatar.png'"
+                        class="user-img">
+                        <img *ngIf="items?.user?.photo" [src]="downloadurl+items.user.photo" alt="profile-picture">
+                      </div>
+                      <div *ngIf="!items?.user?.photo || items?.user?.photo === 'assets/images/userAvatar.png'">
+                        <div class="circles mr-rt-10" [style.background-color]="getColor(items?.user?.fullname)">
+                          <div class="circle-text">{{ getInitials(items?.user?.fullname) }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="xs-btn-container">
+                      <div *ngIf="items.connectionStatus == 'CONNECTED'">
+                        <i title="You are connected with this owner" class="fa fa-link link primary-color"></i>
+                      </div>
+                      <div *ngIf="items.connectionStatus == 'NOT_CONNECTED'||items.connectionStatus == 'REJECTED'">
+                        <button class="btn btn-xs btn-primary pad-0-3" (click)="connect(items) ">
+                          Connect
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-10 pad-lt-18 job-route-content " (click)="open(items)">
+                    <div class="user-info-job">
+                      <div class="user-name" title="{{items?.user?.fullname}}">
+                        {{ (items?.user?.fullname?.length > 10) ? (items?.user?.fullname | slice:0:15) + ".." : (items?.user?.fullname)}}
+                      </div>
+                      <span *ngIf="items.jobPostedBehalfOf && items.jobPostedBehalfOf !== 'null'">@</span>
+                      <div class="current-org" *ngIf="items.jobPostedBehalfOf && items.jobPostedBehalfOf !== 'null'" title="{{items.jobPostedBehalfOf}}">
+                        {{items.jobPostedBehalfOf}}
+                      </div>
+                    </div>
+
+                    <div class="user-info-job">
+                      <i class="pe-7s-clock" style="margin-right: 5px;"></i>
+                      <small class="time-stamp">{{ items?.createdOn | date:"MM/dd/yyyy hh:mm:ss a":"+0000" }}</small>
+                    </div>
+                    <div class="job-title" title="{{items.jobTitle}}">{{items.jobTitle}}</div>
+                    <div class="client-location" title="{{items.city}}, {{items.state}}">
+                      <app-svg-templates class="svg-position" [svgType]="'MAP'"></app-svg-templates>
+                      {{items.city}}<span *ngIf="items.state">,</span> {{items.state}}
+                    </div>
+                    <div class="details">
+                      <div *ngIf="items.showClientName" title="{{items.clientName}}" class="client-name">
+                        <i class="fa fa-building-o mr-rt-5"> </i>
+                        {{items.clientName | truncate:20}}
+                      </div>
+                      <div title="{{items.jobClassification}}" class="client-type">
+                        <app-svg-templates class="svg-position" [svgType]="'SUITCASE_SMALL'"></app-svg-templates>
+                        {{items.jobClassification}}
+                      </div>
+                      <div class="job-relocation" *ngIf="items.remoteWork">
+                        <app-svg-templates class="svg-position" [svgType]="'MAP'"></app-svg-templates>
+                        Remote
+                      </div>
+                      <div title="Employer Estimate: {{items?.targetRateFrom}} - {{items?.targetRateTo}}"
+                        *ngIf="items?.targetRateFrom!=undefined && items?.targetRateTo!=undefined" class="job-pay">
+                        Employer estimate:
+                        <span>
+                          {{items?.country === 'US' ?
+                          '$' :
+                          ''}} {{items?.targetRateFrom}} - {{items?.targetRateTo}}</span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'US'"> USD / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'IN'"> INR / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'CA'"> CAD / </span>
+                        <span title="{{items.country}}" *ngIf="items?.country == 'AU'"> AUD / </span>
+                        <span title="{{items.country}}"
+                          *ngIf="items?.country != 'AU' && items?.country != 'US' && items?.country != 'CA' && items?.country != 'IN'">
+                          CUR / </span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Hourly'">Hr</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Daily'">Day</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Weekly'">Week</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Monthly'">Month</span>
+                        <span title="{{items.payType}}" *ngIf="items?.payType == 'Yearly'">Year</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="job-section">
+                    <div class="user-action">
+                      <div [ngClass]="{'disabled':items.status=='BLOCKED'}" class="btn-group"
+                        *ngIf="items?.jobPostedBy==userId && items?.status!='FILLED'&&items?.status!='CLOSED'" dropdown>
+                        <app-svg-templates dropdownToggle class="svg-position cursor-pointer"
+                          [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+                        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu upgrade-t" role="menu"
+                          aria-labelledby="button-animated">
+                          <li role="menuitem" *ngIf=" items?.jobPostedBy==userId ">
+                            <a (click)="editJob(items,jobTemplate)">
+                              <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                            </a>
+                          </li>
+                          <li (click)="featurejobvalues(items)" role="menuitem"
+                            *ngIf=" items?.jobPostedBy==userId  && items?.status!='INACTIVE' && items?.status!='INACTIVE_DUE_TO_LOW_CREDITS' && items?.status!='DEACTIVATED'&& items?.status!='DRAFTED'&& items?.status!='CLOSED'&& items?.status!='AWAITING HOST'&&items?.status!='ON HOLD'&&items?.status!='FILLED'&& items?.isFeature=='null'  &&  userType !='student' && userType !='JOB_SEEKER'  ||   !items?.isFeatured  && items?.status!='INACTIVE' && items?.status!='DRAFTED'&& items?.status!='CLOSED'&&items?.status!='ON HOLD'&&items?.status!='FILLED' && items?.status!='AWAITING HOST'&&items?.status!='DEACTIVATED'&&  items?.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& items?.jobPostedBy==userId &&  userType !='student' && userType !='JOB_SEEKER' ">
+                            <a>
+                              <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> Upgrade Job
+                            </a>
+                          </li>
+                          <li (click)="downgradeJob(items)" role="menuitem"
+                            *ngIf=" items.jobPostedBy==userId && items.isFeatured && items.status!='INACTIVE' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS' && items.status!='DRAFTED' && items.status!='DEACTIVATED'">
+                            <a><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Downgrade job</a>
+                          </li>
+                          <li (click)="deletedraft(items.jobId)" role="menuitem"
+                            *ngIf=" items.jobPostedBy==userId  && items.status=='DRAFTED'">
+                            <a><i class='fas fa-trash-alt' aria-hidden="true"></i> Discard</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="btn-group pull-right" *ngIf="items.jobPostedBy!=userId" dropdown>
+                        <app-svg-templates dropdownToggle class="svg-position cursor-pointer"
+                          [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+                        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu upgrade-t" role="menu"
+                          aria-labelledby="button-animated">
+                          <li role="menuitem" class="report"
+                            style="display:flex;align-content: space-between;flex-wrap: nowrap;flex-direction: row-reverse;">
+                            <app-flag type="JOB" [id]="items.jobId" [flagTo]="items.jobPostedBy"
+                              [flags]="['Report Job as fake.']">
+                            </app-flag>
+                          </li>
+                          <!-- <li role="menuitem">
+                                                      <a (click)="open(items)">
+                                                        View
+                                                      </a>
+                                                    </li> -->
+                          <li (click)="featurejobvalues(items)" role="menuitem"
+                            *ngIf=" items.jobPostedBy==userId && items.isFeature=='null'  &&  userType !='student' && userType !='JOB_SEEKER'  ||   !items.isFeatured && items.jobPostedBy==userId &&  userType !='student' && userType !='JOB_SEEKER' ">
+                            <a>
+                              Upgrade Job
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <div id="jb_dpDown" [ngClass]="{'disabled':items.status=='BLOCKED'}" class="btn-group" dropdown
+                          *ngIf="items.jobPostedBy==userId ">
+                          <button style="font-size:11px;"
+                            [style.margin-right.px]="(items.status === 'FILLED' || items.status === 'CLOSED') ? 26 : 0"
+                            *ngIf="items.status!='DRAFTED'&& items.status!='AWAITING HOST'&& items.status!='BLOCKED' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS'"
+                            data-toggle="dropdown" dropdownToggle class="btn btn-primary sm-listing-btn dropdown-toggle"
+                            aria-expanded="true"
+                            [ngStyle]="{'background': (items.status === 'ACTIVE') ?'#63cfbe' :
+                                                         (items.status === 'INACTIVE') ?'#e74c3c' :
+                                                         (items.status === 'ON HOLD') ? '#ea6f26' :
+                                                         (items.status === 'CLOSED') ? '#8c8c8c' :
+                                                         (items.status === 'FILLED') ? '#e96c4e' :
+                                                         (items.status === 'DEACTIVATED') ? '#e74c3c' :
+                                                         (items.status === 'AWAITING HOST') ? '#90baf6' :
+                                                         (items.status === 'INACTIVE_DUE_TO_LOW_CREDITS') ? '#e74c3c': ''}">
+                            {{items.status|titlecase}} <i *ngIf="items.status!='FILLED'&&items.status!='CLOSED'"
+                              class='fas fa-angle-down fa-lg' style="margin-left:9px;float:right;margin-top: 0px;"
+                              aria-hidden="true"></i>
+                          </button>
+                          <button style="font-size:11px;background-color: #63cfbe;"
+                            *ngIf="items.status=='BLOCKED'&& applyingJob==false" data-toggle="dropdown" dropdownToggle
+                            class="btn btn-primary sm-listing-btn dropdown-toggle" aria-expanded="true">Active
+                            <i class='fas fa-angle-down fa-lg' style="margin-left:9px;float:right;margin-top: 0px;"
+                              aria-hidden="true"></i></button>
+                          <button
+                            *ngIf="items.status!='DRAFTED' &&  items.status=='INACTIVE_DUE_TO_LOW_CREDITS'&& applyingJob==false"
+                            class="sm-listing-btn btn-danger" data-toggle="dropdown" dropdownToggle
+                            class="btn btn-primary sm-listing-btn dropdown-toggle" aria-expanded="true">
+                            Deactivated
+                            <i class='fas fa-angle-down fa-lg' style="margin-left:9px;float:right;margin-top: 0px;"
+                              aria-hidden="true"></i>
+                          </button>
+                          <button style="font-size: 11px;
+                                                    padding: 10px 15px;" *ngIf="items.status=='DRAFTED'" type="button"
+                            class="btn btn-warning sm-listing-btn">Draft</button>
+                          <ng-container
+                            *ngIf="items.status!='DRAFTED' &&  items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& items.status!='DEACTIVATED' && items.status!='BLOCKED'&&items.status!='FILLED'&&items.status!='CLOSED'&&items.status!='AWAITING HOST'">
+                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                              role="menu" style="right:0" aria-labelledby="button-animated">
+                              <li role="menuitem" *ngIf="items.status!='ACTIVE'" (click)="enableJob('ACTIVE',items)"
+                                id="ACTIVE">
+                                <a id="ACTIVE"><i class="fa fa-circle-o fs-status-icon t-active"
+                                    aria-hidden="true"></i>&nbsp;Active
+                                </a>
+                              </li>
+                              <li role="menuitem" *ngIf="items.status!='INACTIVE'  "
+                                (click)="enableJob('INACTIVE',items)" id="INACTIVE">
+                                <a id="INACTIVE"><i class="fa fa-circle-o fs-status-icon t-inActive"
+                                    aria-hidden="true"></i>&nbsp;Inactive </a>
+                              </li>
+                              <li role="menuitem" *ngIf="items.status!='ON HOLD' " (click)="enableJob('ON HOLD',items)"
+                                id="ON HOLD">
+                                <a id="ON HOLD"><i class="fa fa-circle-o fs-status-icon t-hold "
+                                    aria-hidden="true"></i>&nbsp;On
+                                  Hold </a>
+                              </li>
+                              <li role="menuitem" *ngIf="items.status!='FILLED'" (click)="enableJob('FILLED',items)">
+                                <a id="FILLED"> <i class="fa fa-circle-o fs-status-icon t-filled"
+                                    aria-hidden="true"></i>&nbsp;Filled
+                                </a>
+                              </li>
+                              <li role="menuitem" *ngIf="items.status!='CLOSED' " (click)="enableJob('CLOSED',items)"
+                                id="CLOSED">
+                                <a id="CLOSED"> <i class="fa fa-circle-o fs-status-icon t-close"
+                                    aria-hidden="true"></i>&nbsp;Closed
+                                </a>
+                              </li>
+                              <li class="disabled" role="menuitem" id="Deactivated">
+                                <a id="Deactivated"> <i class="fa fa-circle-o fs-status-icon t-close"
+                                    aria-hidden="true"></i>
+                                  Deactivated </a>
+                              </li>
+                            </ul>
+                          </ng-container>
+                        </div>
+                        <div id="jb_dpDown" class="btn-group" dropdown *ngIf="items.jobPostedBy!=userId "> <button
+                            style="font-size:12px;"
+                            *ngIf="items.status!='DRAFTED' && items.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& applyingJob==false"
+                            data-toggle="dropdown" dropdownToggle class="btn btn-primary sm-listing-btn dropdown-toggle"
+                            aria-expanded="true"
+                            [ngStyle]="{'background': (items.status === 'ACTIVE') ?'#63cfbe' :
+                                                      (items.status === 'INACTIVE') ?'#e74c3c' :
+                                                      (items.status === 'ON HOLD') ? '#ea6f26' :
+                                                      (items.status === 'CLOSED') ? '#8c8c8c' :
+                                                      (items.status === 'FILLED') ? '#e96c4e' :
+                                                      (items.status === 'DEACTIVATED') ? '#e74c3c' :
+                                                      (items.status === 'AWAITING HOST') ? '#90baf6' :
+                                                      (items.status === 'INACTIVE_DUE_TO_LOW_CREDITS') ? '#e74c3c': ''}">
+                            {{items.status|titlecase}}
+                          </button>
+                        </div>
+                        <ng-template #statusShow>
+                          <button style="background:#63cfbe ;"
+                            *ngIf="applyingJob && items.inviteStatus==null&& items.currentStatus!='APPLIED'"
+                            type="button" class="btn btn-primary sm-listing-btn">Active</button>
+                          <button *ngIf="items.status=='DRAFTED'" type="button"
+                            class="btn btn-warning sm-listing-btn">Draft</button>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="interaction-section" [ngClass]="{'disabled':items.status=='BLOCKED'|| isJobOwner(items)}">
+                <div class="interaction-element" *ngIf="items.jobPostedBy!=userId && items.viewedByCount > 0"
+                  title="{{items.viewedByCount}} Views" style="cursor: context-menu;">
+                  <i class="fa fa-eye cursor icon-prime-color "> </i>
+                  <span class="blue-color">{{items.viewedByCount}}</span>
+                  Views
+                </div>
+                <div *ngIf="items.jobPostedBy!=userId && items.viewedByCount == 0" title="0 Views"
+                  class="interaction-element" style="cursor: context-menu;">
+                  <i class="fa fa-eye cursor icon-prime-color "></i>
+                  <span class="blue-color">0</span>
+                  Views
+                </div>
+                <div class="interaction-element" (click)="goTo(items, 'views')"
+                  *ngIf="items.jobPostedBy==userId && items.viewedByCount > 0" title="{{items.viewedByCount}} Views"
+                  style="cursor: pointer;">
+                  <i class="fa fa-eye cursor icon-prime-color "></i>
+                  <span class="blue-color">{{items.viewedByCount}}</span>
+                  Views
+                </div>
+                <div class="interaction-element" *ngIf="items.jobPostedBy==userId && items.viewedByCount == 0"
+                  (click)="goTo(items, 'noviews')" title="0 Views">
+                  <i class="fa fa-eye cursor icon-prime-color "> </i>
+                  <span class="blue-color">0</span>
+                  Views
+                </div>
+                <div class="interaction-element" (click)="like(items)">
+                  <div [ngClass]="{'disabled': items.status!='ACTIVE'}" title="Like"
+                    *ngIf="items?.isLiked!=null && !items?.isLiked">
+                    <i class="fa fa-heart pointer icon-prime-color"> </i>
+                  </div>
+                  <div [ngClass]="{'disabled': items.status!='ACTIVE'}" title="Unlike"
+                    *ngIf="items?.isLiked!=null &&  items?.isLiked">
+                    <i class="fa fa-heart liked pointer bg-heart"> </i>
+                  </div>
+                </div>
+                <div class="interaction-element" title="{{items.likesCount}} Likes" (click)="goTo(items, 'jobs-liked')"
+                  *ngIf="items.jobPostedBy==userId">
+                  <span class="blue-color" *ngIf="items.likesCount>0">{{items.likesCount}}</span>
+                  <span *ngIf="items.likesCount>0"> Like<span *ngIf="items.likesCount>1">s
+                    </span> </span>
+                  <div title="0 Likes" class="no-views" *ngIf="items.jobPostedBy==userId && items.likesCount == 0"
+                    style="cursor: context-menu!important;"><span class="blue-color" title="0 Likes"> 0 </span> Like
+                  </div>
+                </div>
+                <div class="interaction-element" title="{{items.likesCount}} Likes" *ngIf="items.jobPostedBy!=userId"
+                  style="cursor: context-menu!important;">
+                  <span class="blue-color" *ngIf="items.likesCount>0">{{items.likesCount}}</span>
+                  <span *ngIf="items.likesCount>0"> Like<span *ngIf="items.likesCount>1">s </span> </span>
+                  <div title="0 Likes" class="no-views" *ngIf="items.jobPostedBy!=userId && items.likesCount == 0"
+                    style="cursor: context-menu!important;"><span class="blue-color" title="0 Likes"> 0 </span> Like
+                  </div>
+                </div>
+                <div class="interaction-element" (click)="goTo(items,'jobs-applied')" *ngIf="items.jobPostedBy==userId">
+                  <app-svg-templates [svgType]="'USERS'"></app-svg-templates>
+                  <span title="{{items.appliedCount}} Applicants" class="blue-color"
+                    *ngIf="items.appliedCount>0">{{items.appliedCount}}</span>
+                  <span title="0 Applicants" class="blue-color" *ngIf="items.appliedCount==0"> 0</span>
+                  Applicants
+                </div>
+                <div class="interaction-element" (click)="goTo(items,'candidate-applied')"
+                  *ngIf="items.jobPostedBy!=userId">
+                  <app-svg-templates [svgType]="'USERS'"></app-svg-templates>
+                  <span title="{{items.appliedCount}} Applicants" class="blue-color"
+                    *ngIf="items.appliedCount>0">{{items.appliedCount}}</span>
+                  <span title="0 Applicants" class="blue-color"
+                    *ngIf="items?.appliedCount==0 ||items?.appliedCount==null"> 0
+                  </span>
+                  Applicants
+                </div>
+                <div class="interaction-element" title="Invites Received Count"
+                  (click)="goTo(items,'candidates-invited')" *ngIf="items.jobPostedBy==userId">
+                  <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i>
+                  <span title="{{items.interestShownCount}} Invites" class="blue-color"
+                    *ngIf="items.interestShownCount>0">{{items.interestShownCount}}</span>
+                  <span title="0 Invites" class="blue-color" *ngIf="items.interestShownCount==0"> 0</span>
+                  Invites
+                </div>
+                <div class="interaction-element" (click)="apply(items, connectionTemplate, candidateSupplyTemplate)"
+                  [ngClass]="{'disabled': items.status!='ACTIVE'}"
+                  *ngIf=" items.jobPostedBy!=userId && (userType == 'BENCH_RECRUITER'
+                                      || userType == 'student' || userType == 'JOB_SEEKER'
+                                      || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')">
+                  <app-svg-templates [svgType]="'APPLY'"></app-svg-templates>
+                  <div title="Apply">
+                    Apply
+                  </div>
+                </div>
+                <!-- style="cursor: context-menu;" -->
+                <div class="interaction-element" *ngIf=" items.chatHistoryCount > 0"
+                  title="{{items.nonSeenMessageCount}} Messages" (click)="chatuser(items, connectionTemplate)">
+                  <i class="pe-7s-comment icon-prime-color chat-icon"> </i>
+                  <span class="blue-color" *ngIf="items.nonSeenMessageCount>0">{{items.nonSeenMessageCount}}</span>
+                  Chat
+                </div>
+                <!-- style="cursor: context-menu;" -->
+                <div class="interaction-element" *ngIf="items.jobPostedBy!=userId && items.chatHistoryCount == 0"
+                  (click)="chatuser(items, connectionTemplate)" title="No Messages">
+                  <i class="pe-7s-comment icon-prime-color chat-icon">
+                  </i>
+                  Chat
+                </div>
+                <!-- style="cursor: context-menu;" -->
+                <div class="interaction-element" *ngIf="items.jobPostedBy==userId && items.chatHistoryCount == 0"
+                  title="No Messages">
+                  <i class="pe-7s-comment icon-prime-color chat-icon">
+                  </i>
+                  Chat
+                </div>
+              </div>
+            </ng-container>
+            <app-common-skeleton *ngIf="viewSize === 'small' && loadAPIcall" [NameOftheScreen]="'jobcardMediumscreen'">
+            </app-common-skeleton>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="viewSize === 'extra-small'">
+        <div class="hpanel mr-bt-0 e-small">
+          <div class="panel-body pad-6-0 border-radius-top-left-right-6" [ngClass]="{
+                      'disabled': !items.availability || (items?.status != 'ACTIVE' && items?.jobPostedBy!=  userId),
+                      'pad-10-10-10-10': viewSize == 'small',
+                      'featured-background': items.isFeatured==true
+                     }">
+            <ng-container *ngIf="!loadAPIcall">
+              <div class="xs-job-entity-container">
+                <div class="xs-job-select-checkbox">
+                  <div class="custom-checkbox em xs-submit-checkbox-position" *ngIf="showinviteResumeView(items)">
+                    <label class="checkbox-label font-bold" style="text-align: center">
+                      <input #selected (change)="selectCheckbox(items?.jobId,selected)" type="checkbox"
+                        value="{{items?.isSelected}}" [(ngModel)]="items.isSelected" name="list_name" />
+                      <span style="left:20px;" class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+                <div *ngIf="items?.user?.photo!='assets/images/userAvatar.png'" class="xs-job-owner-img">
+                  <img *ngIf="items?.user?.photo" [src]="downloadurl+items?.user?.photo" alt="profile-picture">
+                </div>
+                <div *ngIf="!items?.user?.photo || items?.user?.photo === 'assets/images/userAvatar.png'">
+                  <div class="circles mr-rt-10" [style.background-color]="getColor(items?.user?.fullname)">
+                    <div class="circle-text">{{ getInitials(items?.user?.fullname) }}</div>
+                  </div>
+                </div>
+                <div class="xs-job-details">
+                  <h6 (click)="open(items)" class="jobtitle" *ngIf="!flag">{{items.jobTitle}}
+                  </h6>
+                  <div class="mb-5 statewrap" title="{{items.city}} , {{items.state}}">
+                    <i *ngIf="items.city || items.state" class="fa fa-map-marker"> </i>
+                    {{items.city}}
+                    <span *ngIf="items.state">,</span> {{items.state}}
+                  </div>
+                </div>
+                <div class="status-label xs-job-status" style="background: #3498db; margin-left: -34px;"
+                  *ngIf="(focus === 'resume' && items?.resumeRequestStatus === 'INITIATED') || (focus === 'resume' && items?.resumeRequestStatus === 'COMPLETED')">
+                  <ng-container *ngIf="items?.resumeRequestStatus === 'INITIATED'">Request Sent</ng-container>
+                  <ng-container *ngIf="items?.resumeRequestStatus === 'COMPLETED'">Resume Attached</ng-container>
+                </div>
+                <div class="xs-job-status">
+                  <div class="status-label" style="color:#fff;margin-left: -34px;"
+                    *ngIf="focus === 'candidate'"
+                    [ngStyle]="getStyle(items.inviteStatus || items?.currentStatus)">
+                    <ng-container>{{ getFilterValue(items) | titlecase
+                      }}</ng-container>
+                  </div>
+                  <ng-template #statusShow>
+                    <div class="status-label" style="background:#63cfbe ;"
+                      *ngIf="applyingJob && items.inviteStatus==null&& items.currentStatus!='APPLIED'" type="button"
+                      class="btn btn-primary status-action-btn dwidth">Active</div>
+                    <div class="status-label" *ngIf="items.status=='DRAFTED'" type="button"
+                      class="btn btn-warning status-action-btn dwidth">Draft</div>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-container>
+            <app-common-skeleton *ngIf="viewSize === 'extra-small' && loadAPIcall" [countforView]="8"
+              [NameOftheScreen]="'smallcard'"></app-common-skeleton>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<ng-template #noResult>
+  <div class="wert">
+    <div class="col-md-12 mg-bt-9">
+      <app-svg-templates *ngIf="responseReceived" [svgType]="'SEARCH_CROSS'"></app-svg-templates>
+      <app-svg-templates *ngIf="!responseReceived" [svgType]="'SEARCH_GREEN'"></app-svg-templates>
+    </div>
+    <div class="col-md-12 fig">{{jobsFoundStatus}} </div>
+  </div>
+</ng-template>
+<ng-template #jobTemplate>
+  <!-- [@slide-in]="animState" -->
+  <div class="common-header-flex">
+    <div class="f-1">
+      <div *ngIf="object?.status != 'ACTIVE' && object?.status != 'DRAFTED' && object?.status != 'AWAITING HOST'">
+        Activate Job </div>
+      <div *ngIf="object?.status == 'ACTIVE' || object?.status == 'DRAFTED' || object?.status == 'AWAITING HOST' ">
+        Update Job </div>
+    </div>
+    <div>
+      <button>
+        <span class="common-close" (click)="cancelJob()">&times;</span>
+      </button>
+    </div>
+  </div>
+  <div class="panel-body custom-modal-body border-radius-top-left-right-6">
+    <form [formGroup]="jobPostForm" action="">
+      <div class="row app-form">
+        <div class="col-sm-12">
+          <div class="panel-tools" *ngIf="object?.jobPostedBy==userId && object?.status == 'ACTIVE'">
+            <label class="switch">
+              <input name="object?.status" (click)="enable($event)" [ngModel]="object?.status == 'ACTIVE'"
+                [ngModelOptions]="{standalone: true}" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <div *ngIf="object?.status == 'ACTIVE'"
+            style="margin-left: 444px; margin-top: 4px;font-size: 16px; font-weight: 600;">Active</div>
+          <div *ngIf="object?.status == 'INACTIVE'"
+            style="margin-left: 444px; margin-top: 4px;font-size: 16px; font-weight: 600;">Inactive</div>
+        </div>
+        <div class="col-sm-12">
+          <div class="row">
+            <!-- client type -->
+            <div class="col-sm-6" style="padding-bottom: 7px;">
+              <label for="clientType" class="control-label required-field font-bold">Client Type</label>
+              <select class="form-control form-group input-sm" (change)="onClientTypeChange($event.target.value)"
+                formControlName="clientType" type="text">
+                <option value="null" selected disabled>Select Your Client Classification</option>
+                <option *ngFor="let client of clientTypeList" [value]="client">
+                  {{client}}</option>
+              </select>
+              <div *ngIf="
+                      (submit && jobControls.clientType.invalid) ||
+                      (jobControls.clientType.invalid &&
+                        (jobControls.clientType.dirty ||
+                          jobControls.clientType.touched))
+                    " class="error-msg">
+                <div *ngIf="jobControls.clientType.errors.required">
+                  Client Type is required
+                </div>
+              </div>
+              <div class="custom-checkbox">
+                <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show Client
+                  Type
+                  <input type="checkbox" name="showClientType" formControlName="showClientType">
+                  <span class="checkmark" title="You can check or uncheck this to show or hide  client type"></span>
+                </label>
+              </div>
+            </div>
+            <!-- client Name  -->
+            <div class="col-sm-6" style="padding-bottom: 15px;">
+              <label for="clientName" class="control-label required-field font-bold">Client Name</label> <input
+                type="text" maxlength="76" placeholder="Organization's Name job created for" matInput
+                formControlName="clientName" debounceTime="1000" class="form-control form-group"
+                [matAutocomplete]="auto1" (input)="getOrganization1(mytest1.value)" #mytest1 #filterData
+                (paste)="onPaste1($event)" />
+              <div>
+                <ng-container>
+                  <mat-autocomplete #auto1="matAutocomplete">
+                    <mat-optgroup *ngIf="searchBarShow1 && uniqueOrgList1?.length > 0"
+                      style="position: relative; top: -43px;">
+                      <mat-option *ngFor="let option of uniqueOrgList1 | slice: 0:20" [value]="option.organizationName"
+                        (click)="onChngOrg(option)">
+                        <div style="display: grid;
+                                      row-gap: 0px;
+                                      line-height: initial;">
+                          <div style="display:none" id="mat-optgroup-label-1"></div>
+                          <div>
+                            <strong style="font-size: 13px; padding: 0px 6px 0px 0px;" class="ellipse">
+                              {{option.organizationName}}
+                            </strong>
+                          </div>
+                          <div style="    line-height: 10px;">
+                            <i>
+                              <div style="font-size: 60%;">
+                                {{option.address1 }}<span *ngIf="option.address1 && option.address2">{{", "}}</span>
+                                {{option.address2}}
+                              </div>
+                            </i>
+                          </div>
+                          <div style="    line-height: 10px;">
+                            <i>
+                              <div style="font-size: 60%;">
+                                {{option.street }}<span *ngIf="option.street">{{", "}}</span>
+                                {{option.city}}<span *ngIf="option.city">{{", "}}</span>
+                                {{option.state}}<span *ngIf="option.state">{{", "}}</span>
+                                {{option.countryName}}
+                              </div>
+                            </i>
+                          </div>
+                        </div>
+                      </mat-option>
+                      <!-- </div> -->
+                    </mat-optgroup>
+                  </mat-autocomplete>
+                </ng-container>
+              </div>
+              <div *ngIf="(submit && jobControls.clientName.invalid) ||
+                        (jobControls.clientName.invalid &&
+                          (jobControls.clientName.dirty ||
+                            jobControls.clientName.touched))
+                      " class="error-msg">
+                <div *ngIf="jobControls.clientName.errors.required">
+                  Client Name is required
+                </div>
+                <div *ngIf="jobControls.clientName.errors.minword">
+                  {{FORMERROR.CLIENTNAME_MIN}}
+                </div>
+                <div *ngIf="jobControls.clientName.errors.maxword">
+                  {{FORMERROR.CLIENTNAME_MAX}}
+                </div>
+              </div>
+              <div *ngIf="jobControls.clientName.errors?.pattern && jobControls.clientName.touched" class="error-msg">
+                Enter valid Client Name
+              </div>
+              <div class="custom-checkbox">
+                <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show Client
+                  Name
+                  <input type="checkbox" name="showClientName" formControlName="showClientName">
+                  <span class="checkmark" title="You can check or uncheck this to show or hide  client name"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- engagement type -->
+            <div class="col-sm-6" style="padding-bottom: 7px;">
+              <label for="jobClassification" class="control-label required-field font-bold">Engagement Type</label>
+              <select class="form-control input-sm" formControlName="jobClassification" type="text"
+                (change)="onengagementTypeChange($event.target.value)">
+                <option value="null" selected disabled>Select Job Classification</option>
+                <option *ngFor="let classification of engagementTypeList" [value]="classification">
+                  {{classification}}</option>
+              </select>
+              <div *ngIf="
+                  (submit && jobControls.jobClassification.invalid) ||
+                  (jobControls.jobClassification.invalid &&
+                    (jobControls.jobClassification.dirty ||
+                      jobControls.jobClassification.touched))
+                " class="error-msg">
+                <div *ngIf="jobControls.jobClassification.errors.required">
+                  Job Classification is required
+                </div>
+              </div>
+            </div>
+            <!-- job title -->
+            <div class="col-sm-6" style="padding-bottom: 7px;">
+              <label for="jobTitle" class="control-label required-field font-bold">Job Title</label>
+              <div class="custom-ng-select">
+                <ng-select [inputAttrs]="{maxlength: '101'}" [items]="candidateJobTitleList" [addTag]="true"
+                  [hideSelected]="false" dropdownPosition="bottom" formControlName="jobTitle" [multiple]="false"
+                  placeholder="Job Title">
+                </ng-select>
+              </div>
+              <div *ngIf="
+                            (submit && jobControls.jobTitle.invalid) ||
+                            (jobControls.jobTitle.invalid &&
+                              (jobControls.jobTitle.dirty ||
+                                jobControls.jobTitle.touched))
+                          " class="error-msg">
+                <div *ngIf="jobControls.jobTitle.errors.required">
+                  Job Title is required
+                </div>
+                <div *ngIf="jobControls.jobTitle.errors.minword">
+                  {{FORMERROR.JOBTITLE_MIN}}
+                </div>
+                <div *ngIf="jobControls.jobTitle.errors.maxword">
+                  {{FORMERROR.JOBTITLE_MAX}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- primary Skills & secondary skills-->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="col-sm-12 pr-0 pl-0" style="padding-bottom: 7px;">
+                <label for="primarySkills" class="control-label required-field font-bold">Primary Skills</label>
+                <div class="custom-ng-select">
+                  <ng-select [items]="primarySkillsList" [addTag]="true" [clearSearchOnAdd]="true"
+                    [hideSelected]="false" dropdownPosition="bottom" formControlName="primarySkills"
+                    maxSelectedItems="3" [multiple]="true" [closeOnSelect]="false" [(ngModel)]="primarySkillsSelected"
+                    placeholder="e.g. Java, Spring, Hibernate">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div class="custom-control custom-radio flexSelect">
+                        <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                          [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                          [disabled]="primarySkillsSelected.length==3" >
+                        <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <small style="font-size: 12px;">Enter no more than 3</small>
+                <div *ngIf="
+                  (submit && jobControls.primarySkills.invalid) ||
+                  (jobControls.primarySkills.invalid &&
+                    (jobControls.primarySkills.dirty ||
+                      jobControls.primarySkills.touched))
+                " class="error-msg">
+                  <div *ngIf="jobControls.primarySkills.errors.required">
+                    Primary Skills is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="col-sm-12 pr-0 pl-0" style="padding-bottom: 7px;">
+                <label for="secondarySkills" class="control-label font-bold">Secondary Skills</label>
+                <div class="custom-ng-select">
+                  <ng-select [items]="secondarySkillsList" [addTag]="true" [clearSearchOnAdd]="true"
+                    [hideSelected]="false" dropdownPosition="bottom" formControlName="secondarySkills"
+                    maxSelectedItems="3" [multiple]="true" [closeOnSelect]="false" [(ngModel)]="secondarySkillsSelected"
+                    placeholder="e.g. Java, Spring, Hibernate">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div class="custom-control custom-radio flexSelect">
+                        <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                          [disabled]="secondarySkillsSelected.length==3" [ngModelOptions]="{ standalone : true }"
+                          [ngModel]="item$.selected" >
+                        <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <small style="font-size: 12px;">Enter no more than 3</small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- current location  -->
+            <div class="col-sm-6" style="padding-bottom: 7px;">
+              <div class="row">
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="location" class="control-label required-field font-bold">Country</label>
+                  <select class="form-control input-sm" formControlName="country" type="text"
+                    (change)="onChangeCountry($event.target.value)">
+                    <option value="null" selected disabled>Country</option>
+                    <option *ngFor="let country of countryList" [value]="country.countryCode">
+                      {{country.countryName}}</option>
+                  </select>
+                  <div *ngIf="
+                                              (submit && jobControls.country.invalid) ||
+                                              (jobControls.country.invalid &&
+                                                (jobControls.country.dirty ||
+                                                  jobControls.country.touched))
+                                            " class="error-msg">
+                    <div *ngIf="jobControls.country.errors.required">
+                      Country is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="jobPostForm.value.country=='IN'">
+                  <label for="location" class="control-label required-field font-bold">State</label>
+                  <select class="form-control input-sm" formControlName="state" type="text">
+                    <option value="null" selected=true disabled>State</option>
+                    <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                    </option>
+                  </select>
+                  <div *ngIf="
+                              (submit && jobControls.state.invalid) ||
+                              (jobControls.state.invalid &&
+                                (jobControls.state.dirty ||
+                                  jobControls.state.touched))
+                            " class="error-msg">
+                    <div *ngIf="jobControls.state.errors.required">
+                      State is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="jobPostForm.value.country=='US'">
+                  <label for="location" class="control-label required-field font-bold">State</label>
+                  <select class="form-control input-sm" formControlName="state" type="text">
+                    <option value="null" selected=true disabled>State</option>
+                    <option *ngFor="let state of usStatesList" [value]="state">{{state}}
+                    </option>
+                  </select>
+                  <div *ngIf="
+                                            (submit && jobControls.state.invalid) ||
+                                            (jobControls.state.invalid &&
+                                              (jobControls.state.dirty ||
+                                                jobControls.state.touched))
+                                          " class="error-msg">
+                    <div *ngIf="jobControls.state.errors.required">
+                      State is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="jobPostForm.value.country=='CA'">
+                  <label for="location" class="control-label required-field font-bold">State</label>
+                  <select class="form-control input-sm" formControlName="state" type="text">
+                    <option value="null" selected=true disabled>State</option>
+                    <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                    </option>
+                  </select>
+                  <div *ngIf="
+                                            (submit && jobControls.state.invalid) ||
+                                            (jobControls.state.invalid &&
+                                              (jobControls.state.dirty ||
+                                                jobControls.state.touched))
+                                          " class="error-msg">
+                    <div *ngIf="jobControls.state.errors.required">
+                      State is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="jobPostForm.value.country=='AU'">
+                  <label for="location" class="control-label required-field font-bold">State</label>
+                  <select class="form-control input-sm" formControlName="state" type="text">
+                    <option value="null" selected=true disabled>State</option>
+                    <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                    </option>
+                  </select>
+                  <div *ngIf="
+                                            (submit && jobControls.state.invalid) ||
+                                            (jobControls.state.invalid &&
+                                              (jobControls.state.dirty ||
+                                                jobControls.state.touched))
+                                          " class="error-msg">
+                    <div *ngIf="jobControls.state.errors.required">
+                      State is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="jobPostForm.value.country!='AU'&&
+                                                                                    jobPostForm.value.country!='IN'&&
+                                                                                    jobPostForm.value.country!='CA'&&
+                                                                                    jobPostForm.value.country!='US'">
+                  <label for="location" class="control-label required-field font-bold">State</label>
+                  <input type="text" maxlength="51" placeholder="State" formControlName="state"
+                    class="form-control input-sm">
+                  <div *ngIf="
+                                                (submit && jobControls.state.invalid) ||
+                                                (jobControls.state.invalid &&
+                                                  (jobControls.state.dirty ||
+                                                    jobControls.state.touched))
+                                              " class="error-msg">
+                    <div *ngIf="jobControls.state.errors.required">
+                      State is required
+                    </div>
+                    <div *ngIf="jobControls.state.errors.maxword">
+                      {{FORMERROR.STATE_MAX}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-7">
+                <div class="col-sm-6">
+                  <label for="location" class="control-label required-field font-bold">City</label>
+                  <input maxlength="51" type="text" placeholder="City" formControlName="city"
+                    class="form-control input-sm">
+                  <div *ngIf="
+                                                (submit && jobControls.city.invalid) ||
+                                                (jobControls.city.invalid &&
+                                                  (jobControls.city.dirty ||
+                                                    jobControls.city.touched))
+                                              " class="error-msg">
+                    <div *ngIf="jobControls.city.errors.required">
+                      City is required
+                    </div>
+                    <div *ngIf="jobControls.city.errors.maxword">
+                      {{FORMERROR.CITY_MAX}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label for="location" class="control-label required-field font-bold">Zip Code</label>
+                  <input type="text" maxlength="12" placeholder="Zip Code" formControlName="zipCode"
+                    class="form-control input-sm">
+                  <div *ngIf="
+                                    (submit && jobControls.zipCode.invalid) ||
+                                    (jobControls.zipCode.invalid &&
+                                      (jobControls.zipCode.dirty ||
+                                      jobControls.zipCode.touched))
+                                  " class="error-msg">
+                    <div *ngIf="jobControls.zipCode.errors.required">
+                      Zipcode is required
+                    </div>
+                    <div class="w-wrap" *ngIf="jobControls.zipCode.errors.minword">
+                      {{FORMERROR.ZIPCODE_MIN}}
+                    </div>
+                    <div class="w-wrap" *ngIf="jobControls.zipCode.errors.maxword">
+                      {{FORMERROR.ZIPCODE_MAX}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                <!-- Duration  -->
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <label for="duration" class="control-label required-field font-bold">Duration</label>
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="duration" class="form-control input-sm">
+                        <option value="null" disabled [selected]=true>Duration</option>
+                        <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                      </select>
+                      <div *ngIf="(submit && jobControls.duration.invalid || jobControls.duration.touched)"
+                        class="error-msg">
+                        <div class="tar-job" *ngIf="jobControls.duration.errors?.required">
+                          Duration is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="durationType" class="form-control input-sm">
+                        <option value=null disabled selected hidden>Type</option>
+                        <option *ngFor="let durationType of durationTypeList" [value]="durationType">
+                          {{durationType}}
+                        </option>
+                      </select>
+                      <div *ngIf="(submit && jobControls.durationType.invalid || jobControls.durationType.touched)"
+                        class="error-msg w-wrap">
+                        <div *ngIf="jobControls.durationType.errors?.required">
+                          DurationType is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- required years of exp -->
+                <div class="col-sm-12">
+                  <label for="duration" class="control-label required-field font-bold">Required Years of
+                    Experience</label>
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="experienceFrom" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>From</option>
+                        <option *ngFor="let year of years" [value]='year' [disabled]="validateBeginning(year)">
+                          {{year}}
+                        </option>
+                      </select>
+                      <div *ngIf=" (submit && jobControls.experienceFrom.invalid) ||
+                                          (jobControls.experienceFrom.invalid &&
+                                            (jobControls.experienceFrom.dirty ||
+                                              jobControls.experienceFrom.touched))
+                                        " class="error-msg">
+                        <div *ngIf="jobControls.experienceFrom.errors?.required">
+                          From Year is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="experienceTo" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>To</option>
+                        <option *ngFor="let year of Toyears" [value]='year' [disabled]="validateLast(year)">{{year}}
+                        </option>
+                      </select>
+                      <div *ngIf="
+                                          (submit && jobControls.experienceTo.invalid) ||
+                                          (jobControls.experienceTo.invalid &&
+                                            (jobControls.experienceTo.dirty ||
+                                              jobControls.experienceTo.touched))
+                                        " class="error-msg">
+                        <div *ngIf="jobControls.experienceTo.errors?.required">
+                          To Year is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <label for="payType" class="control-label required-field font-bold">Pay Type</label>
+                  <select (change)="onChangePayType($event.target.value, 'jobs')" type="text" formControlName="payType"
+                    class="form-control input-sm">
+                    <option value=null disabled selected hidden>Choose Type</option>
+                    <option *ngFor="let list of payTypeList" [value]="list">{{list}}</option>
+                  </select>
+                  <div *ngIf="
+                        (submit && jobControls.payType.invalid) ||
+                        (jobControls.payType.invalid &&
+                          (jobControls.payType.dirty ||
+                            jobControls.payType.touched))
+                      " class="error-msg">
+                    <div style="position: relative; top: 4px;" *ngIf="jobControls.payType.errors.required">
+                      Pay Type is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;padding-left: 0px; margin-top: 12px;">
+                  <label style="padding-left:14px;" for="targetRateFrom"
+                    class="control-label required-field font-bold">Target Rate Range</label>
+                  <div style="display: flex;padding-left:14px;">
+                    <label *ngIf="jobPostForm.value.country=='US' || jobPostForm.value.country==null" for="USD"
+                      class="currency-type pt-7">USD</label>
+                    <label *ngIf="jobPostForm.value.country=='IN'" for="INR" class="currency-type pt-7">INR</label>
+                    <label *ngIf="jobPostForm.value.country=='CA'" for="CAD" class="currency-type pt-7">CAD</label>
+                    <label *ngIf="jobPostForm.value.country=='AU'" for="AUD" class="currency-type pt-7">AUD</label>
+                    <label
+                      *ngIf="jobPostForm.value.country!='US' && jobPostForm.value.country!='IN' && jobPostForm.value.country!='CA' && jobPostForm.value.country!='AU' && jobPostForm.value.country!=null"
+                      for="CUR" class="currency-type pt-7">CUR</label>
+                    <input maxlength="9" (keyup)="onTargetRateTyped($event.target.value)"
+                      (keypress)="decimalFilter($event)" type="text" class="form-control input-sm" placeholder="From"
+                      id="targetRate" formControlName="targetRateFrom">
+                  </div>
+                  <div *ngIf="
+                        (submit && jobControls.targetRateFrom.invalid) ||
+                        (jobControls.targetRateFrom.invalid &&
+                          (jobControls.targetRateFrom.dirty ||
+                            jobControls.targetRateFrom.touched))
+                      " class="error-msg">
+                    <div class="edit-job-len" *ngIf="jobControls.targetRateFrom.errors.required">
+                      Target Rate is required
+                    </div>
+                    <div *ngIf="jobControls.targetRateFrom.errors.minword">
+                      {{FORMERROR.TARGETRATE_MIN}}
+                    </div>
+                    <div *ngIf="jobControls.targetRateFrom.errors.maxword">
+                      {{FORMERROR.TARGETRATE_MAX}}
+                    </div>
+
+                    <div class="text-wrapsrate" style="margin-right: -10px;"
+                      *ngIf="jobControls.targetRateFrom.errors?.invalidDecimal&& !jobControls.targetRateFrom.errors.maxword">
+                      {{FORMERROR.TARGETRATE_PATTERN}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 pl-0" style="padding-bottom: 7px;margin-top: 33px; ">
+                  <div style="display: flex;padding-left:14px;">
+                    <label *ngIf="jobPostForm.value.country=='US' || jobPostForm.value.country==null" for="USD"
+                      class="currency-type">USD</label>
+                    <label *ngIf="jobPostForm.value.country=='IN'" for="INR" class="currency-type">INR</label>
+                    <label *ngIf="jobPostForm.value.country=='CA'" for="CAD" class="currency-type">CAD</label>
+                    <label *ngIf="jobPostForm.value.country=='AU'" for="AUD" class="currency-type">AUD</label>
+                    <label
+                      *ngIf="jobPostForm.value.country!='US' && jobPostForm.value.country!='IN' && jobPostForm.value.country!='CA' && jobPostForm.value.country!='AU' && jobPostForm.value.country!=null"
+                      for="CUR" class="currency-type">CUR</label>
+                    <input (keyup)="onTargetRateTyped($event.target.value)" type="text" maxlength="9"
+                      class="form-control input-sm" placeholder="To" id="targetRate" (keypress)="decimalFilter($event)"
+                      formControlName="targetRateTo">
+                  </div>
+                  <div *ngIf="
+                                            (submit ) ||
+                                            ((jobControls.targetRateTo.dirty ||
+                                                jobControls.targetRateTo.touched))
+                                          " class="error-msg">
+                    <div class="edit-job-len" *ngIf="jobControls.targetRateTo.errors?.required">
+                      Target Rate is required
+                    </div>
+                    <div class="w-wrap" *ngIf="jobControls.targetRateTo.errors?.minword">
+                      {{FORMERROR.TARGETRATE_MIN}}
+                    </div>
+                    <div *ngIf="jobControls.targetRateTo.errors?.maxword">
+                      {{FORMERROR.TARGETRATE_MAX}}
+                    </div>
+                    <div class="w-wrap"
+                      *ngIf="jobPostForm.errors && jobPostForm?.errors?.rangevalidation&&!jobControls.targetRateFrom.errors?.invalidDecimal">
+                      Invalid target rate range
+                    </div>
+
+                    <div class="text-wrapsrate" style="padding-left: 9px;"
+                      *ngIf="jobControls.targetRateTo.errors?.invalidDecimal&& !jobControls.targetRateTo.errors.maxword">
+                      {{FORMERROR.TARGETRATE_PATTERN}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 pt-12">
+              <div class="row">
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="remoteWork" class="control-label  font-bold">Remote Work</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="relocationRequired" class="control-label  font-bold">Relocation Required</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="workFromHome" class="control-label  font-bold">Work From Home</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="securityClearance" class="control-label  font-bold">Security Clearance</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" row">
+        <div class="col-sm-12">
+          <label class="control-label required-field font-bold">Job Description</label>
+          <div formControlName="jobDescription" [ngxSummernote]="config2" class="note-editor.note-frame"></div>
+          <div *ngIf="
+                  (submit && jobControls.jobDescription.invalid) ||
+                  (jobControls.jobDescription.invalid &&
+                    (jobControls.jobDescription.dirty ||
+                      jobControls.jobDescription.touched))
+                " class="error-msg">
+            <div *ngIf="jobControls.jobDescription.errors.required">
+              Job Description is required
+            </div>
+            <div *ngIf="jobControls.jobDescription.errors.minword">
+              Job Description should at least have 50 words
+            </div>
+            <div *ngIf="jobControls.jobDescription.errors.maxword">
+              Job Description can have a maximum of 1500 words
+            </div>
+          </div>
+          <small>Maximum of 1500 words allowed</small>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button [ngClass]="{'disabled': disable_for_draft==true}" class="btn btn-sm btn-default"
+          (click)="cancelJob()">Cancel</button>
+        <button class="btn btn-sm btn-primary" type="submit"
+          *ngIf="object?.status!='DRAFTED'&& object?.status!='ACTIVE'&& object?.status!='AWAITING HOST'&& (object?.status=='INACTIVE_DUE_TO_LOW_CREDITS'||  object?.status=='INACTIVE'||  object?.status=='ON HOLD'|| object?.status=='FILLED'&&object?.status=='CLOSED'|| object?.status=='DEACTIVATED') "
+          (click)="saveJob('ACTIVE')">Activate</button>
+        <button [ngClass]="{'disabled': disable_for_draft==true}" class="btn btn-sm btn-primary" type="submit"
+          *ngIf="object?.status!='ACTIVE'&& object?.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& object?.status!='INACTIVE'&&  object?.status!='ON HOLD'&& object?.status!='FILLED'&&object?.status!='CLOSED' &&object?.status!='DEACTIVATED' && object?.status!='AWAITING HOST'"
+          (click)="saveJob('DRAFTED')">Save as Draft</button>
+        <button class="btn btn-sm btn-primary" type="submit"
+          *ngIf="object?.status!='DRAFTED' && (object?.status=='AWAITING HOST'|| object?.status=='ACTIVE') "
+          (click)="saveJob('ACTIVE')">Update</button>
+        <button class="btn btn-sm btn-primary" type="submit"
+          *ngIf="object?.status=='DRAFTED'|| object?.status!='ACTIVE'&& object?.status!='INACTIVE_DUE_TO_LOW_CREDITS'&&  object?.status!='INACTIVE'&&  object?.status!='ON HOLD'&& object?.status!='FILLED'&&object?.status!='CLOSED'&& object?.status!='DEACTIVATED'&& object?.status!='AWAITING HOST'"
+          (click)="saveJob('ACTIVE')">Update</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #connectionTemplate>
+  <app-connection-template [page]="'job-card-1'" [connectionStatus]="connectionStatus"
+    [counterpartsDetails]="counterpartsDetails" [values]="values" [module]="'job'"></app-connection-template>
+</ng-template>
+<ng-template #candidateSupplyTemplate>
+  <!-- <app-new-candidate [screenName]="'job-listing'" [jobData]="jobData" [focus]="'job'"></app-new-candidate> -->
+  <ng-container>
+    <div class="row mr-0">
+      <div class="col-sm-8 pad-lt-rt-0">
+        <div class="xs-heading-flex-parent">
+          <div class="xs-heading-entity">My Candidates</div>
+          <div class="xs-heading-payrate">Pay Rate</div>
+          <div class="xs-heading-paytype">Type</div>
+        </div>
+        <div class="xs-body-container" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+          [scrollWindow]="false">
+          <app-candidates-page [viewSize]="'extra-small'" [passValues]="applyResponse" [jobData]="jobData"
+            [fromApply]="true" [candidatesFoundStatus]="candidateFoundStatus" [removeTag]="removeTagvalues"
+            (selectedCandidate)="getchildData($event)"></app-candidates-page>
+        </div>
+        <div class="xs-footer-container"></div>
+      </div>
+      <div class="col-sm-4 pad-lt-0 pad-rt-0">
+        <div class="hpanel mr-bt-0">
+          <div class="hpanel-heading xs-heading-flex-entity-detail">
+            <div>Job Details</div>
+            <app-svg-templates [svgType]="'CROSS_20'" class="cursor-pointer"
+              (click)="closeCandidateSupplyModal()"></app-svg-templates>
+          </div>
+          <app-job-submit-skillfilter [focus]="'job'" [jobData]="jobData" [resumes]="resumeData"
+            [termsChecked]="termsCheck" [formData]="rtrFormData" [dataPasstoSkillwidgets]="dataPasstoSkillwidgets"
+            (emitRemoveTag)="removeUserfromTag($event)" (closeModalEvent)="closeModal($event)">
+          </app-job-submit-skillfilter>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)" [messageDataPass]="messageData">
+</app-message-widget>

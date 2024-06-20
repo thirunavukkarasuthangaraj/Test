@@ -1,0 +1,78 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+  <div class="business-list-view-search CommNav post-box-shadow margin-bottom-5 margin-right-5">
+    <div class="Bnav">
+      <div class="Bnav-item-1">
+        <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+          title="{{values.bussinessName}}">
+          {{values.bussinessName| truncate : 15 }}
+        </label>
+        <div *ngIf="BusFollowers">
+          <p *ngIf="values.follower?.length>1">{{values.follower?.length}} Followers</p>
+          <p *ngIf="values.follower?.length==1 || values.follower?.length==0">{{values.follower?.length}} Follower</p>
+        </div>
+        <div *ngIf="revokedFollower">
+          <p *ngIf="revokedData?.length === 1">{{revokedData?.length}} Revoked </p>
+          <p *ngIf="revokedData?.length>1">{{revokedData?.length}} Revoked </p>
+        </div>
+      </div>
+      <div class="Bnav-item-2">
+        <div>
+          <div class="input-group">
+            <!-- <input type="text" class="form-control" placeholder="Search Follower" [(ngModel)]="followerSearch"
+              [ngModelOptions]="{standalone: true}" (keyup)="keyupdata($event)" (keyup.enter)="onsearch(followerSearch)" aria-label="Amount (to the nearest dollar)">
+ 
+              <span class="input-group-addon"  (click)="onsearch(followerSearch)" id="my_btn" ><i class="pe-7s-search"    ></i></span>           -->
+            
+              <input type="text" class="form-control" placeholder="Search Follower" [(ngModel)]="searchKey"
+              [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+ 
+              <span class="dummyBtn"></span> 
+            </div>
+        </div>
+      </div>
+      <div class="Bnav-item-3">
+        <div class="btn-group ml-10" dropdown container="body">
+          <button id="button-container" class="btn btn-primary  btn-sm" dropdownToggle
+            aria-controls="dropdown-container">
+            <i class="pe-7s-filter"></i>
+          </button>
+          <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
+            aria-labelledby="button-container">
+            <li role="menuitem"><a class="dropdown-item" (click)='allFollowers()'>All </a></li>
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Ignored</a></li> -->
+            <li role="menuitem"><a class="dropdown-item" (click)='RevokedFollowers()'>Revoked</a></li>
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Admin</a></li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="Bnav-item-4">
+        <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div *ngIf="DefaultData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of values.follower | customFilter:{userName:searchKey}:false"  >
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+          [button]="'PRIMARY'" [refresh]="true"></app-user-card>
+      </div>
+    </div>
+    <div *ngIf="AllfollowerData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of Alldata | customFilter:{userName:searchKey}:false" >
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+          [button]="'SECONDARY'" [refresh]="true"></app-user-card>
+      </div>
+    </div>
+    <div *ngIf="AllRevokeData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of revokedData | customFilter:{userName:searchKey}:false">
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+          [button]="'SECONDARY'" [refresh]="true"></app-user-card>
+      </div>
+    </div>
+
+  </div>
+</div>

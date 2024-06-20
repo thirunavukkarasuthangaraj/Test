@@ -1,0 +1,87 @@
+<div class="hpanel contact-panel"  [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+  <div class="panel-body  minheight165 couers"  [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+    <div (click)="networkdata(userDataInput)">
+      <div class="mt-20">
+        <div class="mt-27 btnwidt-100" style="cursor: pointer" title="{{userDataInput.networkName}}" [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+          <h4 class="cardEillpise card-title-font font-bold"   title="{{userDataInput.networkName}}">{{ userDataInput.networkName }}</h4>
+          <p class="font-bold cardEillpise card-subtitle-font"   title="{{userDataInput.name}}" *ngIf="userDataInput.networkOwnerId!=userId"> By {{userDataInput.name}}</p>
+          <div class="flt-rtt" *ngIf="userDataInput.memberType=='OWNER'">
+            <div class="fkhgsf" ><img class="crown" title="Owner" src="assets/icon/crown_.PNG" alt=""></div>
+            <div  class="btn-group" dropdown (click)="$event.stopPropagation();">
+              <a id="button-animated" dropdownToggle class="m-r-10">
+                <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+              </a>
+            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown" role="menu" style="right: 0;left: auto;"
+              aria-labelledby="button-animated">
+              <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item" (click)="mgsBtn(userDataInput)"> Message</a></li>
+              <li *ngIf="userDataInput?.status=='INACTIVE'" role="menuitem"><a class="dropdown-item" (click)="activate(userDataInput)"> Activate Network</a></li>
+              <li *ngIf="userDataInput?.status=='ACTIVE'" role="menuitem"><a class="dropdown-item" (click)="deletenet(userDataInput, 'delete')"> Deactivate Network</a></li>
+            </ul>
+          </div>
+          </div>
+        </div>
+        <div  class="qwpoi1" [ngClass]="{'qwpoi': userDataInput.memberType!='OWNER'}">
+          <img *ngIf="userDataInput?.status=='INACTIVE'" 
+           height="25px" src="assets/icon/Blocked-PNG-File.png" alt="">
+          <p *ngIf="userDataInput?.status=='INACTIVE'">Deactivated</p>
+         </div>
+      </div>
+      <ng-container *ngFor="let member of userDataInput.members;let i = index;">
+        <img *ngIf="i<5" alt="logo"  [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}" class="img-circle mt72 mt05 mt-5 netCard" src="{{member.image}}"
+        onerror="this.src='assets/images/userAvatar.png';" />
+      </ng-container>
+    </div>
+    <div class="flt-rtt6" *ngIf="userDataInput.memberStatus=='REQUEST_SENT' && userDataInput.status=='ACTIVE'">
+      <button type="button" class="btn btn-primary b-5 sdssd  btn-xs"
+        (click)="accept(userDataInput);$event.stopPropagation();">Accept</button>
+
+      <div class="btn-group three_icon_cmon1 hovers" dropdown (click)="$event.stopPropagation();">
+        <a id="button-animated" dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+        </a>
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown card-dropdown" role="menu"
+          style="right: 0;left: auto;" aria-labelledby="button-animated">
+          <li role="menuitem">
+            <a class="dropdown-item common-font-12 padd"
+              (click)="reject(userDataInput);$event.stopPropagation()">Reject</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="flt-rttwwe" *ngIf="userDataInput.memberType=='MEMBER' && userDataInput.memberStatus=='ACTIVE' && userDataInput?.status=='ACTIVE'" >
+      <div  class="btn-group" dropdown >
+        <a id="button-animated" dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+        </a>
+  
+      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu m-l-81 card-dropdown" role="menu" style="right: 0;left: auto;"
+        aria-labelledby="button-animated">
+        <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item" (click)="mgsBtn(userDataInput)"> Message</a></li>
+        <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item" (click)="deletenet(userDataInput, 'leave')"> Leave Network</a></li>
+      </ul>
+    </div>
+    </div>
+  </div>
+
+  <div class="panel-footer contact-footer footPadding">
+    <div class="row">
+      <div class="col-md-4 common-font-12 border-right">
+        <div class="contact-stat">
+          <span>Post: </span>
+          <strong>{{userDataInput.postCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-4 common-font-12 border-right couers" (click)="redirectPage(userDataInput)" >
+        <div class="contact-stat ">
+          <span>Member: </span>
+          <strong>{{userDataInput.memberCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-stat">
+          <span>Views: </span> <strong>{{userDataInput.viewCnt}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

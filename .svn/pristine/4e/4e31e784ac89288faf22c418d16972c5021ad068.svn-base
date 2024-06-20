@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { CommonProfileInfoComponent } from './common-profile-info.component';
+
+describe('CommonProfileInfoComponent', () => {
+  let component: CommonProfileInfoComponent;
+  let fixture: ComponentFixture<CommonProfileInfoComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ CommonProfileInfoComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CommonProfileInfoComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

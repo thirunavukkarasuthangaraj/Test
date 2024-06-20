@@ -1,0 +1,345 @@
+import { SearchData } from 'src/app/services/searchData';
+ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { ApiService } from "src/app/services/api.service";
+import Swal from "sweetalert2";
+import { Subscription } from 'rxjs';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { UtilService } from 'src/app/services/util.service';
+
+@Component({
+  selector: "app-team-about-as-page",
+  templateUrl: "./team-about-as-page.component.html",
+  styleUrls: ["./team-about-as-page.component.scss"],
+})
+export class TeamAboutAsPageComponent implements OnInit {
+  modalRef: BsModalRef;
+  modalRefImg: BsModalRef ;
+  pathdata: any;
+  pesponseDisplay: any;
+  teamModalForm: FormGroup;
+  ownerFlag = false;
+  clickEventsubscription: Subscription;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  fileUploadName
+  @ViewChild('myFileInput', { static: false }) myFileInput;
+  @ViewChild('myFileInputbanner', { static: false }) myFileInputbanner;
+  fileToUpload: File;
+  bannerFileToUpload: File;
+  photoIdBanner=null;
+  photoId=null;
+
+  config = {
+    placeholder: 'Description',
+    tabsize: 2,
+    height: '100px',
+    //uploadImagePath: '/api/upload',
+    // toolbar: [
+    //   ['misc', ['codeview', 'undo', 'redo']],
+    //   // ['style', ['bold', 'italic', 'underline', 'clear']],
+    //   ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+    //   ['fontsize', ['fontname', 'fontsize', 'color']],
+    //   ['para', ['style', 'ul', 'ol', 'paragraph', 'height']]
+    // ],
+    fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times'],
+    callbacks: {
+      onKeydown(e) {
+        const limiteCaracteres = 1000;
+        const caracteres = e.currentTarget.innerText;
+        const totalCaracteres = caracteres.length;
+        if (totalCaracteres >= limiteCaracteres) {
+          if (e.keyCode !== 8 && e.keyCode !== 37
+            && e.keyCode !== 38 && e.keyCode !== 39
+            && e.keyCode !== 40 && e.keyCode !== 65) { e.preventDefault(); }
+        }
+      },
+      onKeyup(e) {
+        const t = e.currentTarget.innerText;
+     //   //// console.log(t.length);
+      },
+      onPaste(e) {
+        const buffertext = ((e.originalEvent || e).clipboardData).getData('text');
+        e.preventDefault();
+        const all = buffertext.trim();
+        document.execCommand('insertText', false, all.substring(0, 1000));
+        //$('#maxcontentpost').text(400 - t.length);
+      }
+    }
+  }
+
+  constructor(
+    private modalService: BsModalService,
+    private router: Router,
+    private util:UtilService,
+    private commonValues: SearchData,
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private fb: FormBuilder ) {
+    this.clickEventsubscription = commonValues.getTeamdata().subscribe(res => {
+      this.pesponseDisplay = res
+    })
+  }
+  ngOnInit() {
+
+    this.teamdata();
+    this.refresh();
+    if (localStorage.getItem("userId") === this.pathdata.teamsOwnerId) {
+      this.ownerFlag = true;
+    } else {
+      this.ownerFlag = false;
+    }
+    this.teamModalForm = this.fb.group({
+    teamName: ["", [Validators.required]],
+    description: [""],
+   });
+  }
+
+  get f() {
+    return this.teamModalForm.controls;
+  }
+
+  close() {
+    this.modelhide();
+    this.teamModalForm.reset();
+    this.teamModalForm.patchValue(this.pesponseDisplay);
+  }
+
+  editBasic(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      animated: true,
+      backdrop: "static",
+    });
+    this.teamModalForm.patchValue(this.pesponseDisplay);
+
+  }
+
+  modelhide() {
+    // for (let i = 1; i <= this.modalService.getModalsCount(); i++) {
+    //   this.modalService.hide(i);
+    // }
+    this.modalRef.hide()
+  }
+
+  teamdata() {
+    this.route.queryParams.subscribe((res) => {
+      this.pathdata = res;
+    });
+  }
+
+  submit() {
+    if (this.teamModalForm.valid) {
+      let data: any = {};
+      data.teamId = this.pathdata.teamId;
+      data.teamName = this.teamModalForm.value.teamName;
+      data.description = this.teamModalForm.value.description;
+      data.logo = this.photoId;
+      data.bannerImage = this.photoIdBanner;
+
+      if (this.photoId == null) {
+        data.logo = this.pathdata.logo
+      } else {
+        data.logo = this.photoId;
+      }
+
+      if (this.photoIdBanner == null) {
+        data.bannerImage = this.pathdata.bannerImage
+      } else {
+        data.bannerImage = this.photoIdBanner;
+      }
+
+      this.api.updatePut("teams/update", data).subscribe((res) => {
+
+         if(res.code=="00000"){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Updated successfully",
+          // showConfirmButton: true,
+          showConfirmButton: false,
+          timer: 1500,
+          allowOutsideClick: false,
+        }).then((result) => {
+          this.modelhide();
+          this.refresh();
+        });
+      }
+      else if(res.code=="99998"){
+         Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Team name exists",
+          text: "Team name exists already. Please try with a different one.",
+          showConfirmButton: false,
+          timer: 5000,
+          });
+        }
+      },err => {
+        this.util.stopLoader(); 
+      });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Please enter team name",
+        // showConfirmButton: true,
+        showConfirmButton: false,
+        timer: 3000,
+        allowOutsideClick: false,
+      });
+    }
+  }
+
+  refresh() {
+    // this.api.query("teams/get/" + this.pathdata.teamId).subscribe((res) => {
+    //   if (res != undefined && res != null) {
+    //     this.router.navigate(["teamPage/aboutus" ], { skipLocationChange: true , queryParams: res.data.teams});
+    //   }
+    // });
+
+    this.api.query("teams/get/" +this.pathdata.teamId).subscribe((res) => {
+      if (res != undefined && res != null) {
+         this.commonValues.setTeamdata(res.data.teams)
+         this.pesponseDisplay=res.data.teams;
+        //  var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname +  "?"+  JSON.parse( res.data.teams) ;
+        //  //// console.log(newurl)
+        //  window.history.pushState({path:newurl},'',newurl);
+      }
+    },err => {
+      this.util.stopLoader(); 
+    });
+
+  }
+
+  fileChangeEventlogo(event, popupName): void {
+    // this.formData.append('file',this.fileToUpload, this.fileUploadName);
+    // this.formData.delete('file');
+     this.photoId=null;
+    this.imageChangedEvent = event;
+    ////// console.log(event)
+    if (event.target.files && event.target.files[0]) {
+      this.fileUploadName = event.target.files[0].name;
+      // this.myFileInput.nativeElement.value//assigning the file through viewchild
+    }
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+    if (!acceptedImageTypes.includes(event.target.files[0].type)) {
+      Swal.fire('', 'Please upload the correct file type   (Only .jpg, .png, .jpeg)', 'info');
+      this.myFileInput.nativeElement.value='';
+      // this.modalRef.hide();
+    } else {
+      this.PopupServicevlaues(popupName);
+    }  }
+
+  fileChangeEventBanner(event, popupName): void {
+    // this.formData.append('file',this.fileToUpload, this.fileUploadName);
+    // this.formData.delete('file');
+     this.photoIdBanner=null;
+     this.imageChangedEvent = event;
+    ////// console.log(event)
+    if (event.target.files && event.target.files[0]) {
+      this.fileUploadName = event.target.files[0].name;
+      // this.myFileInputbanner.nativeElement.value//assigning the file through viewchild
+    }
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+    if (!acceptedImageTypes.includes(event.target.files[0].type)) {
+      Swal.fire('', 'Please upload the correct file type   (Only .jpg, .png, .jpeg)', 'info');
+      this.myFileInputbanner.nativeElement.value='';
+      // this.modalRef.hide();
+    } else {
+      this.PopupServicevlaues(popupName);
+    }
+  }
+
+  PopupServicevlaues(template: TemplateRef<any>) {
+    this.modalRefImg = this.modalService.show(template, {
+      animated: true,
+      backdrop: 'static'
+    });
+  }
+
+  closePhoto() {
+    this.modalRefImg.hide()
+    this.myFileInput.nativeElement.value = '';
+    this.myFileInputbanner.nativeElement.value = '';
+  }
+
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    const byteString = window.atob(event.base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/jpeg' });
+    this.fileToUpload = new File([blob], this.fileUploadName, { type: 'image/jpeg' });
+  }
+
+  imageLoaded() {
+   const formData: FormData = new FormData();
+    formData.append('file', this.fileToUpload, this.fileUploadName);
+    this.util.startLoader()
+    this.api.create('upload/image', formData).subscribe(res => {
+      this.util.stopLoader()
+      this.photoId = res.fileId;
+      this.modalRefImg.hide();
+       formData.delete('file');
+      if (res.fileId) {
+       }
+     },err => {
+      this.util.stopLoader();
+      if(err.status==500){
+      this.util.stopLoader();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Something went wrong while uploading image. Please, try again later.',
+        showDenyButton: false,
+        confirmButtonText: `ok`,
+      })
+    }
+  });
+   }
+
+
+   imageCroppedBanner(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    const byteString = window.atob(event.base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/jpeg' });
+    this.bannerFileToUpload = new File([blob], this.fileUploadName, { type: 'image/jpeg' });
+  }
+
+  imageLoadedBanner() {
+   const formData: FormData = new FormData();
+    formData.append('file', this.bannerFileToUpload, this.fileUploadName);
+    this.util.startLoader()
+    this.api.create('upload/image', formData).subscribe(res => {
+      this.util.stopLoader()
+      this.photoIdBanner = res.fileId;
+      this.modalRefImg.hide();
+       formData.delete('file');
+      if (res.fileId) {
+       }
+     },err => {
+      this.util.stopLoader();
+      if(err.status==500){
+      this.util.stopLoader();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Something went wrong while uploading image. Please, try again later.',
+        showDenyButton: false,
+        confirmButtonText: `ok`,
+      })
+    }
+  });
+   }
+}

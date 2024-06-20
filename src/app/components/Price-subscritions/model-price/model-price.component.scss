@@ -1,0 +1,229 @@
+// @media (min-width: 768px)
+.modal-dialog {
+  width: 330px !important;
+  margin: 30px auto;
+}
+
+.modal-header {
+  padding: 15px 15px 4px 15px !important;
+  background: #63cfbe !important;
+  color: #fff;
+  border-radius: 3px;
+}
+
+// .modal-body {
+// padding: 0px 1px !important;
+// }
+
+.expiration-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #f1f3f6;
+
+  button {
+    width: max-content;
+    border-radius: 5px;
+    white-space: break-spaces;
+    // height: 43px;
+    text-align: center;
+    // font-size: 12px;
+  }
+}
+
+.c-col {
+  text-align: center;
+}
+
+.modal-footer {
+  background: #f7f9fa;
+  border-radius: 3px !important;
+  padding: 4px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 19px;
+  font-weight: 300;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 3px 6px 0;
+  float: left;
+  line-height: normal;
+}
+
+.plan-exp-h3 {
+  text-align: center;
+  font-weight: 700;
+  color: red;
+}
+
+.plan-exp-ptag {
+  text-align: center;
+  font-size: 12px;
+  // font-weight: 600;
+}
+
+.button-box,
+.button-box-special {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.toggle-button-cover {
+  display: table-cell;
+  position: relative;
+  width: 200px;
+  box-sizing: border-box;
+  margin-bottom: 8px
+}
+
+.span-dicount {
+  margin-top: -36px;
+  margin-left: -17px;
+  margin-right: -10px;
+  z-index: 21;
+  border-radius: 17px;
+  height: 17px;
+  text-align: center;
+  padding: 4px;
+}
+
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+input[type="radio"]+label {
+  z-index: 10;
+  margin: 0 10px 10px 0;
+  position: relative;
+  color: #ced4da;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+  background-color: #ffffff;
+  border: 2px solid #ced4da;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+input[type="radio"]:checked+label {
+  color: #495057;
+  background-color: #ced4da;
+}
+
+input[type="radio"]+label {
+  padding: 5px 20px;
+  border-radius: 10px;
+}
+
+.outline {
+  background-color: white;
+  border: 1px solid #49a7a9;
+  color: black;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+  /* Center the buttons horizontally */
+  justify-content: flex-end;
+  margin-top: 20px;
+  /* Add some margin to separate from the form */
+}
+
+// .required-field::before {
+//   content: "*";
+//   color: #c3002f;
+//   float: right
+// }
+
+.content-body>div {
+  margin-bottom: 5px;
+}
+
+.expiration-modal-container {
+  padding: 10px 42px 10px 78px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.plan-version-container {
+  display: flex;
+  justify-content: center;
+  -webkit-box-pack: center;
+  justify-content: flex-start;
+  column-gap: 45px;
+}
+
+.plan-max,
+.slots-used,
+.available-provision,
+.promotional {
+  font-weight: bold;
+  font-size: 16px;
+  display: grid;
+  justify-items: center;
+  row-gap: 10px;
+}
+
+.plan-value {
+  color: #63cfbe;
+  font-size: 30px;
+  font-weight: 200;
+}
+
+.plan-procedure-container {
+  display: grid;
+  border-top: 1px solid #f1f3f6;
+  margin-top: 20px;
+  padding-top: 20px;
+
+  &>div {
+    margin-bottom: 5px !important;
+  }
+}
+
+.plan-extension-snippet {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.plan-extension-detail-1,
+.plan-extension-detail-2,
+.plan-extension-detail-3 {}
+
+.current-plan-snippet {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-column-gap: 5px;
+  -moz-column-gap: 5px;
+  column-gap: 5px;
+  margin-bottom: 20px !important;
+}
+
+.plan-texture {
+  color: #ffffff;
+  background: #63cfbe;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.plan-detail {
+  margin-bottom: 25px !important;
+}
+
+.ps-note {
+  margin-top: 20px;
+  font-style: italic;
+}

@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-busines-directory-home',
+  templateUrl: './busines-directory-home.component.html',
+  styleUrls: ['./busines-directory-home.component.scss']
+})
+export class BusinesDirectoryHomeComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

@@ -1,0 +1,50 @@
+.CommNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-basis: auto;
+  position: sticky;
+  // top: 92px!important;
+  box-shadow: 1px 2px 6px 0px #b2b5b9;
+  z-index: 1;
+}
+.commNavItem-1 {
+  flex-grow: 2;
+}
+
+.commNavItem-2 {
+  flex-grow: 2;
+}
+
+.pd-5 {
+  padding-bottom: 5px;
+}
+.ivite {
+  width: 99%;
+  margin-left: 4px;
+  margin-top: -4px;
+}
+
+.AD-10 {
+  margin-top: -10px;
+}
+
+.n{
+  //margin-top: -11px !important;
+}
+.m-0{
+  margin-top: 0px !important;
+}
+
+.ellipse {
+  text-overflow: ellipsis;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.row-alternew {
+  margin-right: -12px;
+  margin-left: -15px;
+}
+
+

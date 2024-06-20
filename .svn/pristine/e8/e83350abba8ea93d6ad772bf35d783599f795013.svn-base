@@ -1,0 +1,245 @@
+.pic-size {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    border: 3px solid #f1f3f6;
+}
+
+.pic-size:hover {
+    opacity: 0.9;
+}
+
+.pic-size:focus {
+    opacity: 0.7;
+}
+
+.no-pad-rt {
+    padding-right: 0px;
+}
+
+.break-word {
+    word-wrap: break-word;
+    text-overflow: ellipsis !important;
+    width: 16rem !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+.xr {
+    display: flex;
+    position: relative;
+}
+
+.btn-special {
+    border: 2px solid #34495e;
+    background-color: transparent;
+    color: #34495e;
+    width: 177px;
+    margin: 6px 0px 6px 0px;
+}
+
+.btn-special:hover {
+    background-color: #f1f3f6;;
+}
+
+.btn-special:focus {
+    background-color: #e0e5ec;;
+}
+
+.btn-special:active {
+    background-color: #e0e5ec;;
+}
+
+.contain {
+    padding: 15px;
+}
+
+.three-dot-icon-clr {
+    font-size: 27px;
+    float: right;
+  }
+
+.three-dot {
+    width: 20px !important;
+    height: 20px !important;
+    margin-bottom: -30px;
+  }
+
+.three-dot:hover {
+    background-color: #b5b0b0;
+    opacity: 0.5;
+  }
+
+.three-dot :hover {
+    // -webkit-box-shadow: 10px 10px 58px 21px rgba(0,0,0,0.64);
+    // -moz-box-shadow: 10px 10px 58px 21px rgba(0,0,0,0.64);
+    // box-shadow: 10px 10px 58px 21px rgba(0,0,0,0.64);
+    text-shadow: 2px 2px;
+    border-radius: 3px;
+  }
+
+.three_icon_cmon1 {
+    font-size: 27px;
+    float: right;
+    margin-top: -30px;
+  }
+
+.txt-500 {
+    font-weight: 500;
+}
+
+.solo-text {
+    position: relative;
+    display: flex;
+    top: 15px;
+}
+
+.no-mr {
+    margin: 0px !important;
+    border: 1px solid #cacbcc63;
+}
+
+.noti-badge {
+    background: red;
+    padding: 3px 5px;
+    margin-left: 4px;
+  }
+
+.holder {
+    padding: 9px;
+    margin: 0px;
+    background: #fff;
+    border-bottom: 1px solid #f1f3f6;
+}
+
+.holder:hover {
+    background-color: #e6eaef;  
+    cursor: pointer;
+}
+
+.holder:active {
+    background-color: #dde1e6;
+    cursor: pointer;
+}
+
+.qwer {
+    display: flex;
+    position: relative;
+    top: -20px;
+    float: right;
+    left: -16px;
+    color: #8f9090;
+    font-weight: 500;
+}
+
+.bg-pale {
+    background-color: #f1f3f6;
+}
+
+.bg-wt {
+    background-color: #fff;
+}
+
+.min-h {
+    min-height: 100%;
+}
+
+.hov-txt:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.caught_up {
+    text-align: center;    
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.biase {
+    color: #8f9090;
+}
+
+.mg-bt-9 {
+    margin-bottom: 9px;
+}
+
+li > a:disabled {
+    pointer-events:none; //This makes it not clickable
+    opacity:0.6; 
+}
+
+.mr-lf-14 {
+    margin-left: -14px;
+}
+
+.stick-there {
+    position: sticky;
+    top: 62px;
+    // -webkit-transition: all 2scubic-bezier(0.65, 0.05, 0.36, 1);
+    -moz-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -o-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: all 2s cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+
+  .be-there {
+    position: sticky;
+    top: 62px;
+    // -webkit-transition: all 2scubic-bezier(0.65, 0.05, 0.36, 1);
+    -moz-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -o-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: all 2s cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+
+  .three-dr-hv {
+    padding: 0px;
+    // background: #fff;
+    // box-shadow: 0px 3px #e3e5e6;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    position: relative;
+    top: -7px;
+    width: 20px !important;
+    height: 20px !important;
+    float: right;
+  }
+
+  .three-dr-hv:hover {
+    background: #fff;
+    box-shadow: 0px 3px #e3e5e6;
+  }
+
+  .ht-20 {
+      height: 20px;
+  }
+
+//   .thr-dot {
+//     width: 22px !important;
+//     height: 22px !important;
+//     /* margin-bottom: -30px; */
+//     margin: 2px 2px 16px 3px;
+//   }
+
+//   .th_icn_cmn {
+//     font-size: 27px;
+//     float: right;
+//   }
+
+//   .th_icn_cmn:hover {
+//     background: #fff;
+//     border-radius: 50%;
+//     height: 28px;
+//     width: 28px;
+//     box-shadow: 1px 4px 10px #a2a292;
+//   }
+
+.wert {
+    position: relative;
+    text-align: center;
+    top: 5rem;
+}

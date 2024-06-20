@@ -1,0 +1,196 @@
+<div class="marge_top">
+  <div class="landing-page ">
+    <nav class="navbar navbar-default navbar-fixed-top "  style="background-color: #2a3e73;">
+      <div class="container" >
+          <div class="navbar-header" style="margin-top: 10px">
+              <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a href="index.html"><a >
+                <img src="assets/images/CareOnline.jpg" width="125" height="30" alt="">
+              </a></a>
+          </div>
+          <div class="navbar-header pull-right text-muted small" style="margin-top: 10px">
+            <form [formGroup]="form" class="form-inline">
+              <div class="form-group seach">
+                <input type="email" class="form-control" id="email" placeholder="Name of Medical professional, Speciality, Facility " name="email">
+              </div>
+              <div class="form-group seach" style="margin-left: 1rem;">
+                <input type="text" class="form-control" id="pwd" placeholder="City, State " name="pwd">
+              </div>
+              <div class="form-group seach" style="margin-left: 1rem;">
+                <input type="text" class="form-control" id="pwd" placeholder="Zip" name="pwd">
+              </div>
+               <button type="submit" class="btn btn-primary seach" style="margin-left: 1rem;">Find</button>
+               <button type="submit" class="btn btn-success seach" style="margin-left: 1rem;">Claim your Profile </button>
+            </form>
+          </div>
+      </div>
+  </nav>
+  </div>
+
+  <div class="panel-body hpanel marge_top content">
+    <div class="row marge_top top">
+      <div class="col-lg-3">
+          <div class="hpanel hgreen contact-panel">
+              <div class="panel-body">
+                  <span class="label label-success pull-right">NEW</span>
+                  <img alt="logo" class="img-circle m-b" src="assets/images/profile.jpg">
+                  <h3><a href=""> Bradly Danforth </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hyellow contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a4.jpg">
+                  <h3><a href=""> Tangela Sternberg </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hviolet contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a2.jpg">
+                  <h3><a href=""> Claud Vogan </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hblue contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a3.jpg">
+                  <h3><a href=""> Valda Purdy </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div><div class="row">
+      <div class="col-lg-3">
+          <div class="hpanel hgreen contact-panel">
+              <div class="panel-body">
+                  <span class="label label-success pull-right">NEW</span>
+                  <img alt="logo" class="img-circle m-b" src="assets/images/profile.jpg">
+                  <h3><a href=""> Bradly Danforth </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hyellow contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a4.jpg">
+                  <h3><a href=""> Tangela Sternberg </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hviolet contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a2.jpg">
+                  <h3><a href=""> Claud Vogan </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div class="hpanel hblue contact-panel">
+              <div class="panel-body">
+                  <img alt="logo" class="img-circle m-b" src="assets/images/a3.jpg">
+                  <h3><a href=""> Valda Purdy </a></h3>
+                  <div class="text-muted font-bold m-b-xs">California, LA</div>
+                  <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                  </p>
+              </div>
+              <div class="panel-footer contact-footer">
+                  <div class="row">
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div> </div>
+                      <div class="col-md-4 border-right"> <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div> </div>
+                      <div class="col-md-4"> <div class="contact-stat"><span>Views: </span> <strong>400</strong></div> </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

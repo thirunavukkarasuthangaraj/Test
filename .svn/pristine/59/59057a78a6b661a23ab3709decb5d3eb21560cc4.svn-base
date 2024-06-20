@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-healthcare-landing',
+  templateUrl: './healthcare-landing.component.html',
+  styleUrls: ['./healthcare-landing.component.scss']
+})
+export class HealthcareLandingComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

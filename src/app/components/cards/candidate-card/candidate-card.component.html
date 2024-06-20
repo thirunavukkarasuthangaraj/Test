@@ -1,0 +1,1041 @@
+<ng-container *ngIf="viewSize == 'large'">
+  <div class="hpanel">
+    <!-- [ngStyle]="(candidateval.isFeatured==true && candidateval.createdBy==userId) && {'background-color': '#fffcf0' }" -->
+    <div class="panel-body pad-cus border-radius-top-left-right-6  hover-border" [ngClass]="{'disabled':!candidateval.availability || candidateval?.status !='ACTIVE',
+      'featured-background': candidateval.isFeatured==true}">
+      <div class="lg-job-candidate-card-container">
+
+        <div class="lg-job-candidate-card-user-detail">
+          <div class="media social-profile social-profileCustom clearfix">
+            <div style="position: relative;
+                right: 63px;" *ngIf="showCheckBox==true" class="custom-checkbox"
+              title="Select Jobs to see its activity">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" (click)="selectCheckbox1($event,candidateval)"
+                  [(ngModel)]="candidateval.isSelected"
+                  (ngModelChange)="onNgModelChange($event , candidateval?.candidateId)" name="list_name" />
+                <span class="checkmark" style="top: -5px"></span>
+              </label>
+            </div>
+            <a class="pull-left  card-profImg">
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType == 'FREELANCE_RECRUITER'" title="Freelance Recruiter">FR </span>
+              <span class="label label-success ui-align-role" *ngIf="candidateval?.user?.userType == 'student'"
+                title="Student">ST </span>
+              <span class="label label-success ui-align-role" *ngIf="candidateval?.user?.userType == 'JOB_SEEKER'"
+                title="Job Seeker">JS </span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Vendor'"
+                title="Vendor">V</span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == GigsumoConstant.DIRECT_HIRE"
+                title="Direct Hire">DH</span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Systems Integrator'"
+                title="Systems Integrator">SI</span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Prime Vendor'"
+                title="Prime Vendor">PV </span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Staffing Agency'"
+                title="Staffing Agency">SA </span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Direct Client'"
+                title="Direct Client">DC </span>
+              <span class="label label-success ui-align-role"
+                *ngIf="candidateval?.user?.userType!= 'FREELANCE_RECRUITER' && candidateval?.user?.userType!= 'student' && candidateval?.user?.userType!= 'JOB_SEEKER' && candidateval?.user?.workExperience?.clientType == 'Supplier'"
+                title="Supplier">SP </span>
+              <div *ngIf="!resumerequsetuser&&candidateval?.user?.photo!=undefined">
+                <img *ngIf="candidateval?.user?.photo!=undefined" src={{candidateval?.user?.photo}}
+                  alt="profile-picture">
+              </div>
+              <div *ngIf="!resumerequsetuser&&candidateval?.user?.photo == undefined">
+                <div class="circles" [style.background-color]="getColor(candidateval?.user?.fullname)">
+                  <div class="circle-text">{{ getInitials(candidateval?.user?.fullname) }}</div>
+                </div>
+              </div>
+              <div *ngIf="resumerequsetuser&&resumerequsetuser?.photo != undefined">
+                <img *ngIf="resumerequsetuser?.photo!=undefined" src={{url+resumerequsetuser?.photo}}
+                  alt="profile-picture">
+              </div>
+              <div *ngIf="resumerequsetuser && resumerequsetuser?.photo == undefined">
+                <div class="circles"
+                  [style.background-color]="getColortwo(resumerequsetuser?.firstName, resumerequsetuser?.lastName)">
+                  <div class="circle-text">{{ getInitialstwo(resumerequsetuser?.firstName, resumerequsetuser?.lastName)
+                    }}</div>
+                </div>
+              </div>
+
+
+              <!-- User Role -->
+            </a>
+            <div class="media-body">
+              <div class="flex userCardList">
+
+                <div class="custom-checkbox " *ngIf="candidateval.currentStatus != 'APPLIED' && filtersApplied"
+                  title="Select Candidate">
+                  <input class="check-btn-ui check-ui" (change)="selectCheckbox()" type="checkbox"
+                    value="{{candidateval?.user?.userId}}" [(ngModel)]="candidateval.isSelected" name="list_name" />
+                  sds
+                </div>
+                <div
+                  title="{{ pageName !== 'job-invite-sent' ? candidateval?.user?.fullname : (resumerequsetuser?.firstName + ' ' + resumerequsetuser?.lastName) }}"
+                  class="owner-name me-5">
+                  {{ pageName !== 'job-invite-sent' ? candidateval?.user?.fullname : (resumerequsetuser?.firstName + ' '
+                  + resumerequsetuser?.lastName) }}
+                </div>
+              </div>
+              <div class="owner-org-name" *ngIf="candidateval.jobPostedBehalfOf != 'null'"
+                title="{{candidateval.jobPostedBehalfOf}}">
+                {{candidateval.jobPostedBehalfOf}}</div>
+              <small class="text-muted" *ngIf="candidateval.postedOn"> {{candidateval?.postedOn | date:'MM/dd/yyyy
+                HH:mm:ss a'}}
+              </small>
+              <small class="text-muted" *ngIf="candidateval.updatedOn"> {{candidateval?.updatedOn | date:"MM/dd/yyyy
+                hh:mm:ss a":"+0000"}}
+              </small>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="lg-job-candidate-card-detail pad-0 cardListItm">
+
+          <div class="primary-card-show" (click)="open(candidateval)">
+            <div style="margin-right:9px;" class="lg-candidate-name" *ngIf="candidateval?.firstName!=null"
+              title="{{candidateval.firstName|titlecase }} {{ candidateval.lastName|titlecase }}">
+              {{candidateval.firstName|titlecase}} {{ candidateval.lastName|titlecase }} </div>
+
+            <div class="job-closed-tag" [ngClass]="getClasName('INACTIVE')"
+              *ngIf="candidateval?.status != 'ACTIVE'||!candidateval.availability">
+              Unavailable
+            </div>
+
+            <div style="margin-right:9px;" class="btn-group jobProfileBtngp text-wrapsfilter">
+
+              <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==1">
+                <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                  <div title="{{data}}" class="ioxlp-1-ele">
+                    {{data}}
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==2">
+                <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                  <div title="{{data}}" class="ioxlp-2-ele">
+                    {{data}}
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==3">
+                <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                  <div title="{{data}}" class="ioxlp-3-ele">
+                    {{data}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="lg-experience">
+              Experience : {{
+              candidateval.totalExperience }} Years</div>
+
+          </div>
+
+          <div style="display: flex; flex-direction: column; width: 100%;" (click)="open(candidateval)">
+            <div class="row clientDetailList"
+              title=" {{candidateval.clientType}}, {{candidateval.city}}, {{candidateval.state}} ">
+              <div class="mb-5" title="{{candidateval.clientName}}" *ngIf="candidateval.showClientName">
+                <i class="fa fa-building-o"> </i>
+                {{candidateval.clientName | truncate:20}}
+              </div>
+
+              <div class="mb-5">
+
+                <app-svg-templates class="svg-position" *ngIf="candidateval.city || candidateval.state"
+                  [svgType]="'MAP'"></app-svg-templates>
+
+                <span title="{{candidateval.city}}">{{candidateval.city}}</span>
+                <span title="{{candidateval.state}}" *ngIf="candidateval.state"> , {{candidateval.state}}</span>
+              </div>
+
+
+              <div class="mb-5"
+                title="{{candidateval.targetRate}} , {{candidateval.country}} , {{candidateval.payType}}">
+
+                <span title="{{candidateval.targetRateFrom}} - {{candidateval.targetRateTo}}">
+                  {{candidateval.country == 'US' ? "$" : ""}} {{candidateval.targetRateFrom}} -
+                  {{candidateval.targetRateTo}}
+                </span>
+
+                <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'US'"> USD / </span>
+                <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'IN'"> INR / </span>
+                <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'CA'"> CAD / </span>
+                <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'AU'"> AUD / </span>
+                <span title="{{candidateval.country}}" *ngIf="candidateval?.country != 'AU' && candidateval?.country != 'US' &&
+                    candidateval?.country != 'CA' && candidateval?.country != 'IN'"> CUR / </span>
+
+                <value-template #valueProvider="handleValue">
+                  <span
+                    title="{{valueProvider.getValue(candidateval)}}">{{valueProvider.getValues(candidateval)}}</span>
+                </value-template>
+
+              </div>
+
+              <div *ngIf="candidateval.resumeAttached && candidateval.createdBy==userId"> <i class="fa fa-address-card">
+                </i>
+                Attached </div>
+            </div>
+
+          </div>
+
+
+
+          <!-- <hr class="line-tag"> -->
+
+          <div class="interactive-elements row actItemLk" [ngClass]="{'disabled': filtersApplied==true}">
+            <div *ngIf="candidateval.createdBy==userId && candidateval.viewedByCount > 0"
+              (click)="goTo(candidateval, 'views')" style="cursor: pointer!important;"> <i
+                class="fa fa-eye cursor icon-prime-color">
+              </i>
+              <span title="{{candidateval.viewedByCount}} Views" class="blue-color">
+                {{candidateval.viewedByCount}}</span> Views
+            </div>
+
+            <div title="0 Views" *ngIf="candidateval.createdBy==userId && candidateval.viewedByCount == 0"
+              (click)="goTo(candidateval, 'Noviews')" style="cursor: pointer!important;"> <i
+                class="fa fa-eye cursor icon-prime-color">
+              </i>
+              <span class="blue-color" title="{{candidateval.viewedByCount}} Views">
+                0 </span> Views
+            </div>
+
+            <div *ngIf="candidateval.createdBy!=userId && candidateval.viewedByCount > 0"
+              style="cursor: context-menu!important;"> <i class="fa fa-eye cursor icon-prime-color"> </i>
+              <span class="blue-color" title="{{candidateval.viewedByCount}} Views">
+                {{candidateval.viewedByCount}}</span> Views
+            </div>
+
+            <div title="0 Views" *ngIf="candidateval.createdBy!=userId && candidateval.viewedByCount == 0"
+              style="cursor: context-menu!important;"> <i class="fa fa-eye cursor icon-prime-color"> </i>
+              <span class="blue-color" title="{{candidateval.viewedByCount}} Views">
+                0 </span> Views
+            </div>
+
+            <div  (click)="like(candidateval)" *ngIf="candidateval?.isLiked!=null && !candidateval?.isLiked">
+              <i class="fa fa-heart pointer icon-prime-color"> </i>
+            </div>
+
+            <div (click)="like(candidateval)" *ngIf="candidateval?.isLiked!=null &&  candidateval?.isLiked">
+              <i class="fa fa-heart liked pointer bg-heart" > </i>
+            </div>
+
+
+            <div title="Likes" [ngStyle]="{'cursor': candidateval.createdBy!=userId ? 'context-menu' : 'pointer'}">
+              <span class="blue-color" style="cursor: pointer!important;"
+                *ngIf="candidateval.likesCount>0 && candidateval.createdBy==userId"
+                (click)="goTo(candidateval, 'Clike-like')">{{candidateval.likesCount}}</span>
+              <span class="blue-color" style="cursor: context-menu!important;"
+                *ngIf="candidateval.likesCount>0 && candidateval.createdBy!=userId">{{candidateval.likesCount}}</span>
+              <span (click)="goTo(candidateval, 'Clike-like')" style="cursor: pointer!important;"
+                *ngIf="candidateval.likesCount>0 && candidateval.createdBy==userId"> Like<span
+                  *ngIf="candidateval.likesCount>1">s </span> </span>
+              <span style="cursor: context-menu!important;"
+                *ngIf="candidateval.likesCount>0 && candidateval.createdBy!=userId"> Like<span
+                  *ngIf="candidateval.likesCount>1">s </span> </span>
+              <div title="0 Likes" class="no-views" style="cursor: context-menu!important;"
+                *ngIf="candidateval.likesCount == 0 && candidateval.createdBy!=userId"
+                style="cursor: context-menu!important;">
+                <span class="blue-color" title="0 Likes"> 0 </span> Like
+              </div>
+              <div title="0 Likes" class="no-views" style="cursor: pointer!important;"
+                *ngIf="candidateval.likesCount == 0 && candidateval.createdBy==userId"
+                (click)="goTo(candidateval, 'Clike-like')">
+                <span class="blue-color" title="0 Likes"> 0 </span> Like
+              </div>
+            </div>
+
+            <div (click)="goTo(candidateval, 'cInvited')" title="Invites Received Count"
+              *ngIf="candidateval.createdBy==userId">
+              <!-- <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i> -->
+              <app-svg-templates class="svg-position" [svgType]="'MAIL'"></app-svg-templates>
+              <span class="blue-color"
+                *ngIf="candidateval.interestShownCount>0">{{candidateval.interestShownCount}}</span>
+              <span *ngIf="candidateval.interestShownCount==0"> 0</span>
+              <span class="blue-color" *ngIf="candidateval.appliedToday>0">
+                ({{candidateval.appliedToday}} new)
+              </span>
+              Invites
+            </div>
+
+            <div (click)="goTo(candidateval, 'jobsApplied')" title="Job Applied Count"
+              *ngIf="candidateval.createdBy === userId">
+              <!-- <i class="fa fa-users pointer icon-prime-color" style="padding-right: 4px;"> </i> -->
+              <app-svg-templates [svgType]="'APPLY'"></app-svg-templates>
+              <span class="blue-color" *ngIf="candidateval?.jobsAppliedCount > 0">{{candidateval?.jobsAppliedCount
+                }}</span>
+              <span *ngIf="candidateval?.jobsAppliedCount === 0"> 0</span>
+              <span class="blue-color" *ngIf="candidateval.appliedToday>0">
+                ({{candidateval.appliedToday}} new)
+              </span>
+              Applied
+            </div>
+
+
+            <!-- <div *ngIf="candidateval.createdBy!=userId && candidateval.resumeRequested && candidateval.resumeFileId !=null">
+                        <a href="{{url+candidateval?.resumeFileId}}" target="_blank" download>
+                        <i class="fa fa-download"> </i> Download Resume </a>
+                       </div> -->
+
+            <!-- <div *ngIf="candidateval.createdBy!=userId && !candidateval.resumeRequested || candidateval.resumeAttached">
+                        <ng-container *ngFor="let newitem of candidateval?.resumes">
+                          <div *ngIf="newitem?.isDefault"> <a href="{{url+newitem?.fileId}}" target="_blank" download> <i class="fa fa-download"> </i> Download Resume </a>
+                          </div>
+                        </ng-container>
+                       </div> -->
+
+
+            <ng-container *ngFor="let item of candidateval?.resumes">
+              <div *ngIf="item?.isDefault"> <a (click)="downloadResume(candidateval,userId,item.fileId)" target="_blank"
+                  download> <i class="fa fa-download icon-prime-color"> </i> Download Resume </a>
+              </div>
+            </ng-container>
+
+            <div *ngIf="candidateval.createdBy==userId && candidateval?.resumes?.length==0"> <a>
+                <i class="fas fa-paperclip icon-prime-color"></i> Attach Resume </a>
+            </div>
+
+
+            <!-- <div style="cursor: context-menu;" title="Share">
+                <i class="fa fa-share icon-prime-color"> </i> Share
+              </div> -->
+
+
+            <div (click)="requestResume(candidateval)"
+              *ngIf="candidateval.createdBy!=userId && candidateval?.resumes==null&& !candidateval.resumeRequested && (userType == 'RECRUITER'
+              || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')">
+              <a class="get-resume-icon">
+                <i class="far fa-file icon-prime-color"></i>Get Resume </a>
+            </div>
+
+            <div *ngIf="!candidateval.resumeAttached && candidateval.resumeRequested"> <a style="cursor:context-menu;"
+                download>
+                <i style="color: green;" class="fas fa-check "></i> Resume Requested </a>
+            </div>
+
+            <ng-container *ngIf="!inviteapplyhide|| inviteapplyhide==undefined">
+              <div id="cd-invites" title="Invite to Apply"
+                (click)="invite(candidateval, connectionTemplate,jobsupplytemplate)"
+                *ngIf="candidateval.createdBy!=userId && (userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')">
+                <!-- <i class="fa fa-link"> </i> -->
+                <app-svg-templates class="svg-position" [svgType]="'MAIL'"></app-svg-templates>
+                Invite To Apply
+              </div>
+            </ng-container>
+            <div *ngIf=" candidateval.chatHistoryCount>0" class="chat-box-icon"
+              (click)="chatuser(candidateval, connectionTemplate)"
+              title="{{candidateval.nonSeenMessageCount}} Messages">
+              <i style="font-size: 15px;" _ngcontent-serverapp-c3="" aria-hidden="true"
+                class="pe-7s-comment icon-prime-color"></i>
+              <span class="blue-color">{{candidateval.nonSeenMessageCount}} </span>
+              Chat
+            </div>
+            <div *ngIf="candidateval.createdBy!=userId && candidateval.chatHistoryCount == 0"
+              (click)="chatuser(candidateval, connectionTemplate)" class="chat-box-icon"
+              title="{{candidateval.nonSeenMessageCount}} Messages"> <i style="font-size: 15px;"
+                class="pe-7s-comment icon-prime-color"> </i>
+              Chat
+            </div>
+
+            <div *ngIf="candidateval.createdBy==userId && candidateval.chatHistoryCount == 0" class="chat-box-icon"
+              title="{{candidateval.nonSeenMessageCount}} Messages"> <i style="font-size: 15px;"
+                class="pe-7s-comment icon-prime-color"> </i>
+              Chat
+            </div>
+
+          </div>
+        </div>
+
+        <div class="lg-job-candidate-card-status">
+          <div class="display-flex-right">
+            <div class=" flex pull-right actItemList">
+              <div class="btn-group" dropdown id="jb_dpDown"
+                [ngClass]="{'disabled': filtersApplied || jobStatus !='ACTIVE'}" *ngIf="showStatus">
+                <button style="color:#fff;" data-toggle="dropdown" dropdownToggle
+                  (click)="triggerChange(candidateval.candidateId)"
+                  class="btn   status-action-btn fRCard dropdown-toggle" aria-expanded="true"
+                  [ngStyle]="getStyle(candidateval.currentStatus)">
+                  <span *ngIf="candidateval.currentStatus!=null">
+                    {{candidateval.currentStatus|titlecase}}
+                  </span>
+                  <span *ngIf="candidateval.currentStatus==null">
+                    Applied
+                  </span>
+                  <ng-container *ngIf="pageName=='job-applicants' && !isExcludedStatus(candidateval.currentStatus)">
+                    <i class="fas fa-angle-down fa-lg arrowclasspad" style="margin-top: 2px; margin-right: 5px;"
+                      aria-hidden="true"></i>
+                  </ng-container>
+                </button>
+
+                <ng-container *ngIf=" pageName=='job-applicants' && !isExcludedStatus(candidateval.currentStatus)">
+                  <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                    style="right: -131px; left: auto; margin-top: -117px;" aria-labelledby="button-animated">
+
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='SHORTLISTED'"
+                      (click)="updatestatus('SHORTLISTED',candidateval)" id="SHORTLISTED">
+                      <a id="SHORTLISTED"><i class="fa fa-circle-o fs-status-icon t-short" aria-hidden="true"></i>&nbsp;
+                        Shortlisted </a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='REJECTED'"
+                      (click)="updatestatus('REJECTED',candidateval)" id="REJECTED">
+                      <a id="REJECTED"><i class="fa fa-circle-o fs-status-icon t-inActive" aria-hidden="true"></i>&nbsp;
+                        Rejected </a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='INTERVIEW SCHEDULED'"
+                      (click)="updatestatus('INTERVIEW SCHEDULED',candidateval)" id="INTERVIEW SCHEDULED">
+                      <a id="INTERVIEW SCHEDULED"><i class="fa fa-circle-o fs-status-icon t-filled"
+                          aria-hidden="true"></i>&nbsp; Interview scheduled</a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='INTERVIEW REJECTED'"
+                      (click)="updatestatus('INTERVIEW REJECTED',candidateval)" id="INTERVIEW REJECTED">
+                      <a id="INTERVIEW REJECTED"><i class="fa fa-circle-o fs-status-icon t-filled"
+                          aria-hidden="true"></i>&nbsp; Interview Rejected</a>
+                    </li>
+
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='SELECTED'"
+                      (click)="updatestatus('SELECTED',candidateval)" id="SELECTED">
+                      <a id="SELECTED"><i class="fa fa-circle-o fs-status-icon t-active" aria-hidden="true"></i>&nbsp;
+                        Selected </a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='OFFERED'"
+                      (click)="updatestatus('OFFERED',candidateval)" id="OFFERED">
+                      <a id="OFFERED"><i class="fa fa-circle-o fs-status-icon t-offer" aria-hidden="true"></i>&nbsp;
+                        Offered </a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='PREONBOARDED'"
+                      (click)="updatestatus('PREONBOARDED',candidateval)" id="PREONBOARDED">
+                      <a id="PREONBOARDED"><i class="fa fa-circle-o fs-status-icon t-preonboard"
+                          aria-hidden="true"></i>&nbsp; Pre-Onboarding</a>
+                    </li>
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='ONBOARDED'"
+                      (click)="updatestatus('ONBOARDED',candidateval)" id="ONBOARDED">
+                      <a id="ONBOARDED"><i class="fa fa-circle-o fs-status-icon t-hold "
+                          aria-hidden="true"></i>&nbsp;Onboarded </a>
+                    </li>
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='OFFER WITHDRAWN'"
+                      (click)="updatestatus('OFFER WITHDRAWN',candidateval)" id="OFFER WITHDRAWN">
+                      <a id="OFFER WITHDRAWN"><i class="fa fa-circle-o fs-status-icon t-withdrawn"
+                          aria-hidden="true"></i>&nbsp; Offer Withdrawn</a>
+                    </li>
+
+                    <li role="menuitem" *ngIf="candidateval.currentStatus!='OFFER DECLINED'"
+                      (click)="updatestatus('OFFER DECLINED',candidateval)" id="OFFER DECLINED">
+                      <a id="OFFER DECLINED"><i class="fa fa-circle-o fs-status-icon t-close"
+                          aria-hidden="true"></i>&nbsp; Offer declined </a>
+                    </li>
+                  </ul>
+                </ng-container>
+              </div>
+              <button style="color:#fff;" *ngIf="!showStatus" type="button" class="btn btn-xs btn-primary" [ngStyle]="{'background': (candidateval.currentStatus === 'SELECTED') ?'#3CB371' :
+                (candidateval.currentStatus === 'REJECTED' ) ?'#fe4052' :
+                (candidateval.currentStatus === 'ONBOARDED') ? '#17a2b8' :
+                (candidateval.currentStatus === 'INTERVIEW SCHEDULED') ? '#3498db' :
+                (candidateval.currentStatus === 'SHORTLISTED') ? '#3498db' :
+                (candidateval.currentStatus === 'PREONBOARDED') ? '#3498db' :
+                (candidateval.currentStatus === 'OFFER WITHDRAWN') ? '#fe4052' :
+                (candidateval.currentStatus === 'ACCEPTED') ? '#008000' :
+                (candidateval.currentStatus === 'APPLIED') ? '#63cfbe' :
+                (candidateval.currentStatus === 'INITIATED') ? '#63cfbe' :
+                (candidateval.currentStatus === 'INTETEREST_SHOWN') ? '#63cfbe' :
+                (candidateval.currentStatus === 'OFFER DECLINED') ? '#fe4052' :
+
+                (candidateval.currentStatus === 'ACTIVE') ? '#63cfbe' :
+                (candidateval.currentStatus === 'INACTIVE') ? '#e74c3c' :
+                (candidateval.currentStatus === 'ON HOLD') ? '#ffc4b5' :
+                (candidateval.currentStatus === 'FILLED') ? '#63cfbe' :
+                (candidateval.currentStatus === 'CLOSED') ? '#8c8c8c' :
+                (candidateval.currentStatus === 'OFFERED') ? '#fe4052': ''}">
+
+
+
+
+                <ng-container *ngIf="candidateval.currentStatus === 'INITIATED'"> Invited </ng-container>
+                <ng-container *ngIf="candidateval.currentStatus === 'ACCEPTED'"> Applied </ng-container>
+                <ng-container *ngIf="candidateval.status=='ACTIVE' &&candidateval.currentStatus==null "
+                  style="background:#63cfbe"> Available </ng-container>
+                <ng-container *ngIf="candidateval.status=='INACTIVE' && candidateval.currentStatus==null"
+                  style="background:#e74c3c;"> UnAvailable </ng-container>
+                <ng-container *ngIf="candidateval.status=='DRAFTED' " class="btn btn-warning status-action-btn dwidth">
+                  Draft </ng-container>
+                <ng-container *ngIf="candidateval.currentStatus === 'INTETEREST_SHOWN'" style="background:#e74c3c;">
+                  Invited </ng-container>
+                <ng-container
+                  *ngIf="candidateval.currentStatus != 'INITIATED'&&candidateval.currentStatus != 'ACCEPTED'"
+                  style="background:#e74c3c;"> {{candidateval.currentStatus|titlecase}}</ng-container>
+
+              </button>
+
+              <ng-container *ngIf="showStatus">
+
+
+                <button style="background:#e74c3c;"
+                  *ngIf="candidateval.status=='INACTIVE' && candidateval.currentStatus==null" type="button"
+                  class="btn btn-warning status-action-btn dwidth">UnAvailable</button>
+                <button *ngIf="candidateval.status=='DRAFTED' && candidateval.currentStatus==null" type="button"
+                  class="btn btn-warning status-action-btn dwidth">Draft</button>
+                <button style="background:#63cfbe"
+                  *ngIf="candidateval.status=='DRAFTED' && candidateval.currentStatus==null" type="button"
+                  class="btn btn-warning status-action-btn dwidth">Available</button>
+              </ng-container>
+
+              <div class="btn-group" *ngIf="candidateval.createdBy==userId && !filtersApplied" dropdown>
+                <a id="button-animated" dropdownToggle>
+                  <img src="assets/action.png" class="img-width-dot-icon" />
+                </a>
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                  style="right: 0; left: auto;z-index: 2;" aria-labelledby="button-animated">
+                  <li role="menuitem">
+                    <a (click)="open(candidateval)">
+                      View
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="btn-group pull-right" [ngClass]="{'disabled': filtersApplied || jobStatus !='ACTIVE'}"
+                *ngIf="candidateval.createdBy!=userId && !filtersApplied" dropdown>
+                <a id="button-animated" dropdownToggle>
+                  <img src="assets/action.png" class="img-width-dot-icon" />
+                </a>
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                  style="right: 0; left: auto;z-index: 2" aria-labelledby="button-animated">
+                  <li role="menuitem" class="report"
+                    style="display:flex;align-content: space-between;flex-wrap: nowrap;flex-direction: row-reverse;">
+                    <app-flag type="CANDIDATE" [id]="candidateval.candidateId" [flagTo]="candidateval.createdBy"
+                      [flags]="['Report Candidate as fake.']">
+                    </app-flag>
+                  </li>
+                  <li role="menuitem">
+                    <a (click)="open(candidateval)">
+                      View
+                    </a>
+                  </li>
+
+
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <hr *ngIf="!lastItem" style="margin-bottom: 0px!important;"> -->
+  </div>
+</ng-container>
+
+<ng-container *ngIf="viewSize == 'medium'">
+  <div class="hpanel">
+    <div id="jobBody" class="panel-body border-radius-top-left-right-6" [ngClass]="{
+      'disabled': !candidateval.availability || candidateval.status !='ACTIVE',
+      'pad-0': viewSize == 'medium',
+      'highLightList': candidateval.isSelected,
+      'featured-background': candidateval?.isFeatured==true}">
+      <div class="profile-card pad-10-10-10-10">
+        <div class="md-top-section">
+          <div class="md-user-img">
+            <div *ngIf="candidateval?.user?.photo!=undefined">
+              <img *ngIf="candidateval?.user?.photo!=undefined" src={{url+candidateval?.user?.photo}}
+                alt="profile-picture">
+            </div>
+            <div *ngIf="candidateval?.user?.photo == undefined">
+              <div class="circles" [style.background-color]="getColor(candidateval?.user?.fullname)">
+                <div class="circle-text">{{ getInitials(candidateval?.user?.fullname) }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="md-user-info">
+            <div class="md-user-info-line-1">
+              <div class="md-user-name" title="{{candidateval?.user?.fullname}}">
+                {{candidateval?.user?.fullname}}</div>
+            </div>
+            <div class="md-user-info-line-2">
+              <div *ngIf="userTypeMap[candidateval?.user?.userType]" class="md-user-type" title="{{candidateval?.user?.userType}}">
+                {{ userTypeMap[candidateval?.user?.userType] }}
+              </div>
+              <span *ngIf="hasCurrentOrganization">@</span>
+              <span *ngFor="let work of candidateval?.user?.workExperience">
+                <div title="{{work?.organisationName}}" class="md-current-org" *ngIf="work?.currentOrganization">
+                  <span>{{work?.organisationName}}</span>
+                </div>
+              </span>
+            </div>
+            <div class="md-user-info-line-3">
+              <i class="pe-7s-clock"></i>
+              <small class="md-time-stamp">{{candidateval?.createdOn | date:"MM/dd/yyyy hh:mm:ss a":"+0000"}}</small>
+            </div>
+          </div>
+          <div class="md-action-buttons">
+            <div class="btn-group" dropdown id="jb_dpDown" [ngClass]="{'disabled': jobStatus !='ACTIVE'}"
+              *ngIf="showStatus">
+              <button style="color:#fff;" data-toggle="dropdown" dropdownToggle
+                (click)="triggerChange(candidateval.candidateId)" class="btn   btn-xs dropdown-toggle"
+                aria-expanded="true" [ngStyle]="getStyle(candidateval?.currentStatus)">
+                <ng-container> {{ getFilterValue(candidateval.currentStatus) |titlecase}} </ng-container>
+                <!-- <ng-container *ngIf="candidateval?.currentStatus === 'REJECT'"> Rejected</ng-container> -->
+                <ng-container *ngIf=" pageName === 'job-applicants' && !isExcludedStatus(candidateval?.currentStatus)">
+                  <i style="margin-left: 10px;" class="fas fa-angle-down fa-lg" aria-hidden="true"></i>
+                </ng-container>
+              </button>
+              <ng-container *ngIf="pageName === 'job-applicants' && !isExcludedStatus(candidateval?.currentStatus)">
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                  aria-labelledby="button-animated">
+
+
+                  <li role="menuitem" *ngFor="let statusData of filterApplicant(candidateval?.currentStatus)"
+                    (click)="updatestatus(statusData , candidateval)" id="{{statusData?.item}}">
+                    <a id="{{statusData?.item}}"><i class="fa fa-circle-o fs-status-icon" aria-hidden="true"></i>&nbsp;
+                      {{statusData?.item}}
+                    </a>
+                  </li>
+
+
+                </ul>
+              </ng-container>
+            </div>
+
+            <button style="color:#fff;" *ngIf="!showStatus" type="button" class="btn btn-xs "
+              [ngStyle]="getStyle(candidateval.currentStatus || candidateval?.status)">
+              <ng-container *ngIf="candidateval?.currentStatus!=undefined && candidateval?.currentStatus!=null">
+                {{getFilterValue(candidateval?.currentStatus || candidateval?.status , "CANDIDATE_INVITED") |
+                titlecase}} </ng-container>
+              <ng-container *ngIf="candidateval?.currentStatus === undefined || candidateval?.currentStatus === null">
+                {{ candidateval.status| titlecase}} </ng-container>
+
+            </button>
+            <ng-container *ngIf="showStatus">
+              <button style="background:#e74c3c;"
+                *ngIf="candidateval.status=='INACTIVE' && candidateval.currentStatus==null" type="button"
+                class="btn btn-warning status-action-btn md-action-buttons">UnAvailable</button>
+              <button *ngIf="candidateval.status=='DRAFTED' && candidateval.currentStatus==null" type="button"
+                class="btn btn-warning status-action-btn md-action-buttons">Draft</button>
+              <button style="background:#63cfbe"
+                *ngIf="candidateval.status=='DRAFTED' && candidateval.currentStatus==null" type="button"
+                class="btn btn-warning status-action-btn md-action-buttons">Available</button>
+            </ng-container>
+            <div class="btn-group" *ngIf="candidateval.createdBy==userId && !filtersApplied" dropdown>
+
+              <app-svg-templates dropdownToggle class="svg-position cursor-pointer" *ngIf="!isRoutingDisabled"
+                [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+              <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                style="right: 0; left: auto;z-index: 2;" aria-labelledby="button-animated">
+                <li role="menuitem">
+                  <a (click)="open(candidateval)">
+                    View
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="btn-group pull-right" [ngClass]="{'disabled': filtersApplied || jobStatus !='ACTIVE'}"
+              *ngIf="candidateval.createdBy!=userId && !filtersApplied" dropdown>
+
+              <app-svg-templates dropdownToggle class="svg-position cursor-pointer" *ngIf="!isRoutingDisabled"
+                [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+              <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                style="right: 0; left: auto;z-index: 2" aria-labelledby="button-animated">
+                <li role="menuitem" class="report"
+                  style="display:flex;align-content: space-between;flex-wrap: nowrap;flex-direction: row-reverse;">
+                  <app-flag type="CANDIDATE" [id]="candidateval.candidateId" [flagTo]="candidateval.createdBy"
+                    [flags]="['Report Candidate as fake.']">
+                  </app-flag>
+                </li>
+                <li role="menuitem">
+                  <a (click)="open(candidateval)">
+                    View
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-bottom-section row" style="position: relative;top: 3px">
+          <div class="col-sm-2 md-btn-container">
+            <div *ngIf="showCheckBox==true" class="custom-checkbox" title="Select Jobs to see its activity">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" (click)="selectCheckbox1($event,candidateval)"
+                  [(ngModel)]="candidateval.isSelected"
+                  [disabled]="(selectedcandiCount>=allowedJobCandidateCounts && candidateval.isSelected==false && isDowngraded) "
+                  (ngModelChange)="onNgModelChange($event , candidateval?.candidateId)" name="list_name" />
+                <span class="checkmark" style="top: -5px"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-10 md-job-route-content-candidate" [ngClass]="{'click-blocked': isRoutingDisabled}"
+            (click)="open(candidateval)">
+            <div class="md-name-skill-container">
+              <app-svg-templates class="svg-position" [svgType]="'USER_BLUE'"></app-svg-templates>
+
+              <div class="md-candidate-name" title=" {{candidateval.firstName|titlecase }} {{ candidateval.lastName|titlecase }}">
+                {{ (candidateval.firstName | titlecase) }} {{ (candidateval.lastName | titlecase) }}
+
+              </div>
+
+              <div class="job-closed-tag" [ngClass]="getClasName('INACTIVE')"
+                *ngIf="candidateval?.status != 'ACTIVE'||candidateval?.availability == false">
+                Unavailable
+              </div>
+              <div class="md-candidate-skill">
+                <div class="btn-group jobProfileBtngp text-wrapsfilter">
+                  <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==1">
+                    <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                      <div title="{{data}}" class="ioxlp-1-ele">
+                        {{data}}
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==2">
+                    <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                      <div title="{{data}}" class="ioxlp-2-ele">
+                        {{data}}
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; column-gap: 0.5rem;" *ngIf="candidateval?.primarySkills?.length==3">
+                    <div *ngFor="let data of candidateval?.primarySkills; let i = index;">
+                      <div title="{{data}}" class="ioxlp-3-ele">
+                        {{data}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-candidate-details-container">
+
+              <div class="md-candidate-title" title="{{candidateval.jobTitle}}">
+                {{candidateval.jobTitle}}
+              </div>
+              <div class="md-experience"> Experience : {{
+                candidateval.totalExperience }} Years</div>
+
+              <div class="md-details">
+                <div class="md-client-name" *ngIf="candidateval.showClientName">
+                  <div class="mb-5" title="{{candidateval.clientName}}">
+                    <i class="fa fa-building-o"> </i>
+                    {{candidateval.clientName | truncate:20}}
+                  </div>
+                </div>
+                <div class="md-client-type" *ngIf="candidateval?.clientType!=null">
+                  <div title=" {{candidateval.clientType}}">
+                    {{candidateval.clientType}}
+                  </div>
+                </div>
+                <div class="md-client-location">
+                  <div class="mb-5">
+                    <app-svg-templates *ngIf="candidateval.city || candidateval.state" class="svg-position"
+                      [svgType]="'MAP'"></app-svg-templates>
+
+                    <span title="{{candidateval.city}}">{{candidateval.city}}</span>
+                    <span title="{{candidateval.state}}" *ngIf="candidateval.state"> , {{candidateval.state}}</span>
+                  </div>
+                </div>
+
+                <div title="Employer Estimate: {{candidateval?.targetRateFrom}} - {{candidateval?.targetRateTo}}"
+                  *ngIf="candidateval?.targetRateFrom!=undefined && candidateval?.targetRateTo!=undefined"
+                  class="md-job-pay">
+                  Employer estimate:
+                  <span>
+                    {{candidateval?.country === 'US' ?
+                    '$' :
+                    ''}} {{candidateval?.targetRateFrom}} - {{candidateval?.targetRateTo}}</span>
+
+                  <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'US'"> USD / </span>
+                  <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'IN'"> INR / </span>
+                  <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'CA'"> CAD / </span>
+                  <span title="{{candidateval.country}}" *ngIf="candidateval?.country == 'AU'"> AUD / </span>
+                  <span title="{{candidateval.country}}"
+                    *ngIf="candidateval?.country != 'AU' && candidateval?.country != 'US' && candidateval?.country != 'CA' && candidateval?.country != 'IN'">
+                    CUR / </span>
+                  <span title="{{candidateval.payType}}" *ngIf="candidateval?.payType == 'Hourly'">Hr</span>
+                  <span title="{{candidateval.payType}}" *ngIf="candidateval?.payType == 'Daily'">Day</span>
+                  <span title="{{candidateval.payType}}" *ngIf="candidateval?.payType == 'Weekly'">Week</span>
+                  <span title="{{candidateval.payType}}" *ngIf="candidateval?.payType == 'Monthly'">Month</span>
+                  <span title="{{candidateval.payType}}" *ngIf="candidateval?.payType == 'Yearly'">Year</span>
+
+                  <!-- <value-template #valueProvider="handleValue">
+                    <span
+                      title="{{valueProvider.getValue(candidateval)}}">{{valueProvider.getValues(candidateval)}}</span>
+                  </value-template> -->
+
+                  <div *ngIf="candidateval.resumeAttached && candidateval.createdBy==userId"> <i
+                      class="fa fa-address-card">
+                    </i>
+                    Attached </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="md-interaction-section"
+        [ngClass]="{'disabled': jobStatus !== '' && jobStatus !== 'ACTIVE', 'click-blocked': isRoutingDisabled}">
+
+        <div *ngIf="candidateval.createdBy == userId">
+          <div *ngIf="candidateval.viewedByCount > 0" (click)="goTo(candidateval, 'views')"
+            class="md-interaction-element viewable">
+            <i class="fa fa-eye icon-prime-color"></i>
+            <span title="{{candidateval.viewedByCount}} Views" class="blue-color">
+              {{candidateval.viewedByCount}}
+            </span> Views
+          </div>
+          <div *ngIf="candidateval.viewedByCount == 0" (click)="goTo(candidateval, 'Noviews')"
+            class="md-interaction-element viewable">
+            <i class="fa fa-eye icon-prime-color"></i>
+            <span class="blue-color">0</span> Views
+          </div>
+        </div>
+
+        <div *ngIf="candidateval.createdBy != userId">
+          <div *ngIf="candidateval.viewedByCount > 0" class="md-interaction-element" style="cursor: context-menu!important;">
+            <i class="fa fa-eye icon-prime-color"></i>
+            <span class="blue-color" title="{{candidateval.viewedByCount}} Views">
+              {{candidateval.viewedByCount}}
+            </span> Views
+          </div>
+          <div *ngIf="candidateval.viewedByCount == 0" class="md-interaction-element non-viewable">
+            <i class="fa fa-eye icon-prime-color"></i>
+            <span class="blue-color">0</span> Views
+          </div>
+        </div>
+        <!-- Like/Unlike Heart Icon -->
+        <div *ngIf="candidateval?.isLiked != null" (click)="like(candidateval)">
+          <i class="fa fa-heart pointer md-interaction-element"
+            [ngClass]="candidateval.isLiked ? 'bg-heart liked' : 'icon-prime-color'"></i>
+        </div>
+
+        <!-- Likes Count and Action -->
+        <div class="md-interaction-element" (click)="goTo(candidateval, 'Clike-like')"
+          *ngIf="candidateval?.isLiked != null && candidateval.createdBy == userId">
+          <span class="blue-color">{{ candidateval.likesCount > 0 ? candidateval.likesCount : '0' }}</span>
+          <span> Like<span *ngIf="candidateval.likesCount > 1">s</span></span>
+        </div>
+
+        <!-- Likes Count for Non-Creators -->
+        <div class="md-interaction-element" style="cursor: context-menu;"
+          *ngIf="candidateval?.isLiked != null && candidateval.createdBy != userId">
+          <span class="blue-color">{{ candidateval.likesCount > 0 ? candidateval.likesCount : '0' }}</span>
+          <span> Like<span *ngIf="candidateval.likesCount > 1">s</span></span>
+        </div>
+        <div class="md-interaction-element"
+          [title]="candidateval.createdBy == userId ? 'Jobs Applied Count' : 'Jobs Applied Count'"
+          (click)="candidateval.createdBy == userId ? goTo(candidateval, 'jobsApplied') : null">
+          <app-svg-templates [svgType]="'APPLY'"></app-svg-templates>
+          <span class="blue-color">{{ candidateval.jobsAppliedCount > 0 ? candidateval.jobsAppliedCount : '0' }}</span>
+          <span class="blue-color" *ngIf="candidateval.appliedToday > 0">
+            {{ candidateval.createdBy == userId ? candidateval.appliedToday : '(' + candidateval.appliedToday + ' new)' }}
+          </span>
+          Applied
+        </div>
+        <div class="md-interaction-element"
+          *ngIf="candidateval.createdBy == userId && (candidateval.interestShownCount >= 0 || candidateval.appliedToday > 0)"
+          (click)="goTo(candidateval, 'cInvited')" title="Invites Received Count">
+          <app-svg-templates class="svg-position" [svgType]="'MAIL'"></app-svg-templates>
+          <span class="blue-color">{{ candidateval.interestShownCount > 0 ? candidateval.interestShownCount : '0' }}</span>
+          <span class="blue-color" *ngIf="candidateval.appliedToday > 0">({{ candidateval.appliedToday }} new)</span>
+          Invites
+        </div>
+
+        <div class="md-interaction-element">
+          <ng-container *ngFor="let item of candidateval?.resumes">
+            <div *ngIf="item?.isDefault"> <a (click)="downloadResume(candidateval,userId,item.fileId)" target="_blank"
+                download> <i class="fa fa-download icon-prime-color"> </i> Download Resume </a>
+            </div>
+          </ng-container>
+        </div>
+
+        <div *ngIf="candidateval.createdBy==userId && candidateval?.resumes?.length==0" class="md-interaction-element">
+          <div> <a>
+              <i class="fas fa-paperclip icon-prime-color"></i> Attach Resume </a>
+          </div>
+        </div>
+
+        <div (click)="requestResume(candidateval)" class="md-interaction-element" *ngIf="candidateval.createdBy!=userId && !candidateval.resumeRequested && candidateval.resumes==null && (userType == 'RECRUITER'
+                || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION') ">
+          <a class="get-resume-icon">
+            <i class="far fa-file icon-prime-color"></i>Get Resume </a>
+        </div>
+
+        <div class="md-interaction-element" *ngIf="!candidateval.resumeAttached && candidateval.resumeRequested"> <a
+            style="cursor:context-menu;" download>
+            <i style="color: green;" class="fas fa-check "></i> Resume Requested </a>
+        </div>
+
+        <div class="md-interaction-element pd-7" *ngIf="!inviteapplyhide|| inviteapplyhide==undefined">
+          <div id="cd-invites" title="Invite to Apply" (click)="invite(candidateval, connectionTemplate,jobsupplytemplate)"
+            *ngIf="candidateval.createdBy!=userId && (userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')">
+            <!-- <i class="fa fa-link"> </i> -->
+            <app-svg-templates class="svg-position" [svgType]="'MAIL'"></app-svg-templates>
+            Invite
+          </div>
+        </div>
+
+        <div *ngIf="candidateval.chatHistoryCount>0" class="chat-box-icon md-interaction-element"
+          (click)="chatuser(candidateval, connectionTemplate)" title="{{candidateval.nonSeenMessageCount}} Messages">
+          <i style="font-size: 15px;" _ngcontent-serverapp-c3="" aria-hidden="true"
+            class="pe-7s-comment icon-prime-color"></i>
+          <span class="blue-color">{{candidateval.nonSeenMessageCount}} </span>
+          Chat
+        </div>
+        <div *ngIf="candidateval.createdBy!=userId && candidateval.chatHistoryCount == 0"
+          (click)="chatuser(candidateval, connectionTemplate)" class="md-interaction-element" title="No Messages"
+          style="cursor: context-menu;"> <i class="pe-7s-comment icon-prime-color"> </i>
+          Chat
+        </div>
+        <div *ngIf="candidateval.createdBy==userId && candidateval.chatHistoryCount == 0" class="chat-box-icon"
+          title="{{candidateval.nonSeenMessageCount}} Messages"> <i style="font-size: 15px;"
+            class="pe-7s-comment icon-prime-color"> </i>
+          Chat
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template #noResult>
+  <div class="wert">
+    <div class="col-md-12 mg-bt-9">
+      <img style=" max-height: 9rem;" src="assets/icon/nothing_found.png" alt="">
+    </div>
+    <!-- <div style="visibility: visible;" id="fetching" class="col-md-12 fig1">Fetching Jobs... </div>
+      <div style="visibility: hidden;" id="zerocandidates" class="col-md-12 fig">Couldn't find any Jobs. </div> -->
+    <div class="col-md-12 fig">{{candidatesFoundStatus}} </div>
+  </div>
+</ng-template>
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)" [messageDataPass]="messageData">
+</app-message-widget>
+<ng-template #checkCredit>
+  <div class="custom-panel-heading">
+    <div class="panel-heading">
+      <div class="row panel-tools">
+        <div class="col-sm-2">
+          <button type="button" class="close" aria-label="Close" (click)="closemodel()">
+            <span style="font-size: 26px;font-weight: 400;" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+        style="margin-left: 8px !important">Insufficient Credits</label>
+    </div>
+
+  </div>
+
+  <div class="panel-body custom-modal-body">
+    <div class="form-group row">
+      <div class="row alrt-dngr" style="width:555px;margin-left:20px;">
+        <div class="alert alert-danger addd-dngr" role="alert">
+          You do not have enough credits. Please, purchase credits to proceed.
+        </div>
+      </div>
+
+      <div class="row form-group text-center">
+        <img src="assets/icon/not-enough-credits.jpg" alt="" srcset="" class="nocredits" />
+      </div>
+    </div>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="shifu">
+        <button class="btn btn-sm btn-primary mlr-42" type="submit" (click)="purchesCredits(buyCredit)">Purchase
+          Credits</button>
+        <button class="btn btn-sm btn-default" (click)="closemodel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #buyCredit>
+
+  <ng-container *ngIf="envName!='prod'">
+    <div class="custom-panel-heading">
+      <div class="panel-heading">
+        <div class="row panel-tools">
+          <div class="col-sm-2">
+            <button type="button" class="close" aria-label="Close" (click)="closemodel()">
+              <span style="font-size: 26px;font-weight: 400;" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <label class="control-label padding-top-0 margin-bottom-5 margin-top-5" style="margin-left: 8px !important">Buy
+          credit </label>
+      </div>
+
+    </div>
+    <div class="panel-body custom-modal-body">
+      <ng-container>
+        <div class="list-group app-form">
+          <form [formGroup]="creditform">
+            <div class="form-group"> <label style="margin-top: 10px;" class="col-sm-4 m-t-6 control-label text-right">
+                Buy credit </label>
+              <div class="col-sm-5">
+                <input type="text" formControlName="point" #input OnlyNumber="true" placeholder="Enter Point"
+                  class="form-control">
+                <!-- <input matInput formControlName="point" placeholder="Enter Point" #input  OnlyNumber="true"> -->
+                <!-- <span *ngIf="submited && credit.point.errors?.required" style="color:red"> Enter credit Point</span>
+                <span *ngIf="!submited && credit.point.errors?.required && credit.point.touched" style="color:red">
+                  Enter credit Point</span> -->
+                <div class="error-msg">
+                  <span *ngIf="submited && credit.point.errors?.required" style="color:red"> Enter credit points</span>
+                  <span *ngIf="!submited && credit.point.errors?.required && credit.point.touched" style="color:red">
+                    Enter credit points</span>
+                  <span *ngIf="submited && credit.point.errors?.pattern"> This value cannot start with zero</span>
+                </div>
+
+
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" (click)="buycredit('noval')"> Buy </button>
+          </form>
+          <div class="panel-body pointsSelectWp" style="margin-top: 31px;">
+            <p class="text-center m-b-15"><b>(OR)</b></p>
+            <p class="text-center">
+              Select Credit points
+            </p>
+            <div class="poinstsCnt">
+              <button class="btn btn-primary btn-sm" (click)="buycredit('10')" type="button">10</button>
+              <button class="btn btn-primary btn-sm" (click)="buycredit('50')" type="button">50</button>
+              <button class="btn btn-primary btn-sm" (click)="buycredit('100')" type="button">100</button>
+              <button class="btn btn-primary btn-sm" (click)="buycredit('200')" type="button">200</button>
+              <button class="btn btn-primary btn-sm" (click)="buycredit('500')" type="button">500</button>
+              <button class="btn btn-primary btn-sm" (click)="buycredit('1000')" type="button">1000</button>
+            </div>
+
+          </div>
+
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+
+</ng-template>
+<ng-template #connectionTemplate>
+  <app-connection-template [page]="'candidate-card'" [connectionStatus]="connectionStatus"
+    [counterpartsDetails]="counterpartsDetails" [values]="values" [module]="'candidate'"></app-connection-template>
+</ng-template>
+<ng-template #jobsupplytemplate>
+  <app-new-job [focus]="focus" [screenName]="'invite-job-listing'" [filterData]="candidateData"></app-new-job>
+</ng-template>

@@ -1,0 +1,93 @@
+.mainNav {
+  display: flex;
+  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+}
+
+.navIteam:nth-of-type(1) {
+  flex-grow: 1;
+}
+
+.navIteam:nth-of-type(2) {
+  flex-grow: 1;
+}
+
+.navIteam:nth-of-type(3) {
+  flex-grow: 1;
+}
+
+.navIteam:nth-of-type(4) {
+  flex-grow: 3;
+}
+
+.bg {
+  background-color: white;
+  padding: 10px;
+}
+
+.displayflex {
+  display: flex;
+}
+
+.stkkky {
+  position: sticky;
+  top: 4px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.filimg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.connectionbtn {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.sticky-nav {
+  position: sticky;
+  top: 91px;
+  z-index: 1;
+  // box-shadow: 2px 3px 5px 3px #cfd4db;
+}
+
+.sticky-widget {
+  position: sticky;
+  top: 155px;
+}
+
+.landingside2 {
+  position: fixed;
+  top: 65px;
+  width: 250px !important;
+}
+
+@media all and (min-width: 992px) and (max-width: 1100px) {
+  // .sticky-nav {
+  //   width: 724px !important;
+  // }
+}
+
+@media all and (min-width: 1101px) and (max-width: 1200px) {
+  // .sticky-nav {
+  //   width: 724px !important;
+  // }
+}
+
+.leftview {
+  right: 0;
+  left: auto;
+}
+
+.input-group-addon:hover {
+  background-color: #E7E9EB !important;
+}

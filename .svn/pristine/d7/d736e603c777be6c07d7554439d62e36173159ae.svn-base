@@ -1,0 +1,273 @@
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
+import { UtilService } from '../../../../services/util.service';
+import { SearchData } from '../../../../services/searchData';
+import { ApiService } from '../../../../services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import insureance from '../../directory-professional-list/JSON data/insureance.json';
+
+@Component({
+  selector: 'app-busines-directory-profileslists',
+  templateUrl: './busines-directory-profileslists.component.html',
+  styleUrls: ['./busines-directory-profileslists.component.scss']
+})
+export class BusinesDirectoryProfileslistsComponent  implements OnInit {
+  page: number = 1;
+  pagecounts: number;
+  hcpSpecalityCode = ''
+  hcpType = ''
+  userProfile = [];
+  userSpeciality= [];
+  doctorSearch = undefined;
+  doctorSearcAdd = undefined;
+  albhabet = undefined;
+  countryCode
+  stateCode
+  cityData
+  modalRef: BsModalRef;
+  DataEmitter: Subscription;
+  backdropConfig = {
+  backdrop: true,
+  ignoreBackdropClick: true,
+  keyboard: false,
+  };
+
+  constructor(private aroute: ActivatedRoute,
+    private api: ApiService,
+    private router: Router,
+    private searchDatas: SearchData,
+    private util: UtilService,
+    private modalService: BsModalService,
+    private BreadcrumbService: NgDynamicBreadcrumbService,
+    private fb: FormBuilder) {
+
+    this.aroute.params.subscribe(res => {
+      this.hcpSpecalityCode = res.hcpSpeciality
+      if (res.hcptype != 'all') {
+        this.hcpType = res.hcptype;
+      }
+      this.countryCode = res.countryId;
+      this.stateCode = res.stateId;
+      this.cityData = res.cityId
+
+
+    });
+
+    this.aroute.queryParams.subscribe((res) => {
+      if(res.name != undefined){
+        var reload = false;
+        var lastAlphabet = this.albhabet;
+        this.albhabet = res.name;
+
+        if(lastAlphabet != undefined){
+          reload = true;
+        }
+
+        this.hcpSpecalityCode = undefined;
+        this.hcpType = undefined;
+        if(reload){
+          ////// console.log("HCO - reloading --> " + this.albhabet);
+          this.page = 1;
+          this.getProfileList();
+        }
+      }else{
+        //// console.log('res.name is null');
+      }
+    });
+
+
+    
+
+    this.DataEmitter = this.searchDatas.getsetSearchDire().subscribe((res) => {
+      this.userProfile = res;
+    });
+
+  }
+
+  ngOnInit() {
+   // //// console.log('organisation init')
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+    this.getProfileList();
+    this.advanceFormdata();
+    this.speciality();
+  }
+
+
+
+  alhafilter(value) {
+    this.albhabet = value;
+    this.hcpSpecalityCode = undefined;
+    this.getProfileList();
+  }
+
+  clear() {
+    this.doctorSearch = undefined;
+    this.doctorSearcAdd = undefined;
+    this.hcpSpecalityCode=null;
+    //this.albhabet = "";
+    this.page = 1;
+    this.getProfileList();
+  }
+
+  pagecount(count) {
+    this.page = count;
+     this.getProfileList();
+  }
+
+  search(){
+    this.page = 1;
+    this.getProfileList();
+  }
+  getProfileList() {
+    this.util.startLoader()
+    let data: any = {}
+    //// console.log('this.hcpType - '+ this.albhabet );
+    if (this.hcpType != null && this.hcpType!='') {
+      data.hcpType = this.hcpType;
+    }
+    if(this.hcpSpecalityCode!=null){
+      data.hcpSpeciality = this.hcpSpecalityCode;
+    }
+    data.country = this.countryCode;
+    data.state = this.stateCode;
+    data.city = this.cityData;
+    //data.gender = this.advanceForm.value.Gender
+    data.offset = 1;
+    data.limit = 40;
+    if (this.page != undefined && this.page != null && this.page != 0) {
+      data.offset = this.page;
+    }
+
+    if (this.doctorSearch != undefined && this.doctorSearch != "" && this.doctorSearch != null) {
+      data.searchText = this.doctorSearch;
+    }
+
+    if (this.doctorSearcAdd != undefined && this.doctorSearcAdd != "" && this.doctorSearcAdd != null) {
+      data.locationSearch = this.doctorSearcAdd;
+    }
+    if (this.albhabet != undefined && this.albhabet != null && this.albhabet != "") {
+      data.alphabet = this.albhabet;
+    }
+    this.api.create('healthcare/hcp/organizations', data).subscribe(res => {
+      this.util.stopLoader()
+       if (res != null) {
+         if (res.code == "00000") {
+          res.pageCount = res.pageCount * 40;
+          this.searchDatas.setSearchDire(res);
+          this.userProfile = res;
+          //this.albhabet = undefined;
+         }
+
+        }
+
+      },err => {
+        this.util.stopLoader(); 
+         
+       });
+  }
+
+
+
+  speciality(){
+     this.api.query('healthcare/get/org/hcpspecialization?hcpcode='+this.hcpType+'&offset=0&limit=20').subscribe(res => {
+    this.util.stopLoader()
+    if (res != null) {
+      if (res.code == "00000") {
+         res.pageCount = res.pageCount * 40;
+         this.userSpeciality = res.data.hcpspecialization;
+         this.albhabet = undefined;
+      }
+     }
+   },err => {
+    this.util.stopLoader(); 
+  })
+  }
+
+  infoEdit(template: TemplateRef<any>) {
+    this.speciality();
+    this.modalRef = this.modalService.show(template, this.backdropConfig);
+  }
+
+  closeInfoModal() {
+    this.modalRef.hide();
+    this.advanceForm.reset();
+  }
+
+  selectedCar: number;
+  DistanceSelect: number;
+  SpecialitySelect: any;
+  sortBySelected: any;
+  InsuranceSelect: any;
+  CareRatings: any;
+  GenderSelect: any;
+  AgeSelect: any;
+  ConditionsTreated: any;
+  Speciality
+  advanceForm: FormGroup;
+  // Speciality: { name: string }[] = insureance.specilaity
+  Insurance: { name: string }[] = insureance.insurence;
+  Sort: { name: string }[] = insureance.Sort;
+  Distance: { Distance: string }[] = insureance.Distance
+  patiant: { patiant: string }[] = insureance.patiant
+  Age: { Age: string }[] = insureance.Age
+  Gender: { name: string }[] = insureance.Gender
+
+  advanceFormdata() {
+    this.advanceForm = this.fb.group({
+      speciality: [],
+      Sort: [],
+      Distance: [],
+      Insurance: [],
+      ConditionsTreated: [],
+      CareRatings: [],
+      Gender: [],
+      Age: [],
+      AcceptingNewPatients: [],
+      Telehealth: []
+    })
+  }
+
+  cleardata() {
+    this.advanceForm.reset();
+    this.speciality();
+
+  }
+
+  get filterControl() {
+
+    return this.advanceForm.controls;
+  }
+
+  getAdvancFilter() {
+    let data: any = {};
+    data.hcpSpeciality = this.advanceForm.value.speciality
+    data.gender = this.advanceForm.value.Gender
+    data.offset = 1;
+    data.limit = 40;
+    this.util.startLoader();
+   // //// console.log('data.gender', data.gender)
+    this.closeInfoModal();
+    this.api.create('healthcare/hcp/organizations', data).subscribe(res => {
+    this.util.stopLoader()
+       if (res != null) {
+        if (res.code == "00000") {
+          res.pageCount = res.pageCount * 40;
+          this.searchDatas.setSearchDire(res);
+          this.userProfile = res;
+          this.albhabet = undefined;
+           this.hcpSpecalityCode= data.hcpSpeciality;
+           this.advanceForm.reset();
+
+        }
+       }
+
+      },err => {
+        this.util.stopLoader(); 
+         
+       });
+  }
+
+}

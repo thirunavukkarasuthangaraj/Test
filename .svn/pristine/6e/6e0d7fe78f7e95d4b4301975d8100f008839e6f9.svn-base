@@ -1,0 +1,41 @@
+<div class="bg">
+  <ul class="custom-panel pad">
+    <li class="active"  [ngClass]="{ active:  menus == 'home' }">
+      <a class="navIteam" (click)="menuclick('home')"   >
+        <div class="nav-margin">Home </div>
+      </a>
+    </li>
+    <li class="active" [ngClass]="{ active: menus == 'aboutus' }">
+      <a class="navIteam" (click)="menuclick('aboutus')">
+        <div class="nav-margin">About</div>
+      </a>
+    </li>
+
+    <div class="border-grey">
+      <div class="panel-heading cursor-ponit font-bold" id="rty" (click)="menuclick('members')"
+        [ngClass]="{'active':menus=='members'}">
+        <div class="panel-tools" *ngIf="networkOwnerFlag">
+          <a (click)="membermenuflag = !membermenuflag" [attr.aria-expanded]="!membermenuflag">
+            <i *ngIf="membermenuflag" (click)="down('down')" class="fa fa-chevron-down"></i>
+            <i *ngIf="!membermenuflag" (click)="down('up')" class="fa fa-chevron-up"></i>
+          </a>
+        </div>
+        <h5 class="cursor-ponit common-font-12" routerLinkActive="active"> Members
+          <span class="join-req" *ngIf="membermenuflag && networkOwnerFlag && pendingCount>0">{{pendingCount}}</span>
+        </h5>
+      </div>
+      <div class="custom-panel" *ngIf="networkOwnerFlag" [collapse]="membermenuflag" [isAnimated]="true">
+        <ul id="grouplist" class="list-group cursor-ponit ">
+          <ng-container>
+            <li class="list-group-item line_bw active cursor-ponit common-font-12 b-r-0 no-br"
+              [ngClass]="{'active':menus=='inviteSent'}" (click)="menuclick('inviteSent')" routerLinkActive="active">
+              Invites Sent
+              <span class="join-req"
+                *ngIf="pendingCount>0 && networkOwnerFlag && !membermenuflag">{{pendingCount}}</span>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </ul>
+</div>

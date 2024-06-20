@@ -1,0 +1,158 @@
+import { ActivatedRoute, Router } from '@angular/router';
+import { UtilService } from 'src/app/services/util.service';
+import { ApiService } from 'src/app/services/api.service';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
+import { AppSettings } from 'src/app/services/AppSettings';
+
+@Component({
+  selector: 'app-candidates-page',
+  templateUrl: './candidates-page.component.html',
+  styleUrls: ['./candidates-page.component.scss']
+})
+export class CandidatesPageComponent implements OnInit {
+  @Input() passValues: any;
+  @Input() removeSelected: any;
+  @Input() candidateData: any;
+  @Input() removeTag: any;
+  @Input() candidatesFoundStatus: any;
+  userId = localStorage.getItem("userId")
+  appSettings: AppSettings
+  userType: any;
+  removetagValueget: any;
+  flag: boolean = true;
+  filtersApplied: boolean = false
+  @Input() data: any;
+  url = AppSettings.photoUrl;
+  jobfilter: boolean = false;
+  @Output() selectedCandidate: EventEmitter<any> = new EventEmitter()
+  @Output() removeSeletedUser: EventEmitter<any> = new EventEmitter()
+  dataget
+  checklist: any;
+  checkedList: any = []
+  constructor(private apiService: ApiService, private router: Router, private util: UtilService, private a_route: ActivatedRoute) {
+    this.userId = localStorage.getItem('userId');
+  }
+
+  ngOnInit(): void {
+    this.userType = localStorage.getItem('userType')
+    if (this.data != null) {
+      this.flag = false;
+    }
+
+    this.passValues.forEach(element => {
+      element.isSelected = false
+    });
+    if (Object.keys(this.candidateData).length == 0) {
+      this.filtersApplied = false
+    } else if (Object.keys(this.candidateData).length > 0) {
+      this.filtersApplied = true
+    }
+
+  }
+
+
+
+
+
+  removecheckbox() {
+    console.log(" removeSelected ", this.removeSelected)
+    this.removeSeletedUser.emit(this.checkedList);
+  }
+
+
+  // Check values get
+  selectCheckbox() {
+    this.passValues.every(function (item: any) {
+      return item.isSelected == true;
+    });
+    this.getCheckedItemList();
+  }
+
+  // Get List of Checked Items
+  getCheckedItemList() {
+    this.checkedList = [];
+    for (var i = 0; i < this.passValues.length; i++) {
+      if (this.passValues[i].isSelected)
+        this.checkedList.push(this.passValues[i]);
+    }
+    this.checkedList = JSON.stringify(this.checkedList);
+    this.selectedCandidate.emit(this.checkedList);
+  }
+
+
+
+
+
+
+  apply(values: any) {
+    this.util.startLoader();
+    // let datas:any={};
+    // datas.candidateId=values.candidateId
+    values.userId = localStorage.getItem('userId');
+    values.candidatefilter = true
+    //     this.apiService.updatePut("candidates/updateCandidateApplied",datas).subscribe((res)=>{
+    //     this.util.stopLoader();
+    //     this.data.isApplied=res.data.candidateData.isApplied;
+    //   },err => {
+    //     this.util.stopLoader();
+    //  });
+    this.router.navigate(["jobs"], { queryParams: values });
+
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    // setTimeout(() => {
+    //   if(document.getElementById('zerocandidates') != null){
+    //     document.getElementById('zerocandidates').style.visibility = "visible";
+    //   }
+
+    //   if(document.getElementById('fetching')!=null){
+    //     document.getElementById('fetching').style.visibility = "hidden"
+    //   }
+    // },5000)
+  }
+
+
+  like(values: any) {
+
+    let datas: any = {};
+    datas.candidateId = values.candidateId
+    datas.userId = localStorage.getItem('userId');
+    this.util.startLoader();
+    this.apiService.updatePut("candidates/updateCandidateLiked", datas).subscribe((res) => {
+      if (res.code == '00000') {
+        this.util.stopLoader();
+        this.passValues.forEach(ele=>{
+          if(res.data.candidateData.jobId == ele.jobId){
+            ele.likesCount = res.data.candidateData.likesCount;
+            ele.isLiked = true
+          }
+        })
+
+        // this.data.likesCount = res.data.candidateData.likesCount;
+        // this.data.isLiked = true;
+      }
+
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+
+  open(values: any) {
+    let data: any = {};
+    data.candidateId = values.candidateId
+    data.userId = localStorage.getItem('userId');
+
+    this.util.startLoader();
+    this.apiService.updatePut("candidates/updateCandidateViewed", data).subscribe((res) => {
+      // this.data.isLiked=true;
+      this.util.stopLoader();
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+}

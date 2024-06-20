@@ -1,0 +1,2 @@
+<app-ng-dynamic-breadcrumb class="app-breadcrumb" [bgColor]="'#f1f3f6'" [fontSize]="'15px'" [fontColor]="'#2079B5'" [lastLinkColor]="'#000'" [symbol]="' > '"></app-ng-dynamic-breadcrumb>
+<router-outlet></router-outlet>

@@ -1,0 +1,41 @@
+<div class="app-content sidebar-scroll post-page-background" style="margin-top: 2.5rem;">
+   <div class="container">
+
+      <app-profile-banner></app-profile-banner>
+      <div class="row mrgn-tp-6rm margin-right-0">
+         <!-- no-scroll -->
+         <div [class.no-scroll]="stopMenuScroll" [ngClass]="{'ds-no': !showWidget}"
+            class="col-lg-2 col-md-2 col-sm-2  padding-right-0">
+            <app-profile-navigation-header></app-profile-navigation-header>
+         </div>
+         <div [class.col-75-lg]="!showWidget" [class.col-75-md]="!showWidget" [class.col-75-sm]="!showWidget"
+            class="col-md-7 col-lg-7 col-sm-7   padding-right-0 padding-left-5 sidebar-scroll "
+            *ngIf="pageName === 'personalProfile' || profile === true">
+            <app-personal-profile-edit></app-personal-profile-edit>
+         </div>
+         <div [class.col-75-lg]="!showWidget"
+            class="col-md-7 col-lg-7 col-sm-7   padding-right-0 padding-left-5 sidebar-scroll "
+            *ngIf="pageName === 'settings'">
+            <app-security-settings></app-security-settings>
+         </div>
+         <div [class.col-75-lg]="!showWidget"
+            class="col-md-7 col-lg-7 col-sm-7   padding-right-0 padding-left-5 sidebar-scroll "
+            *ngIf="pageName === 'appAccess'">
+            <app-app-access></app-app-access>
+         </div>
+         <div [class.col-75-lg]="!showWidget"
+            class="col-md-7 col-lg-7 col-sm-7   padding-right-0 padding-left-5 sidebar-scroll "
+            *ngIf="pageName === 'social'">
+            <app-social-media-access></app-social-media-access>
+         </div>
+         <div [class.col-75-lg]="!showWidget"
+            class="col-md-7 col-lg-7 col-sm-7   padding-right-0 padding-left-5 sidebar-scroll "
+            *ngIf="pageName === 'communities'">
+            <app-personal-profile-community></app-personal-profile-community>
+         </div>
+         <div class="col-sm-3 col-md-3 col-lg-3 padding-right-0 padding-left-5">
+            <app-profile-suggestions></app-profile-suggestions>
+         </div>
+      </div>
+   </div>
+</div>

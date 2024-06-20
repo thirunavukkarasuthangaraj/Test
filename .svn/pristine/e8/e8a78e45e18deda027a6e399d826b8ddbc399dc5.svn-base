@@ -1,0 +1,88 @@
+import { ApiService } from './services/api.service';
+import { Component, OnInit, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
+import { UtilService } from './services/util.service';
+declare var $: any;
+import {ConnectionService, ConnectionServiceModule} from 'ng-connection-service';
+// import { SpeedTestService } from 'ng-speed-test';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  title = 'Care Online';
+  status ='Online';
+  isConnected=true;
+
+  constructor(
+   private _api: ApiService,
+   private connectionservices: ConnectionService,
+    private util: UtilService   ) {
+    this.connectionservices.monitor().subscribe(isConnected =>  {
+      this.isConnected = isConnected;
+      if(this.isConnected){
+        this.status = "ONLINE";
+      } else {
+        this.status = "OFFLINE";
+        this.util.stopLoader();
+      }
+    });
+    // this.speedTestService.getMbps().subscribe((speed) => {
+    //     //// console.log('Your speed is ' + speed);
+    //   }
+    // );
+     //// console.log( this.status)
+
+  }
+
+  ngOnInit(): void {
+    this.updateUserOnlineOrOffline('ONLINE');
+  }
+
+  ngAfterViewInit(): void {
+    window.addEventListener('beforeunload', (event) => {
+        this.updateUserOnlineOrOffline('OFFLINE');
+        // event.returnValue = `Are you sure you want to leave?`;
+    });
+  }
+
+  ngOnDestroy() {
+    this.updateUserOnlineOrOffline('OFFLINE');
+   }
+
+  @HostListener('window:unload', ['$event'])
+  unload($event: Event): void {
+    this.updateUserOnlineOrOffline('OFFLINE');
+  }
+
+    @HostListener('window:beforeunload', ['$event']) beforeunloadHandler(event) {
+      this.updateUserOnlineOrOffline('OFFLINE');
+   }
+
+
+  public doBeforeUnload(): void {
+
+  }
+
+  public doUnload(): void {
+    this.updateUserOnlineOrOffline('OFFLINE');
+  }
+
+  private updateUserOnlineOrOffline(status: any) {
+    let url = 'user/onlineoroffline';
+    let user = {
+      userId: localStorage.getItem('userId'),
+      online: status.toUpperCase()
+    };
+    this.util.startLoader()
+    this._api.create(url, user).subscribe(res => {
+      this.util.stopLoader()
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+
+}

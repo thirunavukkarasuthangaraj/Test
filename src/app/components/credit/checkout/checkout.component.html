@@ -1,0 +1,72 @@
+<div class="container " style="margin-top: 83px;">
+  <div class="panel-body faqheader">
+    <a class="small-header-action">
+      <div class="clip-header">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+    </a>
+
+    <h2 class="font-light m-b-xs f-w-800 ">
+      Buy GigSumo Credits
+    </h2>
+
+  </div>
+
+  <div class="row">
+    <section class="container">
+      <div class="row white width-align">
+
+        <div class="block row row-l-r">
+          <!-- <h4 class="row-l-r"> Purchase Credit Point</h4> -->
+
+          <ng-container *ngFor="let item of creditreponse; let i=index;">
+            <div class="col-xs-12 col-sm-6 col-md-2 width-16 padding-10">
+              <ul class="pricing" [ngClass]="colurclass[i]">
+                <li class="card-bg-header">
+                  <h5 class="font-weight">{{item?.points}} Credits </h5>
+                  <h3>${{item?.price /100}}</h3>
+                  <!-- <span class="font-weight">discount ${{item?.discount}}</span> -->
+                </li>
+                <li class="card-bg">
+                  <button (click)="pay(item.price,item)">Buy</button>
+                </li>
+              </ul>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- <div class="row row-l-r">
+          <h4 class="row-l-r"> Membership Plan</h4>
+          <ng-container *ngFor="let item of creditreponse; let i=index;">
+            <div class="col-xs-12 col-sm-6 col-md-2 width-16 padding-10" *ngIf="item.module=='Subscription'">
+              <ul class="pricing" [ngClass]="colurclass[i]">
+                <li class="card-bg-header">
+                  <h5 class="font-weight">  {{item?.description}} </h5>
+                  <h3>${{item?.points  }}</h3>
+                 </li>
+                <li class="card-bg">
+                  <button (click)="pay(item.points ,item)">Buy</button>
+                </li>
+              </ul>
+            </div>
+          </ng-container>
+        </div> -->
+
+
+
+
+
+        <div class="row">
+          <p class="cm-disc">* Unused credits will rollover to the next month</p>
+          <p class="cm-disc">* Credits in this purchase will expire 12 months from today.</p>
+          <p class="cm-disc">* By clicking "Buy" you are authorizing GiSumo to charge your account on file.</p>
+          <button class="back- btn btn-primary" (click)="back()">Cancel</button>
+
+        </div>
+
+
+      </div>
+    </section>
+
+  </div>
+</div>

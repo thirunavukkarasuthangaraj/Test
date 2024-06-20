@@ -1,0 +1,175 @@
+<div class="hpanel margin-bottom-5" *ngIf="showUI && viewType=='MIN'">
+  <div class="panel-heading hbuilt">
+    {{ headerTitle }}
+  </div>
+  <div  *ngIf="loadAPIcall" class="panel-body">
+    <app-common-skeleton *ngIf="loadAPIcall"  [countforView]="1" [NameOftheScreen]="'widgets'"></app-common-skeleton>
+  </div>
+  <div  *ngIf="!loadAPIcall" class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="community-item">
+          <a *ngFor="let item of visitorsData; let i = index;">
+            <img class="img-circle" data-placement="top" data-toggle="tooltip"
+              title="{{item.firstName}} {{item.lastName}}" *ngIf="item.photo && i<5" [src]="url+item.photo"
+              (click)="route(item)" >
+              <div title="{{item.firstName}} {{item.lastName}}" *ngIf="!item.photo && i<5" (click)="route(item)">
+                <div class="circles" [style.background-color]="getColorName(item.firstName,item.lastName)">
+                  <div class="circle-text ">{{ getInitialName(item.firstName,item.lastName) }}</div>
+                </div>
+              </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <button class="btn btn-primary btn-xs" (click)="modelopen(template)" style="float: right;">Invite</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="margin-bottom-5" *ngIf="showUI && viewType=='MAX'" infiniteScroll [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="1500" (scrolled)="onScrollDown()">
+  <div class="panel-body cardw">
+    <div class="row">
+      <div class="col-sm-12 lkop" *ngIf="visitorsData.length===0">
+        <label>You have no new visitors.</label>
+      </div>
+      <div class="col-3">
+        <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of visitorsData ">
+          <div class="hpanel  contact-panel" style="height: fit-content !important;">
+            <div class="panel-body" style="height: 160px !important; padding: 10px;" (click)="userprofile(item.userId)">
+              <div class="btn-group  pull-right m-t-m-15">
+                <div class="btn-group m-t-20" dropdown>
+                  <button type="button" class="btn primary-btn  btn-xs" *ngIf="item.status=='PENDING'"
+                    (click)="inviteFollower(item); $event.stopPropagation();">
+                    Invite
+                  </button>
+
+                  <button type="button" class="btn primary-btn  btn-xs"
+                    *ngIf="item.status=='REQUEST_SENT' ||item.status=='REQUEST SEND'"
+                    (click)="$event.stopPropagation();">
+                    Invite Sent
+                  </button>
+
+                </div>
+              </div>
+
+              <img *ngIf="item.photo!=null" alt="logo" class="img-circle" src={{url+item.photo}}
+                onerror="this.src='assets/images/userlogoimg.png';">
+              <img *ngIf="item.photo==null" alt="logo" class="img-circle" src="assets/images/userlogoimg.png">
+
+              <div class="row">
+                <div class="col-sm-6" style="padding-right: 0px;">
+                  <h3 class="ellipse font-bold-14" style="padding-bottom: 1px;"><a (click)="userprofile(item.userId)"
+                      data-toggle="tooltip" data-placement="top" title="{{item.firstName}} {{item.lastName}}">
+                      {{item.firstName }} {{item.lastName }}</a></h3>
+                </div>
+              </div>
+
+              <div class="text-muted font-bold m-b-xs ellipse" data-toggle="tooltip" data-placement="top"
+                title="{{item.title}}">
+                {{item.title }}</div>
+              <p class="ellipse" data-toggle="tooltip" data-placement="top" title="{{item.organisation}}">
+                {{item.organisation }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #template>
+
+   <div class="common-header-flex">
+      <div>Invite visitors</div>
+      <button><span class="common-close" (click)="closeModal()">&times;</span></button>
+    </div>
+
+    <input type="text" class="form-control" (keyup)="onSearch($event)" class="ksjksd input-sm" name="searchName" id=""
+      aria-describedby="helpId" placeholder="Search Visitors" [(ngModel)]="searchName" />
+
+    <div class="ksfdh920" *ngIf="visitorsData.length>1 && !beingTyped">
+      <div>
+        <label for="">Select All</label>
+      </div>
+      <div class="custom-checkbox em">
+        <label class="checkbox-label font-bold" style="text-align: center">
+          <input type="checkbox" [(ngModel)]="theChecker" (change)="checkAll($event)" />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- <div class="modal-body"> -->
+    <div *ngFor="
+      let data of visitorsData
+        | filter: searchName
+        | paginate: config;
+      let i = index
+    ">
+      <div class="oi">
+        <div class="row poi">
+          <div class="col-sm-1">
+
+            <img *ngIf="data?.photo" class="sddx" [src]="url+data.photo"/>
+            <div *ngIf="!data?.photo">
+              <div class="circles" [style.background-color]="getColorName(data.firstName,data.lastName)">
+                <div class="circle-text ">{{ getInitialName(data.firstName,data.lastName) }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-9">
+            <label title="{{ data.firstName }} {{ data.lastName }} ">
+              <a class="ft-12">{{ data.firstName }} {{ data.lastName }}</a>
+            </label>
+            <div class="overflow-hiden-" title="{{ data.title }}">
+              {{ data.title }}
+            </div>
+          </div>
+          <div class="col-sm-2 rm">
+            <div class="custom-checkbox em">
+              <label class="checkbox-label font-bold" style="text-align: center">
+                <input type="checkbox" value="{{ data.userId }}" [(ngModel)]="data.checked"
+                  (change)="onCheckboxChange(data, $event)" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- </div> -->
+    <div class="modal-footer">
+      <div class="col-sm-6">
+        <pagination-controls class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+        </pagination-controls>
+      </div>
+      <div class="col-sm-6">
+        <div class="footerContainer" style="float: right">
+          <div class="footerIteam1">
+            <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+              Cancel
+            </button>
+          </div>
+          <div class="footerIteam2">
+            <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="selectedEntities.length === 0||apicalled"
+              (click)="inviteAll()">
+              Send Invitation
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+ </ng-template>

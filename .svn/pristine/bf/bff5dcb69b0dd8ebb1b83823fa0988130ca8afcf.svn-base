@@ -1,0 +1,3796 @@
+import { debounce, debounceTime, distinctUntilChanged, findIndex, map, switchMap } from 'rxjs/operators';
+import { element } from "protractor";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  TemplateRef,
+  HostListener,
+} from "@angular/core";
+import { ApiService } from "src/app/services/api.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { Subscription, Subject, Observable } from "rxjs";
+import { CommonValues } from "src/app/services/commonValues";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AppSettings } from "src/app/services/AppSettings";
+import { UtilService } from "src/app/services/util.service";
+import { NgxSummernoteDirective } from "ngx-summernote";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { NgbCarouselConfig } from "@ng-bootstrap/ng-bootstrap";
+import { ProfilePhoto } from "src/app/services/profilePhoto";
+import Swal from "sweetalert2";
+import { SearchData } from "src/app/services/searchData";
+import { UserBadgeComponent } from "../landing-page/user-badge/user-badge.component";
+import { deburr } from "lodash";
+import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import * as e from 'cors';
+import { CustomValidator } from '../Helper/custom-validator';
+import * as _ from 'lodash';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { TypeaheadOrder } from 'ngx-bootstrap/typeahead';
+
+declare var $: any;
+
+@Component({
+  selector: "app-bussiness-post",
+  templateUrl: "./bussiness-post.component.html",
+  styleUrls: ["./bussiness-post.component.scss"],
+  animations: [
+    // trigger('slide-in', [
+    //   state('left', style({
+    //     opacity: 0,
+    //     transform: 'translateX(-100%)'
+    //   })),
+    //   state('middle', style({
+    //     opacity: 1,
+    //     transform: 'translateX(0)'
+    //   })),
+    //   state('right', style({
+    //     opacity: 0,
+    //     transform: 'translateX(100%)'
+    //   })),
+    //   transition('left=>middle', [
+    //     style({
+    //       opacity: 0,
+    //       transform: 'translateX(-100%)'
+    //     }),
+    //     animate('400ms')
+    //   ]),
+    //   transition('right=>middle', [
+    //     style({
+    //       opacity: 0,
+    //       transform: 'translateX(100%)'
+    //     }),
+    //     animate('400ms')
+    //   ]),
+    //   transition('middle=>*', [
+    //     animate('400ms')
+    //   ])
+    // ])
+  ]
+})
+export class BussinessPostComponent implements OnInit {
+  show = false;
+  // sharecmd:any ={}
+  public animState = 'right'
+  public animState0 = 'middle'
+  public animState1 = 'right'
+  public animState2 = 'right'
+  sharecmd;
+  @ViewChild("myFileInputoo", { static: false }) myFileInputoo;
+  @ViewChild("myFileInput1", { static: false }) myFileInput1;
+  @ViewChild("myFileInput2", { static: false }) myFileInput2;
+  @ViewChild("myFileInput3", { static: false }) myFileInput3;
+  @ViewChild("myFileInput4", { static: false }) myFileInput4;
+  datass: any;
+  bannerdata;
+  admindata;
+  adminflag: Boolean;
+  count = 0;
+  clickEventsubscription: Subscription;
+  adminviewflag;
+  values: any = {};
+  menu;
+  @Input() commonemit;
+  @Input() ownerView;
+  @Input() postView;
+  registerForm: FormGroup;
+  jobPostForm: FormGroup;
+  candidatePostForm: FormGroup;
+  submitted = false;
+  postdatas: any = {};
+  commanddata = null;
+  urlLinkDetctForm: FormGroup
+  commanddata1 = null;
+  commanddataEdit = null;
+  imagEditData: any = [];
+  imagEditDatatemp: any = [];
+  posteditId: any;
+  typesofFile: any;
+  userData;
+  contentLoaded: boolean = false;
+  tempdata;
+  shareData;
+  commentData;
+  tempdataforscroll;
+  userDatascroll;
+  data = 10;
+  counts: number = 0;
+  Commomdatass;
+  throttle = 50;
+  scrollDistance = 1;
+  cunt: number = 0;
+  businessId;
+  networkId;
+  teamId;
+  communityid;
+  postflags = false;
+  FormData: any;
+  uploadFiles: Array<any> = [];
+  resumeupload;
+
+  attachment = false;
+  modalRef: BsModalRef;
+  modalRefedit: BsModalRef;
+  modalRef_PostView: BsModalRef;
+  modelList: any = [];
+  checkedList: any = [];
+  tempcheckedList: any = [];
+  page: number = 1;
+  postviewModelName: any;
+  imgUrl = AppSettings.photoUrl;
+  postPrivacy = "Everyone";
+  PhotoPath = AppSettings.photoUrl;
+  searchName: any;
+
+  sendMessageData = {};
+  entername;
+  singleimagedata;
+  config1 = {
+    focus: true,
+    height: 150,
+    placeholder: "Start a conversation....",
+    toolbar: [],
+    link: [["link", ["linkDialogShow", "unlink"]]],
+    insert: ["link", "picture", "video"],
+    view: ["fullscreen", "codeview", "help"],
+    style:
+      "outline: none !important;background-color: rgb(241 243 246) !important;cursor: pointer !important;",
+    disableDragAndDrop: true,
+    blockquoteBreakingLevel: 1,
+    callbacks: {
+      onFocus: function (contents) {
+        if ($(this).summernote("isEmpty")) {
+          $("#summessage").html(""); //either the class (.) or id (#) of your textarea or summernote element
+        }
+      },
+    },
+  };
+
+  config2 = {
+    focus: false,
+    height: 150,
+    placeholder: "",
+    toolbar: [],
+    link: [["link", ["linkDialogShow", "unlink"]]],
+    insert: ["link", "picture", "video"],
+    view: ["fullscreen", "codeview", "help"],
+    style:
+      "outline: none !important;background-color: rgb(241 243 246) !important;cursor: pointer !important;",
+    disableDragAndDrop: true,
+    blockquoteBreakingLevel: 1,
+    callbacks: {
+      onFocus: function (contents) {
+        if ($(this).summernote("isEmpty")) {
+          $("#summessage").html(""); //either the class (.) or id (#) of your textarea or summernote element
+        }
+      },
+    },
+  };
+
+  closeResult: string;
+  loginUser: any = {};
+
+  startCount = 0;
+  pageCount = 7;
+  currentPageCount = 0;
+
+  modalScrollDistance = 2;
+  modalScrollThrottle = 300;
+
+  selectedImage = false;
+  selectedvideo = false;
+  eventHorizon: Subscription;
+  urlVariable: Subscription;
+  scrollSubscri: Subscription
+  afterKey: any = undefined;
+  cmdOffsetafterkey: any = null;
+  newcmdoffSetMap: any = null;
+  postTypeForm: FormGroup;
+  linkChecker: Subscription;
+
+  @ViewChild("videoPlayer", { static: false }) videoplayer: ElementRef;
+  @ViewChild("videoPlayerpopup", { static: false })
+  videoPlayerpopup: ElementRef;
+  @ViewChild("myFileInput", { static: false }) myFileInput: ElementRef;
+  @ViewChild("chartDiscussion", { static: false }) chartDisc: ElementRef;
+  @ViewChild(NgxSummernoteDirective, { static: false })
+  summernote: NgxSummernoteDirective;
+  @ViewChild("myInput", { static: false }) myInputVariable: ElementRef;
+  @ViewChild("takeInput", { static: false }) InputVar: ElementRef;
+
+  sharePost: any = {};
+  userId;
+  selectPost = "All";
+  commonVariables: any = {};
+  scrollValue: any = {};
+  employeeFlag: boolean = false;
+  postLoading: boolean = false;
+  fileDragdrop: any;
+
+  // linkUrlText: any = null;
+  linkUrlText = new Subject<string>();
+
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: BsModalService,
+    private commonvalues: CommonValues,
+    private util: UtilService,
+    private httpClient: HttpClient,
+    private searchData: SearchData,
+    private profilePhoto: ProfilePhoto,
+    private userbadges: UserBadgeComponent,
+    private formBuilder: FormBuilder,
+  ) {
+
+
+    this.clickEventsubscription = this.commonvalues
+      .getbusinessid()
+      .subscribe((res) => {
+        this.values = res;
+        if (res.basicDeatils) {
+          res.basicDeatils.employees.forEach(element => {
+            if (element.userId === localStorage.getItem('userId')) {
+              this.employeeFlag = true
+            }
+          });
+        }
+
+        if (res.basicDeatils) {
+          res.basicDeatils.followers.forEach(element => {
+            if (element.userId === localStorage.getItem('userId')) {
+              // this.values.adminviewnavigation=true
+            }
+          });
+        }
+
+        this.adminflag = res.adminviewnavigation;
+        if (this.values.menu) {
+          this.menu = this.values.menu;
+        }
+      });
+
+
+    this.eventHorizon = this.searchData
+      .getCommonVariables()
+      .subscribe((res) => {
+        this.commonVariables.postPrivacyFlag = res.postPrivacyFlag;
+        this.commonVariables.jobPostingFlag = res.jobPostingFlag;
+      });
+
+    this.linkChecker = this.searchData.getWebLinkURL().subscribe(res => {
+      if (res != null && res != undefined && res != '') {
+        this.linkUrlText = res
+      } else {
+        this.linkUrlText = null
+      }
+
+      if (this.linkUrlText != null) {
+        var data = { key: '5b54e80a65c77848ceaa4630331e8384950e09d392365', q: this.linkUrlText }
+
+        fetch('https://api.linkpreview.net', {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify(data),
+        }).then(res => {
+          if (res.status == 429) {
+            // console.log(res.status)
+            //too many requests
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+            //   this.linkDescription = "Too many requests received"
+            // this.linkImage = 'assets/icon/multiple_requests.PNG'
+            // this.linkTitle = "Requests Limit Exceeded"
+          } else if (res.status == 426) {
+            //too many requests
+            //  this.linkDescription = "Too many requests received"
+            // this.linkImage = 'assets/icon/multiple_requests.PNG'
+            // this.linkTitle = "Requests Limit Exceeded"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          } else if (res.status == 425) {
+            // invalid response code
+            //  this.linkDescription = "Received invalid response"
+            // this.linkImage = 'assets/icon/thumbs_down.PNG'
+            // this.linkTitle = "Invalid Response"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          } else if (res.status == 423) {
+            //forbidden by bots
+            //  this.linkDescription = "Link is forbidden to retrieve data."
+            // this.linkImage = 'assets/icon/forbidden_link.PNG'
+            // this.linkTitle = "Forbidden Link"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          } else if (res.status == 403) {
+            //invalid or blank access key
+            // this.linkDescription = "Received invalid response"
+            // this.linkImage = 'assets/icon/broken_link.PNG'
+            // this.linkTitle = "Invalid Response"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          } else if (res.status == 401) {
+            // cannot verify API access key
+            // this.linkDescription = "Received invalid response"
+            // this.linkImage = 'assets/icon/broken_link.PNG'
+            // this.linkTitle = "Invalid Response"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          } else if (res.status == 400) {
+            // generic
+            // this.linkDescription = "Received invalid response"
+            // this.linkImage = 'assets/icon/broken_link.PNG'
+            // this.linkTitle = "Invalid Response"
+            this.linkDescription = null
+            this.linkImage = null
+            this.linkTitle = null
+          }
+          // throw new Error('something went wrong');
+          return res.json()
+        }).then(response => {
+          // console.log(response)
+          this.linkDescription = response.description
+          this.linkImage = response.image
+          this.linkTitle = response.title
+          this.linkURL = response.url
+        }).catch(error => {
+          // console.log(error)
+        })
+
+
+
+
+
+      }
+
+
+
+    })
+
+    // this.urlVariable = this.searchData.getWebLinkURL().subscribe(res=>{
+    //   this.asdf = res
+    // })
+
+    this.scrollSubscri = this.searchData
+      .getScroll()
+      .subscribe((res) => {
+        this.scrollValue.windowScroll = res.windowScroll;
+      });
+
+
+    $("#summernote").summernote({
+      popover: {
+        blockquoteBreakingLevel: 2,
+        link: [["link", ["linkDialogShow", "unlink"]]],
+      },
+    });
+    this.getLoginUserDetails();
+
+
+
+  }
+  results$: Observable<any>
+  subject = new Subject()
+
+
+  linkURL
+  linkDescription
+  linkTitle
+  linkImage
+  // asdf: any = {}
+  isJoinedCommunity
+  isCommunityAdmin
+  isCommunitySuperAdmin
+  userType: any;
+  communityType
+  isCommunityJoined
+  ngOnInit() {
+    this.getOtherStatesList()
+    this.postTypeForm = this.formBuilder.group({
+      postType: "Everyone",
+    });
+
+    this.urlLinkDetctForm = this.formBuilder.group({
+      snippedLinkText: null
+    }, { validators: CustomValidator.linkDetector('snippedLinkText', this.searchData) })
+
+
+    this.userId = localStorage.getItem("userId");
+
+
+    this.util.startLoader();
+    this.api.query("user/" + this.userId).subscribe((res) => {
+      if (res && res.code === "00000") {
+        this.userType = res.userType
+        this.util.stopLoader();
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+
+
+
+    this.values = this.commonemit;
+    this.route.queryParams.subscribe((res) => {
+      this.userData = [];
+      if (
+        res.businessId === undefined &&
+        res.communityId === undefined &&
+        res.networkId === undefined &&
+        res.teamId === undefined
+      ) {
+        this.Commomdatass = "USER";
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      } else if (res.communityId !== undefined) {
+        this.Commomdatass = "COMMUNITY";
+
+        // this.asdf.communityType = res.communityType
+        // this.asdf.communityId = res.communityId
+        // this.asdf.isJoined = res.isJoined
+        // this.searchData.setWebLinkURL(this.asdf)
+        // this.commonvalues.businessid(this.values)
+        this.communityid = res.communityId;
+        this.communityType = res.communityType
+        if (res.isJoined) {
+          this.isCommunityJoined = res.isJoined
+        } else if (res.join) {
+          this.isCommunityJoined = res.join
+        }
+
+        if (res.admin) {
+          this.isCommunityAdmin = res.admin
+        } else if (res.isAdmin) {
+          this.isCommunityAdmin = res.isAdmin
+        }
+        this.isCommunitySuperAdmin = res.isSuperAdmin
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      } else if (res.businessId !== undefined) {
+        this.Commomdatass = "BUSINESS";
+        this.businessId = res.businessId;
+        // this.getpostdatas()
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      } else if (res.networkId !== undefined) {
+        this.Commomdatass = "NETWORK";
+        this.networkId = res.networkId;
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      } else if (res.teamId !== undefined) {
+        this.Commomdatass = "TEAM";
+        this.teamId = res.teamId;
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      }
+      // setting up the count of employee requests received
+      // this.api
+      //   .query("business/employee/request/pending/" + res.businessId)
+      //   .subscribe((res) => {
+      //     this.searchData.setRequestedEmployeeCount(res.length);
+      //   });
+    });
+
+    //this.setRequestRecvdCount();
+
+    // this.FormData.append('file', 'file');
+    // this.FormData.delete('file');
+
+
+
+  }
+
+  getOtherStatesList(){
+      this.otherStatesList = []
+      this.api
+        .query("country/getAllStates?countryCode=US")
+        .subscribe((res) => {
+          res.forEach(ele=>{
+            this.otherStatesList.push(ele.stateName)
+          })
+        }, err => {
+          this.util.stopLoader();
+        });
+  }
+
+
+
+  organizationList: any = []
+  primarySkillsList: any = []
+  secondarySkillsList: any = []
+  payTypeList: any = []
+  clientTypeList: any = []
+  clientNameList: any = []
+  clientNameList1: any = []
+  durationTypeList: any = []
+  jobClassificationList: any = []
+  workAuthorizationList: any = []
+
+
+  getListValues(value, param) {
+    if(this.jobClassificationList.length==0){
+      this.util.startLoader()
+      this.api.query('listvalue/find?domain=' + value).subscribe(res1 => {
+        if (res1.code == '00000') {
+          // this.util.stopLoader()
+          if(res1.data.listValues.length!=0){
+            this.jobClassificationList = res1.data.listValues[0].listItems
+          }
+          this.util.startLoader()
+          this.api.query('listvalue/find?domain=CLIENT_TYPE').subscribe(res2 => {
+            if (res2.code == '00000') {
+              if(res2.data.listValues.length!=0){
+                this.clientTypeList = res2.data.listValues[0].listItems
+              }
+              this.util.startLoader()
+              this.api.query('listvalue/find?domain=PAY_TYPE').subscribe(res3 => {
+                if (res3.code == '00000') {
+                  if(res3.data.listValues.length!=0){
+                    res3.data.listValues[0].listItems.forEach(element => {
+                      this.payTypeList.push(element.item)
+
+                    });
+                  }
+                  this.util.startLoader()
+                  this.api.query('listvalue/find?domain=DURATION').subscribe(res4 => {
+                    if (res4.code == '00000') {
+                      if(res4.data.listValues.length!=0){
+                        this.durationTypeList = res4.data.listValues[0].listItems
+                      }
+                      this.util.startLoader()
+                      this.api.query('listvalue/find?domain=PRIMARY_SKILLS').subscribe(res5 => {
+                        if (res5.code == '00000') {
+                           if(res5.data.listValues.length!=0){
+                            res5.data.listValues[0].listItems.forEach(ele=>{
+                              this.primarySkillsList.push(ele.item)
+                            })
+                           }
+                          this.util.startLoader()
+                           this.api.query('listvalue/find?domain=WORK_AUTHORIZATION').subscribe(res6 => {
+                            if (res6.code == '00000') {
+                              if(res6.data.listValues.length!=0){
+                                this.workAuthorizationList = res6.data.listValues[0].listItems
+                              }
+                              this.util.startLoader()
+                              this.api.query('listvalue/find?domain=CANDIDATE_AVAILABLITY').subscribe(res7 => {
+                                if (res7.code == '00000') {
+                                  if(res7.data.listValues.length!=0){
+                                    this.periodList = res7.data.listValues[0].listItems
+                                  }
+                                  this.util.startLoader()
+                                  this.api.query('listvalue/find?domain=TOTAL_EXPERIENCE').subscribe(res8 => {
+                                    if (res8.code == '00000') {
+                                      if(res8.data.listValues.length!=0){
+                                        this.totalExperienceList = res8.data.listValues[0].listItems
+                                      }
+                                      this.util.startLoader()
+                                      this.api.query('listvalue/find?domain=JOB_TITLE').subscribe(res9 => {
+                                        if (res9.code == '00000') {
+                                          setTimeout(() => {
+                                            if(res9.data.listValues.length!=0){
+                                              res9.data.listValues[0].listItems.forEach(ele=>{
+                                                this.candidateJobTitleList.push(ele.item)
+                                              })
+                                            }
+                                          }, 600);
+                                          this.api.query('jobs/getClientList/'+this.userId).subscribe(res10=>{
+                                            if(res10.code=='00000'){
+                                              this.clientNameList1 = res10.data.clientList
+                                              this.clientNameList = res10.data.clientList
+                                              console.log(res10.data.clientList)
+                                              this.api.query('listvalue/find?domain=SECONDARY_SKILLS').subscribe(res11=>{
+                                                if(res11.code=='00000'){
+                                                  res11.data.listValues[0].listItems.forEach(ele=>{
+                                                    this.secondarySkillsList.push(ele.item)
+                                                  })
+                                                  if(param == 'CANDIDATE'){
+                                                  this.util.stopLoader()
+                                                  this.commonVariables.jobPostingFlag = false
+                                                  this.commonVariables.candidatePostingFlag = true
+                                                  this.commonVariables.postPrivacyFlag = false
+                                                  this.searchData.setCommonVariables(this.commonVariables)
+                                                }else if(param == 'JOBS'){
+                                                  this.util.stopLoader()
+                                                  this.commonVariables.jobPostingFlag = true
+                                                  this.commonVariables.postPrivacyFlag = false
+                                                  this.searchData.setCommonVariables(this.commonVariables)
+                                                }
+                                              }
+                                            })
+                                            }
+                                          })
+                                        }
+                                      })
+                                    }
+                                  })
+                                }
+                              })
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
+    }else {
+      if(param == 'CANDIDATE'){
+        this.util.stopLoader()
+        this.commonVariables.jobPostingFlag = false
+        this.commonVariables.candidatePostingFlag = true
+        this.commonVariables.postPrivacyFlag = false
+        this.searchData.setCommonVariables(this.commonVariables)
+      }else if(param == 'JOBS'){
+        this.util.stopLoader()
+        this.commonVariables.jobPostingFlag = true
+        this.commonVariables.postPrivacyFlag = false
+        this.searchData.setCommonVariables(this.commonVariables)
+      }
+    }
+  }
+
+  sortConfigWork: TypeaheadOrder = {
+    direction: "desc",
+    field: "organisationName",
+  };
+
+  onClientTypeChange(value){
+    this.util.startLoader()
+    this.jobPostForm.patchValue({
+      clientName: null,
+      organisationId: null
+    })
+    this.clientNameList = []
+    this.clientNameList1.forEach(ele=>{
+      if(ele.clientType == value){
+        this.clientNameList.push(ele)
+      }
+    })
+    this.util.stopLoader()
+  }
+
+  noResult: boolean = false
+  typeaheadNoResults(event: boolean): void {
+    this.noResult = event;
+    this.jobPostForm.patchValue({
+      organisationId: null
+    })
+  }
+
+  createJobs() {
+    // this.getListValues('ENGAGEMENT_TYPE')
+    this.animState0 = 'right'
+    this.animState1 = 'right'
+    this.animState = 'middle'
+    this.generateYears()
+
+
+    // this.payTypeList = ['Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly']
+    // this.clientTypeList = ['Direct Hire', 'Direct Client', 'Systems Integrator', 'Prime Vendor', 'Vendor', 'Supplier', 'Staffing Agency']
+    // // this.clientNameList = ['Abubakr', 'Shan', 'Thiru', 'Sundar', 'Dhinesh', 'Nambi']
+    // this.durationTypeList = ['Hours', 'Days', 'Weeks', 'Months', 'Year']
+    // this.clientNameList = ['Abubakr Hospitals', 'GLobal Hospitals', 'Mavens-i Softech Solutions Pvt. Ltd.']
+    // this.SkillsList = ['Java', 'Hibernate', 'Spring']
+    // this.jobClassificationList = ['Freelance', 'Contract', 'Internship', 'Part Time', 'Temporary']
+
+
+    this.jobPostForm = this.formBuilder.group({
+      jobPostedBehalfOf: localStorage.getItem('currentOrganization'),
+      clientType: [null, [Validators.required]],
+      jobId: [null],
+      jobDescription: [null, [Validators.required]],
+      engagementOther: [null],
+      jobPostedBy: [localStorage.getItem('userId')],
+      durationType: [null],
+      duration: [null],
+      organisationId: [null],
+      clientName: [null, [Validators.required]],
+      jobClassification: [null, [Validators.required]],
+      jobTitle: [null, [Validators.required]],
+      primarySkills: [null, [Validators.required]],
+      secondarySkills: [null, [Validators.required]],
+      showClientName: false,
+      showClientType: false,
+      country: [null],
+      state: [null],
+      zipcode: [null],
+      city: [null],
+      experienceFrom: [null, [Validators.required]],
+      experienceTo: [null, [Validators.required]],
+      targetRate: [null, [Validators.required]],
+      payType: [null, [Validators.required]],
+      remoteWork: false,
+      relocationRequired: false,
+      securityClearance: false,
+      workFromHome: false,
+
+    })
+    this.getListValues('ENGAGEMENT_TYPE', 'JOBS')
+
+  }
+
+  onChngOrg(event) {
+    console.log('this is event')
+    console.log(event.item.organisationId)
+     this.jobPostForm.patchValue({
+       organisationId: event.item.organisationId
+     })
+  }
+
+  onChangePeriod(value) {
+
+  }
+
+  candidateJobTitleList: any = []
+  periodList: any = []
+  totalExperienceList: any = []
+  otherStatesList: any = []
+  engagementTypeList: any = []
+  createCandidate() {
+    this.animState0 = 'right'
+    this.animState1 = 'right'
+    this.animState = 'right'
+    this.animState2 = 'middle'
+    this.candidatePostForm = this.formBuilder.group({
+      engagementType: [null, [Validators.required]],
+      firstName: [null, [Validators.required]],
+      lastName: [null, [Validators.required]],
+      candidateId: [null],
+      appliedBy: [null],
+      createdBy: [null],
+      enrolledOn: [null],
+      updatedOn: [null],
+      limit: [null],
+      userId: [null],
+      isResumeAttached: [false],
+      phone: [null, [Validators.pattern(/^[\d -]+$/)]],
+      otherPreferedStates: [null],
+      otherPrefered: [false],
+      email: [null, [Validators.email]],
+      candidateEmailId: [null, [Validators.email]],
+      resumeSummary: [null, [Validators.required]],
+      jobTitle: [null, [Validators.required]],
+      availableIn: [null, [Validators.required]],
+      totalExperience: [null, [Validators.required]],
+      workAuthorization: [null, [Validators.required]],
+      targetRate: [null, [Validators.required]],
+      payType: [null, [Validators.required]],
+      primarySkills: [null, [Validators.required]],
+      secondarySkills: [null, [Validators.required]],
+      country: [null],
+      state: [null],
+      zipCode: [null],
+      city: [null],
+      remoteWork: [false],
+      relocationRequired: [false],
+      securityClearance: [false],
+      workFromHome: [false],
+      createCandidateOnPlatform: [false],
+      candidateStatus: true
+
+    })
+    this.generateYears()
+    this.getListValues('ENGAGEMENT_TYPE', 'CANDIDATE')
+    // this.payTypeList = ['Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly']
+    // this.candidateJobTitleList = ['Assistant Manager', 'Manager', 'Clerk']
+    // this.periodList = ['Immediate', '1 Week', '2 Weeks', 'Other']
+    // this.totalExperienceList = ['Less than 6 months', 'Less than a year', '1 Year', '2 Years', '3 Years', '4 Years', '5 Years', 'More than 5 years']
+    // this.engagementTypeList = ['Corp to Corp', 'W2 - Contract', 'W2 - Full Time', 'Part Time', 'Freelance', 'Internship', 'Other']
+    // this.SkillsList = ['Java', 'Hibernate', 'Spring']
+    // this.otherStatesList = []
+
+  }
+
+  selectedTitle: any;
+  onselecte(value) {
+    this.selectedTitle = value.item;
+  }
+
+  submit: boolean = false
+  createJob() {
+    console.log(this.jobPostForm)
+    this.submit = true
+    if (this.jobPostForm.valid) {
+      this.util.startLoader();
+      // this.jobPostForm.value.jobPostedBy = localStorage.getItem('userId')
+      this.api.create('jobs/createJob', this.jobPostForm.value).subscribe(res => {
+        this.util.stopLoader();
+        if (res.code == '00000') {
+          this.modalRef.hide()
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Job created successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            this.commonVariables.jobPostingFlag = false
+            this.searchData.setCommonVariables(this.commonVariables)
+          })
+
+          setTimeout(() => {
+            this.router.navigate(["jobs"]);
+            this.searchData.setHighlighter('jobs')
+          }, 2000);
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+    }
+  }
+
+  resumeUpload(event) {
+    console.log(event)
+    this.resumeupload = event.target.files[0];
+  }
+
+  candidateSubmit: boolean = false
+  saveCandidate() {
+    this.candidateSubmit = true
+    this.candidatePostForm.value.createdBy = localStorage.getItem('userId');
+    this.FormData = new FormData();
+    this.FormData.append("resume", this.resumeupload);
+    this.resumeupload = "";
+    console.log("this.candidatePostForm.value")
+    console.log(this.candidatePostForm.value)
+    this.FormData.append("candidate", new Blob([JSON.stringify(this.candidatePostForm.value)], { type: "application/json" }));
+    if (this.candidatePostForm.valid) {
+      this.util.startLoader();
+      this.api.create('candidates/createCandidate', this.FormData).subscribe(res => {
+        if (res.code == '00000') {
+          this.util.stopLoader();
+          this.modalRef.hide()
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Candidate created successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            this.commonVariables.jobPostingFlag = false
+            this.searchData.setCommonVariables(this.commonVariables)
+          })
+
+          setTimeout(() => {
+            this.router.navigate(["candidates"]);
+            this.searchData.setHighlighter('candidates')
+          }, 2000);
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+    }
+  }
+
+  years: any = []
+  generateYears() {
+    // var max = new Date().getFullYear();
+    // var min = max - 80;
+    for (var i = 0; i <= 20; i++) {
+      this.years.push(i);
+    }
+  }
+
+
+  stateListCA: any;
+  stateListIN: any;
+  stateListAU: any;
+  countryList: any = [];
+
+  getCountries() {
+    this.countryList = [];
+    this.util.startLoader();
+    this.api.query("country/getAllCountries").subscribe((res) => {
+      this.util.stopLoader();
+      res.forEach((ele) => {
+        this.countryList.push(ele);
+      });
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  onChangeCountry(event) {
+    if (event == "US") {
+    } else if (event == "AU") {
+      const countryCode = event;
+      this.stateListAU = [];
+
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListAU = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else if (event == "IN") {
+      const countryCode = event;
+      this.stateListIN = [];
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListIN = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else if (event == "CA") {
+      const countryCode = event;
+      this.stateListCA = [];
+
+      this.api
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListCA = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else {
+    }
+  }
+
+  get jobControls() {
+    return this.jobPostForm.controls
+  }
+
+  get candidateControls() {
+    return this.candidatePostForm.controls
+  }
+
+  closeJob() {
+    this.animState0 = 'middle'
+    // this.animState1 = 'left'
+    // this.animState = 'right'
+    this.commonVariables.jobPostingFlag = false
+    this.commonVariables.postPrivacyFlag = false
+    this.searchData.setCommonVariables(this.commonVariables)
+  }
+
+  closeCandidate() {
+    this.animState0 = 'middle'
+    // this.animState1 = 'left'
+    // this.animState = 'right'
+    this.commonVariables.jobPostingFlag = false
+    this.commonVariables.candidatePostingFlag = false
+    this.commonVariables.postPrivacyFlag = false
+    this.searchData.setCommonVariables(this.commonVariables)
+  }
+
+  onKeyZip(event: any, param) {
+    let data: any = {};
+    data.countryCode = "US";
+    data.zipCode = event.target.value;
+    data.stateCode = "";
+    if (data.zipCode.length === 5) {
+      this.api.create("country/geodetails", data).subscribe((res) => {
+        if (
+          res &&
+          res != null &&
+          res != "" &&
+          res.length > 0 &&
+          event.target.value != ""
+        ) {
+          res.forEach((ele) => {
+            let cityName = ele.cityName;
+            let stateName = ele.stateName;
+          if(param == 'job'){
+            this.jobPostForm.patchValue({
+              city: cityName,
+              state: stateName,
+            });
+          }else  if(param == 'candidate'){
+            this.candidatePostForm.patchValue({
+              city: cityName,
+              state: stateName,
+            });
+          }
+          });
+        }
+      });
+    } else if (data.zipCode.length < 5 || data.zipCode.length > 5){
+      // this.jobPostForm.patchValue({
+      //   // city: null,
+      //   // state: null,
+      // });
+    }
+  }
+
+
+  //   timeout: any = null;
+  //   onKeySearch(event: any) {
+  //    clearTimeout(this.timeout);
+  //    var $this = this;
+  //    this.timeout = setTimeout(function () {
+  //      if (event.keyCode != 13 && this.linkUrlText != null) {
+  //        $this.executeListing(this.linkUrlText);
+  //      }
+  //    }, 3000);
+  //  }
+
+  // executeListing(value: string) {
+  //  alert(value);
+
+
+
+
+
+
+  // if(this.linkUrlText != null){
+
+
+
+  // }
+
+
+
+
+
+
+
+  //  }
+
+
+
+
+
+  uploadMediaHere(value) {
+    if (value == 'photo') {
+      this.myFileInput1.nativeElement.click();
+    } else if (value == 'video') {
+      this.myFileInput2.nativeElement.click();
+    }
+  }
+
+
+  uploadMediaHere1(value) {
+    if (value == 'photo') {
+      this.myFileInput3.nativeElement.click();
+    } else if (value == 'video') {
+      this.myFileInput4.nativeElement.click();
+    }
+  }
+
+  ngAfterViewInit() {
+
+    setTimeout(() => {
+      this.isJoinedCommunity = localStorage.getItem('isJoined')
+      this.isCommunityAdmin = localStorage.getItem('communityAdmin');
+      this.isCommunitySuperAdmin = localStorage.getItem('communitySuperadmin');
+    }, 2000);
+
+    setTimeout(() => {
+      if (document.getElementById('jingalala') != null) {
+        document.getElementById('jingalala').style.visibility = "visible";
+      }
+
+      if (document.getElementById('blengi') != null) {
+        document.getElementById('blengi').style.visibility = 'visible'
+      }
+    }, 3000);
+
+  }
+
+  // setRequestRecvdCount() {
+  //   this.api
+  //     .query("business/employee/request/pending/" + this.businessId)
+  //     .subscribe((res) => {
+  //       if (Object.keys(res).length != 0) {
+  //         this.searchData.setRequestedEmployeeCount(res.length);
+  //         localStorage.setItem("reqPendinCnt", res.length);
+  //       }
+  //     });
+  // }
+
+  profPhoto: any = null
+  profName: any;
+  getLoginUserDetails(): void {
+    const userId = localStorage.getItem("userId");
+    this.util.startLoader();
+    this.api.query("user/" + userId).subscribe((res: any) => {
+      this.util.stopLoader();
+      if (res) {
+        if (res.code === "00000") {
+          // this.clientNameList = res.workExperience
+          this.profName = res.firstName + " " + res.lastName
+          if (res.photo && res.photo != null) {
+            this.profilePhoto.setPhoto(res.photo);
+            this.profPhoto = AppSettings.photoUrl + res.photo
+
+          } else {
+            this.profilePhoto.setPhoto(null);
+            this.profPhoto = null
+          }
+
+          res.fullName = res.firstName + " " + res.lastName
+          res.photo =
+            res.photo && res.photo != null
+              ? AppSettings.photoUrl + res.photo
+              : "assets/images/userAvatar.png";
+          this.loginUser = res;
+        }
+      }
+    });
+  }
+
+  modalOpenFlag: boolean = false
+  @HostListener('window:scroll')
+  handleScroll() {
+    // var windowScroll: any;
+    if (this.modalOpenFlag == false) {
+      this.scrollValue.windowScroll = window.pageYOffset
+      this.searchData.setScroll(this.scrollValue)
+    }
+
+  }
+
+  savePostSelected(postviewModelName) {
+    this.animState0 = 'middle'
+    this.animState1 = 'right'
+    this.animState = 'right'
+    this.postPrivacy = postviewModelName;
+    this.tempcheckedList = [...new Set(this.checkedList)];
+    // this.dismiss();
+    // this.flag
+    var commonVariables: any = {};
+    commonVariables.postPrivacyFlag = false;
+    this.searchData.setCommonVariables(commonVariables);
+  }
+
+  getPostModel(value, template) {
+    if (value != "Everyone") {
+      this.checkedList = [];
+      this.tempcheckedList = [];
+      this.postviewModelName = value;
+      this.modalRef_PostView = this.modalService.show(template, {
+        backdrop: "static",
+        animated: true,
+      });
+      this.queryPostview(value);
+    } else {
+      this.checkedList = [];
+      this.tempcheckedList = [];
+      this.postPrivacy = "Everyone";
+      this.privacyValue = 'Everyone'
+    }
+  }
+
+  nowNthenValue = []
+  sdfsdf: boolean = true
+  changePostModal(value, param) {
+    this.animState0 = 'left'
+    this.animState1 = 'middle'
+    this.animState = 'right'
+    this.nowNthenValue.push(value)
+    this.privacyValue = value
+    this.searchName = ""
+    this.modelList = []
+    if (param == 'post') {
+      if (value !== "Everyone") {
+        var commonVariables: any = {};
+        commonVariables.postPrivacyFlag = true;
+        this.searchData.setCommonVariables(commonVariables);
+        this.postviewModelName = value;
+        this.queryPostview(value);
+      } else {
+        this.selectedEntities = []
+        this.nowNthenValue = []
+        this.checkedList = [];
+        this.tempcheckedList = [];
+        this.postPrivacy = "Everyone";
+        this.privacyValue = 'Everyone'
+      }
+    } else if (param == 'photo') {
+      if (value !== "Everyone") {
+        var commonVariables: any = {};
+        commonVariables.postPrivacyFlag = true;
+        this.searchData.setCommonVariables(commonVariables);
+
+        // if(this.nowNthenValue.length>1){
+        //   var a = this.nowNthenValue[-1]
+        //   var z = this.nowNthenValue.length - 2
+        //   var b = this.nowNthenValue[z]
+        //   if(a !== b){
+        //     this.checkedList = [];
+        //     this.tempcheckedList = [];
+        //   } else {
+        //     this.checkedList.forEach(element => {
+        //       if(element === document.getElementById("ytrewq")){
+        //         document.getElementById("ytrewq").setAttribute("checked", "true")
+        //       }
+        //     });
+        //   }
+        // }
+
+        this.postviewModelName = value;
+        this.queryPostview(value);
+      } else {
+        this.nowNthenValue = []
+        this.checkedList = [];
+        this.tempcheckedList = [];
+        this.postPrivacy = "Everyone";
+        this.privacyValue = 'Everyone'
+      }
+    } else if (param == 'edit') {
+
+      if (value !== "Everyone") {
+
+        var commonVariables: any = {};
+        commonVariables.postPrivacyFlag = true;
+        this.searchData.setCommonVariables(commonVariables);
+
+        // if(this.nowNthenValue.length>1){
+        //   var a = this.nowNthenValue[-1]
+        //   var z = this.nowNthenValue.length - 2
+        //   var b = this.nowNthenValue[z]
+        //   if(a !== b){
+        //     this.checkedList = [];
+        //     this.tempcheckedList = [];
+        //   } else {
+        //     this.checkedList.forEach(element => {
+        //       if(element === document.getElementById("ytrewq")){
+        //         document.getElementById("ytrewq").setAttribute("checked", "true")
+        //       }
+        //     });
+        //   }
+        // }
+        this.postviewModelName = value;
+        this.queryPostview(value);
+      } else {
+        this.nowNthenValue = []
+        this.checkedList = [];
+        this.tempcheckedList = [];
+        this.postPrivacy = "Everyone";
+        this.privacyValue = 'Everyone'
+      }
+    }
+  }
+
+  networkZeroFlag: boolean = false
+  communityZeroFlag: boolean = false
+
+
+  queryPostview(val) {
+    let datas: any = {};
+    datas.userId = localStorage.getItem("userId");
+    if (val == "Connections") {
+      datas.status = "CONNECTED";
+      this.util.startLoader();
+      this.api.create("user/connection/info", datas).subscribe((res) => {
+        this.util.stopLoader();
+        this.modelList = []
+        if (this.nowNthenValue.length > 1) {
+          res.data.response.forEach((element2) => {
+            element2.checked = false;
+          });
+          var y = this.nowNthenValue.length - 1
+          var z = this.nowNthenValue.length - 2
+          var a = this.nowNthenValue[y]
+          var b = this.nowNthenValue[z]
+          if (a !== b) {
+            this.selectedEntities = []
+            this.checkedList = [];
+            this.tempcheckedList = [];
+            res.data.response.forEach((element2) => {
+              element2.checked = false;
+            });
+          } else {
+            this.checkedList.forEach(element1 => {
+              res.data.response.forEach((element2) => {
+                if (element1 === element2.userId) {
+                  element2.checked = true;
+                }
+              });
+            });
+          }
+        } else if (this.nowNthenValue.length == 1 && this.privacyValue == 'Connections') {
+          //console.log('passing through this buddy!')
+          this.checkedList.forEach(element1 => {
+            res.data.response.forEach((element2) => {
+              if (element1 === element2.userId) {
+                element2.checked = true;
+              } else {
+                if (element1 === element2.userId) {
+                  element2.checked = true;
+                }
+              }
+            });
+          });
+        } else {
+          res.data.response.forEach((element2) => {
+            element2.checked = false;
+          });
+          this.checkedList.forEach(element1 => {
+            res.data.response.forEach((element2) => {
+              if (element1 === element2.userId) {
+                element2.checked = true;
+              } else {
+                if (element1 === element2.userId) {
+                  element2.checked = true;
+                }
+              }
+            });
+          });
+        }
+        this.modelList = res.data.response;
+        if (this.modelList.length == 0) {
+          this.connectionZeroFlag = true
+        }
+      }, err => {
+        this.util.stopLoader();
+        if (err.status == 500) {
+          this.util.stopLoader();
+        }
+      });
+    } else if (val == "Community") {
+      this.util.startLoader();
+      this.modelList = []
+      this.api.queryPassval("community/check/user", datas).subscribe((res) => {
+        this.util.stopLoader();
+        // res.data.communityModelList.forEach((element) => {
+        //   element.userId = element.communityId;
+        //   element.checked = false;
+        // });
+
+
+        if (this.nowNthenValue.length > 1) {
+          res.data.communityModelList.forEach((element2) => {
+            element2.checked = false;
+          });
+
+          var y = this.nowNthenValue.length - 1
+          var z = this.nowNthenValue.length - 2
+          var a = this.nowNthenValue[y]
+          var b = this.nowNthenValue[z]
+          if (a !== b) {
+            this.selectedEntities = []
+            this.checkedList = [];
+            this.tempcheckedList = [];
+            res.data.communityModelList.forEach((element2) => {
+              element2.checked = false;
+              element2.userId = element2.communityId;
+            });
+          } else {
+            this.checkedList.forEach(element1 => {
+              res.data.communityModelList.forEach((element2) => {
+                if (element1 === element2.communityId) {
+                  element2.checked = true;
+                  element2.userId = element2.communityId;
+                }
+              })
+
+
+            });
+          }
+        } else {
+          res.data.communityModelList.forEach((element2) => {
+            element2.checked = false;
+            element2.userId = element2.communityId;
+          });
+        }
+
+
+
+
+
+
+        this.modelList = res.data.communityModelList
+        if (this.modelList.length == 0) {
+          this.communityZeroFlag = true
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+    } else if (val == "Network") {
+      this.modelList = []
+      this.util.startLoader();
+      this.api
+        .query(
+          "network/home?userId=" +
+          localStorage.getItem("userId") +
+          "&withmember=false&limit=10&offset=0&status=ACTIVE"
+        )
+        .subscribe((res) => {
+          this.util.stopLoader();
+          if (
+            res.data.network &&
+            res.data.network.length != 0 &&
+            res.data.network != null &&
+            res.data.network != undefined
+          ) {
+            // res.data.Networks.forEach((element) => {
+            //   element.userId = element.networkId;
+            //   element.checked = false;
+            // });
+
+
+
+            if (this.nowNthenValue.length > 1) {
+
+              res.data.network.forEach((element2) => {
+                element2.checked = false;
+              });
+
+
+              var y = this.nowNthenValue.length - 1
+              var z = this.nowNthenValue.length - 2
+              var a = this.nowNthenValue[y]
+              var b = this.nowNthenValue[z]
+              if (a !== b) {
+                this.selectedEntities = []
+                this.checkedList = [];
+                this.tempcheckedList = [];
+                res.data.network.forEach((element2) => {
+                  element2.checked = false;
+                  element2.userId = element2.networkId;
+                });
+              } else {
+                this.checkedList.forEach(element1 => {
+                  res.data.network.forEach((element2) => {
+                    if (element1 === element2.networkId) {
+                      element2.checked = true;
+                      element2.userId = element2.networkId;
+                    }
+                  });
+                });
+              }
+            } else {
+              res.data.network.forEach((element2) => {
+                element2.checked = false;
+                element2.userId = element2.networkId;
+              });
+            }
+
+
+
+
+
+
+            this.modelList = res.data.network;
+          } else {
+            this.networkZeroFlag = true
+          }
+        }, err => {
+          this.util.stopLoader();
+        });
+    }
+  }
+
+
+  storedPage: any;
+  config = {
+    itemsPerPage: 5,
+    currentPage: 1
+  }
+
+  pagecount(count) {
+    // this.page1 = count;
+    this.config.currentPage = count
+    this.storedPage = count
+    // console.log(this.storedPage)
+    // this.visitorsData = visitorsData
+  }
+
+  onSearch(event: any) {
+    // console.log("event.target.value")
+    // console.log(event.target.value)
+    if (event.target.value != '') {
+      this.config.currentPage = 1
+      // console.log('pasing 1')
+    } else if (event.target.value == '') {
+      // console.log('pasing 2')
+      this.config.currentPage = this.storedPage
+    }
+  }
+
+
+  selectedEntities: any = []
+
+  onCheckboxChange(option, event) {
+    if (event.target.checked) {
+      option.checked = true;
+      this.checkedList.push(option.userId);
+      if (option.connection) {
+        this.selectedEntities.push(option.fullName)
+        this.selectedEntities = this.duplicate(this.selectedEntities)
+      } else if (option.networkId) {
+        this.selectedEntities.push(option.networkName)
+        this.selectedEntities = this.duplicate(this.selectedEntities)
+      } else if (option.communityId) {
+        this.selectedEntities.push(option.communityName)
+        this.selectedEntities = this.duplicate(this.selectedEntities)
+      }
+    } else {
+      option.checked = false;
+      for (var i = 0; i < this.modelList.length; i++) {
+        if (this.checkedList[i] == option.userId) {
+          this.checkedList.splice(i, 1);
+          this.selectedEntities.splice(i, 1);
+        }
+      }
+    }
+  }
+
+  // add(event: MatChipInputEvent): void {
+  //   const value = (event.value || '').trim();
+
+  //   // Add our fruit
+  //   if (value) {
+  //     this.selectedEntities.push(value);
+  //   }
+
+  //   // Clear the input value
+  //   event.chipInput!.clear();
+
+  //   this.fruitCtrl.setValue(null);
+  // }
+
+  duplicate(data) {
+    var temp = [];
+    var arr = data.filter(function (el) {
+      // If it is not a duplicate, return true
+      if (temp.indexOf(el) == -1) {
+        temp.push(el);
+        return true;
+      }
+      return false;
+    });
+    return arr;
+  }
+
+  remove(chooseEntity: string): void {
+    const index = this.selectedEntities.indexOf(chooseEntity);
+
+    if (index >= 0) {
+      this.selectedEntities.splice(index, 1);
+    }
+  }
+  selectable = true;
+  removable = true;
+  fruitCtrl = new FormControl();
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedEntities.push(event.option.viewValue);
+    // this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+  // }
+
+  imagePopup(template) {
+    this.modalRef = this.modalService.show(template, {
+      backdrop: "static",
+      animated: true,
+    });
+  }
+
+  additems(data) {
+    data.forEach((element, index) => {
+      this.userData.push(element);
+    });
+  }
+
+  onScrollDown() {
+    if (this.postLoading == false) {
+      this.currentPageCount += 1;
+      this.startCount = this.currentPageCount;
+      if (this.startCount != 0) {
+        this.commonPost_getpostdatas(this.startCount, this.pageCount);
+      }
+    }
+  }
+
+  sortData(data) {
+    return data.sort((a, b) => {
+      return <any>new Date(b.postedOn) - <any>new Date(a.postedOn);
+    });
+  }
+
+  getUnique(arr, comp) {
+    // store the comparison  values in array
+    const unique = arr
+      .map((e) => e[comp])
+      // store the indexes of the unique objects
+      .map((e, i, final) => final.indexOf(e) === i && i)
+      // eliminate the false indexes & return unique objects
+      .filter((e) => arr[e])
+      .map((e) => arr[e]);
+    return unique;
+  }
+
+  images: any = []
+
+  load(value) {
+    if (value.length > 1) {
+      this.postflags = true;
+    } else {
+      this.postflags = false;
+    }
+  }
+
+  privacyLock: any = ''
+  editPost: boolean = false
+
+  findPost(data, template: TemplateRef<any>) {
+    // this.urlLinkDetctForm = this.formBuilder.group({
+    //   snippedLinkText: null
+    // }, {validators: CustomValidator.linkDetector('snippedLinkText', this.searchData)})
+    // this.privacyLock = true
+    this.editPost = true
+    if (data.postPrivacy == 'Connections') {
+      this.postTypeForm.get('postType').patchValue('Connections')
+      this.privacyValue = 'Connections'
+    } else if (data.postPrivacy == 'Network') {
+      this.postTypeForm.get('postType').patchValue('Network')
+      this.privacyValue = 'Network'
+    } else if (data.postPrivacy == 'Community') {
+      this.postTypeForm.get('postType').patchValue('Community')
+      this.privacyValue = 'Community'
+    } else if (data.postPrivacy == 'Everyone') {
+      this.postTypeForm.get('postType').patchValue('Everyone')
+      this.privacyValue = 'Everyone'
+    }
+    this.imagEditData = [];
+    this.commanddataEdit = "";
+    this.imagEditDatatemp = [];
+    this.typesofFile == "";
+    this.posteditId = "";
+    this.commanddataEdit = data.postContent;
+    this.commanddata1 = data.postContent;
+    this.posteditId = data.postId;
+
+    if (data.medias && data.medias != null && data.medias.length > 0) {
+      //  this.imagEditDatatemp=data.medias;
+      this.typesofFile = data.medias[0].type;
+      data.medias.forEach((element) => {
+        if (element.status == "ACTIVE") {
+          this.imagEditData.push(element);
+        }
+      });
+    } else {
+      this.imagEditData = [];
+    }
+
+
+
+    // else if(data.communityId != null){
+    //   this.postTypeForm.get('postType').setValue('Community')
+    // }else if(data.connections != null) {
+    //   this.postTypeForm.get('postType').setValue('Connections')
+    // }else {
+    //   this.postTypeForm.get('postType').setValue('Everyone')
+    // }
+    this.selectedEntities = []
+    this.api.create("post/queryPrivacyEntities", data).subscribe(res => {
+      // console.log("ksjdhfksjdfhksjdh11")
+      // console.log(res)
+      if (res) {
+        // var obj: any = {}
+        res.forEach(element => {
+          this.selectedEntities.push(element.name)
+          this.tempcheckedList.push(element.postEntityId)
+          // obj.checked = true
+          // obj.userId = element.userId
+          this.checkedList.push(element.postEntityId)                                       //abubakr
+        });
+        // res.forEach(element => {
+        //   this.selectedEntities.push(element.name)
+        //   this.tempcheckedList.push(element.name)
+        // });
+      }
+    })
+
+    setTimeout(() => {
+      this.util.startLoader()
+      this.modalRefedit = this.modalService.show(template, {
+        animated: true,
+        backdrop: "static",
+      });
+      this.util.stopLoader()
+    }, 600);
+  }
+
+  deleteImage(orderBy, data) {
+    this.imagEditData = this.imagEditData.filter(function (item) {
+      return item.orderBy !== orderBy;
+    });
+  }
+  // Delete Post
+  removepost(data) {
+    var postId = data.postId;
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+        allowOutsideClick: false,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.api.delete("post/remove/" + data.postId).subscribe((res) => {
+            if (res != null) {
+              if (res.code == "00000") {
+
+                let indx = this.userData.findIndex(item => item.postId == postId);
+                this.userData.splice(indx, 1);
+
+                // this.getpostdatas();
+                this.userbadges.profileStatus();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Your post has been deleted.",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              } else if (res.code == "99999") {
+                Swal.fire("Post not deleted");
+              }
+            }
+          }, err => {
+            this.util.stopLoader();
+          });
+
+          // swalWithBootstrapButtons.fire(
+          //   'Deleted!',
+          //   'Your Post has been deleted.',
+          //   'success',
+          // ).then((result) => {
+          //   this.api.delete('post/remove/' + data.postId).subscribe(res => {
+          //     if (res != null) {
+          //       if (res.code == "00000") {
+          //         this.getpostdatas();
+
+          //       } else if (res.code == "99999") {
+          //         Swal.fire('Post Not Delete');
+          //       }
+          //     }
+          //   });
+          // })
+        }
+        // else if (result.dismiss === Swal.DismissReason.cancel) {
+        //   swalWithBootstrapButtons.fire(
+        //     "Cancelled",
+        //     "Post Page is safe :)",
+        //     "error"
+        //   );
+        // }
+      });
+  }
+
+  close() {
+    this.editPost = false
+    this.selectedvideo = false;
+    this.selectedImage = false;
+    this.searchName = ""
+    this.modalRef.hide();
+    $("#file-input").val("");
+    $("#file-input-upload").val("");
+    var commonVariables: any = {};
+    commonVariables.postPrivacyFlag = false;
+    this.networkZeroFlag = false
+    this.teamZeroFlag = false
+    this.connectionZeroFlag = false
+    this.communityZeroFlag = false
+    this.searchData.setCommonVariables(commonVariables);
+    this.postTypeForm.get('postType').setValue('Everyone')
+    setTimeout(() => {
+      this.privacyValue = 'Everyone'
+      this.linkTitle = null
+      this.linkImage = null
+      this.linkDescription = null
+      this.linkURL = null
+      this.modelList.forEach(element => {
+        element.checked = false
+      })
+      CustomValidator.count1 = 0
+      CustomValidator.count = 0
+      CustomValidator.stoppingCount = undefined
+      $("#summessage").summernote("reset");
+      this.uploadFiles = [];
+      this.selectedEntities = []
+      this.checkedList = []
+      window.scrollTo(0, this.scrollValue.windowScroll);
+      this.modalOpenFlag = false
+    }, 500);
+
+  }
+
+  connectionZeroFlag: boolean = false
+  teamZeroFlag: boolean = false
+  dismiss() {
+
+    this.animState0 = 'middle'
+    this.animState1 = 'left'
+    this.animState = 'left'
+    if (this.editPost != true) {
+      this.privacyValue = 'Everyone'
+      this.checkedList = [];
+      this.selectedEntities = []
+    }
+    // this.editPost = false
+    // this.modalRef_PostView.hide();
+    this.searchName = "";
+    this.page = 0;
+    this.networkZeroFlag = false
+    this.connectionZeroFlag = false
+    this.teamZeroFlag = false
+    this.communityZeroFlag = false
+    var commonVariables: any = {};
+    commonVariables.postPrivacyFlag = false;
+    this.searchData.setCommonVariables(commonVariables);
+    this.postTypeForm.get('postType').setValue('Everyone')
+    CustomValidator.count1 = 0
+    CustomValidator.count = 0
+    CustomValidator.stoppingCount = undefined
+  }
+
+  closeuploadEdit() {
+    this.selectedvideo = false;
+    this.selectedImage = false;
+
+    $("#file-input-upload").val("");
+
+    this.modalRef.hide();
+
+    this.commanddata1 = this.commanddata1;
+    this.uploadFiles.forEach((element, i) => {
+      element.url = element.src;
+      element.fileId = element.src;
+      element.orderBy = this.imagEditData.length + 1;
+
+      if (element.t == "video") {
+        element.type = "video";
+      } else if (element.t == "image") {
+        element.type = "image";
+      }
+
+      this.imagEditData.push(element);
+    });
+  }
+
+  privacyValue = 'Everyone'
+
+  closeEdit() {
+    //console.log(this.imagEditData)
+    this.selectedvideo = false;
+    this.selectedImage = false;
+    this.editPost = false
+    this.modalRefedit.hide();
+
+    $("#file-input").val("");
+    setTimeout(() => {
+      this.commanddataEdit = "";
+      this.imagEditData = null;
+      this.imagEditDatatemp = [];
+      this.uploadFiles = [];
+      this.selectedEntities = []
+      this.checkedList = []
+      this.tempcheckedList = []
+      this.linkTitle = null
+      this.linkImage = null
+      this.linkDescription = null
+      this.linkURL = null
+      CustomValidator.count1 = 0
+      CustomValidator.count = 0
+      CustomValidator.stoppingCount = undefined
+    }, 600);
+
+  }
+
+  savewithattachment(status: any, data) {
+    this.FormData = new FormData();
+    var mediasData: any = [];
+    var fileData: any = [];
+    this.FormData.append("medias", "medias");
+    this.FormData.append("file", "file");
+
+    this.FormData.delete("medias");
+    this.FormData.delete("file");
+
+    if (status === "new") {
+      this.modalRef.hide();
+
+      // this.util.stopLoader();
+      this.modalRef.hide()
+      this.selectedEntities = []
+      this.startCount = 0;
+
+      this.currentPageCount = 1;
+      this.commanddata = "";
+      // this.checkedList = [];
+      // this.tempcheckedList = [];
+      // this.postPrivacy = "Everyone";
+      // this.privacyValue = 'Everyone'
+      setTimeout(() => {
+        //this.getpostdatas();
+        this.userbadges.profileStatus();
+      }, 2000);
+
+      if (this.uploadFiles != null) {
+        this.uploadFiles.forEach((element) => {
+          this.FormData.append("file", element.file);
+        });
+      }
+
+      this.dataPostandUpdate("post/createwithmedia", data);
+
+    } else if (status === "edit") {
+      let content = $("#summessageges")
+        .summernote("code")
+        .replace(/&nbsp;|<\/?[^>]+(>|$)/g, "")
+        .trim();
+      // this.commanddata1 = this.commanddataEdit.replace("<p><br></p>", "").trim();
+      if (this.imagEditData != undefined) {
+        this.imagEditData.forEach((element) => {
+          if (element.status == "INACTIVE") {
+            this.FormData.append("file", element.file);
+          } else if (element.status == "ACTIVE") {
+            mediasData.push(element);
+          }
+        });
+      }
+
+      if (
+        this.uploadFiles.length == 0 &&
+        mediasData.length == 0 &&
+        content.length == 0
+      ) {
+        if (content.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Empty post",
+            text: "This post appears to be blank. Please write something or attach a link or a photo to post.",
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            timer: 3500,
+          });
+
+          // $("#summessageges").summernote("reset");
+          // $("#SummernoteText").summernote("reset");
+        }
+      } else {
+        this.dataPostandUpdate("post/updatewithmedia", mediasData, "edit");
+        this.modalRefedit.hide();
+      }
+
+    }
+  }
+
+  dataPostandUpdate(path: any, mediapostdata: any, status?: any) {
+    // this.uploadFiles = [];
+
+    let postEntityId;
+    if (this.Commomdatass == "USER") {
+      postEntityId = "userId";
+    } else if (this.Commomdatass == "COMMUNITY") {
+      postEntityId = "communityId";
+    } else if (this.Commomdatass == "BUSINESS") {
+      postEntityId = "businessId";
+    } else if (this.Commomdatass == "NETWORK") {
+      postEntityId = "networkId";
+    } else if (this.Commomdatass == "TEAM") {
+      postEntityId = "teamId";
+    }
+
+    let postcont = "";
+    let qwe = ""
+
+    if (this.editPost == true) {
+      console.log($("#summessage").summernote("code"))
+      qwe = $("#summessageges").summernote("code").replace(/&nbsp;|<\/?[^>]+(>|$)/g, "").trim();
+    }
+    else if (this.editPost == false) {
+
+      console.log($("#summessage").summernote("code"))
+      qwe = $("#summessage").summernote("code").replace(/&nbsp;|<\/?[^>]+(>|$)/g, "").trim();
+    }
+    if (this.commanddata1 &&
+      this.commanddata1 != null &&
+      this.commanddata1.length != 0
+    ) {
+      postcont = this.commanddata1.trim();
+    } else if (qwe && qwe != null && qwe.length != 0) {
+      postcont = qwe
+    }
+    else {
+      postcont = " ";
+    }
+
+    var edit
+
+    this.sendMessageData = {
+      postType: "OWN",
+      sourcePostId: "",
+      postName: this.entername,
+      postContent: postcont,
+      postEntity: this.Commomdatass,
+      postEntityId: localStorage.getItem(postEntityId),
+      postedBy: localStorage.getItem("userId"),
+      postPrivacyEntities: this.tempcheckedList,
+      postPrivacy: this.postPrivacy,
+    };
+
+    if (status && status !== null && (status === "edit" || status === 'mediaWithTexts')) {
+      edit = true
+      this.sendMessageData = {};
+      this.sendMessageData = {
+        postType: "OWN",
+        sourcePostId: "",
+
+        postName: this.entername,
+        postContent: this.commanddataEdit,
+        postEntity: this.Commomdatass,
+        postEntityId: localStorage.getItem(postEntityId),
+        postId: this.posteditId,
+        postedBy: localStorage.getItem("userId"),
+        medias: mediapostdata,
+        postPrivacyEntities: this.tempcheckedList,
+        postPrivacy: this.postPrivacy,
+      };
+    } else {
+      edit = false
+    }
+
+    this.FormData.append(
+      "post",
+      new Blob([JSON.stringify(this.sendMessageData)], {
+        type: "application/json",
+      })
+    );
+
+    this.util.startLoader();
+    this.api
+      .messagePageService("POST", path, this.FormData)
+      .subscribe((res) => {
+
+        if (res) {
+          // this.util.stopLoader();
+
+
+
+
+          setTimeout(() => {
+            this.FormData.delete("file");
+            this.FormData.delete("post");
+            this.tempcheckedList = [];
+            this.checkedList = []
+            this.postPrivacy = "Everyone";
+            this.editPost = false
+            this.privacyValue = 'Everyone'
+            $("#file-input").val("");
+
+            // if (res['code'] === '00000') {
+            this.commanddata1 = null;
+            this.attachment = false;
+            this.sendMessageData = {};
+            this.uploadFiles = [];
+            this.selectedEntities = []
+            this.entername = "";
+            res.edit = edit;
+            this.localPushData(res);
+            // this.queryPostview();
+            //  this.summernote.writeValue("");
+            $("#summessage").summernote("reset");
+            this.linkTitle = null
+            this.linkImage = null
+            this.linkDescription = null
+            this.linkURL = null
+
+            // $("#summessage").summernote("reset");
+            // $("#SummernoteText").summernote("reset");
+          }, 2000);
+
+          // }
+        }
+      });
+  }
+
+  redirectUserFromShareModel(post?: any, data?: any) {
+    this.closeSharePage();
+    this.userprofile(post, data);
+  }
+
+  userprofile(post?: any, data?: any) {
+    let userData: any = {};
+    userData.userId = data;
+    if (post) {
+      // this.util.startLoader()
+      if (post.postEntity === "COMMUNITY1") {
+        let datas: any = {};
+        this.communityid = post.postEntityId;
+
+        this.api
+          .query("community/details/" + this.communityid)
+          .subscribe((res) => {
+            // this.util.stopLoader()
+            this.router.navigate(["community"], { queryParams: res.data.communityDetails });
+          }, err => {
+            this.util.stopLoader();
+          });
+      } else if (post.postEntity === "BUSINESS") {
+        let datas: any = {};
+        datas.businessId = post.postEntityId;
+        datas.userId = localStorage.getItem("userId");
+        this.api.create("business/check/admin", datas).subscribe((res) => {
+          //  this.util.stopLoader()
+          localStorage.setItem("businessId", post.postEntityId);
+          localStorage.setItem("isAdmin", res.isAdmin);
+          localStorage.setItem("isSuperAdmin", res.isSuperAdmin);
+          localStorage.setItem("screen", "business");
+          localStorage.setItem("adminviewflag", "false");
+          res.businessId = post.postEntityId;
+          this.router.navigate(["business"], { queryParams: res });
+        }, err => {
+          this.util.stopLoader();
+          if (err.status == 500) {
+            this.util.stopLoader();
+          }
+        });
+      } else if (post.postEntity === "NETWORK1") {
+        this.api.query("network/get/" + post.postEntityId).subscribe((res) => {
+          if (res != undefined && res != null) {
+            this.router.navigate(["networkPage/home"], {
+              queryParams: res.data.Network,
+            });
+          }
+        }, err => {
+          this.util.stopLoader();
+        });
+      } else if (post.postEntity === "TEAM1") {
+        this.api.query("teams/get/" + post.postEntityId).subscribe((res) => {
+          if (res != undefined && res != null) {
+            this.router.navigate(["teamPage/home"], {
+              queryParams: res.data.teams,
+            });
+          }
+        }, err => {
+          this.util.stopLoader();
+        });
+      } else {
+        const userId = localStorage.getItem("userId");
+        if (userId === data) {
+          var datum: any = {}
+          datum.userId = userId
+          this.router.navigate(["personalProfile"], { queryParams: datum });
+        } else {
+          this.router.navigate(["personalProfile"], { queryParams: userData });
+        }
+      }
+    } else {
+      const userId = localStorage.getItem("userId");
+      if (userId === data) {
+        var datum: any = {}
+        datum.userId = userId
+        this.router.navigate(["personalProfile"], { queryParams: datum });
+      } else {
+        this.router.navigate(["personalProfile"], { queryParams: userData });
+      }
+    }
+  }
+
+  toggleVideo(event?: any) {
+    this.videoplayer.nativeElement.play();
+  }
+
+  toggleVideopopup(event?: any) {
+    this.videoplayer.nativeElement.stop();
+    this.videoPlayerpopup.nativeElement.play();
+  }
+
+  // clearFile(){
+  //   this.InputVar.nativeElement.value = '';
+  // }
+  fileUpload(
+    event: any,
+    imgtype: string,
+    template?: TemplateRef<any>,
+    option?: any
+  ) {
+
+    // this.urlLinkDetctForm = this.formBuilder.group({
+    //   snippedLinkText: null
+    // }, {validators: CustomValidator.linkDetector('snippedLinkText', this.searchData)})
+    // this.postTypeForm.get('postType').setValue('Everyone')
+    // this.privacyValue = 'Everyone'
+    //
+    //.log('file upload test ')
+    // this.FormData = new FormData();
+    // this.FormData.append('file', 'file');
+    // this.FormData.delete('file');
+    this.uploadFiles = [];
+    this.commanddata1 = null;
+    const acceptedImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    const videofileaccept = ["video/mp4", "video/webm"];
+    var files = event.target.files;
+    for (var i = 0, file; (file = files[i]); i++) {
+      if (imgtype == "image" && acceptedImageTypes.includes(file.type)) {
+      } else if (
+        imgtype == "image" &&
+        !acceptedImageTypes.includes(file.type)
+      ) {
+        Swal.fire("", "Please upload the correct file type (Only .jpg, .png, .jpeg)", "info");
+        this.uploadFiles = [];
+        this.modalRef.hide();
+
+        return true;
+      } else if (imgtype == "video" && videofileaccept.includes(file.type)) {
+      } else if (imgtype == "video" && !videofileaccept.includes(file.type)) {
+        Swal.fire("", "Please select only video type files.", "info");
+        this.uploadFiles = [];
+        this.modalRef.hide();
+
+        return true;
+      } else if (
+        (imgtype == "both" && videofileaccept.includes(file.type)) ||
+        (imgtype == "both" && acceptedImageTypes.includes(file.type))
+      ) {
+      } else if (
+        (imgtype == "both" && !videofileaccept.includes(file.type)) ||
+        (imgtype == "both" && !acceptedImageTypes.includes(file.type))
+      ) {
+        Swal.fire("", "Selected image or video is of unsupported file type.", "info");
+        this.uploadFiles = [];
+        this.modalRef.hide();
+
+        return true;
+      }
+    }
+
+    if (template != null) {
+      this.modalRef = this.modalService.show(template, {
+        animated: true,
+        backdrop: "static",
+      });
+    }
+
+    this.selectedImage = false;
+    this.selectedImage = false;
+
+    if (event.target.files && event.target.files[0]) {
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        const reader = new FileReader();
+        reader.onload = (event1: any) => {
+          const type = event.target.files[i].type;
+          let type1 = "image";
+          if (type.includes("image")) {
+            this.selectedImage = true;
+            type1 = "image";
+          } else if (type.includes("video")) {
+            this.selectedvideo = true;
+            type1 = "video";
+          } else if (type.includes("application")) {
+            type1 = "application";
+          } else if (type.includes("audio")) {
+            type1 = "audio";
+          } else {
+            type1 = "others";
+          }
+          const data = {
+            t: type1,
+            ft: type,
+            fileName: type,
+            file: event.target.files[i],
+            status: "INACTIVE",
+            src: event1.target.result,
+          };
+          this.uploadFiles.push(data);
+        };
+        reader.readAsDataURL(event.target.files[i]);
+        //this.FormData.append('file', event.target.files[i]);
+        // this.FormData.append('fileName', event.target.files[i].name);
+
+        if (!this.attachment) {
+          this.attachment = true;
+          setTimeout(() => {
+            // this.summernote.writeValue("");
+          }, 100);
+        }
+      }
+    }
+  }
+
+
+  selectedImage1?: number = null
+
+  pushImages(values, index) {
+    this.selectedImage1 = index
+    this.images = values
+  }
+
+  singleimagevidshows(datas, template: TemplateRef<any>) {
+    this.modalOpenFlag = true
+    this.singleimagedata = datas;
+    this.modalRef = this.modalService.show(template, {
+      animated: true,
+      backdrop: "static",
+    });
+  }
+
+  tyu() {
+    this.modalRef.hide()
+    setTimeout(() => {
+      window.scrollTo(0, this.scrollValue.windowScroll);
+      this.modalOpenFlag = false
+    }, 1000);
+  }
+
+
+  closeSharePage(): void {
+    this.modalRef.hide();
+    this.sharePost.thoughts = "";
+    setTimeout(() => {
+      this.linkTitle = null
+      this.linkImage = null
+      this.linkDescription = null
+      this.linkURL = null
+      CustomValidator.count1 = 0
+      CustomValidator.count = 0
+      CustomValidator.stoppingCount = undefined
+    }, 600);
+    this.postTypeForm.get('postType').setValue('Everyone')
+
+  }
+
+  sdf() {
+    this.modalRef.hide();
+    setTimeout(() => {
+      this.linkTitle = null
+      this.linkImage = null
+      this.linkDescription = null
+      this.linkURL = null
+      CustomValidator.count1 = 0
+      CustomValidator.count = 0
+      CustomValidator.stoppingCount = undefined
+    }, 600);
+  }
+
+  sharePostPage(): void {
+    let postEntityId = "";
+    if (this.Commomdatass == "USER") {
+      postEntityId = "userId";
+    } else if (this.Commomdatass == "COMMUNITY") {
+      postEntityId = "communityId";
+    } else if (this.Commomdatass == "BUSINESS") {
+      postEntityId = "businessId";
+    } else if (this.Commomdatass == "NETWORK") {
+      postEntityId = "networkId";
+    } else if (this.Commomdatass == "TEAM") {
+      postEntityId = "teamId";
+    }
+
+    if (this.sharePost.postId == "SHARE") {
+      this.sharePost.postId = this.sharePost.sourcePostId;
+    } else {
+      this.sharePost.postId = this.sharePost.postId;
+    }
+
+    let datas = {
+      postType: "SHARE",
+      sourcePostId: this.sharePost.postId,
+      postContent: this.sharePost.thoughts,
+      postEntity: this.Commomdatass,
+      postEntityId: localStorage.getItem(postEntityId),
+      postedBy: localStorage.getItem("userId"),
+      postPrivacyEntities: this.tempcheckedList,
+      postPrivacy: this.postPrivacy,
+    };
+    this.util.startLoader();
+    this.api.create("post/create", datas).subscribe((res) => {
+      this.selectedEntities = []
+      this.util.stopLoader();
+      this.modalRef.hide();
+      // this.getpostdatas();
+      res.edit = false;
+      this.localPushData(res)
+      this.userbadges.profileStatus();
+      this.sharePost.thoughts = "";
+
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: 'Something went wrong while processing your request. Please, try again later.',
+          showDenyButton: false,
+          confirmButtonText: `ok`,
+        })
+      }
+    });
+  }
+
+  share(post: any, template?: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      backdrop: "static",
+      animated: true,
+    });
+    if (post.medias == null) {
+      post.medias = [];
+    }
+    this.sharePost = post;
+    if (post.postType == "SHARE") {
+      this.sharePost = post.shareduser[0];
+    }
+  }
+
+  comment(i) {
+    this.sharecmd = "";
+    this.userData.forEach((element) => {
+      element.cmd = false;
+    });
+    this.userData[i].cmd = true;
+  }
+
+  cmdpage(data, methodname, i, removepostId) {
+    // comment api call
+    // commend remove api call
+
+    if (methodname == "comment") {
+      let postcont = null;
+      if (data.cmd) {
+        postcont = data.cmd.trim();
+      }
+      let datas = {
+        userId: localStorage.getItem("userId"),
+        postId: data.postId,
+        comment: postcont,
+        // page: {pageSize: 3, offSetMap: this.newcmdoffSetMap}
+      };
+
+      if (postcont != null && postcont.length > 0) {
+        this.util.startLoader();
+        this.api.create("post/add/comments", datas).subscribe((res) => {
+          this.util.stopLoader();
+          data.cmd = null;
+          if (res && res.code === "00000" && res.data && res.data.comment) {
+            const cmntList = res.data.comment;
+            // this.newcmdoffSetMap=res.offSetMap
+            // cmntList.forEach((e1: any) => {
+            let e1 = cmntList;
+            let date = new Date(e1.commentedOn);
+            let current = new Date(e1.serverTime);
+            let cmdtime = this.util.dataconvert(current, date);
+            e1.commentedOn = this.util.dataconvert(current, date);
+            if (e1.photo) {
+              e1.photo = AppSettings.photoUrl + e1.photo;
+            } else {
+              e1.photo = "assets/images/userAvatar.png";
+            }
+            e1.cmdtime = cmdtime;
+            if (
+              this.userData[i].comments &&
+              this.userData[i].comments != null &&
+              this.userData[i].comments != ""
+            ) {
+            } else {
+              this.userData[i].comments = [];
+            }
+            let index = this.userData[i].comments.findIndex(
+              (item: any) => item.commentId === e1.commentId
+            );
+            if (index < 0) {
+              this.userData[i].comments.unshift(e1);
+            } else {
+              Object.assign(this.userData[i].comments[index], e1);
+            }
+            if (this.userData[i].comments.length > 3) {
+              this.userData[i].comments.splice(
+                3,
+                this.userData[i].comments.length - 3
+              );
+            }
+            if (res.data && res.data.commentsCount) {
+              this.userData[i].commentsCount = res.data.commentsCount;
+            } else {
+              this.userData[i].commentsCount = 0;
+            }
+            // });
+            this.userData[i].c = {
+              offSet: 0,
+              pageCount: 3,
+            };
+          }
+        }, err => {
+          this.util.stopLoader();
+          if (err.status == 500) {
+            this.util.stopLoader();
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: 'Something went wrong while processing your request. Please, try again later.',
+              showDenyButton: false,
+              confirmButtonText: `ok`,
+            })
+          }
+        });
+      }
+    } else if (methodname == "remove") {
+      let remove = {
+        userId: localStorage.getItem("userId"),
+        commentId: data.commentId,
+        postId: removepostId.postId,
+      };
+      this.util.startLoader();
+      this.api.create("post/remove/comments", remove).subscribe((res) => {
+        // this.getpostdatas()
+        this.sharecmd = "";
+        if (res.data.comments) {
+          res.data.comments.forEach((e1) => {
+            this.api
+              .query("user/connection/" + e1.userId)
+              .subscribe((userres) => {
+                this.util.stopLoader();
+                e1.photo = AppSettings.photoUrl + userres.photo;
+              }, err => {
+                this.util.stopLoader();
+              });
+            this.userData[i].comments = res.data.comments;
+            this.userData = this.userData;
+          });
+        } else {
+          this.util.stopLoader();
+        }
+      }, err => {
+        this.util.stopLoader();
+        if (err.status == 500) {
+          this.util.stopLoader();
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: 'Something went wrong processing your request. Please, try again later.',
+            showDenyButton: false,
+            confirmButtonText: `ok`,
+          })
+        }
+      });
+    }
+  }
+
+  like(data, i, flag) {
+    let datas = {
+      userId: localStorage.getItem("userId"),
+      postId: data.postId,
+    };
+    this.userData[i].userLikedStatus = flag;
+    let url = "post/like";
+    if (!flag) {
+      url = "post/unlike";
+    }
+
+    this.util.startLoader();
+    this.api.create(url, datas, 'Unable to retrieve post').subscribe((res) => {
+      this.util.stopLoader();
+
+      if (res.code == "00000") {
+        this.userData[i].userLikedStatus = flag;
+        if (res.data && res.data.likesCount) {
+          this.userData[i].likesCount = res.data.likesCount;
+        } else {
+          this.userData[i].likesCount = 0;
+        }
+        this.userData = this.userData;
+      }
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: 'Something went wrong while processing your request. Please, try again later.',
+          showDenyButton: false,
+          confirmButtonText: `ok`,
+        })
+      }
+    });
+  }
+
+  save() {
+    this.counts = 0;
+    let postEntityId;
+
+    if (this.Commomdatass == "USER") {
+      postEntityId = "userId";
+    } else if (this.Commomdatass == "COMMUNITY") {
+      postEntityId = "communityId";
+    } else if (this.Commomdatass == "BUSINESS") {
+      postEntityId = "businessId";
+    } else if (this.Commomdatass == "NETWORK") {
+      postEntityId = "networkId";
+    } else if (this.Commomdatass == "TEAM") {
+      postEntityId = "teamId";
+    }
+
+    let postcont = $("#summessage").summernote("code").replace(/&nbsp;|<\/?[^>]+(>|$)/g, "").trim();
+    const substring = "<img";
+    if (postcont.length > 0 && this.commanddata.includes(substring)) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: "Please, enter only texts.",
+        //showConfirmButton: true,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        timer: 3500
+      })
+      $("#summessage").summernote("reset");
+      $("#SummernoteText").summernote("reset");
+    } else if (postcont.length == 0 && this.uploadFiles.length == 0) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Empty Post',
+        text: "This post appears to be blank. Please write something or attach a link or a photo to post.",
+        //showConfirmButton: true,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        timer: 3500
+      })
+      $("#summessage").summernote("reset");
+      $("#SummernoteText").summernote("reset");
+    }
+    // else if(postcont.length==0 ){
+    //   Swal.fire({
+    //     position: 'center',
+    //     icon: 'error',
+    //     title: "Empty Post",
+    //     text: "This post appears to be blank. Please write something or attach a link or a photo to post.",
+    //     //showConfirmButton: true,
+    //     allowOutsideClick: false,
+    //     showConfirmButton: false,
+    //     timer: 3500,
+    //   });
+    //   $("#summessage").summernote("reset");
+    //   $("#SummernoteText").summernote("reset");
+    // }
+
+    let datas = {
+      postType: "OWN",
+      sourcePostId: "",
+      postContent: this.commanddata,
+      postEntity: this.Commomdatass,
+      postEntityId: localStorage.getItem(postEntityId),
+      postedBy: localStorage.getItem("userId"),
+      postPrivacyEntities: this.tempcheckedList,
+      postPrivacy: this.postPrivacy,
+    };
+
+
+    if (postcont.length > 0 && !this.commanddata.includes(substring) && this.uploadFiles.length == 0) {
+      this.util.startLoader();
+      this.api.create("post/create", datas).subscribe((res) => {
+        if (res.code == '00000') {
+          this.util.stopLoader();
+          this.modalRef.hide()
+          this.selectedEntities = []
+          this.startCount = 0;
+
+          this.currentPageCount = 1;
+          this.commanddata = "";
+          this.checkedList = [];
+          this.tempcheckedList = [];
+          this.postPrivacy = "Everyone";
+          this.privacyValue = 'Everyone'
+          setTimeout(() => {
+            //this.getpostdatas();
+            res.edit = false;
+            this.localPushData(res)
+            this.userbadges.profileStatus();
+          }, 2000);
+        }
+      }, err => {
+        this.util.stopLoader();
+        if (err.status == 500) {
+          this.util.stopLoader();
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: 'Something went wrong while processing your request. Please, try again later.',
+            showDenyButton: false,
+            confirmButtonText: `ok`,
+          })
+        }
+      });
+    } else if ((postcont.length == 0 && this.uploadFiles.length != 0)) {
+      let datas = {
+        postType: "OWN",
+        sourcePostId: "",
+        postContent: this.commanddata,
+        postEntity: this.Commomdatass,
+        postEntityId: localStorage.getItem(postEntityId),
+        postedBy: localStorage.getItem("userId"),
+        postPrivacyEntities: this.tempcheckedList,
+        postPrivacy: this.postPrivacy,
+      };
+      this.savewithattachment('new', datas)
+    }
+    else if (postcont.length > 0 && !this.commanddata.includes(substring) && this.uploadFiles.length != 0) {
+
+      let content = $("#summessage")
+        .summernote("code")
+        .replace(/&nbsp;|<\/?[^>]+(>|$)/g, "")
+        .trim();
+      let postcont = $("#summessage").summernote("code").replace(/&nbsp;|<\/?[^>]+(>|$)/g, "").trim();
+      let datas = {
+        postType: "OWN",
+        sourcePostId: "",
+        postContent: postcont,
+        postEntity: this.Commomdatass,
+        postEntityId: localStorage.getItem(postEntityId),
+        postedBy: localStorage.getItem("userId"),
+        postPrivacyEntities: this.tempcheckedList,
+        postPrivacy: this.postPrivacy,
+      };
+
+
+
+      this.savewithattachment('new', datas)
+    }
+  }
+
+  getpostdatas() {
+    this.afterKey = undefined;
+    //console.log("this.afterkey - " + this.afterKey);
+    this.commonPost_getpostdatas(null, null);
+  }
+
+  sortBy(list: Array<any>, prop: string) {
+    return list.sort((a, b) => (b[prop] > a[prop] ? 1 : -1));
+  }
+
+  commonPost_getpostdatas(startIndex, pageCount) {
+    this.postLoading = true;
+    let postEntityId;
+    if (this.Commomdatass === "USER") {
+      postEntityId = "userId";
+    } else if (this.Commomdatass === "COMMUNITY") {
+      postEntityId = "communityId";
+    } else if (this.Commomdatass === "BUSINESS") {
+      postEntityId = "businessId";
+    } else if (this.Commomdatass === "NETWORK") {
+      postEntityId = "networkId";
+    } else if (this.Commomdatass == "TEAM") {
+      postEntityId = "teamId";
+    }
+    var apiName = "post/query";
+    const datas: any = {
+      postEntity: this.Commomdatass,
+      searchAfterKey: this.afterKey,
+      limit: 10,
+      page: {
+        // "offSet": this.counts,
+        pageSize: 10,
+      },
+    };
+    if (this.ownerView != undefined) {
+      apiName = "post/owner";
+      datas.userId = localStorage.getItem(postEntityId);
+    } else {
+      apiName = "post/query";
+      datas.postEntityId = localStorage.getItem(postEntityId);
+    }
+
+    if (this.afterKey === undefined || (this.afterKey != null && this.afterKey.length > 0)) {
+      // //console.log("based on afterKey - " + this.afterKey);
+      datas.searchAfterKey = this.afterKey;
+    } else {
+      //console.log('no data to show');
+      this.postLoading = false;
+      return;
+    }
+
+    if (startIndex != null) {
+      datas.page.offSet = startIndex;
+      datas.page.pageCount = pageCount;
+      datas.page.pageSize = 10;
+    } else {
+      datas.page.offSet = 0;
+      datas.page.pageSize = 10;
+      this.userData = [];
+    }
+    //pink me once you done
+    //this.util.startLoader()
+    setTimeout(() => {
+      this.api.create(apiName, datas).subscribe((response) => {
+        ////console.log("post response",response);
+
+        this.shareData = [];
+        this.commentData = [];
+        if (
+          response !== undefined &&
+          response !== null &&
+          response.data != null &&
+          response.data.postList != null
+        ) {
+          if (response.data.searchAfterKey == undefined) {
+            this.afterKey = [];
+          } else {
+            this.afterKey = response.data.searchAfterKey;
+          }
+          this.postLoading = false;
+          response = this.sortBy(response.data.postList, "postedOn");
+          this.userbadges.profileStatus();
+          response.forEach((element, index) => {
+            if (element.medias) {
+              element.medias.forEach((e1) => {
+                if (e1.url != null) {
+                  var path;
+                  path = AppSettings.photoUrl + e1.fileId;
+                  e1.url = "";
+                  e1.url = path;
+                } else {
+                  e1.url = "assets/images/userAvatar.png";
+                }
+              });
+            }
+            if (element.comments) {
+              element.comments.forEach((e1: any) => {
+                let date = new Date(e1.commentedOn);
+                let current = new Date();
+                e1.commentedOn = this.util.dataconvert(current, date);
+                if (e1) {
+                  if (e1.photo && e1.photo != null) {
+                    e1.photo = AppSettings.photoUrl + e1.photo;
+                  } else {
+                    e1.photo = "assets/images/userAvatar.png";
+                  }
+                }
+              });
+            }
+
+            const date = new Date(element.postedOn);
+            let current = new Date(element.serverDateTime);
+            if (element.serverDateTime == null) {
+              current = new Date()
+            }
+            const postedate = this.util.dataconvert(current, date);
+
+            if (element.postContent == "") {
+              element.postContent = " "
+            }
+
+            var postData = {
+              // userName: res.firstName + ' ' + res.lastName,
+              // photo: img,
+              //img: img,
+              //organisation: res.organisation,
+              // title: res.title,
+              status: element.status,
+              userId: element.userId,
+              connected: element.connected,
+              postId: element.postId,
+              postType: element.postType,
+              sourcePostId: element.postId,
+              postContent: element.postContent,
+              postEntity: element.postEntity,
+              postEntityId: element.postEntityId,
+              postedBy: element.postedBy,
+              postedByType: element.postedByType,
+              postedOn: element.postedOn,
+              posteddate: postedate,
+              likesCount: element.likesCount,
+              commentsCount: element.commentsCount,
+              sharedCount: element.sharedCount,
+              postPrivacy: element.postPrivacy,
+              postPrivacyEntities: element.postPrivacyEntities,
+              // postPrivacy: element.SearchListComponent,
+              hashTags: element.hashTags,
+              medias: element.medias,
+              likes: element.likes,
+              shares: element.shares,
+              page: element.page,
+              code: element.code,
+              message: element.message,
+              comments: element.comments,
+              visible: false,
+              //shareduser: shareData,
+              userLikedStatus: element.userLikedStatus,
+              postedByUserData: element.postedByUserData
+            };
+
+            if (element.postEntity === "USER") {
+              this.addUserDataToPost(element, postData, element.postEntityId);
+            } else if (element.postEntity === "BUSINESS") {
+              this.addBusinessDataToPost(
+                element,
+                postData,
+                element.postEntityId
+              );
+            } else if (element.postEntity === "COMMUNITY") {
+              this.addCommunityDataToPost(
+                element,
+                postData,
+                element.postEntityId
+              );
+            } else if (element.postEntity === "NETWORK") {
+              this.addNetworkToPost(element, postData, element.postEntityId);
+            } else if (element.postEntity === "TEAM") {
+              this.addTeamsToPost(element, postData, element.postEntityId);
+            }
+          });
+
+          //this.userData.sort((val) => { return new Date(val.postedOn); });
+          this.userData = this.sortData(this.userData);
+          this.contentLoaded = true;
+        }
+      }, err => {
+        this.util.stopLoader();
+        if (err.status == 500) {
+          this.util.stopLoader();
+        }
+      });
+    }, 0);
+  }
+
+  addSharedPostData(sourcePost, postViewData): void {
+    let shareData = [];
+    this.api
+      .query("post/query/" + sourcePost.sourcePostId)
+      .subscribe((shareres) => {
+        //this.util.stopLoader()
+        let shareResponse = shareres[0];
+        if (
+          shareResponse != undefined &&
+          shareResponse.medias != null &&
+          shareResponse.medias != undefined
+        ) {
+          shareResponse.medias.forEach((e1) => {
+            if (e1.url != null) {
+              e1.url = AppSettings.photoUrl + e1.url;
+            } else {
+              e1.url = "assets/images/userAvatar.png";
+            }
+          });
+
+          let date = new Date(shareResponse.postedOn);
+          let current = new Date();
+          if (sourcePost.serverDateTime == null) {
+            current = new Date(sourcePost.postedOn);
+          } else {
+            current = new Date(sourcePost.serverDateTime);
+          }
+          let postedateshare = this.util.dataconvert(current, date);
+          let shareViewData = {
+            //userName: userres.firstName + ' ' + userres.lastName,
+            //photo: imgshare,
+            //img: imgshare,
+            //organisation: userres.organisation,
+            //title: userres.title,
+            status: shareResponse.status,
+            userId: shareResponse.userId,
+            connected: shareResponse.connected,
+            postId: shareResponse.postId,
+            postType: shareResponse.postType,
+            sourcePostId: shareResponse.postId,
+            postContent: shareResponse.postContent,
+            postEntity: shareResponse.postEntity,
+            postEntityId: shareResponse.postEntityId,
+            postedBy: shareResponse.postedBy,
+            postedByType: shareResponse.postedByType,
+            postedOn: shareResponse.postedOn,
+            posteddate: postedateshare,
+            likesCount: shareResponse.likesCount,
+            commentsCount: shareResponse.commentsCount,
+            sharedCount: shareResponse.sharedCount,
+            // postPrivacy: shareResponse.postPrivacy,
+            postPrivacyEntities: shareResponse.postPrivacyEntities,
+            postPrivacy: shareResponse.postPrivacy,
+            // postPrivacy: shareResponse.SearchListComponent,
+            hashTags: shareResponse.hashTags,
+            medias: shareResponse.medias,
+            likes: shareResponse.likes,
+            shares: shareResponse.shares,
+            page: shareResponse.page,
+            code: shareResponse.code,
+            message: shareResponse.message,
+            comments: shareResponse.comments,
+            visible: false,
+            postedByUserData: shareResponse.postedByUserData
+          };
+
+          if (shareResponse.postEntity === "USER") {
+            this.addUserDataToSharedPost(
+              postViewData,
+              shareViewData,
+              shareResponse.postEntityId
+            );
+          } else if (shareResponse.postEntity === "BUSINESS") {
+            this.addBusinessDataToSharedPost(
+              postViewData,
+              shareViewData,
+              shareResponse.postEntityId
+            );
+          } else if (shareResponse.postEntity === "COMMUNITY") {
+            this.addCommunityDataToSharedPost(
+              postViewData,
+              shareViewData,
+              shareResponse.postEntityId
+            );
+          } else if (shareResponse.postEntity === "NETWORK") {
+            this.addNetworkDataToSharedPost(
+              postViewData,
+              shareViewData,
+              shareResponse.postEntityId
+            );
+          } else if (shareResponse.postEntity === "TEAM") {
+            this.addTeamDataToSharedPost(
+              postViewData,
+              shareViewData,
+              shareResponse.postEntityId
+            );
+          }
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+  }
+
+  addUserDataToPost(element, postViewData, userId): void {
+    // this.util.startLoader()
+    this.api.query("user/connection/" + userId).subscribe((userres) => {
+      //this.util.stopLoader()
+      let imgshare = "assets/images/userAvatar.png";
+      if (userres.photo != null) {
+        imgshare = AppSettings.photoUrl + userres.photo;
+      }
+
+      postViewData.userName = userres.firstName + " " + userres.lastName;
+      postViewData.photo = imgshare;
+      postViewData.img = imgshare;
+      postViewData.organisation = userres.organisation;
+      postViewData.title = userres.title;
+      if (element.postType === "SHARE") {
+        this.addSharedPostData(element, postViewData);
+      } else {
+        if (element.edit) {
+          let indx = this.userData.findIndex(item => item.postId == element.postId);
+          this.userData.splice(indx, 1);
+          this.userData[indx] = postViewData;
+        } else {
+
+          this.userData.push(postViewData);
+          this.userData = this.removeDuplicates(this.userData, "postId");
+          this.userData = this.sortData(this.userData);
+
+
+        }
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+
+
+
+
+  addBusinessDataToPost(element, postViewData, businessId): void {
+    // this.util.startLoader()
+    let datas: any = {};
+    datas.businessId = businessId;
+    datas.userId = localStorage.getItem("userId");
+
+    this.api.create("business/check/admin", datas).subscribe((res) => {
+      //loder
+      let img = "assets/images/gallery/company.png";
+      if (res.businessLogo != null) {
+        img = AppSettings.photoUrl + res.businessLogo;
+      }
+
+      postViewData.userName = res.businessName;
+      postViewData.photo = img;
+      postViewData.img = img;
+      if (element.postType === "SHARE") {
+        this.addSharedPostData(element, postViewData);
+      } else {
+        if (element.edit) {
+          let indx = this.userData.findIndex(item => item.postId == element.postId);
+          this.userData.splice(indx, 1);
+          this.userData[indx] = postViewData;
+        } else {
+          this.userData.push(postViewData);
+          this.userData = this.removeDuplicates(this.userData, "postId");
+          this.userData = this.sortData(this.userData);
+        }
+      }
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+      }
+    });
+  }
+
+  addCommunityDataToPost(element, postViewData, communityId): void {
+    // this.util.startLoader()
+    let datas: any = {};
+    datas.communityId = communityId;
+    datas.userId = localStorage.getItem("userId");
+    this.communityid = communityId;
+    // this.util.startLoader()
+    this.api.query("community/details/" + this.communityid).subscribe((res) => {
+      let img = "assets/images/userAvatar.png";
+      let photo = img;
+      if (postViewData.postedByUserData != null && postViewData.postedByUserData.photo != null) {
+        photo = AppSettings.photoUrl + postViewData.postedByUserData.photo;
+      }
+
+      postViewData.userName = res.data.communityDetails.communityName;
+      postViewData.photo = photo;
+      postViewData.img = img;
+      if (element.postType === "SHARE") {
+        this.addSharedPostData(element, postViewData);
+      } else {
+        // this.userData.push(postViewData);
+        // this.userData = this.sortData(this.userData);
+
+        if (element.edit) {
+          let indx = this.userData.findIndex(item => item.postId == element.postId);
+          this.userData.splice(indx, 1);
+          this.userData[indx] = postViewData;
+        } else {
+          this.userData.push(postViewData);
+          this.userData = this.removeDuplicates(this.userData, "postId");
+          this.userData = this.sortData(this.userData);
+
+        }
+
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addNetworkToPost(element, postViewData, networkId): void {
+
+    this.api.query("network/get/" + networkId).subscribe((res) => {
+      if (
+        res != undefined &&
+        res != null &&
+        res.data.Network != undefined &&
+        res.data.Network != null
+      ) {
+        let img = "assets/images/userAvatar.png";
+        let photo = img;
+        if (postViewData.postedByUserData != null && postViewData.postedByUserData.photo != null) {
+          photo = AppSettings.photoUrl + postViewData.postedByUserData.photo;
+        }
+
+        postViewData.userName = res.data.Network.networkName;
+        postViewData.networkId = res.data.Network.networkId;
+        postViewData.networkOwnerId = res.data.Network.networkOwnerId;
+        postViewData.photo = photo;
+        postViewData.img = img;
+        if (element.postType === "SHARE") {
+          this.addSharedPostData(element, postViewData);
+        } else {
+
+          if (element.edit) {
+            let indx = this.userData.findIndex(item => item.postId == element.postId);
+            this.userData[indx] = postViewData;
+          } else {
+
+            this.userData.push(postViewData);
+            this.userData = this.removeDuplicates(this.userData, "postId");
+            this.userData = this.sortData(this.userData);
+
+
+
+          }
+        }
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addTeamsToPost(element, postViewData, teamId): void {
+    this.api.query("teams/get/" + teamId).subscribe((res) => {
+      if (
+        res != undefined &&
+        res != null &&
+        res.data.teams != undefined &&
+        res.data.teams != null
+      ) {
+        let img = "assets/images/userAvatar.png";
+        let photo = img;
+
+        if (postViewData.postedByUserData != null && postViewData.postedByUserData.photo != null) {
+          photo = AppSettings.photoUrl + postViewData.postedByUserData.photo;
+        }
+
+        postViewData.userName = res.data.teams.teamName;
+        postViewData.teamId = res.data.teams.teamId;
+        postViewData.teamsOwnerId = res.data.teams.teamsOwnerId;
+        postViewData.photo = photo;
+        postViewData.img = img;
+        if (element.postType === "SHARE") {
+          this.addSharedPostData(element, postViewData);
+        } else {
+
+          if (element.edit) {
+            let indx = this.userData.findIndex(item => item.postId == element.postId);
+            this.userData.splice(indx, 1);
+            this.userData[indx] = postViewData;
+          } else {
+            this.userData.push(postViewData);
+            this.userData = this.removeDuplicates(this.userData, "postId");
+            this.userData = this.sortData(this.userData);
+
+          }
+
+
+          // this.userData.push(postViewData);
+          // this.userData = this.sortData(this.userData);
+        }
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addUserDataToSharedPost(postViewData, shareViewData, userId): void {
+    // this.util.startLoader()
+    this.api.query("user/connection/" + userId).subscribe((userres) => {
+      //this.util.stopLoader()
+      let imgshare = "assets/images/userAvatar.png";
+      if (userres.photo != null) {
+        imgshare = AppSettings.photoUrl + userres.photo;
+      }
+
+      shareViewData.userName = userres.firstName + " " + userres.lastName;
+      shareViewData.photo = imgshare;
+      shareViewData.img = imgshare;
+      shareViewData.organisation = userres.organisation;
+      shareViewData.title = userres.title;
+      let shareData = [];
+      shareData.push(shareViewData);
+      //shareData = this.sortBy(shareData, 'postedOn');
+      (postViewData.shareduser = shareData), this.userData.push(postViewData);
+      this.userData = this.removeDuplicates(this.userData, "postId");
+      this.userData = this.sortData(this.userData);
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addBusinessDataToSharedPost(postViewData, shareViewData, businessId): void {
+    // this.util.startLoader()
+    let datas: any = {};
+    datas.businessId = businessId;
+    datas.userId = localStorage.getItem("userId");
+
+    this.api.create("business/check/admin", datas).subscribe((res) => {
+      //loder
+      let img = "assets/images/gallery/company.png";
+      if (res.businessLogo != null) {
+        img = AppSettings.photoUrl + res.businessLogo;
+      }
+
+      shareViewData.userName = res.businessName;
+      shareViewData.photo = img;
+      shareViewData.img = img;
+      let shareData = [];
+      shareData.push(shareViewData);
+      //shareData = this.sortBy(shareData, 'postedOn');
+      (postViewData.shareduser = shareData), this.userData.push(postViewData);
+      this.userData = this.removeDuplicates(this.userData, "postId");
+      this.userData = this.sortData(this.userData);
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+      }
+    });
+  }
+
+  addCommunityDataToSharedPost(postViewData, shareViewData, communityId): void {
+    // this.util.startLoader()
+    let datas: any = {};
+    datas.communityId = communityId;
+    datas.userId = localStorage.getItem("userId");
+    //this.communityid = element.postEntityId;
+    // this.util.startLoader()
+    this.api.query("community/details/" + this.communityid).subscribe((res) => {
+      let img = "assets/images/userAvatar.png";
+      let photo = img;
+      if (shareViewData.postedByUserData.photo != null) {
+        photo = AppSettings.photoUrl + shareViewData.postedByUserData.photo;
+      }
+
+      shareViewData.userName = res.data.communityDetails.communityName;
+      shareViewData.photo = photo;
+      shareViewData.img = img;
+      let shareData = [];
+      shareData.push(shareViewData);
+      //shareData = this.sortBy(shareData, 'postedOn');
+      (postViewData.shareduser = shareData), this.userData.push(postViewData);
+      this.userData = this.removeDuplicates(this.userData, "postId");
+      this.userData = this.sortData(this.userData);
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addNetworkDataToSharedPost(postViewData, shareViewData, networkId): void {
+    this.api.query("network/get/" + networkId).subscribe((res) => {
+      if (
+        res != undefined &&
+        res != null &&
+        res.data.Network.networkName != undefined &&
+        res.data.Network.networkName != null
+      ) {
+        let img = "assets/images/userAvatar.png";
+        let photo = img;
+        if (shareViewData.postedByUserData.photo != null) {
+          photo = AppSettings.photoUrl + shareViewData.postedByUserData.photo;
+        }
+
+        shareViewData.photo = photo;
+        shareViewData.img = img;
+        shareViewData.userName = res.data.Network.networkName;
+        shareViewData.networkId = res.data.Network.networkId;
+        shareViewData.networkOwnerId = res.data.Network.networkOwnerId;
+        let shareData = [];
+        shareData.push(shareViewData);
+        (postViewData.shareduser = shareData), this.userData.push(postViewData);
+        this.userData = this.removeDuplicates(this.userData, "postId");
+
+        this.userData = this.sortData(this.userData);
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+  addTeamDataToSharedPost(postViewData, shareViewData, teamId): void {
+    this.api.query("teams/get/" + teamId).subscribe((res) => {
+      if (res != undefined && res != null) {
+        let img = "assets/images/userAvatar.png";
+        let photo = img;
+        if (shareViewData.postedByUserData.photo != null) {
+          photo = AppSettings.photoUrl + shareViewData.postedByUserData.photo;
+        }
+        shareViewData.photo = photo;
+        shareViewData.img = img;
+        shareViewData.userName = res.data.teams.teamName;
+        shareViewData.teamId = res.data.teams.teamId;
+        shareViewData.teamsOwnerId = res.data.teams.teamsOwnerId;
+        let shareData = [];
+        shareData.push(shareViewData);
+        (postViewData.shareduser = shareData),
+          this.userData.push(postViewData);
+        this.userData = this.removeDuplicates(this.userData, "postId");
+        this.userData = this.sortData(this.userData);
+      }
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+
+  removeDuplicates(originalArray, prop) {
+    var newArray = [];
+    var lookupObject = {};
+
+    for (var i in originalArray) {
+      lookupObject[originalArray[i][prop]] = originalArray[i];
+    }
+
+    for (i in lookupObject) {
+      newArray.push(lookupObject[i]);
+    }
+    return newArray;
+  }
+
+  custom_sort(a, b) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  }
+  sharepage(data) {
+    let postEntityId;
+    if (this.Commomdatass == "USER") {
+      postEntityId = "userId";
+    } else if (this.Commomdatass == "COMMUNITY") {
+      postEntityId = "communityId";
+    } else if (this.Commomdatass == "BUSINESS") {
+      postEntityId = "businessId";
+    } else if (this.Commomdatass == "NETWORK") {
+      postEntityId = "networkId";
+    } else if (this.Commomdatass == "TEAM") {
+      postEntityId = "teamId";
+    }
+    //let postdatas = Object.values(this.sharecmd).toString();
+
+    let postdatas = this.sharecmd;
+    let datas = {
+      postType: "SHARE",
+      sourcePostId: data.postId,
+      postContent: postdatas,
+      postEntity: this.Commomdatass,
+      postEntityId: localStorage.getItem(postEntityId),
+      postedBy: localStorage.getItem("userId"),
+    };
+    this.util.startLoader();
+    this.api.create("post/create", datas).subscribe((res) => {
+      this.selectedEntities = []
+      this.util.stopLoader();
+      //  this.getpostdatas();
+      res.edit = false
+      this.localPushData(res);
+      this.afterKey = undefined;
+      // this.commonPost_getpostdatas(null, null);
+
+      this.commanddata = "";
+      this.sharecmd = "";
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: 'Something went wrong while processing your request. Please, try again later.',
+          showDenyButton: false,
+          confirmButtonText: `ok`,
+        })
+      }
+    });
+  }
+
+  loadPreviousComments(post: any): void {
+    for (let i = post.comments.length - 1; i >= 0; i--) {
+      const po = post.comments[i];
+      if (po.offset === post.c.offSet) {
+        post.comments.splice(i, 1);
+      } else {
+        break;
+      }
+    }
+    post.c.offSet -= 3;
+  }
+
+  loadMoreComments(post: any): void {
+    if (post.c === undefined || post.c == null) {
+      post.c = {
+        offSet: 0,
+        pageCount: 3,
+      };
+    }
+    post.c.offSet = post.c.offSet + post.c.pageCount;
+
+    const postData = {
+      postId: post.postId,
+      searchAfterKey: this.cmdOffsetafterkey,
+      limit: 3
+      // page: {
+      //   offSet: post.c.offSet,
+      //   pageCount: post.c.pageCount
+      // }
+
+      // page: {
+      //   // "offSet": this.counts,
+      //   pageSize: 3,
+      //   searchAfterKey: this.cmdOffsetafterkey,
+      // },
+    };
+
+    this.util.startLoader();
+    this.api.create("post/comments/qu", postData).subscribe((res: any) => {
+      this.util.stopLoader();
+      if (res) {
+        if (res.data && res.data.comments) {
+          this.cmdOffsetafterkey = res.data.searchAfterKey;
+          const comments = this.sortBy(res.data.comments, "commentedOn");
+          comments.forEach((e) => {
+            let date = new Date(e.commentedOn);
+            let current = new Date();
+            e.commentedOn = this.util.dataconvert(current, date);
+            if (e.photo !== undefined && e.photo != null) {
+              e.photo = AppSettings.photoUrl + e.photo;
+            } else {
+              e.photo = "assets/images/userAvatar.png";
+            }
+            e.offset = post.c.offSet;
+            post.comments.push(e);
+          });
+        }
+      } else {
+        this.util.stopLoader();
+      }
+    }, err => {
+      this.util.stopLoader();
+      if (err.status == 500) {
+        this.util.stopLoader();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: 'Something went wrong while processing your request. Please, try again later.',
+          showDenyButton: false,
+          confirmButtonText: `ok`,
+        })
+      }
+    });
+  }
+
+  showData(number, value) {
+    if (number > 3) {
+      this.cmdOffsetafterkey = false;
+    }
+  }
+
+  redirectEntityFromShareModal(data) {
+    this.closeSharePage();
+    this.communityroute(data);
+  }
+
+  communityroute(data) {
+    if (data.postEntity === "COMMUNITY") {
+      let datas: any = {};
+      datas.communityId = data.postEntityId;
+      this.router.navigate(["community"], { queryParams: datas });
+    } else if (data.postEntity === "NETWORK") {
+      this.api.query("network/get/" + data.postEntityId).subscribe((res) => {
+        if (res != undefined && res != null) {
+          this.router.navigate(["networkPage/home"], {
+            queryParams: res.data.Network,
+          });
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+    } else if (data.postEntity === "TEAM") {
+      this.api.query("teams/get/" + data.postEntityId).subscribe((res) => {
+        if (res != undefined && res != null) {
+          this.router.navigate(["teamPage/home"], {
+            queryParams: res.data.teams,
+          });
+        }
+      }, err => {
+        this.util.stopLoader();
+      });
+    }
+  }
+
+  onProfilePhotoError(event, post: any) {
+    //console.log("onProfilePhotoError");
+    if (post.postEntity === "USER") {
+      event.target.src = "assets/images/userAvatar.png";
+    } else if (post.postEntity === "BUSINESS") {
+      event.target.src = "assets/images/gallery/company.png";
+    } else if (post.postEntity === "COMMUNITY") {
+      event.target.src = "assets/icon/comm.png";
+    } else {
+    }
+  }
+
+  backdropConfig = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    keyboard: false,
+    // scroll
+  };
+
+  startAPost(postTemplate: TemplateRef<any>) {
+    this.animState0 = 'middle'
+    this.animState1 = 'right'
+    this.animState = 'right'
+    this.editPost = false
+    this.privacyValue = 'Everyone'
+    this.modalRef = this.modalService.show(postTemplate, this.backdropConfig);
+    this.postTypeForm.get('postType').setValue('Everyone')
+    this.getCountries()
+    // this.getListValues('ENGAGEMENT_TYPE')
+    // this.urlLinkDetctForm = this.formBuilder.group({
+    //   snippedLinkText: null
+    // }, {validators: CustomValidator.linkDetector('snippedLinkText', this.searchData)})
+  }
+
+  localPushData(response) {
+
+    this.shareData = [];
+    this.commentData = [];
+    if (response !== undefined && response !== null) {
+      this.afterKey = response.searchAfterKey;
+      this.userbadges.profileStatus();
+      let element = response;
+      if (element.medias) {
+        element.medias.forEach((e1) => {
+          if (e1.url != null) {
+            var path;
+            path = AppSettings.photoUrl + e1.fileId;
+            e1.url = "";
+            e1.url = path;
+          } else {
+            e1.url = "assets/images/userAvatar.png";
+          }
+        });
+      }
+      if (element.comments) {
+        element.comments.forEach((e1: any) => {
+          let date = new Date(e1.commentedOn);
+          let current = new Date();
+          e1.commentedOn = this.util.dataconvert(current, date);
+          if (e1) {
+            if (e1.photo && e1.photo != null) {
+              e1.photo = AppSettings.photoUrl + e1.photo;
+            } else {
+              e1.photo = "assets/images/userAvatar.png";
+            }
+          }
+        });
+      }
+
+      let indx;
+      if (element.postContent == "") {
+        element.postContent = " "
+      }
+      let postedate = "";
+      const date = new Date(element.postedOn);
+      const current = new Date(element.postedOn);
+      if (element.edit) {
+        indx = this.userData.findIndex(item => item.postId == element.postId);
+        postedate = this.userData[indx].posteddate;
+      } else {
+        postedate = this.util.dataconvert(current, date);
+
+      }
+
+
+      var postData = {
+        status: element.status,
+        userId: element.userId,
+        connected: element.connected,
+        postId: element.postId,
+        postType: element.postType,
+        sourcePostId: element.postId,
+        postContent: element.postContent,
+        postEntity: element.postEntity,
+        postEntityId: element.postEntityId,
+        postedBy: element.postedBy,
+        postedByType: element.postedByType,
+        postedOn: element.postedOn,
+        posteddate: postedate,
+        likesCount: element.likesCount,
+        commentsCount: element.commentsCount,
+        sharedCount: element.sharedCount,
+        // postPrivacy: element.SearchListComponent,
+        postPrivacy: element.postPrivacy,
+        postPrivacyEntities: element.postPrivacyEntities,
+        hashTags: element.hashTags,
+        medias: element.medias,
+        likes: element.likes,
+        shares: element.shares,
+        page: element.page,
+        code: element.code,
+        message: element.message,
+        comments: element.comments,
+        visible: false,
+        //shareduser: shareData,
+        userLikedStatus: element.userLikedStatus,
+        postedByUserData: element.postedByUserData
+      };
+      this.userData[indx] = postData;
+
+      if (element.postEntity === "USER") {
+        this.addUserDataToPost(element, postData, element.postEntityId);
+      } else if (element.postEntity === "BUSINESS") {
+        this.addBusinessDataToPost(
+          element,
+          postData,
+          element.postEntityId
+        );
+      } else if (element.postEntity === "COMMUNITY") {
+        this.addCommunityDataToPost(
+          element,
+          postData,
+          element.postEntityId
+        );
+      } else if (element.postEntity === "NETWORK") {
+        this.addNetworkToPost(element, postData, element.postEntityId);
+      } else if (element.postEntity === "TEAM") {
+        this.addTeamsToPost(element, postData, element.postEntityId);
+      }
+
+
+      this.userData = this.sortData(this.userData);
+      this.contentLoaded = true;
+      setTimeout(() => {
+        this.util.stopLoader()
+      }, 600);
+    }
+
+  }
+
+
+  onFileDropped($event) {
+    this.prepareFilesList($event);
+  }
+
+
+  fileBrowseHandler(files) {
+    this.prepareFilesList(files);
+  }
+
+  prepareFilesList(files: File) {
+    this.fileDragdrop = files[0];
+    this.resumeupload = files[0];
+
+  }
+
+  savetest() {
+    console.log(this.fileDragdrop.name);
+  }
+}
+
+
+
+//  models
+
+// openmodel(content) {
+//   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+//     this.closeResult = `Closed with: ${result}`;
+//   }, (reason) => {
+//     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+//   });
+// }
+
+// private getDismissReason(reason: any): string {
+//   if (reason === ModalDismissReasons.ESC) {
+//     return 'by pressing ESC';
+//   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+//     return 'by clicking on a backdrop';
+//   } else {
+//     return `with: ${reason}`;
+//   }
+// }
+
+// }

@@ -1,0 +1,132 @@
+.text-center {
+  text-align: center;
+}
+
+.serachBar {
+  width: 100%;
+  margin-top: 3px;
+}
+
+.card {
+  margin-top: 54px;
+  margin-bottom: 54px;
+  margin-left: 132px;
+}
+.font-size-bold {
+  font-size: 14px;
+}
+.contact-panel img {
+  width: 50px;
+  height: 50px;
+}
+
+.m-t-m-20s {
+  margin-top: -20px !important;
+}
+
+.ooep {
+  font-weight: 500;
+  color: #333333;
+  font-size:17px;
+  margin-top: 3px;
+}
+
+.h-153 {
+  height: 153px;
+}
+
+.m-25 {
+  margin-right: -25px;
+  margin-top: -4px;
+}
+
+.m-t-7m {
+  margin-top: -7px;
+}
+.ellipse {
+  text-overflow: ellipsis;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.m-t-5m {
+  margin-top: -5px;
+  position: relative;
+  top: -1rem;
+  left: -1.4rem;
+  height: 56px !important;
+  width: 56px !important;
+}
+
+.m-top-15 {
+  // margin-top: 15px;
+  position: relative;
+  top: 0.6rem;
+  left: 1rem;
+}
+
+.w-103 {
+  width: 112.5% !important;
+}
+
+.kksdxm {
+  cursor: default;
+  padding: 0.1rem 0.6rem !important;
+  border: 1px solid #74767a4d;
+  border-radius: 3px;
+}
+
+.jkdgku {
+  padding-bottom: 5px;
+}
+
+.iiiei {
+  border: 0.1rem solid #8f949c2e;
+  height: 5rem;
+  background-color: #f1f3f6;
+  position: relative;
+  bottom: 1rem;
+  border-top: none !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.s1s {
+  position: relative;
+  left: 4rem;
+  top: 0rem;
+  border-right: 0.1rem solid #8f949c2e;
+
+  .eerr {
+    position: relative;
+    top: 1rem;
+    font-size: 10px;
+    // left: 1rem;
+    right: 2rem;
+  }
+
+  .sfkp {
+    position: relative;
+    top: 1rem;
+    left: 0.7rem;
+    font-weight: bold;
+  }
+}
+
+.s2s {
+  position: relative;
+  right: 4rem;
+  top: 1rem;
+  .eerr1 {
+    // position: relative;
+    // top: 1rem;
+    font-size: 10px;
+    // left: 1rem;
+  }
+  .lgho {
+    position: relative;
+    left: 1rem;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,436 @@
+$primary-color: #63cfbe; // Change color here. C'mon, try it!
+$text-color: mix(#000, $primary-color, 64%);
+
+//STEP UI Added by karthik
+.sectionSI {
+  background-color: #ffffff;
+  padding-bottom: 100px;
+}
+
+.stepUIWrapper {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.nav-bar-css {
+  position: fixed;
+  z-index: 99 !important;
+  top: 0rem !important;
+  width: 100vw;
+  background-color: #fff;
+  height: 67px;
+  border: 0px;
+  // box-shadow: 0 1px 8px rgb(0 0 0 / 30%);
+  border-radius: 0px;
+}
+
+.photoNav {
+  height: 44px;
+  width: 44px;
+  position: relative;
+  right: 5px;
+  bottom: 10px;
+}
+
+ul.stepUIwrap {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  li {
+    a {
+      width: 100px;
+      height: 2px;
+      background-color: #eeeeee;
+      margin-right: 5px;
+      padding: 0;
+
+      &.active {
+        background-color: #555555;
+      }
+    }
+  }
+}
+
+h2.UIheadTxt {
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  margin-top: 30px;
+
+  span {
+    color: #63cfbe;
+  }
+}
+
+p.UISubtxt {
+  text-align: center;
+}
+
+.stepUIContent {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+.contentInside {
+  margin-top: 30px;
+
+  &.cIv2 {
+    .userProfileCreateWrap {
+
+      align-items: center;
+    }
+
+    .userProfileCreateWrap .userImageUp {
+      width: 20%;
+    }
+
+    .userProfileCreateWrap .userContentDetails {
+      width: 80%;
+
+      div.radio-with-Icon p.radioOption-Item {
+        width: 33.3%;
+        height: 250px;
+      }
+
+      div.radio-with-Icon p.radioOption-Item label {
+        height: 250px;
+        font-size: 15px;
+        font-weight: 600;
+
+        span {
+          font-size: 12px;
+          font-weight: 400;
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+
+.userProfileCreateWrap {
+  width: 100%;
+  display: flex;
+
+  .userImageUp {
+    width: 30%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mrgin-0px {
+    margin-right: 0px !important;
+  }
+
+  .userContentDetails {
+    width: 60%;
+  }
+
+  .profile-pic {
+    position: relative;
+    height: 160px;
+    width: 160px;
+    top: 0px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+
+    img {
+      border-radius: 50%;
+      box-shadow: 0px 0px 5px 0px #c1c1c1;
+      cursor: pointer;
+      width: 140px;
+      height: 140px;
+    }
+
+    .hidden {
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+}
+
+.left-push {
+  position: relative;
+  left: 15%;
+}
+
+.userContentDetails {
+  .userFieldInline {
+    display: flex;
+
+    .input-field {
+      &:first-child {
+        margin-right: 15px;
+      }
+    }
+  }
+
+  .describes {
+    text-align: center !important;
+    margin: 43px !important;
+  }
+
+  .input-field {
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      // background-color: #ffffff;
+      // border-radius: 4px;
+      // padding: 12px 15px 12px 15px;
+      // height: auto;
+
+      background-color: #ffffff;
+      border-radius: 0px;
+      padding: 7px 12px;
+      height: auto;
+      border: 1px solid #cfd6e1;
+    }
+
+    // input:-webkit-autofill,
+    // input:-webkit-autofill:hover,
+    // input:-webkit-autofill:focus,
+    // input:-webkit-autofill:active {
+    //   -webkit-box-shadow: 0 0 0 30px white inset !important;
+    // }
+    input:disabled {
+      background-color: #f1f3f6;
+      cursor: not-allowed;
+    }
+
+    label {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 8px;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    &:focus {
+      border-color: #66afe9 !important;
+      outline: 0 !important;
+      box-shadow: none;
+    }
+  }
+
+  .checkboxCustomUL {
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #000000;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+
+    .radioCheck {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+
+    label {
+      display: flex;
+      cursor: pointer;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0.375em;
+
+      /* Accessible outline */
+      /* Remove comment to use */
+      /*
+      &:focus-within {
+          outline: .125em solid $primary-color;
+      }
+    */
+      input {
+        position: absolute;
+        left: -9999px;
+
+        &:checked+span {
+          background-color: #f7f7fb;
+
+          &:before {
+            box-shadow: inset 0 0 0 0.4375em $primary-color;
+          }
+        }
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+        padding: 0.375em 0.75em 0.375em 0.375em;
+        border-radius: 99em; // or something higher...
+        transition: 0.25s ease;
+        font-size: 14px;
+
+        &:hover {
+          background-color: mix(#fff, $primary-color, 84%);
+        }
+
+        &:before {
+          display: flex;
+          flex-shrink: 0;
+          content: "";
+          background-color: #fff;
+          width: 1.5em;
+          height: 1.5em;
+          border-radius: 50%;
+          margin-right: 0.375em;
+          transition: 0.25s ease;
+          box-shadow: inset 0 0 0 0.125em $primary-color;
+        }
+      }
+    }
+  }
+}
+
+.stepAction {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 40px 0;
+  text-align: right;
+
+  button.nextStep {
+    width: auto;
+    background-color: #63cfbe;
+    color: #fff;
+    padding: 12px 15px;
+    margin-right: 2px;
+    border: 0;
+    border-radius: 62px;
+    min-width: 125px;
+  }
+
+}
+
+div.radio-with-Icon {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+div.radio-with-Icon p.radioOption-Item {
+  display: inline-block;
+  width: 22%;
+  height: 170px;
+  box-sizing: border-box;
+  margin: 0 10px 22px 10px;
+  border: none;
+}
+
+div.radio-with-Icon p.radioOption-Item label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 170px;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 10px;
+  border-radius: 4px;
+  border: 1px solid #e1dfdf;
+  color: #000000;
+  cursor: pointer;
+  opacity: 1;
+  -webkit-transition: none;
+  transition: none;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: center;
+  margin: 0 !important;
+
+  svg {
+    width: 75px;
+    height: 75px;
+    padding: 5px;
+    margin-bottom: 15px;
+  }
+}
+
+div.radio-with-Icon p.radioOption-Item label:hover,
+div.radio-with-Icon p.radioOption-Item label:focus,
+div.radio-with-Icon p.radioOption-Item label:active {
+  opacity: 0.5;
+  background-color: #eeeeee;
+  border: 1px solid #63cfbe;
+  color: #63cfbe;
+  margin: 0 !important;
+}
+
+div.radio-with-Icon p.radioOption-Item label::after,
+div.radio-with-Icon p.radioOption-Item label:after,
+div.radio-with-Icon p.radioOption-Item label::before,
+div.radio-with-Icon p.radioOption-Item label:before {
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+}
+
+div.radio-with-Icon p.radioOption-Item label i.fa {
+  display: block;
+  font-size: 50px;
+}
+
+div.radio-with-Icon p.radioOption-Item input[type="radio"] {
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+div.radio-with-Icon p.radioOption-Item input[type="radio"]:active~label {
+  opacity: 1;
+}
+
+div.radio-with-Icon p.radioOption-Item input[type="radio"]:checked~label {
+  opacity: 1;
+  border: none;
+  background-color: #63cfbe;
+  color: #fff;
+
+  .st0 {
+    fill: #ffffff !important;
+  }
+
+  .st1 {
+    fill: #ffffff !important;
+  }
+
+  path {
+    fill: #ffffff !important;
+  }
+
+  svg {
+    fill: #ffffff !important;
+  }
+}
+
+div.radio-with-Icon p.radioOption-Item input[type="radio"]:hover,
+div.radio-with-Icon p.radioOption-Item input[type="radio"]:focus,
+div.radio-with-Icon p.radioOption-Item input[type="radio"]:active {
+  margin: 0 !important;
+}
+
+div.radio-with-Icon p.radioOption-Item input[type="radio"]+label:before,
+div.radio-with-Icon p.radioOption-Item input[type="radio"]+label:after {
+  margin: 0 !important;
+}
+
+.num-symb {
+  font-size: 35px;
+  margin-top: -22px;
+  margin-right: -50px;
+}

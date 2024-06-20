@@ -1,0 +1,473 @@
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  EventEmitter,
+  Output,
+} from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { template } from "lodash";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { CountdownComponent } from "ngx-countdown";
+import { ApiService } from "src/app/services/api.service";
+import { AppSettings } from "src/app/services/AppSettings";
+import { CommonValues } from "src/app/services/commonValues";
+import { SearchData } from "src/app/services/searchData";
+import { UtilService } from "src/app/services/util.service";
+import { BusinessCard } from "src/app/types/BusinessCard";
+import Swal from "sweetalert2";
+
+@Component({
+  selector: "app-business-card",
+  templateUrl: "./business-card.component.html",
+  styleUrls: ["./business-card.component.scss"],
+})
+export class BusinessCardComponent implements OnInit {
+  @ViewChild("cd", { static: false }) private countdown: CountdownComponent;
+  @Input()
+  BusinessDataInput: BusinessCard;
+  bData: any;
+  siperAdmin: any;
+  modalRef: BsModalRef;
+  ShowButton: boolean = false;
+  Showsuitcase: boolean = false;
+  loggedInUser: any;
+  userId: String;
+  OTPConfirm: FormGroup;
+
+  IndustryClassifications: any;
+  @Output() onUnfollow = new EventEmitter();
+
+  constructor(
+    private api: ApiService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder,
+    private util: UtilService,
+    private commonvalues: CommonValues,
+    private modalService: BsModalService,
+    private searchData: SearchData
+  ) {}
+
+  ngOnInit() {
+    this.getBusinessLogo();
+    this.ShowAdminData();
+    this.showUnFollowButton();
+    this.industryClassification();
+    this.siperAdmin = localStorage.getItem("isSuperAdmin");
+    this.loggedInUser = localStorage.getItem("userId");
+
+    this.OTPConfirm = this.fb.group({
+      otp: [null, [Validators.required, Validators.pattern(/^[^\s]*$/)]],
+    });
+  }
+
+  get otpControl() {
+    return this.OTPConfirm.controls;
+  }
+
+  backdropConfig = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    keyboard: false,
+  };
+
+  businessData: any;
+  offlineVerificationFlag: boolean = false;
+  verifyBusiness(template: TemplateRef<any>, data) {
+    // //// console.log("data")
+    // //// console.log(data)
+    if (data.offlineVerification == false) {
+      this.offlineVerificationFlag = false;
+    } else if (data.offlineVerification == true) {
+      this.offlineVerificationFlag = true;
+    }
+    this.businessData = data;
+    this.modalRef = this.modalService.show(template, this.backdropConfig);
+  }
+
+  disable: boolean = false;
+  incorrectOtp: boolean = false;
+  otpExpiredFlag: boolean = false;
+
+  onKeyDown() {
+    this.incorrectOtp = false;
+  }
+  navigate() {
+    this.disable = true;
+    if (this.OTPConfirm.valid) {
+      let data: any = {};
+      data.otp = this.OTPConfirm.value.otp;
+      data.businessId = this.businessData.businessId;
+      this.util.startLoader();
+      this.api.AuthValidation("business/verify", data).subscribe((res) => {
+        this.util.stopLoader();
+        if (res.code == "00000") {
+          this.modalRef.hide();
+          this.commonvalues.businessid(this.businessData.businessId);
+          localStorage.setItem("businessId", this.businessData.businessId);
+          localStorage.setItem("isSuperAdmin", "true");
+          let datum: any = {};
+          datum.businessName = this.businessData.businessName;
+          datum.businessId = this.businessData.businessId;
+          datum.menu = "about";
+          this.router.navigate(["business"], { queryParams: datum });
+        } else if (res.code == "99999") {
+          this.incorrectOtp = true;
+        } else if (
+          res.code == "85003" &&
+          this.offlineVerificationFlag == false
+        ) {
+          // time expired
+          this.otpExpiredFlag = true;
+        }
+      },err => {
+        this.util.stopLoader();
+
+    });
+    }
+  }
+
+  onTimeUp(event) {
+    if (event.left == 0) {
+      this.resendCodeFlag = false;
+    }
+  }
+
+  resendCodeFlag: boolean = false;
+  sendAnotherCode(businessId) {
+    var data: any = {};
+    data.businessId = businessId;
+    this.util.startLoader();
+
+    this.api.create("business/resendotp", data).subscribe((response) => {
+      this.util.stopLoader();
+      if (response.code == "00000") {
+        // //// console.log('resend code send')
+        this.resendCodeFlag = true;
+        // this.countdown.begin()
+      }
+    },err => {
+      this.util.stopLoader();
+      if(err.status==500){
+      this.util.stopLoader();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Something went wrong while sending another code. Please, try again later.',
+        showDenyButton: false,
+        confirmButtonText: `ok`,
+      })
+    }
+  });
+  }
+
+  onHidden(): void {
+    this.OTPConfirm.reset();
+    this.modalRef.hide();
+    this.disable = false;
+    this.incorrectOtp = false;
+    // this.onTimeUp(event)
+    // this.otpExpiredFlag = false
+    // this.resendCodeFlag = false
+  }
+
+  close() {}
+
+  deactivate(data) {
+    // console.log(data)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure you want to deactivate?",
+        text: "You will still be able to retrieve the business page after deactivation, if you change your mind.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        reverseButtons: true,
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+          this.util.startLoader()
+        let deactivateBusinessID = data.businessId;
+          this.api
+            .delete("business/remove/" + deactivateBusinessID)
+            .subscribe((res) => {
+              if (res.code === "00000") {
+                // this.onUnfollow.emit(this.BusinessDataInput);
+
+                this.router.navigate(["landingPage/business"]);
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Business page has been deactivated.",
+                  showConfirmButton: false,
+                   timer: 1500,
+                }).then(()=>{
+                  var values: any = {}
+                  values.boolean = true
+                  this.searchData.setBooleanValue(values)
+                });
+              }else {
+                this.util.stopLoader()
+                Swal.fire({
+                  position: "center",
+                  icon: "info",
+                  text:"Something went wrong. Please, try after some time.",
+                  title: "Oops..",
+                  showConfirmButton: false,
+                   timer: 1500,
+                })
+              }
+            },err => {
+              this.util.stopLoader();
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      });
+  }
+
+  activate(data){
+    this.util.startLoader()
+    let businessId = data.businessId;
+    this.api
+      .create("business/activate/" + businessId, null)
+      .subscribe((res) => {
+        if (res.code === "00000") {
+          // this.onUnfollow.emit(this.BusinessDataInput);
+          this.router.navigate(["landingPage/business"]);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Business page has been activated.",
+            showConfirmButton: false,
+             timer: 1500,
+          }).then(()=>{
+            var values: any = {}
+            values.boolean = true
+            this.searchData.setBooleanValue(values)
+          });
+        }else{
+          this.util.stopLoader()
+          Swal.fire({
+            position: "center",
+            icon: "info",
+            title: "Oops..",
+            text: "Something went wrong. Please, try again later.",
+            showConfirmButton: false,
+             timer: 1500,
+          })
+        }
+      },err => {
+        this.util.stopLoader();
+      });
+  }
+
+  BusinessData(data, verifyTemplate) {
+    if(this.BusinessDataInput.status){
+      if (this.BusinessDataInput.businessStatus === "VERIFIED" && this.BusinessDataInput.status == 'ACTIVE') {
+        localStorage.setItem("businessId", data.businessId);
+        localStorage.setItem("isSuperAdmin", data.isSuperAdmin);
+
+        this.router.navigate(["business"], { queryParams: data });
+
+        // setTimeout(()=>{
+        // this.api.query('business/employee/request/pending/'+data.businessId).subscribe(res=>{
+        //   this.searchData.setRequestedEmployeeCount(res.length)
+        // })
+        // }, 600)
+      } else if (this.BusinessDataInput.businessStatus === "NOT VERIFIED") {
+        if (this.BusinessDataInput.isSuperAdmin === true) {
+          this.verifyBusiness(verifyTemplate, this.BusinessDataInput);
+        }
+      }
+    }
+
+
+    if(!this.BusinessDataInput.status){
+      if (this.BusinessDataInput.businessStatus === "VERIFIED" ) {
+        localStorage.setItem("businessId", data.businessId);
+        localStorage.setItem("isSuperAdmin", data.isSuperAdmin);
+
+        this.router.navigate(["business"], { queryParams: data });
+
+        // setTimeout(()=>{
+        // this.api.query('business/employee/request/pending/'+data.businessId).subscribe(res=>{
+        //   this.searchData.setRequestedEmployeeCount(res.length)
+        // })
+        // }, 600)
+      } else if (this.BusinessDataInput.businessStatus === "NOT VERIFIED") {
+        if (this.BusinessDataInput.isSuperAdmin === true) {
+          this.verifyBusiness(verifyTemplate, this.BusinessDataInput);
+        }
+      }
+    }
+  }
+
+  getBusinessLogo() {
+    if (
+      this.BusinessDataInput &&
+      this.BusinessDataInput.businessLogo &&
+      this.BusinessDataInput.businessLogo != null &&
+      this.BusinessDataInput.businessLogo !== ""
+    ) {
+      let photoUrl = this.BusinessDataInput.businessLogo.toLocaleLowerCase();
+      if (photoUrl.indexOf("http://") !== -1) {
+        this.BusinessDataInput.businessLogo = this.BusinessDataInput.businessLogo;
+      } else {
+        this.BusinessDataInput.businessLogo =
+          AppSettings.photoUrl + this.BusinessDataInput.businessLogo;
+      }
+    }
+
+    this.bData = this.BusinessDataInput;
+  }
+
+  showBusinessIcon() {
+    if (this.loggedInUser == this.userId) {
+      this.Showsuitcase = true;
+    }
+  }
+
+  ShowAdminData() {
+    if (
+      this.BusinessDataInput.isSuperAdmin === true ||
+      this.BusinessDataInput.isAdmin === true
+    ) {
+      this.Showsuitcase = true;
+    }
+  }
+
+  showUnFollowButton() {
+    if (
+      this.BusinessDataInput.isSuperAdmin === false &&
+      this.BusinessDataInput.isAdmin === false
+    ) {
+      this.ShowButton = true;
+    }
+
+    if(this.BusinessDataInput.isFollower){
+      this.ShowButton = true;
+    }
+    else(!this.BusinessDataInput.isFollower)
+    {
+      this.ShowButton = false;
+    }
+  }
+
+  industryClassification() {
+    if (
+      this.BusinessDataInput.industryClassification ==
+      "MEDICAL_HEALTHCARE_PRACTICE"
+    ) {
+      this.IndustryClassifications = "Medical/ Healthcare Practice";
+    } else if (
+      this.BusinessDataInput.industryClassification == "ALTERNATIVE_MEDICE"
+    ) {
+      this.IndustryClassifications = "Alternative Medicine";
+    } else if (
+      this.BusinessDataInput.industryClassification == "BIOTECHNOLOGY"
+    ) {
+      this.IndustryClassifications = "Biotechnology";
+    } else if (
+      this.BusinessDataInput.industryClassification == "DIAGNOSTIC_SERVICES"
+    ) {
+      this.IndustryClassifications = "Diagnostic Services";
+    } else if (
+      this.BusinessDataInput.industryClassification ==
+      "EDUCATIONAL_INSTITUTION_(MEDICAL,_NURSING,_HEALTHCARE)"
+    ) {
+      this.IndustryClassifications =
+        "Educational Institution (Medical, Nursing, Healthcare)";
+    } else if (
+      this.BusinessDataInput.industryClassification == "HEALTH_INSURANCE"
+    ) {
+      this.IndustryClassifications = "Health Insurance";
+    } else if (
+      this.BusinessDataInput.industryClassification ==
+      "MEDICAL_DEVICE_EQUIPMENTS"
+    ) {
+      this.IndustryClassifications = "Medical Device/ Equipments";
+    } else if (
+      this.BusinessDataInput.industryClassification ==
+      "PROFIT_ORGANIZATION_(HEALTH/WELLNESS/MEDICAL)"
+    ) {
+      this.IndustryClassifications =
+        "Non-Profit Organization (Health/Wellness/Medical)";
+    } else if (
+      this.BusinessDataInput.industryClassification ==
+      "NON-PROFIT_ORGANIZATION_(HEALTH/WELLNESS/MEDICAL)"
+    ) {
+      this.IndustryClassifications =
+        "Non-Profit Organization (Health/Wellness/Medical)";
+    } else if (this.BusinessDataInput.industryClassification == "OTHER") {
+      this.IndustryClassifications = this.BusinessDataInput.others;
+    } else if (
+      this.BusinessDataInput.industryClassification == "PHARMACEUTICALS"
+    ) {
+      this.IndustryClassifications = "Pharmaceuticals";
+    } else if (this.BusinessDataInput.industryClassification == "RESEARCH") {
+      this.IndustryClassifications = "Research";
+    } else if (
+      this.BusinessDataInput.industryClassification == "WELLNESS_FITNESS"
+    ) {
+      this.IndustryClassifications = "Wellness & Fitness";
+    }
+  }
+
+  unfollow() {
+    const datas: any = {};
+    datas.businessId = this.BusinessDataInput.businessId;
+    datas.userId = this.loggedInUser;
+    this.util.startLoader();
+    this.api.create("business/unfollow/follower", datas).subscribe((res) => {
+      this.util.stopLoader();
+
+      if (res.code === "00000") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Business unfollow",
+          text: "You are not following this business page anymore!",
+          showConfirmButton: false,
+          timer: 3000,
+        }).then((result) => {
+          if (this.onUnfollow != undefined && this.onUnfollow != null) {
+            this.onUnfollow.emit(this.BusinessDataInput);
+          }
+        });
+      }
+    },err => {
+      this.util.stopLoader();
+      if(err.status==500){
+      this.util.stopLoader();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Something went wrong while processing your request. Please, try again later.',
+        showDenyButton: false,
+        confirmButtonText: `ok`,
+      })
+    }
+  });
+  }
+}
+function verifyTemplate(
+  verifyTemplate: any,
+  arg1: boolean,
+  BusinessDataInput: BusinessCard
+) {
+  throw new Error("Function not implemented.");
+}

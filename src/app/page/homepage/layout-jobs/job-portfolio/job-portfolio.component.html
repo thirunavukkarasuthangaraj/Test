@@ -1,0 +1,88 @@
+<div *ngIf="jobData?.jobPostedBy==userId" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+    class="show-hidden-design-left">
+    <div *ngIf="showChevron || showChevron1" class="left-scroll-buttons">
+        <div (click)="scrollLeft()">
+            <app-svg-templates [svgType]="'CHEVRON_LEFT'"></app-svg-templates>
+        </div>
+    </div>
+</div>
+
+<div class="hpanel mr-bt-0">
+    <div class="panel-body pad-0 job-portfolio-header border-radius-top-left-right-6 border-radius-bottom-left-right-0" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+        <ul class="nav navbar-nav menu-scroll-view " [ngClass]="{'menu-scroll-view-1': jobData?.jobPostedBy != userId}"
+            id="scrollContainer1">
+            <li display="dynamic" class="menu-item" [ngClass]="{'active': pageName=='job-details'}"
+                routerLinkActive="router-link-active" title="Details" (click)="onChange('job-details')">
+                <a>
+                    Details
+                </a>
+                <!-- <a>
+                    Job Details
+                </a> -->
+            </li>
+            <li *ngIf="jobData?.jobPostedBy!=userId && userType!='RECRUITER'" display="dynamic"
+                (click)="onChange('candidate-applied')" [ngClass]="{'active': pageName=='candidate-applied'}"
+                class="menu-item" routerLinkActive="router-link-active" title="Candidate Applied">
+                <a>
+                    Candidate Applied
+                </a>
+            </li>
+            <li *ngIf="jobData?.jobPostedBy==userId" display="dynamic" (click)="onChange('job-applicants')"
+                [ngClass]="{'active': pageName=='job-applicants'}" class="menu-item"
+                routerLinkActive="router-link-active" title="Applicants">
+                <a>
+                    Applicants
+                </a>
+                <!-- <a>
+                    Job Applicants
+                </a> -->
+            </li>
+            <li *ngIf="jobData?.jobPostedBy==userId" display="dynamic" (click)="onChange('resume-requests')"
+                [ngClass]="{'active': pageName=='resume-requests'}" class="menu-item"
+                routerLinkActive="router-link-active" title="Resume Requests">
+                <a>
+                    Resume Requests
+                </a>
+            </li>
+            <li *ngIf="jobData?.jobPostedBy==userId" display="dynamic" (click)="onChange('candidates-invited')"
+                [ngClass]="{'active': pageName=='candidates-invited'}" class="menu-item"
+                routerLinkActive="router-link-active" title="Job Applicants">
+                <a>
+                    Candidates Invited
+                </a>
+            </li>
+            <!-- to be used in the upcoming changes -->
+            <!-- <li *ngIf="jobData?.jobPostedBy==userId" display="dynamic" class="menu-item"
+                routerLinkActive="router-link-active" title="Company">
+                <a>
+                    Company
+                </a>
+            </li> -->
+            <li *ngIf="jobData?.jobPostedBy==userId" [ngClass]="{'active': pageName=='jobs-viewed'}"
+                (click)="onChange('jobs-viewed')" display="dynamic" class="menu-item"
+                routerLinkActive="router-link-active" title="Company">
+                <a>
+                    Views
+                </a>
+            </li>
+            <li *ngIf="jobData?.jobPostedBy==userId" [ngClass]="{'active': pageName=='jobs-liked'}"
+                (click)="onChange('jobs-liked')" display="dynamic" class="menu-item"
+                routerLinkActive="router-link-active" title="Company">
+                <a> Likes </a>
+            </li>
+        </ul>
+    </div>
+    <!-- <div class="pad-0">
+        <router-outlet></router-outlet>
+    </div> -->
+</div>
+
+
+<div *ngIf="jobData?.jobPostedBy==userId" (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()"
+    class="show-hidden-design-right">
+    <div *ngIf="showChevron || showChevron1" class="right-scroll-buttons">
+        <div (click)="scrollRight()">
+            <app-svg-templates [svgType]="'CHEVRON_RIGHT'"></app-svg-templates>
+        </div>
+    </div>
+</div>

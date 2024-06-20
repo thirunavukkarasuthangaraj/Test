@@ -1,0 +1,112 @@
+<div class="  b-g-clr hpanel">
+  <div *ngIf="passValues.length>0; else noResult;">
+    <div class="panel-body pd-top-tn" *ngFor="let items of passValues; let lastItem = last;">
+      <div class="row uy-oi">
+        <div class="col-sm-3">
+          <div class="row sa-as">
+            <div class="col-sm-4 idid" style="padding: 0px!important;">
+              <div  class="custom-checkbox lzx" title="Check this if this location is the headquarters">
+                <label class="checkbox-label font-normal" style="text-align: center"  >
+                  <ng-container  *ngIf="!items.isApplied && filtersApplied">
+                  <input   type="checkbox" value="{{items?.user?.userId}}" [(ngModel)]="items.isSelected"
+                    (change)="selectCheckbox()" name="list_name" />
+                  <span class="checkmark" style="top: -5px"></span>
+                </ng-container>
+                </label>
+              </div>
+              <div>
+                <img class="img-circle" src={{items?.user?.photo}} onerror="this.src='assets/images/userAvatar.png';">
+              </div>
+            </div>
+            <div class="col-sm-8"style="padding: 0px!important;">
+              <div style="font-weight: 600;">{{items?.user?.fullname}}</div>
+              <p *ngIf="items.postedOn" class="font-10z"> {{items?.postedOn | date:'dd-MM-yyyy HH:mm:ss a'}} </p>
+              <p *ngIf="items.enrolledOn" class="font-10z"> {{items?.enrolledOn | date:'dd-MM-yyyy HH:mm:ss a'}} </p>
+              <div *ngIf="items?.user?.userType == 'BENCH_RECRUITER'" title="Bench Sales" class="rcrtr-lbl">BS</div>
+              <div *ngIf="items?.user?.userType == 'RECRUITER'" title="Recruiter" class="rcrtr-lbl">REC</div>
+              <div *ngIf="items?.user?.userType == 'JOB_SEEKER'" title="Job Seeker" class="rcrtr-lbl">JS</div>
+              <div *ngIf="items?.user?.userType == 'FREELANCE_RECRUITER'" title="Job Seeker" class="rcrtr-lbl">FR</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="row flex">
+            <div class="col-sm-10 jk-op">
+              <div class="uy-tr">
+                <div class="f-w-b" title="{{items.firstName + ' ' + items.lastName }}">{{items.firstName + " " +
+                  items.lastName | truncate:15}} </div>
+                <div>-</div>
+                <div class="f-w-b" title="{{items.jobTitle}}">{{items.jobTitle | truncate:20}}</div>
+                <div class="bj-io">
+                  <div *ngFor="let data of items?.primarySkills">
+                    <div [class.ioxlp]="items.length<=14" [ngClass]="{'jsdhgf': items.length>14}">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pointer"> Experience : {{ items.totalExperience }} Years</div>
+              <div class="row uy-tr">
+                <div *ngIf="items.city!=null && items.state!=null"> <i class="fa fa-map-marker"> </i> {{items.city}} ,
+                  {{items.state}} </div>
+                <div *ngIf="items.relocationRequired"> <i class="fa fa-map-marker"> </i> Open </div>
+                <div> <i class="fa fa-usd"> </i> USD {{items.targetRate}} </div>
+                <div *ngIf="items.resumeAttached"> <i class="fa fa-address-card"> </i> Attached </div>
+
+              </div>
+              <div class="row uy-tr">
+                <div style="cursor: pointer;" (click)="open(items)"> <i class="fa fa-eye cursor"> </i>
+                  {{items.viewedByCount}} Views </div>
+                <div *ngIf="items?.isLiked!=null && !items?.isLiked "> <i class="fa fa-heart pointer"
+                    (click)="like(items)"> </i> {{items.likesCount}} Like </div>
+                <div *ngIf="items?.isLiked!=null && items?.isLiked"> <i class="fa fa-heart liked pointer bg-heart"></i>
+                  {{items.likesCount}} Liked </div>
+                <div> <i class="fa fa-users pointer"> </i> {{items.appliedCount}} <span *ngIf="items.appliedToday>0">
+                    ({{items.appliedToday}} new) </span> </div>
+                <div *ngIf="items?.resumeAttached  && items.createdBy!=userId"> <a [href]="url+items.resume.fileId"
+                    target="_blank" download> <button class="btn btn-primary btn-sm ssm"> <i class="fa fa-download"> </i>
+                      Get Resume</button> </a> </div>
+                <app-flag type="CANDIDATE" *ngIf="items.createdBy!=userId" [id]="items.candidateId" [flagTo]="items.createdBy"
+                  [flags]="['Report Candidate as fake.']"></app-flag>
+              </div>
+            </div>
+            <div class="col-sm-2 uy-tr1">
+              <div class="isop">
+                <!-- <div >Available</div> -->
+
+                <div  class="openop" *ngIf="!filtersApplied">Available</div>
+                <div class="openop" *ngIf="items.isApplied && filtersApplied"> Applied </div>
+
+
+                <div class="btn-group " *ngIf="items.createdBy!=userId && userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER'  " dropdown>
+                  <a id="button-animated" dropdownToggle>
+                    <img src="assets/action.png" class="img-width-dot-icon" />
+                  </a>
+                  <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" style="right: 0; left: auto"
+                    aria-labelledby="button-animated">
+                    <li role="menuitem">
+                      <a (click)="apply(items)">
+                        Apply This Candidate
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResult>
+    <div class="wert">
+      <div class="col-md-12 mg-bt-9">
+        <img style=" max-height: 9rem;" src="assets/icon/nothing_found.png" alt="">
+      </div>
+      <!-- <div style="visibility: visible;" id="fetching" class="col-md-12 fig1">Fetching Candidates... </div>
+      <div style="visibility: hidden;" id="zerocandidates" class="col-md-12 fig">Couldn't find any candidates. </div> -->
+      <div  class="col-md-12 fig">{{candidatesFoundStatus}} </div>
+    </div>
+  </ng-template>
+</div>

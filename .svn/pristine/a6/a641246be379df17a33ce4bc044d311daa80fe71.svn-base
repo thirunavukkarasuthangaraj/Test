@@ -1,0 +1,50 @@
+export class TeamUser {
+  teamOwnerId: String;
+  teamId: String;
+  teamName: String;
+  description: String;
+  status: any;
+  isAdmin: boolean;
+  viewCnt: String;
+  postCnt: String;
+  memberCnt: String;
+  name: String;
+  memberStatus: String;
+   teamsOwnerId: String;
+  members: MemberData[];
+  memberType: String;
+
+}
+
+
+export interface MemberData {
+  userId: String,
+  username: String,
+  firstName: String,
+  lastName: String,
+  title: String,
+  photo: String,
+  memberStatus: String;
+  image: String,
+  organisation: String,
+  email: String,
+  phoneNo: String,
+  city: String,
+  isAdmin: boolean,
+  state: String,
+  country: String,
+  connected: false,
+  connection: String,
+  connectionStatus: String,
+  connectionCnt: number,
+  postCnt: number,
+  userType: String,
+  schoolName: String,
+  searchText: String,
+  status: String,
+  teamMemberId: String,
+  memberUserId: String,
+  teamId: String,
+  memberedOn: String,
+  teamName: String
+}

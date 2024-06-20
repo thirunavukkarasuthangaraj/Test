@@ -1,0 +1,107 @@
+<div class="hpanel app-form">
+  <div class="panel-heading hbuilt">
+    <div style="font-weight: bold; font-size: 14px" data-toggle="tooltip" data-placement="top"
+      title="{{values.bussinessName}}">{{ values.bussinessName | truncate : 30}} - Analytics</div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          Total Employees
+        </div>
+        <div>
+          {{analytics.totEmployees}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Total Followers
+        </div>
+        <div>
+          {{analytics.totFollowers}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          New Followers
+        </div>
+        <div>
+          {{analytics.newFollowers}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          Page Views
+        </div>
+        <div>
+          {{analytics.pageViews}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Total Posts
+        </div>
+        <div>
+          {{analytics.totPosts}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Post Views
+        </div>
+        <div>
+          {{analytics.postViews}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          Visitors
+        </div>
+        <div>
+          {{analytics.visitors}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Unique Visitors
+        </div>
+        <div>
+          {{analytics.uniqueVisitors}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          Comments
+        </div>
+        <div>
+          {{analytics.comments}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Likes
+        </div>
+        <div>
+          {{analytics.likes}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          Shares
+        </div>
+        <div>
+          {{analytics.shares}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

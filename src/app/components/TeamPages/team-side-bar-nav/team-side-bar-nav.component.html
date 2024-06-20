@@ -1,0 +1,76 @@
+<div class="hpanel sticky-team-menu">
+  <ul class="panel-body custom-panel pad border-radius-top-left-right-6">
+    <li class="navmenu active" [ngClass]="{ active:  menus === 'home' }">
+      <a class="navIteam" (click)="menuclick('home')">
+        <div class="nav-margin">Home</div>
+      </a>
+    </li>
+    <li class="navmenu active" [ngClass]="{ active: menus === 'aboutus' }">
+      <a class="navIteam" (click)="menuclick('aboutus')">
+        <div class="nav-margin">About </div>
+      </a>
+    </li>
+    <div class="border-grey ">
+      <div class="cursor-ponit font-bold ui" (click)="menuclick('members')" [ngClass]="{'active':menus=='members'}">
+        <div class="panel-tools" *ngIf="teamOwnerFlag">
+          <a (click)="membermenuflag = !membermenuflag" [attr.aria-expanded]="!membermenuflag">
+            <i *ngIf="membermenuflag" (click)="down('down')" class="fa fa-chevron-down"></i>
+            <i *ngIf="!membermenuflag" (click)="down('up')" class="fa fa-chevron-up"></i>
+          </a>
+        </div>
+        <p class="cursor-ponit" routerLinkActive="active"> Members
+          <span class="join-req" *ngIf="membermenuflag && teamOwnerFlag && pendingCount>0">{{pendingCount}}</span>
+        </p>
+      </div>
+      <div class="custom-panel" *ngIf="teamOwnerFlag" [collapse]="membermenuflag" [isAnimated]="true">
+        <ul id="grouplist" class="list-group cursor-ponit ">
+          <ng-container>
+            <li class="list-group-item ui line_bw active cursor-ponit b-r-0 no-br"
+              [ngClass]="{'active':menus=='inviteSent'}" (click)="menuclick('inviteSent')" routerLinkActive="active">
+              Invites Sent
+              <span class="join-req" *ngIf="pendingCount>0 && teamOwnerFlag && !membermenuflag">{{pendingCount}}</span>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <!-- <div>
+      <div class="ty">
+        <div class="br-none business-menu-dropdown"
+          [ngClass]="{'subactive':menus=='members'}">
+          <div class="panel-tools" *ngIf="teamOwnerFlag">
+            <a (click)="membermenuflag = !membermenuflag" [attr.aria-expanded]="!membermenuflag">
+              <i *ngIf="membermenuflag" (click)="down('down')" class="fa fa-chevron-down"></i>
+              <i *ngIf="!membermenuflag" (click)="down('up')" class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <div class="cursor-ponit" (click)="menuclick('follower')" routerLinkActive="active"
+            [attr.aria-expanded]="!membermenuflag">
+            <h5 class="cursor-ponit common-font-12" routerLinkActive="active"> Members
+              <span class="join-req" *ngIf="membermenuflag && teamOwnerFlag && pendingCount>0">{{pendingCount}}</span>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="custom-panel" *ngIf="teamOwnerFlag" [collapse]="membermenuflag"
+        [isAnimated]="true">
+        <ul id="grouplist" class="list-group cursor-ponit ">
+          <ng-container>
+            <li class="list-group-item active br-none cursor-ponit"
+              [ngClass]="{'subactive':menus=='followerRequestsSent'}"
+              (click)="menuclick('inviteSent')" routerLinkActive="router-link-active"
+              class="common-font-12"> Invites Sent
+              <span class="join-req"
+              *ngIf="pendingCount>0 && teamOwnerFlag && !membermenuflag">{{pendingCount}}</span>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div> -->
+
+
+  </ul>
+</div>

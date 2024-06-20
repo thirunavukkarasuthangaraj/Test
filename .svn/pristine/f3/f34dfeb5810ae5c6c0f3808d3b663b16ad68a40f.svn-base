@@ -1,0 +1,72 @@
+import { BusinessBannerComponent } from './../business-banner/business-banner.component';
+import { Router } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+ import { Subscription } from 'rxjs';
+ import { CommonValues } from 'src/app/services/commonValues';
+import { BussinessPostComponent } from '../../bussiness-post/bussiness-post.component';
+import { json } from 'express';
+
+export type Credentials = { password: string, username: string };
+
+@Component({
+  selector: 'app-business',
+  templateUrl: './business.component.html',
+  styleUrls: ['./business.component.scss']
+})
+
+
+export class BusinessComponent implements OnInit {
+
+  home:Boolean= true;
+  about:Boolean=true;
+  clickEventsubscription:Subscription;
+  commondata :any={};
+  menu='home';
+  userType="ALL";
+  passdata: any[];
+  adminWidgets: any[];
+
+  constructor(
+     private commonvalues:CommonValues,
+     private banner: BusinessBannerComponent,
+     private router: Router,
+     private businesspost:BussinessPostComponent
+
+     ) {
+      window.scrollTo(0, 0);
+    this.clickEventsubscription=this.commonvalues.getbusinessid().subscribe((res)=>{
+        this.commondata=res;
+        localStorage.setItem('businessId', res.businessId);
+        if(this.commondata.menu){
+          this.menu =  this.commondata.menu;
+        }
+
+       })
+   }
+
+  ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+  }
+
+// Add below code for Load page from top
+  // ngAfterViewChecked() {
+  //   window.scrollTo(0, 0);
+  // }
+
+
+  addTodo(commondata)
+  {
+  // this.todos = [{label, id: this.todos.length + 1, complete: true }];
+     this.passdata = commondata;
+     this.adminWidgets = commondata.adminviewnavigation;
+     if(!commondata.isSuperAdmin && !commondata.admin){
+      this.userType="ALL";
+     }else{
+      this.userType="ADMIN";
+     }
+
+  }
+
+
+}

@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TeamHeaderBarComponent } from './team-header-bar.component';
+
+describe('TeamHeaderBarComponent', () => {
+  let component: TeamHeaderBarComponent;
+  let fixture: ComponentFixture<TeamHeaderBarComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ TeamHeaderBarComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TeamHeaderBarComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

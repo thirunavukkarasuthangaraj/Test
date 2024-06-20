@@ -1,0 +1,679 @@
+import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { FormGroup, FormBuilder, NgModelGroup } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
+import { AfterViewChecked, Component, ElementRef, HostListener, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { UtilService } from 'src/app/services/util.service';
+import { AppSettings } from 'src/app/services/AppSettings';
+import { Options } from '@angular-slider/ngx-slider';
+import { ActivatedRoute } from '@angular/router';
+import { SearchData } from 'src/app/services/searchData';
+import { CustomValidator } from 'src/app/components/Helper/custom-validator';
+@Component({
+  selector: 'app-layout-jobs',
+  templateUrl: './layout-jobs.component.html',
+  styleUrls: ['./layout-jobs.component.scss']
+})
+export class LayoutJobsComponent implements OnInit {
+  response: any = [];
+  dataPasstoSkillwidgets: any;
+  filterApplied: boolean = false
+  jobFoundStatus: any = "Fetching Jobs..."
+  filterData: any;
+  queryParamValues: any;
+  constructor(private apiService: ApiService, private searchData: SearchData, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private util: UtilService) {
+    if (this.response.length == 0) {
+      this.noJobFound = true
+    } else if (this.response.length > 0) {
+      this.noJobFound = false
+    }
+
+    this.activatedRoute.queryParams.subscribe(res => {
+      this.queryParamValues = res
+      this.filterData = res
+    })
+
+
+  }
+
+  ngOnInit(): void {
+    this.createjobFilterForm()
+    this.getCountries()
+    if (Object.keys(this.queryParamValues).length == 0) {
+      this.filterApplied = false
+    } else if (Object.keys(this.queryParamValues).length > 0) {
+      this.filterApplied = true
+    }
+
+    if (this.filterApplied == false) {
+      this.getJobList()
+    } else if (this.filterApplied == true) {
+      this.getJobListForCandidate()
+    }
+  }
+
+
+
+  value: number = 0;
+  highValue: number = 0;
+  options: Options = {
+    floor: 0,
+    ceil: 99
+  };
+
+  value1: number = 0;
+  highValue1: number = 0;
+  options1: Options = {
+    floor: 0,
+    ceil: 99
+  };
+
+  jobFilterForm: FormGroup
+  isCollapsed = true;
+  img: any;
+  obj: any = {
+    limit: 10,
+    searchAfterKey: null,
+    jobPostedBy: localStorage.getItem('userId')
+  }
+
+  previousSearchAfterKey = null;
+  previousSearchAfterKey1 = null;
+  getJobList() {
+    this.util.startLoader()
+    this.apiService.create("jobs/findJobs", this.obj).subscribe((res) => {
+      this.util.stopLoader()
+      if (res.code == "00000" && res.data.jobList.length != 0) {
+        this.jobFoundStatus = "Fetching Jobs..."
+        var a: any = [res.data.searchAfterKey[0]]
+        this.obj.searchAfterKey = a
+        if ((res.data.searchAfterKey[0] != this.previousSearchAfterKey) || this.obj.searchAfterKey == null) {
+          this.previousSearchAfterKey = res.data.searchAfterKey[0]
+          res.data.jobList.forEach(ele => {
+            if (ele.user.photo != null) {
+              ele.user.photo = AppSettings.photoUrl + ele.user.photo
+            } else if (ele.user.photo == null) {
+              ele.user.photo = "assets/images/userAvatar.png"
+            }
+            this.response.push(ele)
+          })
+        } else if (res.data.searchAfterKey[0] == this.previousSearchAfterKey) {
+          res.data.jobList.forEach(ele => {
+            if (ele.user.photo != null) {
+              ele.user.photo = AppSettings.photoUrl + ele.user.photo
+            } else if (ele.user.photo == null) {
+              ele.user.photo = "assets/images/userAvatar.png"
+            }
+            this.response.push(ele)
+          })
+          this.stopscrollFlag = true
+        } else if (!res.data.searchAfterKey) {
+          this.stopscrollFlag = true
+        }
+      } else if (res.code == "00000" && res.data.jobList.length == 0) {
+        this.stopscrollFlag = true
+        this.jobFoundStatus = "Couldn't find any Jobs."
+      }
+      if (res.status == 500) {
+        this.util.stopLoader()
+      }
+    })
+  }
+
+  data: any = {
+
+    limit: 10,
+    searchAfterKey: null,
+    userId: localStorage.getItem('userId')
+  }
+
+  previousSearchAfterKey2: any;
+  getJobListForCandidate() {
+    this.util.startLoader()
+    this.data.primarySkills = this.queryParamValues.primarySkills
+    this.data.candidateId = this.queryParamValues.candidateId
+    this.apiService.create("jobs/findJobsBySkill", this.data).subscribe(res => {
+      if (res.code == '00000') {
+        this.util.stopLoader()
+       if(res.data != null){
+        this.jobFoundStatus = "Fetching Jobs..."
+        res.data.jobList.forEach(ele => {
+          if (ele.user.photo != null) {
+            ele.user.photo = AppSettings.photoUrl + ele.user.photo
+          } else if (ele.user.photo == null) {
+            ele.user.photo = "assets/images/userAvatar.png"
+          }
+          this.response.push(ele)
+        });
+        if (res.data.jobList.length == 0) {
+          this.jobFoundStatus = "Couldn't find any jobs for the Candidate."
+          this.stopscrollFlag2 = true
+        } else if (res.data.jobList.length > 0) {
+          this.previousSearchAfterKey2 = res.data.searchAfterKey[0]
+        }
+       }else{
+          this.jobFoundStatus = "Couldn't find any jobs for the Candidate."
+          this.stopscrollFlag2 = true
+       }
+      }
+    })
+  }
+
+  cancel() {
+    this.router.navigate(["candidates"])
+  }
+
+  // ngAfterViewChecked(): void {
+  //   //Called after every check of the component's view. Applies to components only.
+  //   //Add 'implements AfterViewChecked' to the class.
+  //   this.jobFilterForm.get('country').valueChanges.subscribe(res=>{
+  //     console.log(res)
+  //     console.log("sljdkflsdkjfsldkfj")
+  //   })
+  // }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //   //Add '${implements OnChanges}' to the class.
+  //   console.log(changes)
+  //   console.log("changed")
+
+  // }
+
+  createjobFilterForm() {
+    this.jobFilterForm = this.formBuilder.group({
+      // jobSource: null,
+      // status: null,
+      clientType: null,
+      userId: localStorage.getItem('userId'),
+      jobClassification: null,
+      country: null,
+      state: null,
+      relocationRequired: false,
+      remoteWork: false,
+      workFromHome: false,
+      city: null,
+      zipcode: null,
+      directHire: null,
+      endClient: null,
+      systemsIntegrator: null,
+      staffingAgency: null,
+      primeVendor: null,
+      vendor: null,
+      supplier: null,
+      corpToCorp: null,
+      w2Contract: null,
+      w2FullTime: null,
+      partTime: null,
+      freelance: null,
+      internship: null,
+      experienceFrom: null,
+      experienceTo: null
+      // workType: null,
+      // experienceFrom: null,
+      // experienceTo: null,
+      // postedInDays: null,
+      // myJobs: false,
+      // teamJobs: false,
+      // recruiterNetwork: false,
+      // featuredJobs: false,
+      // suggestedJobs: false,
+      // other: false,
+      // otherValue: null,
+    })
+  }
+
+  removeTagvalues: any;
+  getchildData(data) {
+    this.dataPasstoSkillwidgets = JSON.parse(data);
+  }
+
+  removeUserfromTag(data) {
+    this.removeTagvalues = data;
+    this.response.forEach(element => {
+      if (element.jobId == data.jobId) {
+        element.isSelected = false;
+      }
+    });
+
+    this.dataPasstoSkillwidgets.forEach(element => {
+      if (element.jobId == data.jobId) {
+        element.isSelected = false;
+      }
+    });
+  }
+
+
+  jobSource: any = []
+  clientType: any = []
+  status: any = []
+  // workType: any = []
+  jobClassification: any = []
+  totalFilters: number = 0;
+  myJobs: any;
+  vendor: any;
+  endClient: any;
+  systemsIntegrator: any;
+  staffingAgency: any;
+  directHire: any;
+  closed: any;
+  filled: any;
+  onHold: any;
+  active: any;
+  partTime: any;
+  w2FullTime: any;
+  freelance: any;
+  w2Contract: any;
+  corpToCorp: any;
+  internship: any;
+  drafts: any;
+  primeVendor: any;
+  supplier: any;
+  teamJobs: any;
+  recruiterNetwork: any;
+  suggestedJobs: any;
+  featuredJobs: any;
+
+
+  // liss = ['Supplier', 'Vendor', 'Prime Vendor', 'Staffing Agency', 'Systems Integrator', 'End Client', 'Direct Hire']
+  chooseJobFilter(event, param, value) {
+    // if(value == 'jobSource' ){
+    //   if(event.target.checked == true){
+    //     this.jobSource.push(param)
+
+    //   }else if(event.target.checked == false){
+    //     this.jobSource.filter(e=>(e!=param))
+    //   }
+    // }else
+    if (value == 'clientType') {
+      if (param != 'chooseAll') {
+        if (event.target.checked == true) {
+          this.clientType.push(param)
+        } else if (event.target.checked == false) {
+          var ind = this.clientType.indexOf(param)
+          this.clientType.splice(ind, 1)
+        }
+      } else if (param == 'chooseAll') {
+        if (event.target.checked == true) {
+          // this.liss.forEach(ele => {
+          //   // this.totalFilters.push(ele)
+          // })
+          this.directHire = true
+          this.endClient = true
+          this.systemsIntegrator = true
+          this.staffingAgency = true
+          this.primeVendor = true
+          this.vendor = true
+          this.supplier = true
+        } else if (event.target.checked == false) {
+          // this.liss.forEach(ele => {
+          //   // var ind = this.totalFilters.indexOf(ele)
+          //   // this.totalFilters.splice(ind, 1)
+          // })
+          this.directHire = false
+          this.endClient = false
+          this.systemsIntegrator = false
+          this.staffingAgency = false
+          this.primeVendor = false
+          this.vendor = false
+          this.supplier = false
+        }
+      }
+    }
+    // else if (value == 'status') {
+    //   if (event.target.checked == true) {
+    //     this.status.push(param)
+    //   } else if (event.target.checked == false) {
+    //     var ind = this.status.indexOf(param)
+    //     this.status.splice(ind, 1)
+    //   }
+    // }
+    else if (value == 'jobClassification') {
+      if (event.target.checked == true) {
+        this.jobClassification.push(param)
+      } else if (event.target.checked == false) {
+        var ind = this.jobClassification.indexOf(param)
+        this.jobClassification.splice(ind, 1)
+      }
+    } else if (value == 'workType') {
+      if (event.target.checked == true) {
+        if (param == 'remoteWork') {
+          this.jobFilterForm.value.remoteWork = true
+        } else if (param == 'relocationRequired') {
+          this.jobFilterForm.value.relocationRequired = true
+        } else if (param == 'workFromHome') {
+          this.jobFilterForm.value.workFromHome = true
+        }
+      } else if (event.target.checked == false) {
+        if (param == 'remoteWork') {
+          this.jobFilterForm.value.remoteWork = false
+        } else if (param == 'relocationRequired') {
+          this.jobFilterForm.value.relocationRequired = false
+        } else if (param == 'workFromHome') {
+          this.jobFilterForm.value.workFromHome = false
+        }
+      }
+    }
+    if (event.target.checked == true) {
+      this.totalFilters = this.totalFilters + 1
+    } else if (event.target.checked == false) {
+      this.totalFilters = this.totalFilters - 1
+    }
+  }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //   //Add '${implements OnChanges}' to the class.
+  //   console.log("ksdjfhskdjhf")
+  //   console.log(changes)
+  // }
+
+
+
+
+
+  @ViewChild("lgModal", { static: false }) lgModal;
+
+  decline1() {
+    this.lgModal.hide()
+    if (this.filterOn) {
+      this.filterOn = false
+      this.obj.searchAfterKey = null
+      this.previousSearchAfterKey = null;
+      this.getJobList()
+    }
+  }
+  stopscrollFlag2: boolean = false
+  resetFilter() {
+    this.response = []
+    this.clientType = []
+    this.jobClassification = []
+    this.totalFilters = 0
+    this.filterCount = 0
+    this.filterOn = false
+    this.obj.searchAfterKey = null
+    this.jobFilterForm.reset()
+    this.lgModal.hide()
+    this.getJobList()
+  }
+  throwErrorFlag: boolean = false
+
+  resetFilterValue() {
+    // this.directHire = null
+    // this.endClient = null
+    // this.systemsIntegrator = null
+    // this.staffingAgency = null
+    // this.primeVendor = null
+    // this.vendor = null
+    // this.supplier = null
+    // this.corpToCorp = null
+    // this.w2Contract = null
+    // this.w2FullTime = null
+    // this.partTime = null
+    // this.freelance = null
+    // this.internship = null
+    this.clientType = []
+    // this.status = []
+    this.jobClassification = []
+    this.totalFilters = 0
+    this.jobFilterForm.reset()
+  }
+  yearApplied: boolean = false
+  onChangeYear(value) {
+    if(value.highValue > 0){
+      if(!this.yearApplied){
+        this.totalFilters = this.totalFilters + 1
+      }
+      this.yearApplied = true
+    }else if(value.highValue == 0){
+      if(this.yearApplied){
+        this.totalFilters = this.totalFilters - 1
+      }
+      this.yearApplied = false
+    }
+    this.jobFilterForm.value.experienceFrom = value.value
+    this.jobFilterForm.value.experienceTo = value.highValue
+    // value.value
+  }
+  noJobFound: boolean = false
+  filterOn: boolean = false
+  filterCount: number = 0
+  typeOfInfiniteScroll: any;
+  clearAndFilter() {
+    if (this.totalFilters > 0 ||
+      (this.jobFilterForm.value.city != null && this.jobFilterForm.value.city != "") ||
+      (this.jobFilterForm.value.state != null && this.jobFilterForm.value.state != "") ||
+      (this.jobFilterForm.value.zipcode != null && this.jobFilterForm.value.zipcode != "") ||
+      (this.jobFilterForm.value.country != null && this.jobFilterForm.value.country != "")) {
+      this.response = []
+
+      this.applyFilter('fromScratch')
+      this.lgModal.hide()
+      this.stopscrollFlag = false
+      this.stopscrollFlag1 = false
+      this.throwErrorFlag = false
+    } else {
+      this.throwErrorFlag = true
+    }
+  }
+
+  backdropConfig = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    keyboard: false
+  }
+
+  data1: any = {}
+  applyFilter(value) {
+    this.util.startLoader()
+    this.filterOn = true
+    this.filterCount = this.filterCount + 1
+    // if (this.clientType.length > 0) {
+    //   this.jobFilterForm.value.clientType = this.clientType
+    // }
+    // if (this.status.length > 0) {
+    //   this.jobFilterForm.value.status = this.status
+    // }
+    // if (this.jobClassification.length > 0) {
+    //   this.jobFilterForm.value.jobClassification = this.jobClassification
+    // }
+    // this.jobFilterForm.value.userId = localStorage.getItem('userId')
+    // data = this.jobFilterForm.value
+    this.data1.userId = localStorage.getItem('userId')
+    this.data1.clientType = this.clientType
+    this.data1.jobClassification = this.jobClassification
+    this.data1.workFromHome = this.jobFilterForm.value.workFromHome
+    this.data1.remoteWork = this.jobFilterForm.value.remoteWork
+    this.data1.experienceFrom = this.jobFilterForm.value.experienceFrom
+    this.data1.experienceTo = this.jobFilterForm.value.experienceTo
+    this.data1.relocationRequired = this.jobFilterForm.value.relocationRequired
+    this.data1.limit = 10
+    if (value == "fromBetween") {
+      if (this.previousSearchAfterKey1 == null) {
+        this.data1.searchAfterKey = null
+      } else {
+        this.data1.searchAfterKey = [this.previousSearchAfterKey1]
+      }
+    } else if (value == "fromScratch") {
+      this.data1.searchAfterKey = null
+    }
+    this.apiService.create('jobs/filter', this.data1).subscribe(res => {
+      // this.util.startLoader()
+      if (res.code == '00000' && res.data != null) {
+        if (res.data.jobList.length == 0) {
+          this.stopscrollFlag1 = true
+          this.jobFoundStatus = "Couldn't find any jobs for the applied filters."
+          // this.lgModal.hide()
+          // this.response = []
+          // this.noJobFound = true
+          // this.stopscrollFlag = true
+          setTimeout(() => {
+            this.util.stopLoader()
+          }, 2000);
+        } else {
+        this.jobFoundStatus = "Fetching Jobs..."
+          if (this.filterCount == 1) {
+            this.response = []
+          }
+          // this.noJobFound = false
+          // this.lgModal.hide()
+          setTimeout(() => {
+            this.util.stopLoader()
+          }, 2000);
+          var a: any = [res.data.searchAfterKey[0]]
+          this.obj.searchAfterKey = a
+          if ((res.data.searchAfterKey[0] != this.previousSearchAfterKey1) || this.obj.searchAfterKey == null) {
+            this.previousSearchAfterKey1 = res.data.searchAfterKey[0]
+            res.data.jobList.forEach(ele => {
+              if (ele.user.photo != null) {
+                ele.user.photo = AppSettings.photoUrl + ele.user.photo
+              } else if (ele.user.photo == null) {
+                ele.user.photo = "assets/images/userAvatar.png"
+              }
+              this.response.push(ele)
+            })
+          } else if (res.data.searchAfterKey[0] == this.previousSearchAfterKey1) {
+            res.data.jobList.forEach(ele => {
+              if (ele.user.photo != null) {
+                ele.user.photo = AppSettings.photoUrl + ele.user.photo
+              } else if (ele.user.photo == null) {
+                ele.user.photo = "assets/images/userAvatar.png"
+              }
+              this.response.push(ele)
+            })
+            this.stopscrollFlag1 = true
+          }
+        }
+      }
+    },err => {
+      this.util.stopLoader();
+    })
+  }
+
+  openFilter() {
+    this.lgModal.show()
+  }
+
+  stateListCA: any;
+  stateListIN: any;
+  stateListAU: any;
+  countryList: any = [];
+  onChangeCountry(event) {
+    if (event == "US") {
+    } else if (event == "AU") {
+      const countryCode = event;
+      this.stateListAU = [];
+
+      this.apiService
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListAU = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else if (event == "IN") {
+      const countryCode = event;
+      this.stateListIN = [];
+      this.apiService
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListIN = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else if (event == "CA") {
+      const countryCode = event;
+      this.stateListCA = [];
+
+      this.apiService
+        .query("country/getAllStates?countryCode=" + countryCode)
+        .subscribe((res) => {
+          this.stateListCA = res;
+        }, err => {
+          this.util.stopLoader();
+        });
+    } else {
+    }
+  }
+
+  getCountries() {
+    this.countryList = [];
+    this.util.startLoader();
+    this.apiService.query("country/getAllCountries").subscribe((res) => {
+      this.util.stopLoader();
+      res.forEach((ele) => {
+        this.countryList.push(ele);
+      });
+    }, err => {
+      this.util.stopLoader();
+    });
+  }
+
+
+  onKeyZip(event: any) {
+    let data: any = {};
+    data.countryCode = "US";
+    data.zipCode = event.target.value;
+    data.stateCode = "";
+    if (data.zipCode.length === 5) {
+      this.apiService.create("country/geodetails", data).subscribe((res) => {
+        if (
+          res &&
+          res != null &&
+          res != "" &&
+          res.length > 0 &&
+          event.target.value != ""
+        ) {
+          res.forEach((ele) => {
+            let cityName = ele.cityName;
+            let stateName = ele.stateName;
+            this.jobFilterForm.patchValue({
+              city: cityName,
+              state: stateName,
+            });
+          });
+        }
+      },err => {
+        this.util.stopLoader();
+      });
+    } else if (data.zipCode.length < 5 || data.zipCode.length > 5) {
+      // this.filter.patchValue({
+      //   // city: null,
+      //   // state: null,
+      // });
+    }
+  }
+
+  @ViewChild("widgetsticky", { static: false }) menuElement: ElementRef;
+  widgetstick: boolean = false
+  @HostListener("window:scroll")
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    if (windowScroll >= 35) {
+      this.widgetstick = true;
+    } else {
+      this.widgetstick = false;
+    }
+  }
+
+  stopscrollFlag: boolean = false
+  stopscrollFlag1: boolean = false
+  count: number = 0
+  onScrollDown() {
+    if (this.stopscrollFlag == false && this.filterOn == false && this.stopscrollFlag2 == false && this.filterApplied == false) {
+      if (this.count == 2) {
+        setTimeout(() => {
+          this.getJobList()
+        }, 500);
+      } else {
+        this.getJobList()
+      }
+    } else if (this.stopscrollFlag1 == false && this.stopscrollFlag2 == false && this.filterOn == true && this.filterApplied == false) {
+      this.applyFilter("fromBetween")
+    } else if (this.stopscrollFlag1 == false && this.filterOn == false && this.stopscrollFlag2 == false && this.filterApplied == true) {
+      this.data.searchAfterKey = [this.previousSearchAfterKey2]
+      this.getJobListForCandidate()
+    }
+  }
+
+}

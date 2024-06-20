@@ -1,0 +1,270 @@
+<div class="containerChat chat">
+  <div class="header" id="OWNER_1" *ngIf="!messageDataPass.owner">
+    <div class="closeBtn" (click)="closemodel()">
+      <!-- <i class="fa fa-close  cursor" aria-hidden="true"></i> -->
+      <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M18 6L6 18M6 6l12 12" stroke="#6a6c6f" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </div>
+
+    <img src="assets/icon/back.png" (click)="backchat(messageDataPass)" *ngIf="selectedUser!=undefined"
+      style="width:21px; cursor:pointer;">
+
+    <div class="grp-img">
+
+
+      <img class="i3" style="position: relative;"  *ngIf="Support" src="assets/icon/Sumoface_final.png"
+      onerror="this.src='assets/icon/Sumoface_final.png';" alt="">
+
+      <img class="i3" style="position: relative;"   *ngIf=" userData?.photo&&!Support && selectedUser?.groupType!='SUPPORT'" src="{{userData?.photo}}"
+        >
+        <img class="i3" style="position: relative;"   *ngIf="!userData?.photo&&!Support && selectedUser?.groupType!='SUPPORT'&&selectedUser!=undefined&&selectedUser?.groupLogo" src="{{url+selectedUser?.groupLogo}}"
+        >
+        <div *ngIf="!userData?.photo&&!Support && selectedUser?.groupType!='SUPPORT'&&selectedUser!=undefined&&!selectedUser?.groupLogo">
+          <div class="messageusername message-avatar" [style.background-color]="getColor(selectedUser?.groupName)">
+            <div class="circletext">{{  getInitials(selectedUser?.groupName) }}</div>
+          </div>
+        </div>
+        <div *ngIf="!userData?.photo&& !Support && selectedUser?.groupType!='SUPPORT'&&selectedUser==undefined">
+          <div class="messageusername message-avatar" [style.background-color]="getColorName(userData?.firstName,userData?.lastName)">
+            <div class="circletext">{{  getInitialName(userData?.firstName,userData?.lastName) }}</div>
+          </div>
+        </div>
+
+      <img class="i3" style="position: relative;"  *ngIf=" !Support && selectedUser?.groupType=='SUPPORT'" src="assets/icon/Sumoface_final.png"
+        onerror="this.src='assets/icon/Sumoface_final.png';" alt="">
+
+       <!-- {{userData?.online}} -->
+      <span *ngIf="userData?.online=='ONLINE' && selectedUser?.groupType!='SUPPORT'" class="logged-in">●</span>
+      <span *ngIf="userData?.online=='OFFLINE' && selectedUser?.groupType!='SUPPORT' " class="logged-out">●</span>
+
+    </div>
+
+    <div class="grp-info"  *ngIf="!Support"  >
+
+      <h3 class="grp-name" *ngIf="selectedUser==undefined" title="{{userData?.firstName}} {{userData?.lastName}}">
+        {{userData?.firstName}} {{userData?.lastName}}
+      </h3>
+
+      <h3 class="grp-name" *ngIf="selectedUser!=undefined">
+        {{selectedUser?.groupName}}
+      </h3>
+
+      <p style="margin-left: -1px;font-size: smaller;" *ngIf="selectedUser?.groupType!='SUPPORT' &&  selectedUser?.groupType!='USER' || messageDataPass.groupType!='USER' && messageDataPass.groupType!='SUPPORT'"> {{messageDataPass?.entityId}}</p>
+    </div>
+
+    <div class="grp-info" *ngIf="Support">
+      <h3 class="grp-name" title="Support"> Support </h3>
+    </div>
+
+   </div>
+
+
+  <div class="header" id="OWNER_2" *ngIf="messageDataPass.owner">
+    <div class="closeBtn" (click)="closemodel()">
+      <!-- <i class="fa fa-close  cursor" aria-hidden="true"></i> -->
+      <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M18 6L6 18M6 6l12 12" stroke="#6a6c6f" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </div>
+    <div class="closeBtn mini" (click)="minimize()">
+      <!-- <i class="fa fa-window-minimize cursor" style="margin-top: -6px;" aria-hidden="true"></i> -->
+      <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+        <path d="M6 12L18 12" stroke="#6a6c6f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+
+
+
+    <div class="flex">
+      <h4 style="margin-right: 30px;  margin-block-start: 10px;"> Chat </h4>
+    </div>
+
+
+  </div>
+
+
+  <!-- #container  id="chat-discussion" -->
+
+
+  <div *ngIf="!messageDataPass.owner" id="NOTOWNER" class="chatbox px-2">
+    <div #container class="messages" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="100"
+      [scrollWindow]="false" (scrolledUp)="onModalScrollDown()">
+
+      <app-common-skeleton  *ngIf="loaderstartstop && selectedUser?.groupType!='SUPPORT'" [NameOftheScreen]="'messageConversation'"></app-common-skeleton>
+
+<!--
+      <ng-container  *ngIf="messageList?.length==0">
+        <div  *ngIf="selectedUser?.groupType=='SUPPORT'">
+          <img   style="height: 100%; width: 100%;"  src="assets/images/no-chat-found.gif" >
+        </div>
+      </ng-container> -->
+
+
+      <p *ngIf="messageList.length==0 && !loaderstartstop" class="status-texts"> {{nodatafound}} </p>
+      <!-- <p *ngIf="loaderstartstop" class="status-text">Loading...</p>
+      <div *ngIf="loaderstartstop" class="loader-container">
+        <div class="loader-1"></div>
+      </div> -->
+      <ng-container messagescroll *ngFor="let item of sortByMsg(messageList, 'sentDate')| messageunique">
+        <div class="chat-message" style="padding: 20px;" *ngIf="item.eventType=='CHAT' || item.eventType==null"
+          [id]="item['messageId']"
+          [ngClass]="{'right': item['authorId'] === userId, 'left': item['authorId'] !== userId}">
+
+          <div class="btn-group three_icon_cmon1 hover" style="height: 70px;" dropdown>
+
+            <a id="button-animated" dropdownToggle *ngIf="item.enableDelete && item.authorId==userId">
+              <i class="fa fa-ellipsis-h" style="font-size: 12px; color: #928d93; margin-top: 10px; padding: 10px;"
+                aria-hidden="true"></i>
+            </a>
+            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+              style="right: -5px; left: auto; margin-top: -29px;" aria-labelledby="button-animated">
+              <ng-container>
+                <li role="menuitem">
+                  <a (click)="edit(item)">
+                    <i class="fas fa-pencil-alt m-5"></i> Edit
+                  </a>
+                </li>
+                <li role="menuitem">
+                  <a (click)="delete(item)">
+                    <i class="fas fa-trash m-5"></i> Delete
+                  </a>
+                </li>
+              </ng-container>
+
+            </ul>
+          </div>
+
+          <img class="message-avatar" *ngIf="item?.authorPhoto" [src]="url+item['authorPhoto']">
+          <img class="message-avatar" *ngIf="item?.authorPhoto === null && item?.authorName === 'Gigsumo Support'"
+           src='assets/icon/Sumoface_final.png'>
+
+              <div *ngIf="item.authorPhoto === null && item?.authorName != 'Gigsumo Support'">
+                <div class="messageusername message-avatar" [style.background-color]="getColor(item?.authorName)">
+                  <div class="circletext">{{ getInitials(item.authorName) }}</div>
+                </div>
+              </div>
+
+          <span *ngIf="item?.online==true" class="logged-in">●</span>
+          <span *ngIf="item?.online==false" class="logged-out">●</span>
+
+          <div class="message" [id]="item['message']">
+            <a class="message-author"> {{item['authorName']}}
+            </a>
+
+            <span class="message-content" style=" word-wrap: break-word" [innerHTML]="item['message']"> </span>
+            <span class="message-date"> {{item['sentDate'] | date:'EEE, MM/dd/yyyy h:mm:ss a'}} </span>
+            <div style="width: 100%;">
+              <div style="display: flex; flex-wrap: wrap;">
+                <div *ngFor="let at of item.attachments; let a = index;">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="chat-message" *ngIf="item.eventType=='ACTION'" [id]="item['messageId']"
+          [ngClass]="{'right': item['authorId'] === userId, 'left': item['authorId'] !== userId}">
+          <span class="message-content" style="text-align: center; color: #655b4e;font-size: 10px;"
+            [innerHTML]="item['message'] "></span>
+        </div>
+
+
+
+
+      </ng-container>
+    </div>
+  </div>
+
+  <div id="chatbox px-2 OWNER_3"   *ngIf="messageDataPass.owner" class="messages">
+    <div id="friendslist">
+
+      <div class="input-group" style="padding: 5px; border-radius: 5px;">
+        <input class="form-control" type="text" [(ngModel)]="searchName" placeholder="Search">
+        <div class="input-group-btn">
+          <button class="btn btn-default"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+
+      <div id="friends">
+
+
+      <app-common-skeleton  *ngIf="loaderstartstop && selectedUser?.groupType!='SUPPORT'&&contactList.length==0" [NameOftheScreen]="'userChat'"></app-common-skeleton>
+
+      <!-- <p *ngIf="loaderstartstop" class="status-text">Loading...</p>
+      <div *ngIf="loaderstartstop" class="loader-container">
+        <div class="loader-1"></div>
+      </div> -->
+
+      <p *ngIf="contactList.length==0 && !loaderstartstop"  style="text-align: center; margin-top: 150px;">  {{nodatafound}} </p>
+
+
+      <ng-container *ngFor="let item of  contactList | filter: searchName">
+        <div class="friend" (click)="specfiuser(item)">
+          <!-- <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" /> -->
+
+            <img class="message-avatar" *ngIf="item.groupType!='SUPPORT'&&item.groupLogo"
+            [src]="url+item['groupLogo']">
+            <div *ngIf="!item.groupLogo&&item.groupType!='SUPPORT'">
+              <div class="messageusername message-avatar" [style.background-color]="getColor(item?.groupName)">
+                <div class="circletext">{{ getInitials(item.groupName) }}</div>
+              </div>
+            </div>
+            <img class="message-avatar" *ngIf="item.groupType=='SUPPORT'" onerror="src='assets/icon/Sumoface_final.png'"
+            [src]="item['groupLogo'] ? url+item['groupLogo'] : 'assets/icon/Sumoface_final.png'"
+            [alt]="item['groupLogo'] ? url+item['groupLogo'] : 'assets/icon/Sumoface_final.png'">
+
+          <span *ngIf="item?.online==true" class="logged-in">●</span>
+          <span *ngIf="item?.online==false" class="logged-out">●</span>
+
+          <div class="gpname" style="font-size:11px;" title="{{item?.groupName}}">
+            {{item['groupName']}}
+          </div>
+
+          <div class="status  available" title="{{item?.nonSeenCount}}" *ngIf="item['nonSeenCount']>0">
+            {{item['nonSeenCount']}} </div>
+
+          <div class="date-align" >
+            <p title="{{item?.entityId}}"> {{item['entityId'] }}</p>
+            <span style="margin-right: 6px;width:34%;" title="{{item?.createdOn}}"> {{item['lastMessageOn'] | date: 'MM/dd/yyyy, h:mm a' }}</span>
+
+          </div>
+
+          <!-- <div class="status away"></div> -->
+          <!-- <div class="status inactive"></div> -->
+
+        </div>
+      </ng-container>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <form #myForm="ngForm">
+  <div *ngIf="!messageDataPass.owner" class="message-box chatCustomSingle">
+    <div class="message-input" #autofocusSendmsg [(ngModel)]="sendMessageData['message']" name="message"
+      [ngxSummernote]="config" summernoteValidator   #message="ngModel"  required> </div>
+    <button id="sendmsg" class="message-submit" *ngIf="!editMessage" [disabled]="disableSendmsg || message.errors?.summernoteEmpty"
+      (click)="sendmessage()">
+      <i class="fa fa-paper-plane"></i>
+    </button>
+
+    <button id="sendmsg" class="message-submit" *ngIf="editMessage" [disabled]="disableSendmsg || message.errors?.summernoteEmpty" (click)="updateMsg()">
+      <i class="fa fa-paper-plane"></i>
+    </button>
+   </div>
+  </form>
+
+</div>

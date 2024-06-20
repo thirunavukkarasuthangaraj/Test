@@ -1,0 +1,219 @@
+<div class="col-sm-12 padding-right-0 padding-left-0">
+  <div class="hpanel margin-bottom-5">
+    <div class="panel-heading hbuilt " style="border-bottom: 1 important; ">
+      <div class="p-15">
+        <div class="row">
+          <label style="margin-inline-start: 15px;">Billing Details </label>
+
+          <label style="float: right;" (click)="filedownload()">
+            <i class="fa fa-file-excel-o fa-fa-excel-dowload" aria-hidden="true"></i>
+          </label>
+
+          <select placeholder="All Transactions" type="text" class="form-control input-sm width-200 select-box"
+            [(ngModel)]="selectedYear" (ngModelChange)="onYearChange()">
+            <option value="null" disabled [selected]="true">All Transactions</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+          <span style="float:right;cursor: pointer;" title="Refresh" class="Refesh-data" (click)="Refresh()"><i
+              class="fa fa-refresh"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hpanel" style="background: #fff;">
+    <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs">
+        <li><a [ngClass]="{'active': id=='1'}"
+            [ngStyle]="id=='1'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='1' && {'background-color': 'white' ,'color':'#111'}"
+            data-toggle="tab" (click)="activeTab('1')">Payment </a></li>
+
+        <!-- <li><a [ngClass]="{'active': id=='2'}"
+            [ngStyle]="id=='2'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='2' && {'background-color': 'white' ,'color':'#111'}"
+            data-toggle="tab" (click)="activeTab('2')">Invoice </a></li> -->
+
+      </ul>
+    </ul>
+  </div>
+
+  <div class="table-responsive white" *ngIf="id=='1'||id=='2'" [ngClass]="{'active': id=='1'||id=='2'}" id={{id}}>
+    <table class="tableone">
+      <thead *ngIf="billhistroy.length> 0">
+        <tr>
+          <th class="td-center">S.No</th>
+          <th class="td-center">Date</th>
+
+          <th class="td-center">Description </th>
+          <th class="td-center">Transaction Status </th>
+          <th class="td-center">Remarks </th>
+          <th class="td-center">Transaction # </th>
+          <th class="td-center">Amount </th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <ng-container *ngIf="loaddata">
+          <tr>
+            <td colspan="6">
+              <app-common-skeleton [countforView]="10" [NameOftheScreen]="'billingHistory'"></app-common-skeleton>
+            </td>
+          </tr>
+        </ng-container>
+
+
+        <ng-container *ngIf="!loaddata">
+
+          <!-- <tr *ngIf="billhistroy.length === 0">
+            <td colspan="6" class="no-data">
+              No transactions found!
+            </td>
+          </tr> -->
+
+
+          <tr
+            *ngFor="let item of billhistroy | paginate: { itemsPerPage: 10, currentPage: index, totalItems: totalcount }; let i = index">
+            <td class="td-center">{{ i + 1 }}</td>
+            <td class="td-center">{{ item.createdOn | date: 'MM/dd/yyyy' }}</td>
+            <td class="td-center">{{ item.createdOn | date }}-{{ item.membershipType }}-{{ item.billingType }}</td>
+            <td class="td-center" [ngStyle]="{ color: getPaymentStatusColor(item.paymentStatus) }">
+              {{ getPaymentStatusText(item.paymentStatus) }}
+            </td>
+            <td class="td-center long-text" style="word-wrap: break-word;">{{ item.formattedRemark }}</td>
+            <td class="td-center">
+              <span *ngIf="!item.invoiceId">-</span>
+              <a *ngIf="item.invoiceId" href="{{ item.invoiceUrl }}" target="_blank">{{ item.invoiceId }}</a>
+            </td>
+            <td class="td-center">${{ item.subcriptionAmount / 100 }}</td>
+          </tr>
+          <tr *ngIf="billhistroy.length > 9">
+            <td colspan="6">
+              <pagination-controls class="left-page-align" style="float: right;" (click)="pagecount(index)"
+                (pageChange)="index = $event"></pagination-controls>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="no-data-container" *ngIf="!loaddata&&billhistroy.length === 0">
+    <p class="no-data">No transactions found!</p>
+  </div>
+
+</div>
+
+
+
+<!-- <ng-template #template>
+  <div class="hpanel">
+    <div class="panel-body ">
+      <div class=" p-xl " id="content" #content>
+
+        <div class="row m-b-xl b-color">
+          <div class="col-sm-12">
+            <div class="col-sm-6 ">
+              <img class="logo-size_define app-icon-new-logo" src="assets/icon/gigsumologo_bigface.png"
+                style="width: 140px">
+              <address>
+                <strong>GigSumo, Inc. </strong><br>
+                649 Mission St, 5th Floor<br>
+                San Francisco, CA 94105<br>
+
+              </address>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="text-right">
+                <h3 class="f-w-800"> INVOICE </h3>
+                <br>
+                <h6> Date : {{ today | date: 'MM/dd/yyyy'}}</h6>
+
+              </div>
+
+
+            </div>
+            <hr class="col-sm-12 new1">
+          </div>
+
+
+          <div class="col-sm-12">
+            <div class="col-sm-6 m-t-30 text-left">
+              <h6 class="f-w-800"> {{userData.firstName}} {{userData.lastName}}, </h6>
+              <h6> {{userData.city}} </h6>
+              <h6> {{userData.state}}, {{userData.country}} </h6>
+              <h6> <span *ngIf="userData.country=='IN'"> Pincode</span> <span *ngIf="userData.country!='IN'">
+                  ZipCode</span> : {{userData.zipcode }}</h6>
+
+            </div>
+
+            <div class="col-sm-6 text-left m-t-30">
+              <h5> Invoice Date : <span class="f-w-100">{{invoiceData.createdDate | date: 'MM/dd/yyyy'}} </span> </h5>
+              <h5> Invoice Id : <span class="f-w-100">{{invoiceData.sourceId}}</span></h5>
+              <h5> Email: <span class="f-w-100"> {{userData.email}}</span></h5>
+
+              <h5 *ngIf="invoiceData.status=='CANCELLED'">Payment: <span class="f-w-100" style="color: red;"> Cancelled
+                </span></h5>
+
+              <h5 *ngIf="invoiceData.status=='PENDING'"> Payment: <span class="f-w-100" style="color: #ffb606;"> Pending
+                </span></h5>
+
+              <h5 *ngIf="invoiceData.status=='ACTIVE'"> Payment: <span class="f-w-100" style="color: green;"> Successful
+                </span></h5>
+
+
+            </div>
+          </div>
+
+        </div>
+        <div class="table-responsive m-t b-color">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th class="td-center">Plan </th>
+                <th class="td-center">Quantity</th>
+                <th class="td-center">From Date</th>
+                <th class="td-center">To Date</th>
+                <th class="td-center">Credit</th>
+                <th class="td-center">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+                <td class="td-center">{{invoiceData.description}}</td>
+                <td class="td-center">1</td>
+                <td class="td-center">{{invoiceData.createdDate |date: 'dd/MM/yyyy'}}</td>
+                <td class="td-center">{{invoiceData.expiryDate |date: 'dd/MM/yyyy' }}</td>
+                <td class="td-center">{{invoiceData.totalPoints}} </td>
+                <td class="td-center">${{invoiceData.price/100}} </td>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-6 b.colur">
+            <div class="m-t">
+              Do not remit payment <br>
+              Account will be settled using your chosen payment method on file. <br>
+              <strong> Tax*-</strong>Taxation based on ‘Ship To’ address information. <br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex f-r">
+        <button type="button" class="btn btn-primary m-t-30 f-r m-r-10" (click)="close()"> Close </button>
+        <button type="button" class="btn btn-primary m-t-30 f-r" *ngIf="invoiceData?.status!='PENDING'"
+          (click)="SavePDF()"> Download </button>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</ng-template> -->
+
+

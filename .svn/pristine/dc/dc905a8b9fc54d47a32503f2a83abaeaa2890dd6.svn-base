@@ -1,0 +1,29 @@
+import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-jobs-you-might-be-intrested-in',
+  templateUrl: './jobs-you-might-be-intrested-in.component.html',
+  styleUrls: ['./jobs-you-might-be-intrested-in.component.scss']
+})
+export class JobsYouMightBeIntrestedInComponent implements OnInit {
+
+  @Input('title') title: string = 'Jobs you might be interested in ';
+  @Input() widgetDesc: string;
+
+  headerTitle: string = 'Jobs you might be interested in ';
+  user: any = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
+
+  constructor(private a_route: ActivatedRoute) {
+   }
+
+  ngOnInit() {
+    this.headerTitle=this.widgetDesc;
+    this.a_route.queryParams.subscribe((res) => {
+      if(res.master!="NETWORK" && res.master!="TEAM" && res.menu!=null &&res.menu!=undefined){
+        this.headerTitle=res.menu;
+      }
+   })
+  }
+
+}

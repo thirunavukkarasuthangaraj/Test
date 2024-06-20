@@ -1,0 +1,32 @@
+<div class="hpanel margin-bottom-5">
+    <div class="panel-heading hbuilt wig-c">
+        <!-- {{ headerTitle }} -->
+        Featured Jobs
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="profile-list">
+                    <ng-container>
+                        <app-common-profile-info >
+                            <ng-container headline1>Marketing Manager</ng-container>
+                            <ng-container headline2>5 Years Experience, 8,000 USD per month </ng-container>
+                        </app-common-profile-info>
+                        <app-common-profile-info >
+                            <ng-container headline1>Provisional Clerk</ng-container>
+                            <ng-container headline2>5 Years Experience, 4,000 USD per month </ng-container>
+                        </app-common-profile-info>
+                        <app-common-profile-info >
+                            <ng-container headline1>Assistant Clerk</ng-container>
+                            <ng-container headline2>2 - 3 Years Experience, 3,500 USD per month </ng-container>
+                        </app-common-profile-info>
+                        <app-common-profile-info >
+                            <ng-container headline1>Sales Executive Officer</ng-container>
+                            <ng-container headline2>6 Years Experience, 6,500 USD per month </ng-container>
+                        </app-common-profile-info>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

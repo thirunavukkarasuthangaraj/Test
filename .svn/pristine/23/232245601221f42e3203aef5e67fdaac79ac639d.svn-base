@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { BusinesDirectoryProfessionalComponent } from './busines-directory-professional.component';
+
+describe('BusinesDirectoryProfessionalComponent', () => {
+  let component: BusinesDirectoryProfessionalComponent;
+  let fixture: ComponentFixture<BusinesDirectoryProfessionalComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BusinesDirectoryProfessionalComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BusinesDirectoryProfessionalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

@@ -1,0 +1,100 @@
+// .sidebar-scroll{
+//     // height: 170%;
+//     // overflow: hidden !important;
+//  }
+:host {
+  height: 100vh !important;
+}
+
+.cm-menu-ln {
+  max-width: 30px;
+}
+
+.cm-feed-pd {
+  margin-left: 156px;
+  width: 59.2%;
+}
+
+@media (min-width: 992px) {
+  .cm-menu-ln {
+    max-width: 30px;
+  }
+
+  .cm-feed-pd {
+    margin-left: 156px;
+    width: 59.2%;
+  }
+}
+
+@media (min-width: 992px) {
+  .stk-rt {
+    width: 20%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stk-rt {
+    width: 23%;
+  }
+}
+
+@media (min-width: 1320px) {
+  .stk-rt {
+    width: 25%;
+  }
+}
+
+.m-l-8{
+  margin-left: 8px;
+}
+
+.sticky-600 {
+  position: sticky!important;
+  top: -600px!important;
+}
+
+.sticky-300 {
+  position: sticky!important;
+  top: -300px!important;
+}
+
+// .community-scroll-menu-config{
+//   height:490px;
+//   overflow-y: scroll;
+//   overflow-x: hidden;
+// }
+
+// 100%
+// @media (max-width: 1280px) {
+//   .community-scroll-menu-config{
+//     height: 420px !important;
+//   }
+// }
+
+// // 110%
+// @media (max-width: 1164px) {
+//   .community-scroll-menu-config{
+//     height: 370px !important;
+//   }
+// }
+
+// // 125%
+// @media (max-width: 1025px)  {
+//   .community-scroll-menu-config{
+//     height: 315px !important;
+//   }
+// }
+
+// // 80% , 70% , 60%
+// @media (min-width: 1600px) {
+//   .community-scroll-menu-config{
+//     height: 570px !important;
+//   }
+// }
+
+
+.community-scroll{
+  height: calc(100vh - 170px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

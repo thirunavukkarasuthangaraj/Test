@@ -1,0 +1,81 @@
+.btn {
+  cursor: pointer;
+
+  i{
+    font-size:12px;
+  }
+
+  //  min-width: 85px !important;
+  span {
+    // padding: 6px 20px;
+    // border-radius: 0 !important;
+    font-size: $font-size;
+    font-family: $font-family;
+  }
+}
+.default-btn{
+  border-radius: 3px !important;
+}
+.primary-btn {
+  background-color: $primary-bg !important;
+  color: $primary-fg !important;
+  border-color: $primary-bg !important;
+  //border-radius: 0 !important;
+
+  &:hover {
+    background-color: darken($primary-bg, 5%) !important;
+    border-color: darken($primary-bg, 5%) !important;
+  }
+}
+
+.secondary-btn {
+  background-color: $secondary-bg !important;
+  color: $primary-bg !important;
+  border-color: $secondary-bg !important;
+  border-radius: 3px !important;
+
+  &:hover {
+    background-color: darken($secondary-bg, 5%) !important;
+    border-color: darken($secondary-bg, 5%) !important;
+  }
+}
+
+.btn-icon {
+  span {
+    .material-icons {
+      font-size: $font-size;
+      vertical-align: text-bottom;
+      line-height: 1.5;
+      padding-right: 5px;
+    }
+  }
+}
+
+
+.btn:focus {
+  box-shadow: none;
+  outline: none !important;
+}
+
+button:focus {
+  outline: none
+}
+.btn-danger{
+  border-radius: 0 !important;
+}
+.danger-btn{
+  border-radius: 15 !important;
+  background-color: red;
+  color: white;
+  font-size: 8px
+}
+
+.backtotop-btn{
+  background-color: $primary-bg !important;
+  color: $primary-fg !important;
+
+  &:hover {
+    background-color: darken($primary-bg, 5%) !important;
+    border-color: darken($primary-bg, 5%) !important;
+  }
+}

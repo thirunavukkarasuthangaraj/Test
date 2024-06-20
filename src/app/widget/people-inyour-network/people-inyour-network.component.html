@@ -1,0 +1,33 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="profile-list">
+          <ng-container *ngFor="let item of peopelData | slice:0:5; let i=index">
+            <app-common-profile-info [userIdInput]="item.userId" [data]="item" [type]="'MOSTACTIVE'"
+              (click)="routes(item.userId)">
+              <ng-container headline1 class="ellipse">{{item.firstName}} {{item.lastName}}</ng-container>
+              <ng-container headline2 class="ellipse">{{item.organisation}}</ng-container>
+            </app-common-profile-info>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="margin-bottom-5" *ngIf="viewType=='MAX'" infiniteScroll [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="1500" (scrolled)="onScrollDown()">
+  <div class="panel-body cardw">
+    <div class="row">
+      <div class="col-3">
+        <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of peopelData">
+          <app-user-card [userDataInput]="item" [button]="'PRIMARY'"></app-user-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

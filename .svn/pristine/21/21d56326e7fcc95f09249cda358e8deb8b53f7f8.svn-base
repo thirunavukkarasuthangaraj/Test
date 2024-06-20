@@ -1,0 +1,9 @@
+.plmko {
+    text-align: center;
+    min-height: 50vh;
+}
+
+.inx {
+    position: relative;
+    top: 19vh;
+}

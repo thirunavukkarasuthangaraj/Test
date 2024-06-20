@@ -1,0 +1,6 @@
+@import "./vendor/bootstrap/dist/css/bootstrap.css";
+@import "../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
+@import "./vendor/theme/style.css";
+@import "./vendor/animate.css/animate.css";
+// @import "~@ng-select/ng-select/themes/default.theme.css";
+// @import "./vendor/jquery/jquery.min.js";

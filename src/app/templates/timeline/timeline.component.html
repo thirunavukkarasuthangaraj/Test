@@ -1,0 +1,38 @@
+<div class="timeline-1" *ngIf="!activityEnded">
+    <div *ngFor='let event of jobApplicationListValues;let i = index'>
+        <div class="container-1 tinker-1 right-2 right-1-to-be">
+            <div class="content-1">
+                <b class="future-activity-element">
+                    <span title="{{event?.item}}">
+                        {{event?.item}}
+                    </span>
+                    <span class="stage-number">
+                        {{event?.order + 1}}
+                    </span>
+                </b>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="timeline" [ngClass]="{'activity-ended': activityEnded}">
+    <div *ngFor='let event of events;let i = index'>
+        <div class="container-1 right-1" [ngClass]="{
+            'positive-1': event.notion == 'positive',
+            'right-1-positive': event.notion == 'positive',
+             'negative-1':event.notion == 'negative',
+             'right-1-negative': event.notion == 'negative',
+             'progress-1': event.notion == 'progress',
+                 'right-1-progress': event.notion == 'progress'}">
+            <div class="content-1">
+                <div class="future-activity-element">
+                    <b title="{{getFilterValue(event?.activityType)}}">
+                        {{getFilterValue(event?.activityType)}}
+                    </b>
+                    <p>
+                        ({{event?.createdOn}})
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DirectoryProfessionalListComponent } from './directory-professional-list.component';
+
+describe('DirectoryProfessionalListComponent', () => {
+  let component: DirectoryProfessionalListComponent;
+  let fixture: ComponentFixture<DirectoryProfessionalListComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ DirectoryProfessionalListComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DirectoryProfessionalListComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

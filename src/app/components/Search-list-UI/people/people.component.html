@@ -1,0 +1,40 @@
+<div class="hpanel search-page-navbar-stickyyy">
+  <div class="panel-body border-radius-top-left-right-6">
+    <div class="mainNav">
+      <div class="navIteam">
+      </div>
+      <div class="navIteam">
+
+        <div class="input-group f-l">
+          <input type="text" class="form-control input-sm" (keyup)="peopleData($event)" [formControl]="clearInput"
+            name="searchadmin" id="searchadmin" />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon" (click)="clearData()"><i class="pe-7s-close"></i></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button id="button-animated" dropdownToggle type="button" class="btn  btn-sm dropdown-toggle fbtn"
+            aria-controls="dropdown-animated">
+            <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset=""
+                class="filimg" /></span>Filter
+          </button>
+        </div>
+      </div>
+      <div class="navIteam">
+        <button class="btn primary-btn btn-sm">Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="search-content-layout">
+  <div class="search-content-feed pad-people-60610">
+    <div class="col-md-4 sCard pad-right-5" *ngFor="let item of allpost">
+      <app-user-card [userDataInput]="item"></app-user-card>
+    </div>
+  </div>
+  <div class="search-content-widget search-page-mr-tp-10">
+    <app-common-widget [page]="'NETWORK_PAGE'" [inputData]="'NETWORK'"></app-common-widget>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+.caught_up_business {
+  text-align: center;
+}
+
+
+.headerBusinessJobTitle {
+  & i {
+    font-size: 20px;
+  }
+
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+
+  .businesscount {
+    color: #fff;
+    background: #62cb31;
+    padding:5px;
+    //padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+}
+
+.cutsom-in {
+  position: relative;
+  top: 8px;
+  width: 185%;
+}
+
+
+.sticky-fig {
+  position: sticky;
+  top: 90px;
+  z-index: 1;
+}
+
+.shdw-pn {
+  margin-right: 5px;
+  box-shadow: 0px 2px 10px 2px #93979d
+}

@@ -1,0 +1,189 @@
+.timeline,
+.timeline-1 {
+  position: relative !important;
+}
+
+.future-activity-element {
+  display: flex;
+  column-gap: 10px;
+}
+
+.stage-number {
+  position: absolute;
+  top: 7px;
+  left: -20px;
+  z-index: 2;
+}
+
+.timeline::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 3px !important;
+  background-color: #2b8cdb !important;
+  top: -21px;
+  bottom: 16px;
+  // margin-left: -5px !important;
+  left: 2px;
+}
+
+.activity-ended::after {
+  top: 10px !important;
+}
+
+.timeline-1::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 3px !important;
+  background-color: #a6bbcd !important;
+  top: 10px;
+  left: 2px;
+  bottom: 0;
+  // margin-left: -5px !important;
+}
+
+.timeline > div > div:first-child::after,
+.timeline-1 > div > div:first-child::after {
+  top: 18px !important;
+}
+
+.timeline > div > div:last-child::after,
+.timeline-1 > div > div:last-child::after {
+  bottom: 18px !important;
+}
+
+.container-1 {
+  padding: 5px !important;
+  position: relative !important;
+  width: -moz-max-content !important;
+  width: -webkit-max-content !important;
+  width: max-content !important;
+  margin: 20px;
+}
+
+/* The circles on the timeline */
+.container-1::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 25px !important;
+  height: 25px !important;
+  left: -29px !important;
+  background-color: white;
+  // border: 4px solid #FF9F55;
+  top: 3px !important;
+  border-radius: 50% !important;
+  z-index: 1 !important;
+}
+
+// .tinker-1 {
+//   border: 3px solid #a6bbcd !important;
+// }
+
+// .tinker-1::after {
+//   border: 4px solid #a6bbcd !important;
+// }
+
+.left-1 {
+  left: 0 !important;
+}
+
+/* Add arrows to the left container-1 (pointing right) */
+.left-1::before {
+  content: " " !important;
+  height: 0 !important;
+  position: absolute !important;
+  top: 22px !important;
+  width: 0 !important;
+  z-index: 1 !important;
+  right: 30px !important;
+  border: medium solid white !important;
+  border-width: 10px 0 10px 10px !important;
+  border-color: transparent transparent transparent white !important;
+}
+
+/* Add arrows to the right container-1 (pointing left) */
+.right-1::before {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 8.4px;
+  left: -21.4px;
+}
+
+.right-2::before {
+  position: absolute !important;
+  z-index: 2 !important;
+  left: -27px !important;
+  top: 5px !important;
+}
+
+.right-1-negative::after {
+  background-color: red !important;
+  border: 4px solid red !important;
+}
+
+.right-1-negative::before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'%3E%3Cpath fill='none' stroke='white' stroke-width='2' d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E"); // cross
+  border-color: transparent red !important;
+  // top: 7px !important;
+  // left: -33.2px !important;
+
+  border-color: transparent red !important;
+  top: 5px !important;
+  left: -26.2px !important;
+}
+
+.right-1-positive::after {
+  background-color: #17b417 !important;
+  border: 4px solid #17b417 !important;
+}
+
+.right-1-positive::before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'%3E%3Cpath fill='none' stroke='white' stroke-width='2' d='M5 13l4 4L19 7'/%3E%3C/svg%3E"); // checkmark
+  border-color: transparent #17b417 !important;
+  top: 5px !important;
+  left: -26px !important;
+}
+
+.right-1-progress::after {
+  background-color: #76b7ec !important;
+  border: 4px solid #76b7ec !important;
+}
+
+.right-1-progress::before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='10' height='10' %3E%3Ccircle cx='12' cy='12' r='10' fill='white' stroke='white' stroke-width='2'/%3E%3C/svg%3E"); //dot
+  border-color: transparent #76b7ec !important;
+}
+
+.right-1-to-be::after {
+  background-color: #bac3d1 !important;
+  border: 4px solid #bac3d1 !important;
+}
+
+.right-1-to-be::before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='21' height='21' %3E%3Ccircle cx='12' cy='12' r='10' fill='white' stroke='white' stroke-width='2'/%3E%3C/svg%3E"); //dot
+  border-color: transparent #bac3d1 !important;
+}
+
+/* Fix the circle for container-1s on the right side */
+.right-1::after {
+  left: -29px !important;
+}
+
+/* The actual content */
+// .content-1 {
+//   background-color: white !important;
+//   position: relative !important;
+//   border-radius: 6px !important;
+//   display: grid;
+// }
+
+// .positive-1 {
+//   border: 2px solid #17b417 !important;
+// }
+
+// .negative-1 {
+//   border: 2px solid red !important;
+// }
+
+// .progress-1 {
+//   border: 2px solid #76b7ec !important;
+// }

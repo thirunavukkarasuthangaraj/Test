@@ -1,0 +1,140 @@
+<div class="hpanel  contact-panel " style="margin-bottom: 0px!important;" *ngIf="ready">
+  <div class="panel-body cp jsoh" (click)="navigateUserProfile(user)">
+    <div class="row">
+      <div class="col-sm-4">
+        <img alt="logo" class="img-circle" src={{user.photo}} onerror="this.src='assets/images/userAvatar.png';">
+      </div>
+      <div class="col-sm-8 skdh0">
+        <div class="kskls">
+          <div *ngIf="!selfUser">
+            <ng-container [ngSwitch]="button">
+              <ng-container *ngSwitchCase="'PRIMARY'">
+                <button type="button" class="btn btn-primary b-5  btn-xs"
+                  *ngIf="(!selfUser && user.page == 'connectionList')  || (!selfUser && (user.connectionStatus == 'NOT_CONNECTED' || user.connectionStatus == 'CONNECTED'))"
+                  (click)="onclick(primaryButton);$event.stopPropagation();">{{primaryButton?.buttonName}}
+                  <i *ngIf="user.connectionStatus == 'CONNECTED'" class="pe-7s-mail jwsk" aria-hidden="true"></i></button>
+
+                <div class="btn-group three_icon_cmon1 hovers" id="the-dropdown" dropdown
+                  (click)="$event.stopPropagation();">
+                  <a id="button-animated"
+                    *ngIf="dropdownList?.length > 0 || ( dropdownList?.length > 0 && !selfUser && user.page == 'COMMUNITY' && user.menu == 'memberspage' && (user.connectionStatus != 'NOT_CONNECTED' || user.connectionStatus != 'CONNECTED'))"
+                    dropdownToggle class="m-r-10">
+                    <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+                  </a>
+                  <ul id="dropdown-animated" id="the-dropdowns" *dropdownMenu class="dropdown-menu m-l-81" role="menu"
+                    aria-labelledby="button-animated">
+                    <li *ngFor="let data of dropdownList" role="menuitem" dropdown>
+                      <a class="dropdown-item common-font-12 padd" dropdownToggle
+                        (click)="onclick(data);$event.stopPropagation();">{{data?.buttonName}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'SECONDARY'">
+                <div>
+                  <div class="btn-group" dropdown>
+                    <a id="button-animated" *ngIf="dropdownList?.length > 0" dropdownToggle
+                      (click)="$event.stopPropagation();" class="m-r-10">
+                      <img src="assets/icon/icons8-menu-vertical-32.png" alt="" srcset="" class="Vthree-dote">
+                    </a>
+                    <ul class="dropdown-menu" *dropdownMenu role="menu" style=" right: 0;left: auto;">
+                      <li *ngFor="let data of dropdownList" role="menuitem" aria-expanded="false">
+                        <a class="dropdown-item common-font-12"
+                          (click)="onclick(data) ;$event.stopPropagation();">{{data?.buttonName}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div>
+            <div class="fl-rtt mxpl"
+              *ngIf="selfUser && user.type !=='SUPERADMIN' && user.businessUserType !== 'SUPERADMIN' && user.isAdmin !== true">
+              <span class="label label-info font-normal" style="font-size: 11px;">{{lblName}}</span>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-sm-12 rmlft">
+        <div class="row">
+          <div class="col-sm-9">
+            <h3 class="ellipse pmlsa" data-toggle="tooltip" data-placement="top"
+              title="{{user.firstName}} {{user.lastName}} ">
+              <a class="font-bold " style="font-size: 16px;" (click)="navigateUserProfile(user)">{{user.firstName}}
+                {{user.lastName }} </a>
+            </h3>
+          </div>
+          <div class="col-sm-3">
+            <div class="fl-rtt"
+              *ngIf="user.type=='SUPERADMIN' || user.businessUserType == 'SUPERADMIN' || user.isAdmin === true">
+              <!-- <span class="label label-info font-normal" style="font-size: 11px;">Owner</span> -->
+              <span><img class="crown" title="Owner" src="assets/icon/crown_.PNG" alt=""></span>
+            </div>
+            <div class="fl-rtt" *ngIf="user.type=='ADMIN' || user.businessUserType == 'ADMIN'">
+              <!-- <span class="label label-info font-normal" style="font-size: 11px;">Admin</span> -->
+              <span><img class="crown" title="Admin" src="assets/icon/admin_cogs.PNG" alt=""></span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-sm-6">
+        <h3>
+          <a class="font-bold " style="font-size: 14px;"
+            *ngIf="user.type=='SUPERADMIN' || user.businessUserType == 'SUPERADMIN'"
+            (click)="navigateUserProfile(user)"><span class="label label-info font-normal" style="font-size: 11px;">Owner</span></a>
+          <a class="font-bold " style="font-size: 14px;" *ngIf="user.type=='ADMIN' || user.businessUserType == 'ADMIN'"
+            (click)="navigateUserProfile(user)"><span class="label label-info font-normal" style="font-size: 11px;">Admin</span></a>
+        </h3>
+      </div> -->
+        <!-- </div> -->
+        <!-- <div style="font-size:x-large">{{data.userName}}  </div> -->
+
+        <!--<div class="text-muted font-bold m-b-xs">{{user.title}}</div>-->
+        <!-- <p *ngIf="user.pitch != null || user.pitch != undefined || user.pitch != ''"
+          data-toggle="tooltip" data-placement="top" title="{{user.pitch}} " class="ellipse common-font-11">{{user.pitch }}</p> -->
+        <div class="talha">
+          <p *ngIf="user.requestSentTitle === undefined || user.requestSentTitle === null || user.requestSentTitle === ''"
+            data-toggle="tooltip" data-placement="top" title="{{user.title}} " class="ellipse common-font-11">
+            {{user.title }}</p>
+          <p *ngIf="user.requestSentTitle !== undefined && user.requestSentTitle !== null && user.requestSentTitle !== ''"
+            data-toggle="tooltip" data-placement="top" title="{{user.title}} " class="ellipse common-font-11">
+            {{user.requestSentTitle }}
+          </p>
+
+
+
+          <p *ngIf="user.requestSentOrganization === undefined || user.requestSentOrganization === null || user.requestSentOrganization === ''"
+            data-toggle="tooltip" data-placement="top" title="{{user.organisation}} " class="ellipse common-font-11">
+            {{user.organisation }}</p>
+
+          <p *ngIf="user.requestSentOrganization !== undefined && user.requestSentOrganization !== null && user.requestSentOrganization !== ''"
+            data-toggle="tooltip" data-placement="top" title="{{user.organisation}} " class="ellipse common-font-11">
+            {{user.requestSentOrganization }}</p>
+        </div>
+
+
+      </div>
+    </div>
+
+
+  </div>
+  <div class="panel-footer contact-footer lahfp" *ngIf="showFooter">
+    <div class="row">
+      <div class="col-md-6 border-right">
+        <div class="contact-stat"><span>Connections: </span>
+          <strong *ngIf="user.connectionCnt == null || user.connectionCnt == undefined">0</strong>
+          <strong *ngIf="user.connectionCnt != null || user.connectionCnt != undefined">{{user.connectionCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="contact-stat"><span>Posts: </span>
+          <strong *ngIf="user.postCnt == null || user.postCnt == undefined">0</strong>
+          <strong *ngIf="user.postCnt != null || user.postCnt != undefined">{{user.postCnt}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,5 @@
+<div>
+    <div>
+      <app-common-widget [page]=pages  [inputData]="'PROFILE'"></app-common-widget>
+  </div>
+</div>

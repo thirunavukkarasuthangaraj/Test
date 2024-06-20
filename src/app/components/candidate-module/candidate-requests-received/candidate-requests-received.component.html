@@ -1,0 +1,353 @@
+<div class="sub-entities-scroll-container" infiniteScroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="1500"
+  [scrollWindow]="false" (scrolled)="onScrollDown()">
+
+<div class="col-md-12 padding-left-0 padding-right-5" *ngIf="loadAPIcall && viewedList?.length==0">
+  <app-common-skeleton [countforView]="10" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+</div>
+
+<div class="wert" *ngIf="emptymessage && !loadAPIcall">
+  <div class="col-md-12 mg-bt-9">
+    <img style=" max-height: 9rem;" src="assets/icon/nothing_found.png" alt="">
+  </div>
+  <div class="col-md-12 fig">No requests received yet. </div>
+</div>
+
+  <ng-container *ngIf="viewedList.length> 0">
+    <div *ngFor="let items of viewedList; let lastItem = last;">
+      <div class="hpanel">
+        <div class="panel-body pad-0 border-radius-top-left-right-6"[ngClass]="{disabled : items?.jobDetails&&items?.jobDetails?.status != 'ACTIVE' }">
+          <div class="md-top-section">
+            <div class="md-user-img">
+              <img *ngIf="items?.photo!= null && items?.photo != undefined" class="img-circle" src={{items.photo}}>
+              <div *ngIf="items.photo == undefined || items.photo == null">
+                <div class="circles"
+                  [style.background-color]="getColortwo(items?.user?.firstName, items?.user?.lastName)">
+                  <div class="circle-text">{{ getInitialstwo(items?.user?.firstName,
+                    items?.user?.lastName) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md-user-info">
+              <div class="md-user-info-line-1">
+                <div class="md-user-name" title="{{items?.user?.firstName}} {{items?.user?.lastName}}">
+                  {{items?.user?.firstName}} {{" "}} {{items?.user?.lastName}}
+                </div>
+              </div>
+              <div class="md-user-info-line-2">
+                <div class="md-user-type">
+                  <span *ngIf="userTypeMap[items?.user?.userType]" title="{{items?.user?.userType}}">
+                    {{ userTypeMap[items?.user?.userType] }}
+                  </span>
+                  <span *ngIf="items?.user?.organisation" title="{{items?.user?.organisation}}">
+                    @{{ items.user.organisation }}
+                  </span>
+                </div>
+              </div>
+              <div class="md-user-info-line-3">
+                <i class="pe-7s-clock"></i>
+                <small class="md-time-stamp">{{items?.user?.activityDate| date:"MM/dd/yyyy hh:mm:ss
+                  a":"+0000"}}</small>
+              </div>
+            </div>
+            <div [ngClass]="{disabled : candidateDetails?.status != 'ACTIVE'||!candidateDetails?.availability }" class="md-action-buttons flx-strt">
+              <button type="button" class="btn btn-primary btn-sm" *ngIf="items?.fileId == null"
+                (click)="model(items,template)">
+                <i class="fa fa-paperclip arrowclassreq"></i> Attach Resume</button>
+              <button class="btn btn-primary btn-sm" *ngIf="items?.fileId!=null" (click)="model(items,template)"
+                disabled>
+                <i class="fa fa-paperclip arrowclassreq"></i> Resume Attached </button>
+              <!-- <button  class="more-opt-btn">
+                <img src="assets/icon/icons8-more-96.png" alt="" srcset="">
+              </button>
+              <app-svg-templates class="svg-position" [svgType]="'MORE_VERTICAL'"></app-svg-templates> -->
+
+            </div>
+          </div>
+          <div class="row"
+            >
+            <div *ngIf="items.jobDetails" class="md-bottom-section row">
+              <div class="col-sm-2 md-btn-container"></div>
+              <div class="col-sm-10 md-job-route-content" [ngClass]="{'click-blocked': isRoutingDisabled}"
+                (click)="open(items?.jobDetails)">
+                <div class="title-status-container">
+                  <app-svg-templates class="svg-position" [svgType]="'SUITCASE_BLUE'"></app-svg-templates>
+                  <div class="md-job-title" title="{{items?.jobDetails?.jobTitle}}">{{items?.jobDetails?.jobTitle}}
+                  </div>
+
+                  <div class="job-closed-tag" [ngClass]="getClasName('INACTIVE')"
+                    *ngIf="(items.jobDetails?.status != 'ACTIVE'||!items.jobDetails?.availability)">
+                    {{ items.jobDetails?.status != 'ACTIVE' ? convertSmallCase(items.jobDetails?.status) : 'Inactive' }}
+                  </div>
+                </div>
+
+                <span class="md-experience">
+                  Experience : {{ items.jobDetails?.experienceFrom}} to {{items.jobDetails?.experienceTo }}
+                  Years
+                </span>
+                <div class="row clientDetailList"
+                  title=" {{items?.jobDetails?.clientType}}, {{items?.jobDetails?.city}}, {{items?.jobDetails?.state}} ">
+                  <div class="mb-5" title="{{items?.jobDetails?.clientName}}" *ngIf="items?.jobDetails?.showClientName">
+                    <i class="fa fa-building-o"> </i>
+                    {{items?.jobDetails?.clientName | truncate:20}}
+                  </div>
+                  <div class="mb-5" *ngIf="items?.jobDetails?.showClientType">
+                    <app-svg-templates class="svg-position" [svgType]="'SUITCASE_SMALL'"></app-svg-templates>
+                    {{items?.jobDetails?.clientType}}
+                  </div>
+                  <div class="mb-5">
+                    <app-svg-templates *ngIf="items?.jobDetails?.city || items?.jobDetails?.state" class="svg-position"
+                      [svgType]="'MAP'"></app-svg-templates>
+                    {{items?.jobDetails?.city}}
+                    <span *ngIf="items?.jobDetails?.state">,</span> {{items.jobDetails?.state}}
+                  </div>
+
+                  <div class="mb-5">
+                    <app-svg-templates title="{{items?.jobDetails?.jobClassification}}" class="svg-position"
+                      [svgType]="'SUITCASE_SMALL'"></app-svg-templates>
+                    {{items?.jobDetails?.jobClassification}}
+                  </div>
+
+                  <div *ngIf="items?.jobDetails?.remoteWork" class="mb-5">
+                    <app-svg-templates class="svg-position" [svgType]="'MAP'"></app-svg-templates>
+                    Remote
+                  </div>
+                  <div title="Employer Estimate: {{items?.jobDetails?.targetRateFrom}} - {{items?.jobDetails?.targetRateTo}}"
+                  *ngIf="items?.jobDetails?.targetRateFrom!=undefined && items?.jobDetails?.targetRateTo!=undefined" class="mb-5">
+                  Employer estimate:
+                  <span>
+                    {{items?.jobDetails?.country === 'US' ?
+                    '$' :
+                    ''}} {{items?.jobDetails?.targetRateFrom}} - {{items?.jobDetails?.targetRateTo}}</span>
+
+                  <span title="{{items?.jobDetails.country}}" *ngIf="items?.jobDetails?.country == 'US'"> USD / </span>
+                  <span title="{{items?.jobDetails.country}}" *ngIf="items?.jobDetails?.country == 'IN'"> INR / </span>
+                  <span title="{{items?.jobDetails.country}}" *ngIf="items?.jobDetails?.country == 'CA'"> CAD / </span>
+                  <span title="{{items?.jobDetails.country}}" *ngIf="items?.jobDetails?.country == 'AU'"> AUD / </span>
+                  <span title="{{items?.jobDetails.country}}"
+                    *ngIf="items?.jobDetails?.country != 'AU' && items?.jobDetails?.country != 'US' && items?.jobDetails?.country != 'CA' && items?.jobDetails?.country != 'IN'">
+                    CUR / </span>
+                  <span title="{{items?.jobDetails.payType}}" *ngIf="items?.jobDetails?.payType == 'Hourly'">Hr</span>
+                  <span title="{{items?.jobDetails.payType}}" *ngIf="items?.jobDetails?.payType == 'Daily'">Day</span>
+                  <span title="{{items?.jobDetails.payType}}" *ngIf="items?.jobDetails?.payType == 'Weekly'">Week</span>
+                  <span title="{{items?.jobDetails.payType}}" *ngIf="items?.jobDetails?.payType == 'Monthly'">Month</span>
+                  <span title="{{items?.jobDetails.payType}}" *ngIf="items?.jobDetails?.payType == 'Yearly'">Year</span>
+                </div>
+
+                </div>
+              </div>
+            </div>
+            <div *ngIf="items?.jobDetails==null" class="consistent-height"></div>
+            <div class="md-bottom-section row" *ngIf="items?.jobDetails==null">
+
+            </div>
+            <div [ngClass]="{disabled : candidateDetails?.status != 'ACTIVE'||!candidateDetails?.availability }"*ngIf="items.jobDetails" class="md-interaction-section">
+              <div class="md-interaction-element"
+                *ngIf="items?.jobDetails?.jobPostedBy!=userId && items?.jobDetails?.viewedByCount > 0"
+                title="{{items.jobDetails.viewedByCount}} Views" style="cursor: context-menu;">
+                <i class="fa fa-eye cursor icon-prime-color "> </i>
+                <span class="blue-color">{{items.jobDetails.viewedByCount}}</span>
+                Views
+              </div>
+              <div class="md-interaction-element"
+                *ngIf="items?.jobDetails?.jobPostedBy!=userId && items?.jobDetails?.viewedByCount == 0" title="0 Views"
+                style="cursor: context-menu;">
+                <i class="fa fa-eye cursor icon-prime-color "></i>
+                <span class="blue-color">0</span>
+                Views
+              </div>
+              <div>
+                <div class="md-interaction-element" [ngClass]="{'disabled': items.jobDetails.status!='ACTIVE'}"
+                  title="Like" *ngIf="items.jobDetails?.isLiked!=null && !items.jobDetails?.isLiked">
+                  <i class="fa fa-heart pointer icon-prime-color" (click)="like(items?.jobDetails)"> </i>
+                </div>
+                <div class="md-interaction-element" [ngClass]="{'disabled': items?.jobDetails.status!='ACTIVE'}"
+                  title="Unlike" *ngIf="items.jobDetails?.isLiked!=null &&  items?.jobDetails?.isLiked">
+                  <i class="fa fa-heart liked pointer bg-heart" (click)="like(items.jobDetails)"> </i>
+                </div>
+              </div>
+              <div class="md-interaction-element" title="{{items?.jobDetails?.likesCount}} Likes"
+                *ngIf="items?.jobDetails?.jobPostedBy==userId">
+                <span class="blue-color"
+                  *ngIf="items?.jobDetails?.likesCount>0">{{items?.jobDetails?.likesCount}}</span>
+                <span *ngIf="items?.jobDetails?.likesCount>0"> Like<span *ngIf="items?.jobDetails?.likesCount>1">s
+                  </span> </span>
+                <div class="md-interaction-element" title="0 Likes" class="no-views"
+                  *ngIf="items?.jobDetails?.jobPostedBy==userId && items?.jobDetails?.likesCount == 0"
+                  style="cursor: context-menu!important;"><span class="blue-color" title="0 Like"> 0 </span> Like
+                </div>
+              </div>
+              <div class="md-interaction-element" title="{{items?.jobDetails?.likesCount}} Likes"
+                *ngIf="items?.jobDetails?.jobPostedBy!=userId" style="cursor: context-menu!important;">
+                <span class="blue-color"
+                  *ngIf="items?.jobDetails?.likesCount>0">{{items?.jobDetails?.likesCount}}</span>
+                <span *ngIf="items?.jobDetails?.likesCount>0"> Like<span *ngIf="items?.jobDetails?.likesCount>1">s
+                  </span>
+                </span>
+                <div class="md-interaction-element" title="0 Likes" class="no-views"
+                  *ngIf="items?.jobDetails?.jobPostedBy!=userId && items?.jobDetails?.likesCount == 0"
+                  style="cursor: context-menu!important;"><span class="blue-color" title="0 Likes"> 0 </span> Like
+                </div>
+              </div>
+              <div class="md-interaction-element" class="applicants-info"
+                *ngIf="items?.jobDetails?.jobPostedBy != userId">
+                <app-svg-templates [svgType]="'USERS'"></app-svg-templates>
+                <span class="applicants-count blue-color" title="{{items?.jobDetails?.appliedCount}} Applicants">
+                  {{ items?.jobDetails?.appliedCount > 0 ? items?.jobDetails?.appliedCount : '0' }}
+                </span>
+                <span>Applicants</span>
+              </div>
+
+              <div class="md-interaction-element" (click)="apply(items, connectionTemplate, candidateSupplyTemplate)"
+                [ngClass]="{'disabled': items?.jobDetails?.status!='ACTIVE'}" *ngIf=" items?.jobDetails?.jobPostedBy!=userId && (userType == 'BENCH_RECRUITER'
+                      || userType == 'student' || userType == 'JOB_SEEKER'
+                      || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')">
+                <app-svg-templates [svgType]="'APPLY'"></app-svg-templates>
+                <div title="Apply">
+                  Apply
+                </div>
+              </div>
+              <div class="md-interaction-element" *ngIf=" items?.jobDetails?.chatHistoryCount > 0"
+                title="{{items?.jobDetails?.nonSeenMessageCount}} Messages" class="pointer"
+                (click)="chatuser(items.jobDetails, connectionTemplate)">
+                <i class="pe-7s-comment icon-prime-color chat-icon"> </i>
+                <span class="blue-color"
+                  *ngIf="items?.jobDetails?.nonSeenMessageCount>0">{{items?.jobDetails?.nonSeenMessageCount}}</span>
+                Chat
+              </div>
+              <div class="md-interaction-element"
+                *ngIf="items?.jobDetails?.jobPostedBy!=userId && items?.jobDetails?.chatHistoryCount == 0"
+                (click)="chatuser(items.jobDetails, connectionTemplate)" title="No Messages" class="pointer">
+                <i class="pe-7s-comment icon-prime-color chat-icon">
+                </i>
+                Chat
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <app-common-skeleton *ngIf="loadAPIcall && viewedList?.length>0" [countforView]="6" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+    </div>
+  </ng-container>
+</div>
+
+
+
+
+<div *ngIf="stopscrollFlag && viewedList?.length>0">
+  <div class="wert">
+    <div class="col-md-12 mg-bt-9">
+      <app-svg-templates [svgType]="'CHECKMARK_CIRCLE'"></app-svg-templates>
+    </div>
+    <div class="col-md-12">
+      <p class="font-16">You've reached the bottom of the page</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+<ng-template #candidateSupplyTemplate>
+  <ng-container>
+    <div class="row mr-0">
+      <div class="col-sm-8 pad-lt-rt-0">
+        <div class="xs-heading-flex-parent">
+          <div class="xs-heading-entity">My Candidates</div>
+          <div class="xs-heading-payrate">Pay Rate</div>
+          <div class="xs-heading-paytype">Type</div>
+        </div>
+        <div class="xs-body-container" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+          [scrollWindow]="false">
+          <div>
+            <app-candidates-page *ngIf="applyResponse?.length > 0" [viewSize]="'extra-small'"
+              [candidatesFoundStatus]="candidateFoundStatus" [passValues]="applyResponse" [jobData]="jobDetails"
+              [fromApply]="true" (selectedCandidate)="getchildData($event)"></app-candidates-page>
+          </div>
+
+        </div>
+        <div class="xs-footer-container"></div>
+      </div>
+      <div class="col-sm-4 pad-lt-0 pad-rt-0">
+        <div class="hpanel mr-bt-0">
+          <div class="hpanel-heading xs-heading-flex-entity-detail">
+            <div>Job Details</div>
+            <app-svg-templates [svgType]="'CROSS_20'" class="cursor-pointer"
+              (click)="closeCandidateSupplyModal()"></app-svg-templates>
+          </div>
+          <div>
+            <app-job-submit-skillfilter [focus]="'job'" [jobData]="jobDetails" [termsChecked]="termsCheck"
+              [formData]="rtrFormData" [dataPasstoSkillwidgets]="dataPasstoSkillwidgets"
+              (emitRemoveTag)="removeUserfromTag($event)">
+            </app-job-submit-skillfilter>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+
+
+<ng-template #template>
+  <div class="common-header-flex">
+    <div> Resume Upload </div>
+    <button>
+      <span class="common-close" (click)="modalRef.hide()">×</span>
+    </button>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="col-sm-12" style="margin-top: 17px;">
+      <div class="dropdox" appDnd (fileDropped)="onFileDropped($event)">
+        <input style="display: none" accept=".pdf,.doc,.docx,.txt" type="file" #fileDropRef id="fileDropRef"
+          (change)="fileBrowseHandler($event.target.files)" />
+        <div>
+          <label style="font-size: 17px; font-weight:900;color:#63cfbe;cursor: pointer;" class="file-boreder"
+            for="fileDropRef">Upload Your Resume</label>
+
+          <label class="file-boreder" id="aad" for="fileDropRef">Drag your files here or click in this area.</label>
+        </div>
+        <div>
+          <small>Only PDF, DOCX, DOC, and TXT file formats supported.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="files-list" *ngIf="fileDragdrop">
+      <div class="single-files">
+        <div class="info">
+          <h4 class="name">
+            {{ fileDragdrop?.name }}
+          </h4>
+          <p title="Download" class="cursor-pointer top-eye" (click)="onDownload()">
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </p>
+          <div (click)="removeFiles()" title="Remove File" class="tiimes">x</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default" (click)="modalRef.hide()"> Cancel </button>
+        <button class="btn btn-sm btn-primary" (click)="submit()">Save </button>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
+<ng-template #connectionTemplate>
+  <app-connection-template [page]="'job-card'" [connectionStatus]="connectionStatus"
+    [counterpartsDetails]="counterpartsDetails" [module]="'job'"></app-connection-template>
+</ng-template>
+
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)" [messageDataPass]="messageData">
+</app-message-widget>

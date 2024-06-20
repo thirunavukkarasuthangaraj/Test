@@ -1,0 +1,62 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+  <div class="business-list-view-search CommNav post-box-shadow margin-bottom-5 margin-right-5">
+    <div class="Bnav">
+      <div class="Bnav-item-1">
+        <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+          title="{{values.bussinessName}}">{{values.bussinessName| truncate : 18 }}
+        </label>
+        <div>
+          <p *ngIf="values.employees?.length==1">{{values.employees?.length}} Employee</p>
+          <p *ngIf="values.employees?.length>1">{{values.employees?.length}} Employees</p>
+
+        </div>
+      </div>
+      <div class="Bnav-item-2">
+        <div>
+          <div class="input-group">
+            <!-- <input type="text" class="form-control" placeholder="Search Employee" 
+            (keyup)="keyupdata($event)" (keyup.enter)="onsearch(empSearch)" [(ngModel)]="empSearch"
+              [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+              <span class="input-group-addon"  (click)="onsearch(empSearch)" id="my_btn" ><i class="pe-7s-search"    ></i></span>            -->
+            
+              <input type="text" class="form-control" placeholder="Search Employee" 
+             [(ngModel)]="searchKey"
+              [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+              <span class="dummyBtn"></span>  
+            </div>
+        </div>
+      </div>
+      <div class="Bnav-item-3">
+        <div class="btn-group " dropdown container="body">
+          <button id="button-container" style="min-width: 90px !important;"
+            class="btn btn-primary dropdown-toggle btn-sm" dropdownToggle aria-controls="dropdown-container">
+            <i class="pe-7s-filter"></i>
+          </button>
+          <ul id="dropdown-container" *dropdownMenu class="dropdown-menu m-l-43 " role="menu"
+            aria-labelledby="button-container">
+            <!-- <li role="menuitem"><a class="dropdown-item" (click)='allEmployee()'>All </a></li> -->
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Ignored</a></li> -->
+            <!-- <li role="menuitem"><a class="dropdown-item" (click)="employeRevoke()">Revoked</a></li> -->
+            <!-- <li role="menuitem"><a class="dropdown-item" (click)='adminEmpData()'>Admin</a></li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="Bnav-item-4">
+        <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="col-sm-12 col-md-6 col-lg-4 skdjk padding-right-5 padding-left-0"
+      *ngFor="let data of values.employees | customFilter:{userName:searchKey}:false;index as i ">
+      <app-user-card [userDataInput]="data" [config]="userCardConfig" [button]="'PRIMARY'"
+        [adminFlag]="values.adminviewnavigation" [refresh]="true">
+      </app-user-card>
+    </div>
+
+    <div class="col-md-12 pad" *ngIf="values?.employees?.length==0 && showNoDatafound">
+      <app-nodata-found [title]="noDatafound" ></app-nodata-found>
+    </div>
+  </div>
+</div>

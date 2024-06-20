@@ -1,0 +1,53 @@
+<section class="padding-left-20 padding-right-20 directory-title">
+    <h3>Search by Healthcare Professionals </h3>
+</section>
+<section class="directory-card-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12 margin-bottom-30 card-high-100" *ngFor="let d of hcpData  | paginate: { itemsPerPage: 20, currentPage: page }">
+                <div class="dir-card" *ngIf="d.specialitiesAvailable"
+                    routerLink='/directory/hcp/specality/{{d.hcpCode}}'>
+                    <div class="img-section">
+                        <img [src]="d.imgUrl" onerror="this.src='assets/images/directory/physician.png'">
+                    </div>
+                    <div class="content-section ch59chars">
+                        <span>{{d.hcpName}}</span>
+                    </div>
+                </div>
+
+                <div class="dir-card" *ngIf="!d.specialitiesAvailable"
+                    routerLink='/directory/hcp/specality/{{d.hcpCode}}/professional'>
+                    <div class="img-section">
+                        <img [src]="d.imgUrl" onerror="this.src='assets/images/directory/physician.png'">
+                    </div>
+                    <div class="content-section ch59chars">
+                        <span>{{d.hcpName}}</span>
+                    </div>
+                </div>
+
+                <!-- <ng-container *ngIf="!d.specialitiesAvailable">
+                            <ng-container routerLink='/directory/profile'>
+                                <div class="img-section">
+                                    <img [src]="d.imgUrl">
+                                </div>
+                                <div class="content-section">
+                                    <span>{{d.hcpName}}</span>
+                                </div>
+                           </ng-container>
+                    </ng-container> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="directory-search-footer">
+    <div class="container">
+        <div class="search-by-content">
+            <span>Search by </span>
+            <ul>
+                <!-- <li><a>Speciality</a></li> -->
+                <li><a [routerLink]="['/directory/hcp/country/US/state']">State</a></li>
+            </ul>
+        </div>
+    </div>
+</section>

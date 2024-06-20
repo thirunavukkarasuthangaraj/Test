@@ -1,0 +1,26 @@
+<div class="slider-filter-backdrop" [ngClass]="{'slider-filter-backdrop-open': isOpen}"></div>
+<div [ngClass]="{'overlay': isOpen}" (click)="startFilter(valuesSentForFilters.entity)"></div>
+<div class="slider-filter-content" [ngClass]="{'slider-open': isOpen}">
+  <div #stickyFilterHeader class="slider-filter-header" >
+    <div class="label">
+      Filter {{valuesSentForFilters.entity | titlecase}}
+    </div>
+    <div class="close-button" (click)="startFilter(valuesSentForFilters.entity)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+  <div class="slider-filter-body">
+    <ng-content></ng-content>
+  </div>
+  <div class="slider-filter-footer">
+    <div class="slider-filter-footer-items">
+      <button class="btn btn-sm btn-default" (click)="resetFilter(valuesSentForFilters.entity)">Reset</button>
+    </div>
+    <div class="slider-filter-footer-items">
+      <button class="btn btn-sm btn-primary" (click)="startFilter(valuesSentForFilters.entity)">Filter</button>
+    </div>
+  </div>
+</div>

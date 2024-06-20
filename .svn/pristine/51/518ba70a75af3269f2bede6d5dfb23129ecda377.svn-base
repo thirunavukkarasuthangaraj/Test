@@ -1,0 +1,16 @@
+.profile-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 5px;
+}
+.accodian-cls{
+  padding: 0px !important;
+}
+
+
+button.btn.btn-link.text-muted.ng-star-inserted {
+  padding: 0px !important;
+}
+.left-page-align{
+  float: right;
+}

@@ -1,0 +1,40 @@
+.navMain {
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .navIteam2 {
+    flex-grow: 0.8;
+  }
+  .navIteam1 {
+    flex-grow: 0;
+  }
+  
+  .bg {
+    background-color: white;
+    padding: 10px;
+    margin: 0.2rem 0.9rem 0.9rem 0.4rem;
+  }
+
+  .sdyie {
+    padding-bottom:5px;
+  }
+  
+  .mr-5{
+    margin-right: 5px;
+  }
+  
+  .filimg{
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .displayflex{
+    display: flex;
+  }
+  
+  .mt-17{
+    margin-top: 17px;
+  }

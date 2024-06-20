@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CareOnline</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet"> -->
+  <link href="assets/fonts/fontsoogleapis.css" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i&display=swap" rel="stylesheet"> -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <script src="assets/fonts/usefontawesome.js"></script>
+  <script src="assets/fonts/kitfontawesome.js" crossorigin="anonymous"></script>
+  <script src="assets/js/recaptcha.js" async defer></script>
+  <script src="assets/fonts/sockjs.min.js"></script>
+  <script src="assets/fonts/stomp.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body class="fixed-navbar sidebar-scroll hide-sidebar">
+  <app-root></app-root>
+</body>
+</html>

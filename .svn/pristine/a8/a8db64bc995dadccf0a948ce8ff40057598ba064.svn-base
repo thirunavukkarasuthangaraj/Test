@@ -1,0 +1,408 @@
+import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { AppSettings } from 'src/app/services/AppSettings';
+import { Subscription, interval, Subject } from 'rxjs';
+import { CommonValues } from 'src/app/services/commonValues';
+import { Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ApiService } from 'src/app/services/api.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { UtilService } from 'src/app/services/util.service';
+import { UserCardConfig } from 'src/app/types/UserCardConfig';
+import Swal from 'sweetalert2';
+
+
+@Component({
+  selector: 'app-business-employee',
+  templateUrl: './business-employee.component.html',
+  styleUrls: ['./business-employee.component.scss']
+})
+export class BusinessEmployeeComponent implements OnInit {
+  clickEventsubscription: Subscription;
+  //   values = {businessId:"",  admin: false,employees:[]  ,
+  //   menu:"", userId:"",follower:false
+  //  }
+
+  @Input() commonemit
+  values: any = {}
+  modalRef: any;
+  term: string;
+  basicDeatils
+  userData = []
+  removedatas
+  name
+  empSearch: any;
+  tempemployee: any;
+  noDatafound = "You have no employee"
+  showNoDatafound: boolean = false;
+  isAdmin
+  isSuperAdmin
+  //Abu
+  serachForm: FormGroup
+  userList: any = []
+  firstList: any;
+  formCtrlSub: Subscription
+  subject: Subject<any> = new Subject();
+
+  //Usercard initialization;
+  userCardConfig: UserCardConfig[] = []
+  searchKey
+  constructor(private API: ApiService,
+    private util: UtilService,
+    private modalService: BsModalService,
+    private router: Router,
+    private commonvalues: CommonValues,
+    private fb: FormBuilder) {
+    this.clickEventsubscription = this.commonvalues.getbusinessid().subscribe((res) => {
+      this.values = res;
+      this.basicDeatils = res.basicDeatils;
+
+    })
+
+  }
+
+  ngOnInit() {
+    this.values = this.commonemit
+    this.isAdmin = localStorage.getItem('isAdmin');
+    this.isSuperAdmin = localStorage.getItem('isSuperAdmin');
+
+    if (this.isSuperAdmin) {
+      this.isAdmin = this.isSuperAdmin
+    }
+
+    //abu
+    this.formserchData()
+
+
+    if (this.isSuperAdmin == "true" || this.isSuperAdmin == true) {
+      let revokeBtn: UserCardConfig = new UserCardConfig("Revoke", this.removedata, this.canShow, true);
+      revokeBtn.source = this;
+      this.userCardConfig.push(revokeBtn);
+    }
+  }
+
+
+  popupdata(popup, data) {
+    this.removedatas = data;
+    this.PopupServicevlaues(popup)
+  }
+
+  canShow(data, source): boolean {
+
+    return false;
+  }
+
+  removedata(data) {
+    //// console.log("this.removedatas,",data)
+    // let datas:any ={};
+    // datas.businessId = this.values.businessId
+    // datas.userId   = data.userId
+    // this.util.startLoader()
+    // this.API.bussinessRevokeEmpolees(datas).subscribe(res=>{
+    //   this.util.stopLoader()
+    //   if(res.code=="00000"){
+    //     Swal.fire({})
+    //     this.employees()
+    //   }
+    // })
+
+
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: "This employee will be removed from this bussiness page.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, remove it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let datas: any = {};
+        datas.businessId = this.values.businessId
+        datas.userId = data.userId
+        this.util.startLoader()
+        this.API.create('business/revoke/employee', datas).subscribe(res => {
+          this.util.stopLoader()
+          if (res.code == "00000") {
+            this.employees();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Employee revoked",
+              text: "Employee has been revoked",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        },err => {
+          this.util.stopLoader();
+          if(err.status==500){
+          this.util.stopLoader();
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: 'Something went wrong while processing your request. Please, try again later.',
+            showDenyButton: false,
+            confirmButtonText: `ok`,
+          })
+        }
+      })
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        // Swal.fire({
+        //   position: "center",
+        //   icon: "success",
+        //   title: "Employee is safe",
+        //   showConfirmButton: false,
+        //   timer: 1500,
+        // });
+      }
+    })
+
+
+  }
+
+  modalclose() {
+    // for (let i = 1; i <= this.modalService.getModalsCount(); i++) {
+    //   this.modalService.hide(i);
+    // }
+    this.modalRef.hide();
+  }
+
+
+  PopupServicevlaues(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      animated: true,
+      backdrop: 'static'
+    });
+  }
+
+  onsearch(val) {
+    if (val != undefined) {
+      val = val.trim().toLowerCase();
+    }
+
+     var  datapass=[]
+     datapass = this.values.tempemployees;
+     this.values.employees =this.values.tempemployees;
+     this.commonvalues.businessid(this.values);
+
+     if( this.values.employees!=null){
+     let empdata = this.filterByString(datapass, val);
+     this.values.employees= empdata;
+     this.commonvalues.businessid(this.values);
+
+
+      }
+
+    if (this.values.employees.length == 0) {
+      this.showNoDatafound = true;
+    } else {
+      this.showNoDatafound = false;
+    }
+
+  }
+  keyupdata(event){
+    if(event.target.value.length==0){
+      this.onsearch('');
+    }
+  }
+  filterByString(data, s) {
+    return data.filter(e => e.userName.toLowerCase().includes(s))
+      .sort((a, b) => a.userName.toLowerCase().includes(s) && !b.userName.toLowerCase().includes(s) ? -1 : b.userName.toLowerCase().includes(s) && !a.userName.toLowerCase().includes(s) ? 1 : 0);
+ }
+  employeequary(datas) {
+    this.userData = datas
+    this.values.employees = this.sort_by_key(datas, 'firstName');
+     this.values.employees.forEach((element, i) => {
+
+      if (element.userId == localStorage.getItem("userId")) {
+        var b = this.values.employees[i];
+        this.values.employees[i] = this.values.employees[0];
+        this.values.employees[0] = b;
+      }
+     });
+     this.values.tempemployees=this.values.employees
+     this.commonvalues.businessid(this.values);
+   }
+
+  sortData(data) {
+    return data.sort((a, b) => {
+      return <any>new Date(b.joinedOn) - <any>new Date(a.joinedOn);
+    });
+  }
+
+
+  sort_by_key(array, key) {
+    return array.sort(function (a, b) {
+      var x = a[key]; var y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
+  employees() {
+
+    this.userData = []
+    let datas: any = {};
+    datas.businessId = this.values.businessId
+    this.util.startLoader()
+    setTimeout(() => {
+      this.showNoDatafound=false;
+      this.API.create('business/employees', datas).subscribe(res => {
+        this.util.stopLoader()
+        this.employeequary(this.userData)
+        // console.log("bussinessEmpolees",res)
+        this.showNoDatafound=true;
+        res.data.businessEmployees.forEach(element => {
+          if (element.userId === localStorage.getItem('userId')) {
+            element.joinedOn = new Date()
+          }
+          element.userName = element.firstName + " " + element.lastName;
+          element.type = element.businessUserType;
+          this.userData.push(element);
+           /**if(element.userId!='undefined'||element.userId!='null'||element.userId!=''){
+
+             this.API.userquarybussiness(element.userId).subscribe(res=>{
+              this.util.stopLoader()
+              var  photos
+              if(res.photo==null){
+                 photos="assets/images/userAvatar.png"
+              }else if(res.photo!=null){
+                photos=AppSettings.photoUrl+res.photo
+              }
+                 this.userData.push({
+                  userName:res.firstName+" "+res.lastName,
+                  photo:photos,
+                  organisation:res.organisation,
+                  title:res.title,
+                  status:element.status,
+                  userId:element.userId,
+                  connected:element.connected,
+                 })
+                })
+
+
+              }*/
+        })
+        this.employeequary(this.userData)
+
+      },err => {
+        this.util.stopLoader();
+      })
+
+    }, 600);
+
+  }
+
+  sendmsg(data) {
+    var userData: any = {}
+    userData.userid = data.userId
+    this.router.navigate(['message'], { queryParams: userData })
+  }
+
+  userprofile(data) {
+    var userData: any = {}
+    userData.userId = data
+    this.router.navigate(['personalProfile'], { queryParams: userData })
+  }
+  connetedstatus(data) {
+
+  }
+
+  //abu
+  formserchData() {
+    this.serachForm = this.fb.group({
+      serachData: [''],
+    });
+  }
+
+  userSelected(valUser) {
+    var userData: any = {}
+    userData.userId = valUser.userId
+    this.router.navigate(['personalProfile'], { queryParams: userData })
+  }
+
+  onChangeSearch(val: string) {
+
+    const data: any = {
+      businessId: this.values.businessId,
+      searchText: this.serachForm.value.serachData
+    }
+
+
+    if (val != null && this.serachForm.value.serachData != "") {
+      // console.log('value entered  --> calling api ', this.serachForm.value.serachData);
+      this.util.startLoader()
+      this.API.create('business/employees/search', data).subscribe(res => {
+        // console.log('business/employees/search',res)
+        this.util.stopLoader()
+        this.firstList = res.data.businessEmployees
+        this.afterCall()
+      },err => {
+        this.util.stopLoader();
+      })
+    } else if (this.serachForm.value.serachData == "") {
+      this.employees()
+    }
+  }
+
+  afterCall() {
+    this.firstList.forEach(response => {
+      this.userList.push(response.userId)
+    })
+    // console.log(this.userList + "<-----aftercall")
+    this.userList.forEach(element => {
+      this.util.startLoader()
+      this.API.query('user/connection/' + element).subscribe(res => {
+
+        this.util.stopLoader()
+        this.userData = []
+        this.userData.push({
+          userName: res.firstName + " " + res.lastName,
+          photo: AppSettings.photoUrl + res.photo,
+          organisation: res.organisation,
+          title: res.title,
+          status: element.status,
+          userId: element.userId,
+          connected: element.connected,
+        })
+        this.employeequary(this.userData)
+      },err => {
+        this.util.stopLoader();
+      })
+    })
+
+
+  }
+
+  delay(callback, ms) {
+    var timer = 0;
+    return function () {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      var timer = setTimeout(function () {
+        callback.apply(context, args);
+      }, ms || 0);
+    };
+  }
+
+
+
+
+
+
+
+
+}
+
+

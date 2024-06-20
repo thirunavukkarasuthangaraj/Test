@@ -1,0 +1,149 @@
+.ellipse {
+  text-overflow: ellipsis;
+  width: 17rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+.img-circle {
+  width: 47px !important;
+  height: 47px !important;
+}
+
+.Vthree-dote {
+  max-height: 3rem;
+  position: relative;
+  top: 0.2rem;
+  // width: none !important;
+  // height: none !important;
+}
+
+.userCard-item{
+
+  span{
+    font-size: 8px;
+  }
+
+}
+
+.contact-stat{
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+.m-l-81 {
+  // margin-left: -50px;
+  right: 0;
+  left: auto;
+}
+$red-color: #e44d52;
+.cancel-request-btn {
+  background-color: $red-color;
+  border-color: $red-color;
+}
+$green-color:#35ac31;
+.accept-request-btn {
+  background-color: $green-color;
+  border-color: $green-color;
+}
+// .padd {
+//   padding: 0px 4px 0px !important;
+// }
+
+.b-5 {
+  border-radius: 3px !important;
+  margin-top: 3px;
+}
+
+.m-r-10 {
+  margin-right: -5px;
+}
+.bntStyle  {
+  .open > .dropdown-menu {
+    display: block;
+}
+}
+
+.pad-lt-0 {
+  padding-left: 0px;
+}
+
+.pad-rt-0 {
+  padding-right: 0px;
+}
+
+
+
+.op {
+  padding: 0rem 1rem;
+  // margin-top: -1rem;
+}
+
+.erv {
+  margin-top: -13px;
+}
+
+.kskls {
+  display: grid;
+  grid-gap: 0.5rem;
+  position: relative;
+  float: right;
+}
+
+.jsoh {
+  min-height: 144px !important;
+  padding: 10px 10px 0px 10px;
+}
+
+.mxpl {
+  position: relative;
+  top: 0.5rem;
+}
+
+.talha {
+  height: 33px!important;
+}
+
+.fl-rtt {
+  float: right;
+  // right: 0.6rem;
+  // position: relative;
+}
+
+.rmlft {
+  position: relative;
+  left: 1rem;
+  bottom: 1rem;;
+}
+
+.lahfp {
+  padding: 0px!important;
+  height: 50px!important;
+}
+
+.crown {
+  height: 3rem;
+  position: relative;
+  right: 1rem;
+  width: auto;
+  top: 0.6rem;
+  left: -2rem;
+}
+
+.skdh0 {
+  padding-left: 0px !important;
+    // padding-right: 0.4rem;
+    position: relative;
+    bottom: 0.6rem;
+}
+
+.admin-name {
+  display: block;
+  width: 135px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 500!important;
+}

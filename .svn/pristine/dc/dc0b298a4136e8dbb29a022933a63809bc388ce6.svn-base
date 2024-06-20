@@ -1,0 +1,353 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { UtilService } from 'src/app/services/util.service';
+import { SearchData } from 'src/app/services/searchData';
+
+@Component({
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
+})
+export class ForgotPasswordComponent implements OnInit {
+
+  forgotpasswordForm: FormGroup;
+  forgotPasswordAppUserForm: FormGroup;
+  CaptchForm: FormGroup;
+  forgotPwd;
+  captch = true ;
+  cap = false;
+  msgsend = false;
+  forgetPasswordMsg = false;
+  showCaptch = false;
+  appUserQ1 = false;
+  appUserQ2 = false;
+  appUserQ3 = false;
+  AccountBlockMassege = false;
+  MailSentMassege = false;
+  AppQuestions;
+  nonappuserdata;
+  UserQuestion;
+  notActive = false;
+
+  disabledAgreement: boolean = true;
+
+ public email ;
+ public Question;
+ public Answer;
+
+
+ isDisabled = true;
+ emailemterDisble = false;
+
+ triggerSomeEvent() {
+     this.isDisabled = !this.isDisabled;
+     return;
+ }
+
+
+  constructor(
+    private fb: FormBuilder,
+    private API: ApiService,
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private util:UtilService,
+    private searchData: SearchData
+    ) {
+      var val: any = {}
+      val.isLoggedOut = false
+      this.searchData.setCommonVariables(val);
+     }
+
+  ngOnInit() {
+
+    this.fogotForm();
+    this.AppUserForm();
+    this.formCaptch();
+  }
+
+  get pwd() {
+    return this.forgotpasswordForm.controls;
+  }
+
+  fogotForm() {
+    this.forgotpasswordForm = this.fb.group({
+      recoverPassword: ['', [Validators.required, Validators.email]],
+      // recaptchaReactive: []
+    });
+  }
+  formCaptch() {
+    this.CaptchForm = this.fb.group({
+      cap1: ['', {disabled: true}]
+    });
+  }
+  forgotPassword() {
+    const Fpwd = {
+      // firstName: this.forgotPwd.firstName,
+      // lastName: this.forgotPwd.lastName,
+      // email : this.forgotPwd.email,
+      // password: this.forgotPwd.value.email
+      email : this.forgotpasswordForm.value.recoverPassword,
+      // recaptcha: "CHECKED"
+    };
+    this.spinner.show();
+    this.notActive = false;
+    this.util.startLoader();
+    this.API.create('home/forgot/password' , Fpwd).subscribe(res => {
+      this.util.stopLoader()
+      // //// console.log('forgotpassword :' + JSON.stringify( res));
+      this.nonappuserdata = res;
+     /// //// console.log('Q no 1 : ' +  res.userSecAnswerQues[0].question);
+     // //// console.log('reset password clicked');
+      // this.captch = false;
+      // this.cap = true;
+      // this.forgotpasswordForm.controls.values;
+      this.forgotPasswordAppUserForm.controls.AppUserEmail.setValue(Fpwd.email);
+
+      if ( res.code === '88888') {
+        this.spinner.hide();
+        this.captch = false;
+        this.cap = true;
+        this.msgsend = true;
+        this.notActive = false;
+        this.isDisabled=true;
+       // this.MailSentMassege = true;
+      // tslint:disable-next-line: align
+      this.CaptchForm.controls.cap1.setValue(Fpwd.email);
+        ////// console.log('This is non app User :==>', this.nonappuserdata);
+      // tslint:disable-next-line: align
+      } else if (res.code === '99999') {
+        this.spinner.hide();
+        this.forgetPasswordMsg = true;
+        this.forgotpasswordForm.reset();
+        this.notActive = false;
+      // }
+      } else if (res.code === '77777') {
+        ////// console.log('User is Careonline app user');
+        this.spinner.hide();
+        this.appUserQ1 = true;
+        this.captch = false;
+        this.cap = false;
+        this.notActive = false;
+      } else if (res.code === '22222') {
+        this.spinner.hide();
+        this.forgetPasswordMsg = false;
+        this.notActive = true;
+      }
+      if (res.userSecAnswerQues && res.userSecAnswerQues != null && res.userSecAnswerQues.length > 0) {
+        this.UserQuestion = this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+      }
+
+      // if (res.code === '00000') {
+      //   this.forgetPasswordMsg = true;
+      // } else if (res.code === '99999') {
+      //   this.forgetPasswordMsg = true;
+      // }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+ 
+  }
+
+  changeCheck(event){
+    this.disabledAgreement = !event.checked;
+  }
+
+  withcapCall(event) {
+    const cap = {
+      email : this.forgotpasswordForm.value.recoverPassword,
+      recaptcha: 'CHECKED',
+    };
+    this.util.startLoader()
+    this.API.create('home/forgot/password' , cap).subscribe(res => {
+      this.util.stopLoader();
+      this.disabledAgreement = !event.checked;
+    // this.API.forgotpassword('user/setPassword' , cap).subscribe(res => {
+     // //// console.log('cap send :' + res);
+      if (res.code === '00000') {
+
+        this.captch = false;
+        this.cap = false;
+        this.MailSentMassege = true;
+        // this.appUserQ1 = true;
+        // this.msgsend = true;
+      }else{
+        //this.spinner.hide();
+      }
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+
+  }
+
+  AppUserForm() {
+    this.forgotPasswordAppUserForm = this.fb.group({
+      AppUserEmail : ['', [Validators.required, Validators.email]],
+      AppUserquestion : ['', Validators.required],
+      AppUserAnswer : ['', Validators.required]
+    });
+  }
+
+
+  AppuserQuestion() {
+    const Qdata = {
+      email: this.forgotPasswordAppUserForm.value.AppUserEmail,
+      userSecAnswerQues: [
+            {
+              answer: this.forgotPasswordAppUserForm.value.AppUserAnswer,
+             // question: 'Name?',
+             question: this.forgotPasswordAppUserForm.value.AppUserquestion,
+              attempt: 0
+            }
+        ]
+    };
+    this.spinner.show();
+    this.API.create('home/forgot/password' , Qdata).subscribe(res => {
+     // //// console.log(res.question);
+      ////// console.log('Question no 1');
+      // this.forgotPasswordAppUserForm.controls['AppUserquestion'].patchValue(res.userSecAnswerQues[0].question)
+      if (res.code === '00000') {
+        this.spinner.hide();
+        // this.captch = false;
+        this.appUserQ1 = false;
+        // this.appUserQ2 = false;
+        // this.appUserQ3 = false;
+        this.MailSentMassege = true;
+      }
+      if (res.code === '77777') {
+        this.spinner.hide();
+       // //// console.log('worng Answer 2nd question');
+        this.resetdata();
+        this.forgotPasswordAppUserForm.controls.AppUserEmail.setValue(Qdata.email);
+        this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+        this.captch = false;
+        this.appUserQ1 = false;
+        this.appUserQ2 = true;
+        this.appUserQ3 = false;
+        this.MailSentMassege = false;
+      }
+
+
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+
+  }
+
+  AppuserQuestionTwo() {
+    const Qdata = {
+      email: this.forgotPasswordAppUserForm.value.AppUserEmail,
+      userSecAnswerQues: [
+            {
+              answer: this.forgotPasswordAppUserForm.value.AppUserAnswer,
+              // question: 'School?',
+              question: this.forgotPasswordAppUserForm.value.AppUserquestion,
+              attempt: 1
+            }
+        ]
+    };
+    this.util.startLoader();
+    this.API.create('home/forgot/password' , Qdata).subscribe(res => {
+     // //// console.log(res);
+      this.util.stopLoader()
+      this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+      if (res.code === '00000') {
+       // this.spinner.hide();
+        // this.captch = false;
+        // this.appUserQ1 = false;
+        this.appUserQ2 = false;
+        // this.appUserQ3 = false;
+        this.MailSentMassege = true;
+      }
+      if (res.code === '77777') {
+        //this.spinner.hide();
+     //   //// console.log('worng Answer 3nd question');
+        this.resetdata();
+        this.forgotPasswordAppUserForm.controls.AppUserEmail.setValue(Qdata.email);
+        this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+        this.captch = false;
+        this.appUserQ1 = false;
+        this.appUserQ2 = false;
+        this.appUserQ3 = true;
+       // this.AccountBlockMassege = true;
+      }
+
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+
+  }
+
+  AppuserQuestionThree() {
+    const Qdata = {
+      email: this.forgotPasswordAppUserForm.value.AppUserEmail,
+      userSecAnswerQues: [
+            {
+              answer: this.forgotPasswordAppUserForm.value.AppUserAnswer,
+              // question: 'Office?',
+              question: this.forgotPasswordAppUserForm.value.AppUserquestion,
+              attempt: 2
+            }
+        ]
+    };
+    this.util.startLoader();
+    this.API.create('home/forgot/password' , Qdata).subscribe(res => {
+      ////// console.log(res);
+      this.util.stopLoader();
+      this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+      if (res.code === '00000') {
+       // this.spinner.hide();
+        this.captch = false;
+        this.appUserQ1 = false;
+        this.appUserQ2 = false;
+        this.appUserQ3 = false;
+        this.MailSentMassege = true;
+      }
+      if (res.code === '99999') {
+        //this.spinner.hide();
+      //  //// console.log('worng Answer 3nd question');
+        this.resetdata();
+        this.forgotPasswordAppUserForm.controls.AppUserEmail.setValue(Qdata.email);
+        this.forgotPasswordAppUserForm.controls.AppUserquestion.patchValue(res.userSecAnswerQues[0].question);
+        this.captch = false;
+        this.appUserQ1 = false;
+        this.appUserQ2 = false;
+        this.appUserQ3 = false;
+
+        this.AccountBlockMassege = true;
+      }
+
+    },err => {
+      this.util.stopLoader(); 
+       
+     });
+
+  }
+
+  resolved(captchaResponse: string) {
+
+    var rcres = grecaptcha.getResponse();
+
+   if(rcres.length){
+     this.isDisabled=false;
+     //grecaptcha.reset();
+    }else{
+    this.isDisabled=true;
+   }
+}
+
+resetdata() {
+  this.forgotPasswordAppUserForm.reset();
+}
+
+get appuser() {
+  return this.forgotPasswordAppUserForm.controls;
+}
+
+}

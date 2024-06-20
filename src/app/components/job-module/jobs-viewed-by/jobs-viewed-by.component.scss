@@ -1,0 +1,58 @@
+.view-card {
+  display: flex;
+  //flex-wrap: wrap;
+  column-gap: 12px;
+
+  img {
+    height: 45px;
+  }
+
+  .details-grid {
+    display: grid;
+
+    .view-name {
+      font-weight: 500;
+    }
+
+    .view-title {
+      font-weight: 400;
+    }
+
+    .view-time {
+      font-size: 10px;
+      display: flex;
+      column-gap: 5px;
+      align-items: center;
+    }
+  }
+}
+
+
+.fig {
+  font-weight: 500;
+  position: relative;
+  top: 12px;
+}
+
+
+.wert {
+  position: relative;
+  text-align: center;
+  top: 5rem;
+}
+
+.m-r-4 {
+  margin-right: 4px;
+}
+
+
+.chaticon {
+  cursor: context-menu;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  align-content: stretch;
+  justify-content: flex-end !important;
+}
+

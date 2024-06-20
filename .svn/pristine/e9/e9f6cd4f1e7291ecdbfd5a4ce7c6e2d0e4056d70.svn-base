@@ -1,0 +1,6 @@
+<ng-container  *ngFor="let item of data">  
+    <app-user-card  class="col-sm-3  m-l-17"[userDataInput]="item" [config]="userCardConfig" [button]="'PRIMARY'" [adminFlag]="true"
+    [refresh]="true">
+  </app-user-card>
+</ng-container>
+

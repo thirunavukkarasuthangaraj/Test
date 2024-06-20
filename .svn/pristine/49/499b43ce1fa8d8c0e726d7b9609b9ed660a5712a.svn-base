@@ -1,0 +1,25 @@
+ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BusinesDirectoryProfileslistsComponent } from './busines-directory-profileslists.component';
+
+
+describe('BusinesDirectoryProfileslistsComponent', () => {
+  let component: BusinesDirectoryProfileslistsComponent;
+  let fixture: ComponentFixture<BusinesDirectoryProfileslistsComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BusinesDirectoryProfileslistsComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BusinesDirectoryProfileslistsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

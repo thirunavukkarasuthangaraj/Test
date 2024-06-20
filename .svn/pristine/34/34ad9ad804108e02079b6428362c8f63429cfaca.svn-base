@@ -1,0 +1,360 @@
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { Subscription } from "rxjs";
+import { ApiService } from "src/app/services/api.service";
+import { SearchData } from "src/app/services/searchData";
+import { UtilService } from "src/app/services/util.service";
+import { CreateteamModelComponent } from "../../model/createteam-model/createteam-model.component";
+
+@Component({
+  selector: "app-team",
+  templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.scss"],
+})
+export class TeamComponent implements OnInit {
+  @ViewChild("landingside1", { static: false }) menuElement: ElementRef;
+  landingsidesticky1: boolean = false;
+  landingsidesticky2: boolean = false;
+  elementPosition: any;
+  teamSearch: string;
+  commonVariables: any = {};
+  bsModalRef: BsModalRef;
+  teamdata: any = [];
+  teamlist: any;
+  tempteamlist: any = [];
+  teamlistuserdata: any = [];
+  status = "all";
+  search: any;
+  showNoDatafound: boolean = false;
+  allTeams = true;
+  activeTeams = false;
+  RequestsReceived = false
+  noDatafound = "You are not in any Teams yet";
+  noRequestReceived = "You have no requests remaining"
+  searchKey
+  subscriber: Subscription;
+  constructor(
+    private api: ApiService,
+    private searchData: SearchData,
+    private modalService: BsModalService,
+    private util: UtilService,
+    private route: ActivatedRoute // private searchData: SearchData
+  ) { 
+    this.subscriber = this.searchData.getBooleanValue().subscribe(res=>{
+      if(res.boolean == true){
+        this.allQueryteams()
+      }
+    })
+  }
+
+  ngOnInit() {
+    if (
+      this.route.queryParams["_value"].routeFrom != "" &&
+      this.route.queryParams["_value"].routeFrom != undefined &&
+      this.route.queryParams["_value"].routeFrom != null
+    ) {
+      this.filterApi("invites_received");
+    } else {
+      this.filterApi(this.status);
+    }
+  }
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+    // this.elementPosition = this.menuElement.nativeElement.offsetTop;
+    // ////// console.log(this.elementPosition);
+  }
+
+  @HostListener("window:scroll")
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    if (windowScroll >= 24) {
+      this.landingsidesticky1 = true;
+      this.landingsidesticky2 = true;
+    } else {
+      this.landingsidesticky1 = false;
+      this.landingsidesticky2 = false;
+    }
+  }
+
+  teamLength:any;
+  allQueryteams() {
+    this.util.startLoader();
+    this.showNoDatafound = false;
+    this.api
+      .query("teams/getAllteams/" + localStorage.getItem("userId"))
+      .subscribe((res) => {
+        this.teamlist = res.data.AllTeams;
+        if(this.teamlist.length>0){
+          this.teamLength = this.teamlist.length
+        }else{
+          this.teamLength = ''
+        }
+        this.teamlist.sort(this.dynamicSort("teamName"));
+        if(this.teamlist.length>0){
+          this.teamLength = this.teamlist.length
+        }else{
+          this.teamLength = ''
+        }
+
+        ////// console.log("this is teamlist");
+        ////// console.log(this.teamlist);
+
+        if (res.data.AllTeams != null && res.data.AllTeams != undefined && res.data.AllTeams != "") {
+          this.teamlist.forEach((element, i) => {
+            // this.api
+            //   .query("user/" + element.teamsOwnerId)
+            //   .subscribe((user: any) => {
+
+                element.name = element.adminUserData.fullName;
+                element.index = 2;
+                if ( element.adminUserData.userId == localStorage.getItem("userId")) {
+                  element.index = 1;
+                  this.teamlist = this.sort_by_keyuserid(this.teamlist, 'index')
+                  this.tempteamlist=this.teamlist;
+
+                  if(this.teamlist.length>0){
+                    this.teamLength = this.teamlist.length
+                  }else{
+                    this.teamLength = ''
+                  }
+
+                }
+
+              // });
+          });
+
+        }else{
+          this.showNoDatafound = true;
+          this.showNoRequestReceived = false
+
+        }
+
+      },err => {
+        this.util.stopLoader(); 
+      });
+    this.util.stopLoader();
+  }
+
+  sort_by_keyuserid(array, key) {
+    return array.sort(function (a, b) {
+      return parseInt(a.index) - parseInt(b.index);
+    });
+
+  }
+
+  queryteams() {
+    this.util.startLoader();
+    this.showNoDatafound = false;
+    this.api
+      .query("teams/home?userId=" + localStorage.getItem("userId") + "&limit=6&offset=0").subscribe((res) => {
+        //this.teamlist = this.sort_by_key(res.data.teams, "teamName");
+        ////// console.log("this is teamlist");
+        ////// console.log(this.teamlist);
+        if (res.data.teams != null && res.data.teams != undefined && res.data.teams != "") {
+          this.teamlist = res.data.teams;
+
+          if(this.teamlist.length>0){
+            this.teamLength = this.teamlist.length
+          }else{
+            this.teamLength = ''
+          }
+
+          this.teamlist.sort(this.dynamicSort("teamName"));
+          this.teamlist.forEach((element, i) => {
+            // this.api
+            //   .query("user/" + element.teamsOwnerId)
+            //   .subscribe((user: any) => {
+                element.name = element.fullName;
+                element.index = 2;
+                if (element.userId == localStorage.getItem("userId")) {
+                  element.index = 1;
+                  this.teamlist = this.sort_by_keyuserid(this.teamlist, 'index');
+                  this.tempteamlist=this.teamlist;
+
+                }
+              // });
+            },err => {
+              this.util.stopLoader(); 
+            });
+        }else{
+          this.showNoDatafound = true;
+          this.showNoRequestReceived = false
+        }
+
+      });
+    this.util.stopLoader();
+  }
+
+  keyupdata(event){
+    if(event.target.value.length==0){
+      this.onsearch('');
+    }
+  }
+  showNoRequestReceived: boolean = false
+  onsearch(val) {
+    this.search = val;
+    if(val!=undefined){
+      val = val.trim().toLowerCase();
+    }
+     this.teamlist =this.tempteamlist
+
+     if(this.teamlist.length>0){
+      this.teamLength = this.teamlist.length
+    }else{
+      this.teamLength = ''
+    }
+
+     this.teamlist = this.filterByString(this.teamlist, val);
+    if (this.teamlist.length == 0) {
+      this.showNoDatafound = true;
+      this.showNoRequestReceived = false
+    } else {
+      this.showNoDatafound = false;
+    }
+
+  }
+  filterByString(data, s) {
+    return data.filter(e => e.teamName.toLowerCase().includes(s))
+      .sort((a, b) => a.teamName.toLowerCase().includes(s) && !b.teamName.toLowerCase().includes(s) ? -1 : b.teamName.toLowerCase().includes(s) && !a.teamName.toLowerCase().includes(s) ? 1 : 0);
+ }
+
+  btnnameshow: any;
+
+  filterApi(filter) {
+    if(filter!=undefined){
+      this.status = filter;
+     }
+     this.teamlist = [];
+    this.showNoDatafound = false;
+    if (this.status === "invites_received") {
+      this.allTeams = false;
+      this.activeTeams = false;
+      this.RequestsReceived = true
+      this.btnnameshow = "Requests Received";
+      // this.commonVariables.acceptRejectBtn = true;
+      // this.searchData.setCommonVariables(this.commonVariables);
+      localStorage.setItem("acceptRejectBtn", "true");
+      var usId = localStorage.getItem("userId");
+      this.util.startLoader();
+      this.showNoDatafound = false;
+      this.api.query("teams/pending/invites/" + usId)
+        .subscribe((res) => {
+          this.teamlist = [];
+          this.teamLength = res.data.Teams.length
+         // this.teamlist = res.data.Teams;
+          if ( res.data.Teams && res.data.Teams!= 0 && res.data.Teams!= null && res.data.Teams != undefined) {
+            res.data.Teams.sort(this.dynamicSort("teamName"));
+            res.data.Teams.forEach((element, i) => {
+              this.api
+                .query("user/" + element.teamsOwnerId)
+                .subscribe((user: any) => {
+                  element.name = user.firstName + " " + user.lastName;
+                  if (user.userId == localStorage.getItem("userId")) {
+                    var b =res.data.Teams[i];
+                    res.data.Teams[i] =res.data.Teams[0];
+                    res.data.Teams[0] = b;
+                  }
+                });
+            });
+            res.data.Teams.forEach((element, i) => {
+              if (element != null) {
+                this.teamlist.push(element);
+                this.tempteamlist=this.teamlist;
+              }
+            });
+          } else{
+            this.showNoDatafound = false;
+            this.showNoRequestReceived = true;
+          };
+
+
+        },err => {
+          this.util.stopLoader(); 
+        });
+      this.util.stopLoader();
+
+    } else if (this.status === "all_teams") {
+      this.allTeams = false;
+      this.activeTeams = true;
+      this.RequestsReceived = false
+      this.btnnameshow = "Active Teams";
+      // this.commonVariables.acceptRejectBtn = false;
+      // this.searchData.setCommonVariables(this.commonVariables);
+      localStorage.setItem("acceptRejectBtn", "false");
+      this.teamlist = [];
+      this.showNoDatafound = false;
+      this.queryteams();
+       if (this.teamlist.length == 0) {
+        // this.noDatafound = "You are not in Teams yet";
+      }
+    } else if (this.status === "all") {
+      this.allTeams = true;
+      this.activeTeams = false;
+      this.RequestsReceived = false
+      this.btnnameshow = "All Teams";
+      // this.commonVariables.acceptRejectBtn = false;
+      // this.searchData.setCommonVariables(this.commonVariables);
+      localStorage.setItem("acceptRejectBtn", "false");
+      this.teamlist = [];
+      this.showNoDatafound = false;
+      this.allQueryteams();
+    //  this.noDatafound = "";
+      // if (this.teamlist.length == 0) {
+      //   this.noDatafound = "You are not in Teams yet";
+      // }
+    }
+    let datas: any = {};
+    datas.status = this.status;
+    if (this.search != null && this.search != undefined) {
+      //  datas.searchText = this.Search;
+    }
+  }
+
+  dynamicSort(property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      if (sortOrder == -1) {
+        return b[property].localeCompare(a[property]);
+      } else {
+        return a[property].localeCompare(b[property]);
+      }
+    }
+  }
+
+  openModalWithComponent() {
+    const initialState: NgbModalOptions = {
+      backdrop: "static",
+      keyboard: false,
+    };
+    this.bsModalRef = this.modalService.show(
+      CreateteamModelComponent,
+      initialState
+    );
+    this.bsModalRef.content.closeBtnName = "Close";
+  }
+
+  apicall() {
+    let datas: any = {};
+    datas.memberUserId = localStorage.getItem("userId");
+    // datas.networkId =   networkId;
+    this.api.create("teams/member/save", datas).subscribe((res) => { 
+      
+     },err => {
+      this.util.stopLoader(); 
+       
+     });
+  }
+}

@@ -1,0 +1,176 @@
+<div class="bg-2"  >
+
+
+  <app-header></app-header>
+
+
+  <!-- <link rel="stylesheet" type="text/css" href="src/assets/newassets/bootstrap/css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="src/assets/newassets/custom.css"> -->
+
+  <section *ngIf="!Msg">
+    <section class="login-form bg-2 py-5 mt-md-5" style="padding: 20.3rem 0 !important;">
+      <div class="container">
+        <div class="row ">
+          <div class="col-md-6  position-relative left-img">
+            <h3 class="f-42 fw-bold mb-md-5 pb-md-2 app-font-family">Free Lifetime Membership</h3>
+            <p class="f-20 color-2 fw-500 app-font-family" style="margin-top:-25px; ">Full access. No credit card needed.</p>
+            <img style="margin-top: 50px !important;" src="assets/newassets/images/register.png"
+              class="img-fluid cm-left-img">
+          </div>
+
+          <div class="col-md-5" style="position: relative; bottom: -1rem;">
+            <div class="form-box ">
+              <h3 class="f-42 form-title fw-bold app-font-family" style="margin-top:-1px;">Create your free GigSumo Account</h3>
+              <form class="mt-5" [formGroup]="signupForm" *ngIf="!Msg">
+                <div class="text-center" *ngIf="MsgFailed" style="color: #be212d;">
+                  <p class="app-font-family" style="font-size: initial;">
+                    User has been already registered for this email. Kindly
+                    <a [routerLink]="[ '/login']">login</a> or Use
+                    <a [routerLink]="[ '/Forgotpassword']"> Forgot Password</a>
+                  </p>
+                </div>
+                <div class="text-center" *ngIf="signupCheckEmail" style="color: #be212d;">
+                  <div class="validation">You have already Signed Up on GigSumo, please check your email to complete
+                    Registration</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="text" maxlength="21" class="form-control cm-input" formControlName="firstName"
+                      placeholder="FirstName" (keypress)="checkspace($event)">
+                    <div class="fs-15 pt-7" *ngIf=" e.firstName.invalid &&  (e.firstName.dirty || e.firstName.touched) ">
+                      <p class="m-0" *ngIf="e.firstName.errors.required" style="color: #be212d;">
+                        First Name is required
+                      </p>
+                      <p class="m-0" *ngIf="e.firstName.errors.minword" style="color: #be212d;">
+                        {{FORMERROR.FIRSTNAME_MIN}}
+                      </p>
+                      <p class="m-0" *ngIf="e.firstName.errors.maxword" style="color: #be212d;">
+                        {{FORMERROR.FIRSTNAME_MAX}}
+                      </p>
+                      <p class="m-0" *ngIf="e.firstName.errors.pattern && !e.firstName.errors.maxword" style="color: #be212d;">First Name must contain
+                        alphabet only
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <input type="text" maxlength="41" class="form-control cm-input" formControlName="lastName"
+                      placeholder="LastName" (keypress)="checkspace($event)">
+                    <div class="fs-15 pt-7" *ngIf=" e.lastName.invalid &&  (e.lastName.dirty || e.lastName.touched) ">
+                      <p class="m-0" *ngIf="e.lastName.errors.required" style="color: #be212d;">
+                        Last Name is required
+                      </p>
+                      <p class="m-0" *ngIf="e.lastName.errors.minword" style="color: #be212d;">
+                        {{FORMERROR.LASTNAME_MIN}}
+                      </p>
+                      <p class="m-0" *ngIf="e.lastName.errors.maxword" style="color: #be212d;">
+                        {{FORMERROR.LASTNAME_MAX}}
+                      </p>
+                      <p class="m-0" *ngIf="e.lastName.errors.pattern && !e.lastName.errors.maxword" style="color: #be212d;">Last Name must contain
+                        alphabet only
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 pt-22">
+
+                    <div>
+                      <input type="text" maxlength="51" class="form-control cm-input" formControlName="email"
+                        placeholder="Email Address">
+                    </div>
+
+                    <div class="fs-15 pt-7" *ngIf="e.email.invalid && (e.email.dirty || e.email.touched) ">
+                      <div class="error-msg p-10" *ngIf="e.email.errors.required">
+                        Please enter Email address
+                      </div>
+                      <div class="error-msg"
+                        *ngIf="e.email.errors.pattern && !e.email.errors.maxword">
+                        {{FORMERROR.EMAIL_VALID}}
+                      </div>
+                      <div class="error-msg" *ngIf="e.email.errors.maxword">
+                        {{FORMERROR.EMAIL_MAX}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 pt-7">
+                    <div class="form-check w-wrap" style="font-size: 16px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                        formControlName="Terms">
+                      <label class="form-check-label f-12 color-2" style="font-weight: 400 !important;"
+                        for="flexCheckDefault">
+                        By signing up, I agree to Gigsumos <a href="https://gigsumo.com/terms-conditions.html" target="_blank"
+                          class="color-text text-decoration-none">terms of service,</a> <a
+                          href="https://gigsumo.com/privacy-policy.html" target="_blank" class="color-text text-decoration-none"> privacy
+                          policy</a> and <a href="https://gigsumo.com/acceptable-use-policy.html" target="_blank"
+                          class="color-text text-decoration-none">cookie Policy</a>.
+                      </label>
+                    </div>
+                    <div class="fs-15">
+                      <div class="error-msg w-wrap"
+                        *ngIf="(e.Terms.errors?.required || !signupForm.value.Terms ) && e.Terms.touched ">
+                        Please accept Terms Of Service Privacy Policy & Cookie Policy
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 pt-0">
+                    <div class="my-4">
+                      <a id="signup-button" class="btn cm-btn-2" (click)="signUp()"> Create my free account </a>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div>
+                      <p class="f-14 mb-0 fw-500">Already have a Gigsumo account? <a [routerLink]="['/login']"
+                          routerLinkActive="router-link-active" class="color-text fw-semibold">Login</a> </p>
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+    </section>
+  </section>
+
+
+  <section *ngIf="Msg" class="activation bg-2 py-md-5 py-3 mt-md-5 mail-content">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center my-5 my-md-0">
+          <img src="assets/newassets/images/mail.png" class="img-fluid" width="260">
+        </div>
+        <div class="col-md-5">
+          <h3 class="f-26 mb-md-4 mb-4 form-title app-font-family">Great, please check your email!!</h3>
+          <h3 class="f-20 pls-note app-font-family">Please Note:</h3>
+          <p class="f-16 fw-500 ">You will receive a activation link to the email you provided.</p>
+          <p class="f-16 fw-500">The email will be valid for 24 hours.</p>
+          <p class="f-16 fw-500">Don't see an email after 10 minutes?</p>
+          <p class="f-16 fw-500">Check your spam folder for an email from <a
+              style="color: #ed553b !important;">noreply@gigsumo.com</a></p>
+          <!-- <div class="my-3 pt-2">
+                <a href="#" class="btn cm-btn-2">Resent activation link</a>
+              </div> -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,280 @@
+import { UtilService } from './../../../services/util.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, Injectable } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ApiService } from 'src/app/services/api.service';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalContentComponent } from '../../model/modal-content/modal-content.component';
+import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import { SearchData } from 'src/app/services/searchData';
+declare var $: any;
+
+@Injectable({
+  providedIn: 'root'
+})
+@Component({
+  selector: 'app-network',
+  templateUrl: './network.component.html',
+  styleUrls: ['./network.component.scss']
+})
+export class NetworkComponent implements OnInit {
+
+  @ViewChild('landingside1', { static: false }) menuElement: ElementRef;
+  landingsidesticky1: boolean = false;
+  landingsidesticky2: boolean = false;
+  elementPosition: any;
+  bsModalRef: BsModalRef;
+  networkdata: any = [];
+  networklist: any;
+  tempnetworklist=[]
+
+  temp: any = [];
+  noDatafound = "You are not in any Network yet"
+  noDataInReqReceived = "You have no requests received lately"
+  showNoDatafound: boolean = false;
+  networkSearch: string;
+  btnnameshow: any;
+  allNetwork: boolean = false;
+  requestNetwork: boolean = false;
+  activeNetwork: boolean = false;
+  search: any;
+  netlist: string;
+  searchKey
+  subscriber: Subscription
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private util: UtilService,
+    private searchData: SearchData,
+    private SpinnerService: NgxSpinnerService,
+    private modalService: BsModalService,
+    private route: ActivatedRoute ) {
+      this.subscriber = this.searchData.getBooleanValue().subscribe(res=>{
+        if(res.boolean == true){
+          this.querynetwork('All');
+        }
+      })
+  }
+  ngOnInit() {
+
+         if (
+      this.route.queryParams["_value"].routeFrom != "" &&
+      this.route.queryParams["_value"].routeFrom != undefined &&
+      this.route.queryParams["_value"].routeFrom != null) {
+      this.querynetwork("REQUEST_SENT");
+    } else {
+      this.querynetwork('All');
+    }
+
+    //// console.log( this.route.queryParams["_value"].routeFrom)
+  }
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+    // this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll')
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    if (windowScroll >= 24) {
+      this.landingsidesticky1 = true;
+      this.landingsidesticky2 = true;
+    } else {
+      this.landingsidesticky1 = false;
+      this.landingsidesticky2 = false;
+    }
+  }
+
+  keyupdata(event){
+    if(event.target.value.length==0){
+      this.onsearch('');
+    }
+  }
+  onsearch(val) {
+    this.search = val;
+    if(val!=undefined){
+      val = val.trim().toLowerCase();
+    }
+     this.networklist =this.tempnetworklist;
+
+     if(this.networklist.length>0){
+      this.networkLength = this.networklist.length
+    }else{
+      this.networkLength = ''
+    }
+
+     if(this.networklist.length>0){
+      this.networkLength = this.networklist.length
+    }else{
+      this.networkLength = ''
+    }
+
+     this.networklist = this.filterByString(this.networklist, val);
+
+     if(this.networklist.length>0){
+      this.networkLength = this.networklist.length
+    }else{
+      this.networkLength = ''
+    }
+
+    if (this.networklist.length == 0) {
+      this.showNoDatafound = true;
+    } else {
+      this.showNoDatafound = false;
+    }
+
+  }
+
+  move_focus(e) {
+    if (e.keyCode == 13) $("#my_btn").focus();
+  }
+
+  keypress(val){
+    if(val==undefined){
+      if (
+        this.route.queryParams["_value"].routeFrom != "" &&
+        this.route.queryParams["_value"].routeFrom != undefined &&
+        this.route.queryParams["_value"].routeFrom != null) {
+        this.querynetwork("REQUEST_SENT");
+      } else {
+        this.querynetwork('All');
+      }
+  }
+  }
+  querynetwork(status) {
+    if(status=="All" ){
+      this.btnnameshow= "All Network"
+      this.allNetwork=true;
+      this.requestNetwork=false;
+      this.activeNetwork=false;
+    }else if(status=='REQUEST_SENT' ){
+      this.btnnameshow = "Request Received"
+      this.allNetwork=false;
+      this.requestNetwork=false;
+      this.activeNetwork=true;
+    }else if(status=='ACTIVE' ){
+      this.btnnameshow= "Active Network"
+      this.allNetwork=false;
+      this.requestNetwork=true;
+      this.activeNetwork=false;
+    }
+      this.temp = [];
+    this.util.startLoader();
+    this.showNoDatafound = false;
+    this.api.query("network/home?userId=" + localStorage.getItem('userId') + "&withmember=false&limit=10&offset=0&status="+status).subscribe(res => {
+    //  if(res.data.Networks != undefined){
+      this.networklist =  res.data.network;
+     if(this.networklist.length>0){
+      this.networkLength = this.networklist.length
+    }else{
+      this.networkLength = ''
+    }
+
+      this.networklist.sort(this.dynamicSort("networkName"));
+       this.util.stopLoader();
+      if (this.networklist && this.networklist.length != 0 && this.networklist != null && this.networklist != undefined) {
+        this.showNoDatafound = true;
+
+        this.networklist.forEach((element, i) => {
+           // this.api.query('user/' + element.networkOwnerId).subscribe((user: any) => {
+             element.name= element.adminUserData.fullName;
+              element.index=2;
+            if (localStorage.getItem('userId')== element.networkOwnerId) {
+               element.index=1;
+               this.networklist = this.sort_by_keyuserid( this.networklist,'index')
+
+               this.tempnetworklist =this.networklist;
+               if(this.networklist.length>0){
+                this.networkLength = this.networklist.length
+              }else{
+                this.networkLength = ''
+              }
+             }
+
+          // })
+
+        });
+      }
+
+      if (this.networklist.length == 0) {
+        this.showNoDatafound = true;
+      } else {
+         this.showNoDatafound = false;
+          this.networklist = this.sort_by_keyuserid( this.networklist,'index');
+          this.tempnetworklist =this.networklist;
+
+          if(this.networklist.length>0){
+            this.networkLength = this.networklist.length
+          }else{
+            this.networkLength = ''
+          }
+
+
+      }
+    //  }
+  },err => {
+    this.util.stopLoader();
+  });
+  }
+
+  networkLength:any;
+
+  dynamicSort(property) {
+    var sortOrder = 1;
+     if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+     return function (a,b) {
+        if(sortOrder == -1){
+            return b[property].localeCompare(a[property]);
+        }else{
+            return a[property].localeCompare(b[property]);
+        }
+    }
+}
+
+  sort_by_keyuserid(array, key) {
+    return  array.sort(function(a, b) {
+       return  parseInt(a.index)  - parseInt(b.index);
+  });
+  }
+
+  filterByString(data, s) {
+      return data.filter(e => e.networkName.toLowerCase().includes(s))
+        .sort((a, b) => a.networkName.toLowerCase().includes(s) && !b.networkName.toLowerCase().includes(s) ? -1 : b.networkName.toLowerCase().includes(s) && !a.networkName.toLowerCase().includes(s) ? 1 : 0);
+   }
+  openModalWithComponent() {
+    const initialState: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    this.bsModalRef = this.modalService.show(ModalContentComponent, initialState);
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+  apicall(data) {
+    this.util.startLoader();
+    let datas: any = {};
+    datas.memberUserId = localStorage.getItem('userId');
+    // datas.networkId =   networkId;
+    this.api.create("network/member/save", datas).subscribe(res => {
+      this.util.stopLoader();
+    },err => {
+      this.util.stopLoader();
+      if(err.status==500){
+      this.util.stopLoader();
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Something went wrong while processing you request. Please, try again later.',
+        showDenyButton: false,
+        confirmButtonText: `ok`,
+      })
+    }
+  });
+  }
+}

@@ -1,0 +1,80 @@
+
+<div class="row wrapper bgcolor seachTopNav">
+  <div class="col-lg-12 " >
+    <div class="mainNav">
+      <div class="navIteam">
+        <div style="margin-top: 5px">
+          <!-- <p>{{ title }} {{ lenght }}</p> -->
+          <div class="col-sm-2 entity-summary">
+            <div class="ixym"><i class="fa fa-briefcase fa-lg"></i></div>
+            <div class="entity-name">
+              <h5>  Candidate </h5>
+            </div>
+            <div *ngIf="totalCandiateCount != null && totalCandiateCount!= undefined && totalCandiateCount != ''"
+              class="entitycount">
+              <span>{{totalCandiateCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navIteam">
+        <div class="input-group f-l input-sm">
+          <input class="form-control" (keyup)="candidateSearchdata($event)" [formControl]="clearInput"
+            type="text" />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon"  (click)="clearData()"><i class="pe-7s-close"></i></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button id="button-animated" dropdownToggle type="button" class="btn btn-sm dropdown-toggle fbtn"
+            aria-controls="dropdown-animated">
+            <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset=""
+                class="filimg" /></span>Filter
+          </button>
+          <!-- <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="apicall('CONNECTED')">All Connection</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Received')">Request Received</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Sent')">Invitations Sent </a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div class="navIteam">
+        <!-- <button class="btn btn-default btn-sm displayflex dropdown-toggle">
+          <span class="mr-5">
+            <img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" />
+          </span>
+          Filter
+        </button> -->
+        <button class="btn primary-btn btn-sm">Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <!--*ngIf="userData"-->
+    <div class="row">
+      <div class="col-md-12"  style="z-index: 1;">
+        <div class="row pcard m-top-5">
+          <div class="col-sm-70 col-lg-70 col-md-70 ieopp" >
+            <div class="col-md-12 padding-left-0 padding-right-8" *ngFor="let item of allcandidate">
+              <app-candidate-card [viewSize]="'large'" [candidateval]="item"   ></app-candidate-card>
+            </div>
+          </div>
+          <div class="col-sm-30 col-lg-30 sCard ml-9 m-r sticky-widdgget" >
+            <div  class="w-103">
+              <app-common-widget [page]="'NETWORK_PAGE'" [inputData]="'NETWORK'"></app-common-widget>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- <div class="col-md-12 padding-left-0 padding-right-5" *ngFor="let item of alljob  ">
+  <app-job-card [JobData]="item"   ></app-job-card>
+</div> -->

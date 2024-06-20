@@ -1,0 +1,131 @@
+<div>
+  <ul class="custom-panel pad">
+
+    <li class="navmenu" routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='connection'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['connection']">
+        <div>
+          <img src="assets/icon/icons8-network-64.png" alt="" />
+        </div>
+        <div class="nav-margin">Connections </div>
+      </a>
+    </li>
+
+    <li class="navmenu" routerLinkActive="active " [ngClass]="{'active':navMenuSelected=='network'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['network']">
+        <div>
+          <img src="assets/icon/icons8-share-400.png" alt="" />
+        </div>
+        <div class="nav-margin">My Network</div>
+      </a>
+    </li>
+    <li class="navmenu" routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='team'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['team']">
+        <div>
+          <img src="assets/icon/icons8-people-100.png" alt="" />
+        </div>
+        <div class="nav-margin">Team</div>
+      </a>
+    </li>
+    <li class="navmenu" routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='business'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['business']">
+        <div>
+          <img src="assets/icon/icons8-small-business-100.png" alt="" />
+        </div>
+        <div class="nav-margin">Business</div>
+      </a>
+    </li>
+
+    <li class="navmenu" routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='communityList'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['communityList']">
+        <div>
+          <img src="assets/icon/icons8-myspace-400.png" alt="" />
+        </div>
+        <div class="nav-margin">Community</div>
+      </a>
+    </li>
+
+    <li class="navmenu" (click)="menuclick('School/College')">
+      <a class="navIteam">
+        <div>
+          <img src="assets/icon/icons8-student-male-100.png" alt="" />
+        </div>
+        <div class="nav-margin">School/College</div>
+      </a>
+    </li>
+    <!-- <li class="navmenu"   routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='jobs'}">
+      <a class="navIteam"  [routerLink]="['jobs']">
+        <div>
+          <img src="assets/icon/icons8-job-seeker-100.png" alt="" />
+        </div>
+        <div class="nav-margin">Jobs</div>
+      </a>
+    </li> -->
+
+
+    <!-- <li class="navmenu"   routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='candidate'}">
+      <a class="navIteam"  [routerLink]="['candidate']">
+        <div class="gp-users-icon">
+          <i class="fa fa-users" aria-hidden="true" ></i>
+        </div>
+        <div class="nav-margin">Candidate </div>
+      </a>
+    </li> -->
+
+
+
+    <li class="navmenu" routerLinkActive="active" [ngClass]="{'active':navMenuSelected=='post'}"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navIteam" [routerLink]="['post']">
+        <div>
+          <img src="assets/icon/icons8-new-post-64.png" alt="" />
+        </div>
+        <div class="nav-margin">Post</div>
+      </a>
+    </li>
+
+    <li class="navmenu" (click)="menuclick('HashTag')">
+      <a class="navIteam">
+        <div>
+          <img src="assets/icon/icons8-hashtag-large-40.png" alt="" />
+        </div>
+        <div class="nav-margin">HashTag</div>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="isModalShown" [config]="backdropConfig" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <label class="control-label" style="padding: 10px;">Business
+        Claim</label>
+      <hr style="margin-top: 0px !important; margin-bottom: 7px !important;">
+      <div class="modal-body" style="padding: 0px 0px 0px 22px">
+        <p>
+          You haven't claimed your business page yet. Would you like to claim it
+          now?
+        </p>
+      </div>
+
+      <div style="padding-bottom: 6px; justify-content: center; display: flex">
+        <!-- <div class="modal-footer"> -->
+        <button style="margin-right: 5px" (click)="onSubmit('NOTIFY')" class="btn secondary-btn btn-sm">
+          Cancel
+        </button>
+        <!-- <button style="margin-right: 5px" (click)="onSubmit('IGNORED')" class="btn secondary-btn btn-sm">
+            Ignore
+          </button> -->
+        <button (click)="onSubmit('COMPLETED')" class="btn primary-btn btn-sm">
+          Continue
+        </button>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

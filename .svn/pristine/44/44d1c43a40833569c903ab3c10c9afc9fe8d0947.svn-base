@@ -1,0 +1,12 @@
+a.mover:hover, a.mover:active {color: red;}
+.directory-list-section ul li {
+    padding-right: 6px !important;
+    line-height: 30px;
+}
+.m-b-50{
+  margin-bottom: 50px;
+}
+
+.center-page-align {
+  text-align: center; 
+}

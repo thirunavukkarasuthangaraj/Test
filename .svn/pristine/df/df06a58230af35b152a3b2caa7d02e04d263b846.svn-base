@@ -1,0 +1,47 @@
+<aside id="menu">
+    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 180px; height: 100%;" >
+        <div id="navigation" style="overflow: hidden; width: 107%; height: 100%; padding-top: 15px;">
+            <ul class="nav" id="side-menu">
+                <!-- <li  class="active">
+                    <ul class="nav nav-second-level">
+                       
+                    </ul>
+                </li> -->
+                <li class="active">
+                   
+                    <a  [routerLink]="['/personalProfile']" routerLinkActive="router-link-active" >
+                      <span class="pull-right"><i class="fa fa-fw fa-user fa-lg"></i></span>
+                      <span style="text-transform: capitalize;">Profile</span>
+                  </a>
+              </li>
+
+              <li >
+                  
+                    <a   [routerLink]="['/securitySettings']" routerLinkActive="router-link-active" >
+                      <span class="pull-right"><i class="fas fa-cog fa-lg"></i></span>
+                      <span  style="text-transform: capitalize;">Security Settings</span>
+                   </a>
+              </li>
+
+              <li >
+                  
+                    <a [routerLink]="['/appAccess']" routerLinkActive="router-link-active" >
+                      <span class="pull-right"><i class="far fa-check-circle fa-lg"></i></span>
+                      <span style="text-transform: capitalize;">Application Access</span>
+                   </a>
+              </li>
+
+              <li >
+                 
+                    <a [routerLink]="['/socialAccess']" routerLinkActive="router-link-active" >
+                      <span class="pull-right"><i class="fas fa-project-diagram fa-lg"></i></span>
+                      <span  style="text-transform: capitalize;">Social Media Access</span>
+                   </a>
+              </li>
+
+             
+            </ul>
+
+        </div>
+    </div>
+</aside>

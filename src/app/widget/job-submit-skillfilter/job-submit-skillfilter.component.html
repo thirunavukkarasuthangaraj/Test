@@ -1,0 +1,337 @@
+<div class="br-0">
+  <div class="xs-body-container br-lt-1">
+    <div class="row mr-0" *ngIf="focus == 'job'">
+      <div class="col-lg-12 pad-20">
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Job ID
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{jobData?.jobReferenceId}}
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Title
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{jobData?.jobTitle }}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Skills
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{jobData?.primarySkills}}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Experience </div>
+          <div class="col-sm-7"> {{jobData?.experienceFrom}} <span *ngIf="jobData?.experienceTo">to</span>
+            {{jobData?.experienceTo}} <span *ngIf="jobData?.experienceFrom || jobData?.experienceTo">Years</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Location </div>
+          <div class="col-sm-7 lipsis" title="{{jobData?.city}}, {{jobData?.state}}">
+            {{jobData?.city
+            }} <span *ngIf="jobData?.state">,</span>
+            {{jobData?.state }} </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Rate </div>
+          <div class="col-sm-7">
+            {{jobData?.targetRateTo}}
+            <span *ngIf="jobData?.country == 'US'"> USD /
+              <span *ngIf="jobData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="jobData?.payType == 'Daily'">Day</span>
+              <span *ngIf="jobData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="jobData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="jobData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="jobData?.country == 'IN'"> INR /
+              <span *ngIf="jobData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="jobData?.payType == 'Daily'">Day</span>
+              <span *ngIf="jobData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="jobData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="jobData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="jobData?.country == 'CA'"> CAD /
+              <span *ngIf="jobData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="jobData?.payType == 'Daily'">Day</span>
+              <span *ngIf="jobData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="jobData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="jobData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="jobData?.country == 'AU'"> AUD /
+              <span *ngIf="jobData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="jobData?.payType == 'Daily'">Day</span>
+              <span *ngIf="jobData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="jobData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="jobData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="jobData?.country != 'AU'
+                && jobData?.country == 'US'
+                && jobData?.country == 'CA'
+                && jobData?.country == 'IN'">
+              CUR /
+              <span *ngIf="jobData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="jobData?.payType == 'Daily'">Day</span>
+              <span *ngIf="jobData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="jobData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="jobData?.payType == 'Yearly'">Year</span>
+            </span>
+          </div>
+
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Positions </div>
+          <div class="col-sm-7"> 1 </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Status </div>
+          <div class="col-sm-7"> Open </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-3"> Selected </div>
+          <div class="col-sm-9 vgin">
+            <ng-container *ngFor="let val of dataPasstoSkillwidgets;let i=index;">
+              <div [class.ioxlp]="dataPasstoSkillwidgets.length<=14"
+                [ngClass]="{'jsdhgf': dataPasstoSkillwidgets.length>14}" *ngIf="val.isSelected"
+                (click)="removeTag(val,i)">
+                {{val.firstName + " " + val.lastName | truncate: 16}}
+                <span class="clsd-icn">
+                  <app-svg-templates class="svg-position" [svgType]="'CROSS_20_WHITE'"></app-svg-templates>
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mr-0" *ngIf="focus == 'candidate' || focus == 'resume'">
+      <div class="col-lg-12 pad-20">
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Candidate ID
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{candidateData?.candidateReferenceId}}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Name
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{candidateData?.firstName + " " + candidateData?.lastName}}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Title
+          </div>
+          <div class="col-sm-7 " style="word-break: break-word;">
+            {{candidateData?.jobTitle}}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 ">
+            Skills
+          </div>
+          <div class="col-sm-7">
+            {{candidateData?.primarySkills}}
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Experience </div>
+          <div class="col-sm-7" *ngIf="candidateData?.totalExperience">
+            {{candidateData?.totalExperience}} Years</div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Location </div>
+          <!-- lipsis -->
+          <div class="col-sm-7 " title="{{candidateData?.city}}, {{candidateData?.state}}">
+            {{candidateData?.city }} <span *ngIf="candidateData?.state">,</span>
+            {{candidateData?.state }} </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Rate </div>
+          <div class="col-sm-7">
+            {{candidateData?.targetRateTo}}
+            <span *ngIf="candidateData?.country == 'US'"> USD /
+              <span *ngIf="candidateData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="candidateData?.payType == 'Daily'">Day</span>
+              <span *ngIf="candidateData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="candidateData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="candidateData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="candidateData?.country == 'IN'"> INR /
+              <span *ngIf="candidateData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="candidateData?.payType == 'Daily'">Day</span>
+              <span *ngIf="candidateData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="candidateData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="candidateData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="candidateData?.country == 'CA'"> CAD /
+              <span *ngIf="candidateData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="candidateData?.payType == 'Daily'">Day</span>
+              <span *ngIf="candidateData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="candidateData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="candidateData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span *ngIf="candidateData?.country == 'AU'"> AUD /
+              <span *ngIf="candidateData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="candidateData?.payType == 'Daily'">Day</span>
+              <span *ngIf="candidateData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="candidateData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="candidateData?.payType == 'Yearly'">Year</span>
+            </span>
+            <span
+              *ngIf="candidateData?.country != 'AU' && candidateData?.country == 'US' && candidateData?.country == 'CA' && candidateData?.country == 'IN'">
+              CUR /
+              <span *ngIf="candidateData?.payType == 'Hourly'">Hr</span>
+              <span *ngIf="candidateData?.payType == 'Daily'">Day</span>
+              <span *ngIf="candidateData?.payType == 'Weekly'">Week</span>
+              <span *ngIf="candidateData?.payType == 'Monthly'">Month</span>
+              <span *ngIf="candidateData?.payType == 'Yearly'">Year</span>
+            </span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Positions </div>
+          <div class="col-sm-7"> 1 </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-5 "> Status </div>
+          <div class="col-sm-7"> Open </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-3"> Selected </div>
+          <div class="col-sm-9 vgin">
+            <ng-container *ngFor="let val of dataPasstoSkillwidgets;let i=index;">
+              <div [class.ioxlp]="dataPasstoSkillwidgets.length<=14"
+                [ngClass]="{'jsdhgf': dataPasstoSkillwidgets.length>14}" *ngIf="val.isSelected"
+                (click)="removeTag(val,i)">
+                {{val?.jobTitle | truncate:16}}
+                <span class="clsd-icn">
+                  <app-svg-templates class="svg-position" [svgType]="'CROSS_20_WHITE'"></app-svg-templates>
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="xs-footer-container">
+    <button class="col-sm-12 btn btn-sm btn-default" (click)="modalhidejobsubmit()"> Cancel
+    </button>
+    <span class="button-spacing"></span>
+    <button *ngIf="focus=='job'" [disabled]="(duplicateres ||
+      ( dataPasstoSkillwidgets?.length === 0  ||   ( !termsChecked || !formData?.valid) ) )"
+      class="col-sm-12 btn-primary btn btn-sm" (click)="submitcandidateData(dataPasstoSkillwidgets)">
+      Submit
+    </button>
+    <button [disabled]="(duplicateinvites||dataPasstoSkillwidgets!=null
+         && dataPasstoSkillwidgets?.length === 0)" *ngIf="focus=='candidate'" class="col-sm-12 btn-primary btn btn-sm"
+      (click)="candidateRequested(dataPasstoSkillwidgets)"> Invite
+      To
+      Apply
+    </button>
+    <button [disabled]="(duplicateresumes||dataPasstoSkillwidgets!=null
+      && dataPasstoSkillwidgets?.length === 0)" *ngIf="focus=='resume'" class="col-sm-12 btn-primary btn btn-sm"
+      (click)="getresumeAPIcall(dataPasstoSkillwidgets)"> Get Resume
+    </button>
+  </div>
+</div>
+
+
+<!-- <ng-template #rtrform>
+  <div [formGroup]="rtrformgrp" id="rateconfirmationfrom">
+
+    <div class="common-header-flex">
+      <div> Rate Confirmation </div>
+      <button>
+        <span class="common-close" (click)="hide()">&times;</span>
+      </button>
+    </div>
+
+    <div class="col-sm-12 p-1 white">
+
+      <section formArrayName="rtrcontent">
+        <div class="rtr-container" *ngFor="let item of rtrContent.controls; let i = index">
+          <div [formGroupName]="i">
+            <div class="RtrForm-jobcard">
+
+              <div class="candidateDetails">
+                <label>Name</label>
+                <span class="candName">{{item.get("candidateName").value}}</span>
+              </div>
+
+              <div class="targetRate">
+                <label> Rate</label>
+                <input #rtrvalue id="myText" (keypress)="isInteger($event)" type="text"
+                  class="form-control input-sm common-rtr" OnlyNumber="true" formControlName="targetrate" />
+                <span *ngIf="item.get('targetrate').errors?.required && item.get('targetrate').touched"
+                  class="error ">Please, enter value</span>
+                <span *ngIf="item.get('targetrate').errors?.pattern" class="error ">Value must not Start with
+                  zero</span>
+              </div>
+
+              <div class="currency">
+                <span *ngIf="item.get('country').value === 'US'"> USD </span>
+                <span *ngIf="item.get('country').value === 'IN'"> INR </span>
+                <span *ngIf="item.get('country').value === 'CA'"> CAD </span>
+                <span *ngIf="item.get('country').value === 'DZ'"> AUD </span>
+              </div>
+
+              <div class="paytype">
+                <label> Pay Type</label>
+                <select type="text" formControlName="RtrpayType" class="form-control input-sm common-rtr">
+                  <option value=null disabled selected hidden>Choose Type</option>
+                  <option value="Hourly">Hourly</option>
+                  <option value="Daily">Daily</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Yearly">Yearly</option>
+                </select>
+
+                <span class="error" *ngIf="item.get('RtrpayType').errors?.required &&
+              (item.get('RtrpayType')?.dirty || item.get('RtrpayType')?.touched) ">Please Select Paytype</span>
+              </div>
+
+              <div [ngClass]="rtrlength() === 1 ? 'closeBlock' : 'closePassData'" class=""
+                (click)="removeSelectedCandidate(item.get('candidateId').value)">&times;</div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="termsCheckbox">
+        <label for="termsCheckBox">
+          <input type="checkbox" class="termCheck" formControlName="termsandcondition" id="termsCheckBox" />
+          I warrant that I have an exclusive right to represent this candidate for the applied position</label>
+        <div *ngIf="rtrFormControls.termsandcondition.invalid && rtrFormControls.termsandcondition.touched">
+          <span class="error" *ngIf="rtrFormControls.termsandcondition.errors?.required">Please accept to the above statement by checking it</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="custom-panel-footer col-sm-12 p-0">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button id="cancel" class="btn btn-default" (click)="hide()">Cancel</button>
+          <button [disabled]="duplicateres" class="btn btn-primary" (click)="proceed()">Proceed</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</ng-template> -->

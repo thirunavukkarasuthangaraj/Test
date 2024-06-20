@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <app-people-you-may-know></app-people-you-may-know>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-collegue-you-may-know></app-collegue-you-may-know>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <app-similar-business-near-you></app-similar-business-near-you>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-similar-community></app-similar-community>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <app-careonline-today></app-careonline-today>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-trending-post></app-trending-post>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-trending-community></app-trending-community>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-trending-hashtag></app-trending-hashtag>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-jobs-you-might-be-intrested-in></app-jobs-you-might-be-intrested-in>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <app-business-to-follow></app-business-to-follow>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-communities-you-may-like></app-communities-you-may-like>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <app-hashtags-you-may-like></app-hashtags-you-may-like>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <app-invite-collegue></app-invite-collegue>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <app-connections></app-connections>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <app-visitors></app-visitors>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <app-community-admin></app-community-admin>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <app-follow-careonline></app-follow-careonline>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

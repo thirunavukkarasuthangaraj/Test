@@ -1,0 +1,29 @@
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-search-menu',
+  templateUrl: './search-menu.component.html',
+  styleUrls: ['./search-menu.component.scss']
+})
+export class SearchMenuComponent implements OnInit {
+
+  @Output() menuSelected  = new EventEmitter<string>();
+
+  selectMenu: string;
+
+  constructor(private aroute: ActivatedRoute) {
+    let menu = aroute.snapshot.queryParamMap.get('data');
+    if (menu === undefined || menu != null || menu !== '') {
+      this.selectMenu = menu;
+    }
+  }
+
+  ngOnInit() {
+  }
+
+  onSelect(featuer){
+    this.menuSelected.emit(featuer);
+    this.selectMenu = featuer;
+  }
+}

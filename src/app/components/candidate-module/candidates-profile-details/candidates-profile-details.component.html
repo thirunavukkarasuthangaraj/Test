@@ -1,0 +1,1109 @@
+<div class="sub-entities-scroll-container">
+  <div class="col-sm-12">
+    <app-common-skeleton *ngIf="loadAPIcall" [countforView]="5"
+    [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+  </div>
+  <div class="hpanel" *ngIf="!loadAPIcall">
+    <div class="panel-heading hbuilt">
+      <div class="section-header">
+        <div class="header-title">
+          About Candidate
+        </div>
+        <div (click)="modelResumeSummary(ResumeSummary)" class="edit-candidate"
+          *ngIf="CandidateData?.createdBy==userId">
+          <app-svg-templates [svgType]="'PENCIL'"></app-svg-templates>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row customRowGig">
+        <div class="col-lg-12" style="word-break: break-all;" *ngIf="CandidateData?.resumeSummary?.length!=0">
+          <!-- <p *ngIf="CandidateData?.resumeSummary == null">You haven't added any  details yet</p> -->
+          <div *ngIf="userType != 'student' &&  userType != 'JOB_SEEKER'" [innerHtml]=CandidateData?.aboutCandidate>
+          </div>
+          <div *ngIf="aboutMe!=null" [innerHtml]=aboutMe></div>
+          <!-- <div class="row marG-bot-10" *ngIf="CandidateData?.resumeSummary?.length==0 || this.CadidateInfo.value.resumeSummary=='' || this.CadidateInfo.value.resumeSummary== '<p><br></p>' || this.CadidateInfo.value.resumeSummary== '<br>'">
+            <div class="col-lg-12 border-right">
+              <p> No Data Found2 </p>
+            </div>
+          </div> -->
+        </div>
+        <div
+          *ngIf="CandidateData?.aboutCandidate === undefined ||  CandidateData?.aboutCandidate===''  || CandidateData?.aboutCandidate=== '<p><br></p>' || CandidateData?.aboutCandidate=== '<br>'">
+          <p class="about-candidate-message">About candidate has not been provided</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hpanel" *ngIf="!loadAPIcall">
+    <div class="panel-heading hbuilt">
+      <!-- Work Experience -->
+      <!-- <div> -->
+      <!-- <i *ngIf="CandidateData?.createdBy==userId" id="candidateWorkExperienceEdit"
+        class="fa fa-plus btn btn-xs btn-primary btn-circle   icon-plus_data"
+        (click)="modelWorkExperience(WorkModel,'save')"></i> -->
+      <!-- </div> -->
+      <div class="section-header">
+        <div class="header-title">
+          Work Experience
+        </div>
+        <div *ngIf="CandidateData?.createdBy==userId" id="candidateWorkExperienceEdit"
+          (click)="modelWorkExperience(WorkModel,'save')" class="edit-candidate">
+          <app-svg-templates [svgType]="'PLUS'"></app-svg-templates>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <!-- <div *ngIf="emptyworkExp!=null" [innerHtml]=emptyworkExp></div> -->
+      <!-- <p *ngIf="CandidateData?.workExperiences?.length == 0">Work Experience details of the candidate has not been -->
+      <!-- provided.</p> -->
+      <div *ngIf="CandidateData?.workExperiences.length > 0; else noExperienceTemplate">
+        <div class=" row" *ngFor="let work of  CandidateData?.workExperiences; let i = index; let lastItem= last">
+          <div class="col-sm-2" *ngIf="work.organisationName!=undefined&&work.organisationName!=null&&
+                    work.organisationName!=''">
+            <img class="img" height="73px" width="73px" style="margin-left: -16px;"
+              src="assets/images/gallery/company.png">
+          </div>
+          <div class="col-sm-8" *ngIf="work.organisationName!=undefined&&work.organisationName!=null&&
+                    work.organisationName!=''">
+            <div class="letter-gaps project-label ellipsis">
+              {{work.organisationName}}
+            </div>
+            <div *ngIf="work.title!=undefined&&work.title!=null&&
+                            work.title!=''" class="letter-gaps">
+              {{work.title}}
+            </div>
+            <div *ngIf="work.city!=undefined&&work.city!=null&&
+                                        work.city!=''&&
+                                        work.state!=undefined&&work.state!=null&&
+                                        work.state!=''&&
+                                        work.country!=undefined&&work.country!=null&&
+                                        work.country!=''" class="letter-gaps" style="margin-bottom: -6px;">
+              <!-- {{", Zip - "}}{{work.zipcode}} -->
+              <!-- {{work.street}}{{", "}} -->
+              {{work.city}}{{", "}}{{work.state}}{{", "}}<span style="display: inline-block;"
+                *ngFor="let country of countryList">
+                <p *ngIf="country.countryCode == work.country">{{country.countryName}}</p>
+              </span>
+            </div>
+            <!-- currentIndex!=i&& -->
+            <div class="letter-gaps" *ngIf="work.currentOrganization==false&&
+                        work.startMonth!=undefined&&work.startMonth!=null&&work.startMonth!=''&&
+                        work.startYear!=undefined&&work.startYear!=null&&work.startYear!=''&&
+                        work.endMonth!=undefined&&work.endMonth!=null&&work.endMonth!=''&&
+                        work.endYear!=undefined&&work.endYear!=null&&work.endYear!=''">
+              {{work.startMonth.substring(0, 3)}}{{", "}}{{work.startYear }}
+              {{" - "}}{{work.endMonth.substring(0, 3)}}{{", "}}{{work.endYear }}
+            </div>
+            <!-- currentIndex==i&& -->
+            <div class="letter-gaps" *ngIf="work.currentOrganization==true&&
+                        work.startMonth!=undefined&&work.startMonth!=null&&work.startMonth!=''&&
+                        work.startYear!=undefined&&work.startYear!=null&&work.startYear!=''">
+              {{work.startMonth.substring(0, 3)}}{{", "}}{{work.startYear}}{{" - "}}
+              <span class="label label-info font-normal" style="font-size: 11px;">Present</span>
+              <div class="rtz">
+                <span>
+                  <span>
+                    <img style="max-height: 20px;" src="assets/icon/completed.PNG" alt="">
+                  </span>
+                  This workplace is shown in
+                  profile</span>
+              </div>
+            </div>
+            <hr *ngIf="!lastItem">
+          </div>
+          <div class="col-sm-1">
+            <!-- <div class="btn-group" style="margin-left: -13px;" title="Edit work experience"
+                  (click)="workexpEdit(WorkModel, work, 'edit')">
+                  <button class="edit-pencil"><span  >
+                      <i class="fas fa-pencil-alt "  *ngIf="CandidateData?.createdBy==userId" style="cursor: pointer; color: #63cfbe !important;font-size: 15px;"></i>
+                    </span></button>
+                </div> -->
+            <div (click)="workexpEdit(WorkModel, work, 'edit')" class="edit-candidate"
+              *ngIf="CandidateData?.createdBy==userId">
+              <app-svg-templates [svgType]="'PENCIL'"></app-svg-templates>
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <div (click)="removeWorkExperience(work)" class="edit-candidate" *ngIf="CandidateData?.createdBy==userId">
+              <app-svg-templates [svgType]="'TRASH'"></app-svg-templates>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noExperienceTemplate>
+        There is no work experience provided yet for the candidate.
+      </ng-template>
+    </div>
+  </div>
+  <div class="hpanel" *ngIf="!loadAPIcall">
+    <div class="panel-heading hbuilt">
+      <!-- Education Details
+        <i *ngIf="userId==CandidateData?.createdBy" id="candidateEducationDetails"
+          class="fa fa-plus btn btn-xs btn-primary btn-circle icon-plus_data"
+          (click)="modelEducation(EducationModule,'save')"></i> -->
+      <div class="section-header">
+        <div class="header-title">
+          Education Details
+        </div>
+        <div *ngIf="CandidateData?.createdBy==userId" id="candidateEducationDetails"
+          (click)="modelEducation(EducationModule,'save')" class="edit-candidate">
+          <app-svg-templates [svgType]="'PLUS'"></app-svg-templates>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <!-- <p *ngIf="CandidateData?.educationDetails?.length == 0">You haven't added any education details yet</p> -->
+      <div *ngIf="CandidateData?.educationDetails.length > 0; else noEducationTemplate">
+        <div *ngFor="let edu of CandidateData?.educationDetails; let i=index; let lastItem = last">
+          <div *ngIf="edu.schoolName!=undefined&&edu.schoolName!=null&&edu.schoolName!=''">
+            <div class="row" style="margin-bottom: 10px;">
+              <div class="col-sm-2">
+                <img class="img" style="margin-left: -13px;height: 73px;width: 73px;"
+                  src="assets/images/gallery/education.png">
+              </div>
+              <div class="col-sm-8">
+                <div class="project-label letter-gaps">
+                  {{edu.schoolName}}
+                </div>
+                <div class="letter-gaps" *ngIf="edu.degree!=undefined&&edu.degree!=null&&edu.degree!=''">
+                  {{edu.degree}}
+                </div>
+                <div class="letter-gaps" *ngIf="edu.city!=undefined&&edu.city!=null&&edu.city!=''&&
+                                                  edu.state!=undefined&&edu.state!=null&&edu.state!=''&&
+                                                  edu.country!=undefined&&edu.country!=null&&edu.country!=''&&
+                                                  edu.street!=undefined&&edu.street!=null&&edu.street!=''&&
+                                                  edu.zipcode!=undefined&&edu.zipcode!=null&&edu.zipcode!=''"
+                  style="margin-bottom: -6px;">
+                  {{edu.street}}{{", "}} {{edu.city}}{{", "}}{{edu.state}}{{", "}}<span style="display: inline-block;"
+                    *ngFor="let country of countryList">
+                    <p *ngIf="country.countryCode == edu.country">{{country.countryName}}</p>
+                  </span>
+                </div>
+                <!-- {{", Zip - "}}{{edu.zipcode}} -->
+                <div class="letter-gaps" *ngIf="edu.startMonth!=undefined&&edu.startMonth!=null&&edu.startMonth!=''&&
+                          edu.startYear!=undefined&&edu.startYear!=null&&edu.startYear!=''&&
+                          edu.endMonth!=undefined&&edu.endMonth!=null&&edu.endMonth!=''&&
+                          edu.endYear!=undefined&&edu.endYear!=null&&edu.endYear!='' &&
+                          edu.currentlyPursued!=true">
+                  {{edu.startMonth.substring(0, 3)}}{{", "}}{{edu.startYear}}{{" - "}}
+                  {{edu.endMonth.substring(0, 3)}}{{", "}}{{edu.endYear}}
+                </div>
+                <div class="letter-gaps" *ngIf=" edu.currentlyPursued==true">
+                  {{edu.startMonth.substring(0, 3)}}{{", "}}{{edu.startYear}} {{" - "}}
+                  <span class="label label-info font-normal" style="font-size: 11px;">Present</span>
+                </div>
+                <div class="rtz">
+                  <span>
+                    <span>
+                      <img style="max-height: 20px;" src="assets/icon/completed.PNG" alt="">
+                    </span> This education is shown in
+                    profile</span>
+                </div>
+              </div>
+              <div class="col-sm-1" style="text-align-last: end;">
+                <!-- <div class="btn-group" style="margin-left: -13px;" title="Edit education"
+                    (click)="eduEdit(EducationModule, edu, 'edit')">
+                    <button class="edit-pencil"><span>
+                        <i class="fas fa-pencil-alt "
+                          style="cursor: pointer; color: #63cfbe !important;font-size: 15px;"></i>
+                      </span></button>
+                  </div> -->
+                <div title="Edit education" (click)="eduEdit(EducationModule, edu, 'edit')" class="edit-candidate"
+                  *ngIf="CandidateData?.createdBy==userId">
+                  <app-svg-templates [svgType]="'PENCIL'"></app-svg-templates>
+                </div>
+              </div>
+              <div class="col-sm-1">
+                <!-- *ngIf="(commonVariables?.localUser&&infoData.educationDetail.length>1&&commonVariables?.studentFlag)||
+                                  (commonVariables?.localUser&&!commonVariables?.studentFlag)" -->
+                <!-- <div class="btn-group" style="margin-left: -13px;" title="Remove education"
+                    (click)="removeEducation(edu)">
+                    <button class="edit-pencil"><span>
+                        <i class="fas fa-trash "
+                          style="cursor: pointer; color: #63cfbe !important;font-size: 15px;"></i>
+                      </span></button>
+                  </div> -->
+                <div title="Remove education" (click)="removeEducation(edu)" class="edit-candidate"
+                  *ngIf="CandidateData?.createdBy==userId">
+                  <app-svg-templates [svgType]="'TRASH'"></app-svg-templates>
+                </div>
+              </div>
+            </div>
+            <hr *ngIf="!lastItem" style="margin-top: 0px;">
+          </div>
+        </div>
+      </div>
+      <ng-template #noEducationTemplate>
+        <div>There is no education provided yet for the candidate.</div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="hpanel" *ngIf="!loadAPIcall">
+    <div class="panel-heading hbuilt">
+      <!-- <div  > -->
+      <!-- Certification
+        <i *ngIf="userId==CandidateData?.createdBy" id="CandidatecertificationDetails"
+          class="fa fa-plus btn btn-xs btn-primary btn-circle  icon-plus_data"
+          (click)="modelCertification(certificationModel,'save')"></i> -->
+      <div class="section-header">
+        <div class="header-title">
+          Certification
+        </div>
+        <div *ngIf="CandidateData?.createdBy==userId" id="CandidatecertificationDetails"
+          (click)="modelCertification(certificationModel,'save')" class="edit-candidate">
+          <app-svg-templates [svgType]="'PLUS'"></app-svg-templates>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <div class="panel-body">
+      <!-- <p *ngIf="CandidateData?.candidateCertifications?.length == 0">Certification details of the candidate has not been
+        provided.</p> -->
+      <div *ngIf="CandidateData?.candidateCertifications.length > 0; else noCertificationTemplate">
+        <div class="row"
+          *ngFor="let cert of CandidateData?.candidateCertifications; let i = index; let lastItem = last">
+          <div class="col-sm-10">
+            <div class="letter-gaps">
+              {{cert.certificationName}}
+            </div>
+            <div class="letter-gaps" *ngIf="cert.certificateOrganization!=null && cert.certificateOrganization!=undefined&&
+                                cert.certificateOrganization!=''">
+              {{cert.certificateOrganization}}
+            </div>
+            <div class="letter-gaps" *ngIf="cert.startMonth!=null && cert.startMonth!=undefined&&cert.startMonth!=''&&
+                                    cert.startYear!=null && cert.startYear!=undefined&&cert.startYear!=''&&
+                                    cert.endMonth!=null && cert.endMonth!=undefined&&cert.endMonth!=''&&
+                                    cert.endYear!=null && cert.endYear!=undefined&&cert.endYear!=''">
+              {{cert.startMonth.substring(0, 3) + ", "}}{{cert.startYear}}
+              {{" - "}}{{cert.endMonth.substring(0, 3) + ", "}}{{cert.endYear}}
+            </div>
+            <hr *ngIf="!lastItem">
+          </div>
+          <div class="col-sm-1" style="text-align-last: end;">
+            <!-- <div class="btn-group" style="margin-left: -13px;" title="Edit certification"
+                (click)="certEdit(certificationModel, cert, 'edit')">
+                <button class="edit-pencil"><span>
+                    <i class="fas fa-pencil-alt "
+                      style="cursor: pointer; color: #63cfbe !important;font-size: 15px;"></i>
+                  </span></button>
+              </div> -->
+            <div title="Edit certification" (click)="certEdit(certificationModel, cert, 'edit')" class="edit-candidate"
+              *ngIf="CandidateData?.createdBy==userId">
+              <app-svg-templates [svgType]="'PENCIL'"></app-svg-templates>
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <!-- <div class="btn-group" style="margin-left: -13px;" title="Remove certification"
+                (click)="removeCertification(cert)">
+                <button class="edit-pencil"><span>
+                    <i class="fas fa-trash " style="cursor: pointer; color: #63cfbe !important;font-size: 15px;"></i>
+                  </span></button>
+              </div> -->
+            <div title="Remove certification" (click)="removeCertification(cert)" class="edit-candidate"
+              *ngIf="CandidateData?.createdBy==userId">
+              <app-svg-templates [svgType]="'TRASH'"></app-svg-templates>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noCertificationTemplate>
+        There are no certifications provided yet for the candidate.
+      </ng-template>
+    </div>
+  </div>
+</div>
+<ng-template #ResumeSummary>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left "> About Candidate </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <app-svg-templates [svgType]="'CROSS_20'"></app-svg-templates>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <ng-container>
+      <form [formGroup]="CadidateInfo" class="form-horizontal padding15">
+        <div formControlName="resumeSummary" [ngxSummernote]="resumesummaryconfig" class="note-editor.note-frame">
+        </div>
+        <div *ngIf="  (submitted && candidateRequsetControls.resumeSummary.invalid) ||
+            (candidateRequsetControls.resumeSummary.invalid &&
+              (candidateRequsetControls.resumeSummary.dirty ||
+              candidateRequsetControls.resumeSummary.touched))
+        " class="error-msg">
+          <div *ngIf="candidateRequsetControls.resumeSummary.errors?.maxlength?.actualLength">
+            characters limit exceeded.
+          </div>
+        </div>
+        <small>Maximum of 2600 characters allowed</small>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-12 padding15 text-right" style="padding:3px 0; ">
+      <button class="btn btn-default btn-sm" (click)="modalRef.hide()">Cancel</button>
+      <button class="btn btn-primary btn-sm txt-al-ce  "
+        style="border: 1px solid #63cfbe; color:#fff; background-color: #63cfbe;" (click)="saveaboutUS()"> Submit
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #WorkModel>
+  <div class="modal-header">
+    <h4 class="pull-left modal-title"> Work Experience </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+      <app-svg-templates [svgType]="'CROSS_20'"></app-svg-templates>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <ng-container>
+      <form [formGroup]="CadidateWorkExpeiecnceForm" class="form-horizontal padding15">
+        <div class="row form-group">
+          <label for="organisationName" class="col-sm-3 control-label required-field text-right font-light">
+            Organization </label>
+          <div class="col-sm-8">
+            <input placeholder="Organisation Name" class="form-control input-sm max-hight" #mytext matInput
+              [matAutocomplete]="auto" debounceTime="1000" formControlName="organisationName" trim="blur"
+              (keypress)="getOrganization(mytext.value)" maxlength="101" />
+            <!-- [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.organisationName.errors }" -->
+            <div *ngIf="submittedWorkexp && workFromControl.organisationName.errors" class="error-msg">
+              <div class="error-msg" *ngIf="workFromControl.organisationName.errors.required">
+                Organisation Name is required
+              </div>
+              <div class="error-msg" *ngIf="workFromControl.organisationName.errors.minword">
+                {{FORMERROR.ORGANIZATION_NAME_MIN}}
+              </div>
+              <div class="error-msg" *ngIf="workFromControl.organisationName.errors.maxword">
+                {{FORMERROR.ORGANIZATION_NAME_MAX}}
+              </div>
+            </div>
+            <div>
+              <ng-container>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-optgroup *ngIf="searchBarShow && organizationList?.length > 0"
+                    style="position: relative; top: -43px;">
+                    <mat-option *ngFor="let option of organizationList | slice: 0:20" [value]="option.organizationName"
+                      (click)="onChangeorg(option)">
+                      <div style="display: grid;
+                        row-gap: 0px;
+                        line-height: initial;">
+                        <div style="display:none" id="mat-optgroup-label-1"></div>
+                        <div>
+                          <strong style="font-size: 13px; padding: 0px 6px 0px 0px;" class="ellipse">
+                            {{option.organizationName}}
+                          </strong>
+                        </div>
+                        <div style="line-height: 10px;">
+                          <i>
+                            <div style="font-size: 60%;">
+                              {{option.address1 }}<span *ngIf="option.address1 && option.address2">{{", "}}</span>
+                              {{option.address2}}
+                            </div>
+                          </i>
+                        </div>
+                        <div style="line-height: 10px;">
+                          <i>
+                            <div style="font-size: 60%;">
+                              {{option.street }}<span *ngIf="option.street">{{", "}}</span>
+                              {{option.city}}<span *ngIf="option.city">{{", "}}</span>
+                              {{option.state}}<span *ngIf="option.state">{{", "}}</span>
+                              {{option.countryName}}
+                            </div>
+                          </i>
+                        </div>
+                      </div>
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-autocomplete>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="custom-checkbox" title="Check if this is your current workplace">
+          <label class="checkbox-label font-bold" style="margin-left: 151px; margin-top: -29px;">Current
+            Organization
+            <input type="checkbox" (change)="curOrg($event)" formControlName="currentOrganization"
+              name="currentOrganization">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-sm-3 control-label required-field text-right font-light">Organization
+            Type</label>
+          <div class="col-sm-8">
+            <select class="form-control input-sm"
+              [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.clientType.errors }"
+              formControlName="clientType" type="text">
+              <option value="null" selected disabled>Client Type</option>
+              <option *ngFor="let clientType of clientTypeList" [value]="clientType">
+                {{clientType}}</option>
+            </select>
+            <div *ngIf="submittedWorkexp && workFromControl.clientType.errors" class="error-msg">
+              <div class="error-msg" *ngIf="workFromControl.clientType.errors.required"> ClientType is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label for="title" class="col-sm-3 control-label required-field text-right font-light">Title</label>
+          <div class="col-sm-8">
+            <div class="custom-ng-select">
+              <ng-select [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.title.errors }"
+                [items]="candidateJobTitleList" [addTag]="true" [hideSelected]="true" dropdownPosition="bottom"
+                formControlName="title" [multiple]="false" placeholder="Title">
+              </ng-select>
+            </div>
+            <div *ngIf="submittedWorkexp && workFromControl.title.errors" class="error-msg">
+              <div class="error-msg" *ngIf="workFromControl.title.errors.required"> Title is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label class="control-label col-sm-3 required-field text-right font-light">Location</label>
+          <div class="col-sm-8">
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <select class="form-control input-sm"
+                  [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.country.errors }"
+                  formControlName="country" type="text" (change)="onChangeCountry($event.target.value,'work')">
+                  <option value="null" selected disabled>Country</option>
+                  <option *ngFor="let country of countryList" [value]="country.countryCode">
+                    {{country.countryName}}</option>
+                </select>
+                <div *ngIf="submittedWorkexp && workFromControl.country.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="workFromControl.country.errors.required"> Country is required</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <select *ngIf="stateList.length!=0" class="form-control input-sm"
+                  [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.state.errors }" formControlName="state"
+                  id="ca" type="text">
+                  <option value="null" selected disabled>State</option>
+                  <option *ngFor="let state of stateList" [value]="state.stateName">
+                    {{state.stateName}}</option>
+                </select>
+                <input *ngIf="stateList.length==0" type="text" placeholder="State"
+                  [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.state.errors }" formControlName="state"
+                  class="form-control input-sm">
+                <div *ngIf="submittedWorkexp && workFromControl.state.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="workFromControl.state.errors.required"> State is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-sm-6">
+                <input type="text" placeholder="city"
+                  [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.city.errors }" formControlName="city"
+                  class="form-control input-sm">
+                <div *ngIf="submittedWorkexp && workFromControl.city.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="workFromControl.city.errors.required"> City is required</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" maxlength="12" placeholder="Zipcode"
+                  [ngClass]="{ 'is-invalid': submittedWorkexp && workFromControl.zipcode.errors }"
+                  formControlName="zipcode" class="form-control input-sm">
+                <div *ngIf="submittedWorkexp && workFromControl.zipcode.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="workFromControl.zipcode.errors.required">
+                    Zipcode is required
+                  </div>
+                  <div class="error-msg" *ngIf="workFromControl.zipcode.errors.minword">
+                    {{FORMERROR.ZIPCODE_MIN}}
+                  </div>
+                  <div class="error-msg" *ngIf="workFromControl.zipcode.errors.maxword">
+                    {{FORMERROR.ZIPCODE_MAX}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 control-label  required-field text-right font-light">From Date</label>
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-6">
+                <select (change)="monthChange('exp')" type="text" formControlName="startMonth"
+                  class="form-control input-sm">
+                  <option value="null" selected disabled>Month</option>
+                  <option [disabled]="checkMonth1(month.code,'exp')" *ngFor="let month of months" [value]="month.name">
+                    {{month.name}}</option>
+                </select>
+                <div *ngIf="submittedWorkexp && workFromControl.startMonth.errors" class="error-msg">
+                  <div *ngIf="workFromControl.startMonth.errors.required">
+                    Start Month is required</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <select (change)="yearChange($event,'exp')" type="text" formControlName="startYear"
+                  class="form-control input-sm">
+                  <option value="null" disabled>Year</option>
+                  <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                </select>
+                <div *ngIf="submittedWorkexp && workFromControl.startYear.errors" class="error-msg">
+                  <div *ngIf="workFromControl.startYear.errors.required">
+                    Start Year is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="CadidateWorkExpeiecnceForm.value.currentOrganization!=true">
+          <label class="col-sm-3 control-label  required-field text-right font-light">To Date
+          </label>
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-6">
+                <select type="text" formControlName="endMonth" class="form-control input-sm">
+                  <option value="null" selected disabled>Month</option>
+                  <option [disabled]="checkMonth(month.code,'exp')" *ngFor="let month of months" [value]="month.name">
+                    {{month.name}}</option>
+                </select>
+                <div *ngIf="submittedWorkexp && workFromControl.endMonth.errors" class="error-msg">
+                  <div *ngIf="workFromControl.endMonth.errors.required">
+                    End Month is required</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <select (change)="onChangeYear('exp')" placeholder="Year" type="text" formControlName="endYear"
+                  class="form-control input-sm">
+                  <option value="null" disabled>Year</option>
+                  <option [disabled]="checkYear(year,'exp')" *ngFor="let year of years" [value]="year">{{year}}
+                  </option>
+                </select>
+                <div *ngIf="submittedWorkexp && workFromControl.endYear.errors" class="error-msg">
+                  <div *ngIf="workFromControl.endYear.errors.required">
+                    End Year is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-12 text-right" style="padding: 3px 0;">
+      <button class="btn btn-sm btn-default" (click)="close()">Cancel</button>
+      <button class="btn btn-sm btn-primary btn-danger2  txt-al-ce"
+        style="border: 1px solid #63cfbe; color:#fff;background-color: #63cfbe;" (click)="workExperSave()"> Submit
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #EducationModule>
+  <div class="modal-header">
+    <h4 class="pull-left modal-title"> Education Details </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <app-svg-templates [svgType]="'CROSS_20'"></app-svg-templates>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <ng-container>
+      <form [formGroup]="CadidateEducationForm" class="form-horizontal padding15">
+        <div class="row">
+          <div class="form-group">
+            <label for="schoolName" class="col-sm-4 control-label required-field font-light">School / College /
+              University</label>
+            <div class="col-sm-7">
+              <div class="row">
+                <div class="col-sm-12">
+                  <input placeholder="School Name" maxlength="51" class="form-control input-sm max-hight"
+                    formControlName="schoolName" #eduTxt
+                    [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.schoolName.errors }"
+                    [matAutocomplete]="eduauto" (keypress)="edulist()">
+                  <div *ngIf="submittedEducation && educationFormControl.schoolName.errors" class="error-msg">
+                    <div class="error-msg" *ngIf="educationFormControl.schoolName.errors.required">
+                      School Name is required
+                    </div>
+                    <div class="error-msg" *ngIf="educationFormControl.schoolName.errors.minword">
+                      {{FORMERROR.SCHOOL_NAME_MIN}}
+                    </div>
+                    <div class="error-msg" *ngIf="educationFormControl.schoolName.errors.maxword">
+                      {{FORMERROR.SCHOOL_NAME_MAX}}
+                    </div>
+                  </div>
+                  <mat-autocomplete #eduauto="matAutocomplete">
+                    <mat-optgroup *ngIf="schoolData?.length > 0" style="position: relative; top: -43px;">
+                      <mat-option *ngFor="let school of schoolData | slice: 0:10" [value]="school.institutionName"
+                        (click)="onchangeEdu(school)">
+                        <div style="display: grid;
+                          row-gap: 0px;
+                          line-height: initial;">
+                          <div style="display:none" id="mat-optgroup-label-1"></div>
+                          <div>
+                            <strong style="font-size: 13px; padding: 0px 6px 0px 0px;" class="ellipse">
+                              {{school.institutionName}}
+                            </strong>
+                          </div>
+                          <div style="line-height: 10px;">
+                            <i>
+                              <div style="font-size: 60%;">
+                                {{school.address1 }}<span *ngIf="school.address1 && school.address2">{{", "}}</span>
+                                {{school.address2}}
+                              </div>
+                            </i>
+                          </div>
+                          <div style="line-height: 10px;">
+                            <i>
+                              <div style="font-size: 60%;">
+                                {{school.street }}<span *ngIf="school.street">{{", "}}</span>
+                                {{school.city}}<span *ngIf="school.city">{{", "}}</span>
+                                {{school.state}}<span *ngIf="school.state">{{", "}}</span>
+                                {{school.countryName}}
+                              </div>
+                            </i>
+                          </div>
+                        </div>
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-autocomplete>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="custom-checkbox" title="Check if this is your current education">
+                    <label class="checkbox-label font-bold" style="text-align: center">Currently Pursuing
+                      <input type="checkbox" formControlName="currentlyPursued" (click)="changeEduOrg($event)"
+                        name="currentlyPursued">
+                      <div *ngIf="educationFormControl.currentlyPursued.errors">
+                        <div *ngIf="educationFormControl.currentlyPursued.errors.required" style="color: #c3002f;">
+                          currentlyPursued is required
+                        </div>
+                      </div>
+                      <span class="checkmark" title="Check this if you're currently studying here"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="custom-checkbox">
+                    <label class="checkbox-label font-bold"> Show this education in Profile
+                      <input type="checkbox" formControlName="showThisOnProfile" name="showThisOnProfile">
+                      <span class="checkmark"
+                        title="Only when this is checked, this workplace is shown in Profile"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label class="control-label required-field col-sm-4 font-light">Location</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <select class="form-control input-sm"
+                  [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.country.errors }"
+                  formControlName="country" type="text" (change)="onChangeCountry($event.target.value,'work')">
+                  <option value="null" selected disabled>Country</option>
+                  <option *ngFor="let country of countryList" [value]="country.countryCode">
+                    {{country.countryName}}</option>
+                </select>
+                <div *ngIf="submittedEducation && educationFormControl.country.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="educationFormControl.country.errors.required"> Country is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <select *ngIf="stateList.length!=0" class="form-control input-sm"
+                  [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.state.errors }"
+                  formControlName="state" id="ca" type="text">
+                  <option value="null" selected disabled>State</option>
+                  <option *ngFor="let state of stateList" [value]="state.stateName">
+                    {{state.stateName}}</option>
+                </select>
+                <input *ngIf="stateList.length==0" type="text" placeholder="State"
+                  [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.state.errors }"
+                  formControlName="state" class="form-control input-sm">
+                <div *ngIf="submittedEducation && educationFormControl.state.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="educationFormControl.state.errors.required"> State is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-sm-6">
+                <input type="text" placeholder="city"
+                  [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.city.errors }"
+                  formControlName="city" class="form-control input-sm">
+                <div *ngIf="submittedEducation && educationFormControl.city.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="educationFormControl.city.errors.required"> City is required</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" maxlength="12" placeholder="Zipcode"
+                  [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.zipcode.errors }"
+                  formControlName="zipcode" class="form-control input-sm">
+                <div *ngIf="submittedEducation && educationFormControl.zipcode.errors" class="error-msg">
+                  <div class="error-msg" *ngIf="educationFormControl.zipcode.errors.required">
+                    Zipcode is required
+                  </div>
+                  <div class="error-msg" *ngIf="educationFormControl.zipcode.errors.minword">
+                    {{FORMERROR.ZIPCODE_MIN}}
+                  </div>
+                  <div class="error-msg" *ngIf="educationFormControl.zipcode.errors.maxword">
+                    {{FORMERROR.ZIPCODE_MAX}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label for="schoolName" class="col-sm-4 control-label required-field font-light"> Nearby Landmark
+            </label>
+            <div class="col-sm-7">
+              <input type="text" placeholder="Street/Road/Nearby Landmark" formControlName="street"
+                class="form-control input-sm"
+                [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.street.errors }">
+              <div *ngIf="submittedEducation && educationFormControl.street.errors" class="error-msg">
+                <div class="error-msg" *ngIf="educationFormControl.street.errors.required"> Street is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label for="degree" class="col-sm-4 control-label required-field font-light">Degree</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control input-sm" placeholder="Degree" formControlName="degree" trim="blur"
+                [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.degree.errors }">
+              <div *ngIf="submittedEducation && educationFormControl.degree.errors" class="error-msg">
+                <div class="error-msg" *ngIf="educationFormControl.degree.errors.required"> Degree is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label for="speciality" class="col-sm-4 required-field control-label font-light">Speciality</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control input-sm" placeholder="Speciality" formControlName="speciality"
+                trim="blur" [ngClass]="{ 'is-invalid': submittedEducation && educationFormControl.speciality.errors }">
+              <div *ngIf="submittedEducation && educationFormControl.speciality.errors" class="error-msg">
+                <div class="error-msg" *ngIf="educationFormControl.speciality.errors.required"> Speciality is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label class="control-label required-field col-sm-4 font-light">From Date</label>
+            <div class="col-sm-7">
+              <div class="row">
+                <div class="col-sm-6">
+                  <select (change)="monthChange('edu')" type="text" formControlName="startMonth"
+                    class="form-control input-sm">
+                    <option value="null" selected disabled>Month</option>
+                    <option [disabled]="checkMonth1(month.code,'edu')" *ngFor="let month of months"
+                      [value]="month.name">{{month.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedEducation && educationFormControl.startMonth.errors" class="error-msg">
+                    <div *ngIf="educationFormControl.startMonth.errors.required">
+                      Start Month is required</div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <select (change)="yearChange($event,'edu')" type="text" formControlName="startYear"
+                    class="form-control input-sm">
+                    <option value="null" disabled>Year</option>
+                    <option *ngFor="let year of years" [value]="year">{{year}} </option>
+                  </select>
+                  <div *ngIf="submittedEducation && educationFormControl.startYear.errors" class="error-msg">
+                    <div *ngIf="educationFormControl.startYear.errors.required">
+                      Start Year is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group" *ngIf="CadidateEducationForm.value.currentlyPursued!=true">
+            <label class="control-label required-field col-sm-4 font-light">To Date</label>
+            <div class="col-sm-7">
+              <div class="row form-group">
+                <div class="col-sm-6">
+                  <select type="text" formControlName="endMonth" class="form-control input-sm">
+                    <option value="null" selected disabled>Month</option>
+                    <option [disabled]="checkMonth(month.code,'edu')" *ngFor="let month of months" [value]="month.name">
+                      {{month.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedEducation && educationFormControl.endMonth.errors" class="error-msg">
+                    <div *ngIf="educationFormControl.endMonth.errors.required">
+                      End Month is required</div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <select type="text" formControlName="endYear" class="form-control input-sm"
+                    (change)="onChangeYear('edu')">
+                    <option value="null" disabled>Year</option>
+                    <option *ngFor="let year of years" [value]="year">
+                      {{year}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedEducation && educationFormControl.endYear.errors" class="error-msg">
+                    <div *ngIf="educationFormControl.endYear.errors.required">
+                      End Year is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-12 padding15 text-right" style="padding: 3px 0;">
+      <button class="btn btn-default btn-sm" (click)="modalRef.hide()">Cancel</button>
+      <button class="btn btn-primary btn-sm btn-danger2  txt-al-ce"
+        style="border: 1px solid #63cfbe; color:#fff;background-color: #63cfbe;" (click)="EducationFormSave()"> Submit
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #certificationModel>
+  <div class="modal-header">
+    <h4 class="pull-left modal-title"> Certifications </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <app-svg-templates [svgType]="'CROSS_20'"></app-svg-templates>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <ng-container>
+      <form [formGroup]="CadidateCerificationForm" class="form-horizontal padding15">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="certificationName" class="col-sm-4 control-label font-light required-field">Certificate
+              Name</label>
+            <div class="col-sm-7">
+              <input placeholder="Certificate Name" class="form-control input-sm max-hight"
+                formControlName="certificationName"
+                [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.certificationName.errors }">
+              <div *ngIf="submittedCertification && CerificationControl.certificationName.errors" class="error-msg">
+                <div class="error-msg" *ngIf="CerificationControl.certificationName.errors.required">Certificate Name
+                  is
+                  required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="certificateOrganization" class="col-sm-4 control-label font-light required-field">Certifying
+              Organization</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control input-sm" placeholder="Certifying Organization"
+                formControlName="certificateOrganization"
+                [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.certificateOrganization.errors }">
+              <div *ngIf="submittedCertification && CerificationControl.certificateOrganization.errors"
+                class="error-msg">
+                <div class="error-msg" *ngIf="CerificationControl.certificateOrganization.errors.required"> Certifying
+                  Organization is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="certificateLicenseNo" class="col-sm-4 control-label font-light required-field">License
+              Number</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control input-sm" placeholder="License Number"
+                formControlName="certificateLicenseNo"
+                [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.certificateLicenseNo.errors }">
+              <div *ngIf="submittedCertification && CerificationControl.certificateLicenseNo.errors" class="error-msg">
+                <div class="error-msg" *ngIf="CerificationControl.certificateLicenseNo.errors.required"> License
+                  Number
+                  is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 control-label font-light required-field">Issue Date</label>
+            <div class="col-sm-7">
+              <div class="row">
+                <div class="col-sm-6">
+                  <select type="text" formControlName="startMonth" class="form-control input-sm"
+                    (change)="monthChange('cert')">
+                    <option value="null" selected disabled>Month</option>
+                    <option [disabled]="checkMonth1(month.code,'cert')" *ngFor="let month of months"
+                      [value]="month.name">{{month.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedCertification && CerificationControl.startMonth.errors" class="error-msg">
+                    <div class="error-msg" *ngIf="CerificationControl.startMonth.errors.required"> Start Month
+                      required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <select type="text" formControlName="startYear" class="form-control input-sm"
+                    (change)="yearChange($event,'cert')"
+                    [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.startYear.errors }">
+                    <option value="null" disabled>Year</option>
+                    <option *ngFor="let year of years" [value]="year">
+                      {{year}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedCertification && CerificationControl.startMonth.errors" class="error-msg">
+                    <div class="error-msg" *ngIf="CerificationControl.startMonth.errors.required"> Start Year required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 control-label  font-light required-field">Expiration
+              Date</label>
+            <div class="col-sm-7">
+              <div class="row">
+                <div class="col-sm-6">
+                  <select type="text" formControlName="endMonth" class="form-control input-sm"
+                    (change)="fromMonthChange($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.endMonth.errors }">
+                    <option value="null" selected disabled>Month</option>
+                    <option [disabled]="checkMonth(month.code,'cert')" *ngFor="let month of months"
+                      [value]="month.name">{{month.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedCertification && CerificationControl.endMonth.errors" class="error-msg">
+                    <div class="error-msg" *ngIf="CerificationControl.endMonth.errors.required"> Start Year required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <select type="text" formControlName="endYear" class="form-control input-sm"
+                    (change)="onChangeYear('cert')"
+                    [ngClass]="{ 'is-invalid': submittedCertification && CerificationControl.endYear.errors }">
+                    <option value="null" disabled>Year</option>
+                    <option [disabled]="checkYear(year,'cert')" *ngFor="let year of years" [value]="year">
+                      {{year}}
+                    </option>
+                  </select>
+                  <div *ngIf="submittedCertification && CerificationControl.endYear.errors" class="error-msg">
+                    <div class="error-msg" *ngIf="CerificationControl.endYear.errors.required"> Start Year required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-12 padding15 text-right" style="padding: 3px 0;">
+      <button class="btn btn-default btn-sm" (click)="modalRef.hide()">Cancel</button>
+      <button class="btn btn-primary btn-sm btn-danger2  txt-al-ce"
+        style="border: 1px solid #63cfbe; color:#fff;background-color: #63cfbe;" (click)="certificateFormsave()">
+        Submit
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #businessEmail>
+  <div class="hpanel">
+    <div class="panel-heading">
+      <div class="row panel-tools" style="padding-right: 20px;">
+        <button type="button" class="close" aria-label="Close" (click)="closeBusiness()">
+          <span style="font-size: 26px;font-weight:400;" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5 "
+        style="margin-left: 8px !important;">Authenticate Business Email </label>
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="domainForm">
+        <div class="app-form">
+          <div class="form-group row">
+            <div class="row alrt-dngr">
+              <div class="alert alert-danger addd-dngr" role="alert" style="margin-left:23px; margin-right:23px;">
+                Please, note that after you authenticate your new business email address, your previous login
+                credentials will be changed for the new business email.
+              </div>
+            </div>
+            <div class="col-sm-12" style="display: flex; padding: 10px 18px; align-items: center;column-gap: 9px;">
+              <div>
+                <label>Previous Business Email:</label>
+              </div>
+              <div>{{previousMailId}}</div>
+            </div>
+            <div class="col-sm-12" *ngIf="!checkotpEmailSent" style="padding-bottom: 7px;">
+              <label for="swapEmail" class="control-label required-field font-bold">New Business Email
+                Address</label>
+              <input class="form-control input-sm" type="email" formControlName="businessemail"
+                (input)="checkMailExists($event.target.value)">
+              <div *ngIf="domainControl.businessemail.errors.emailExists" style="color: #c3002f">
+                That email is taken already. Please, enter a different one.
+              </div>
+              <div
+                *ngIf="domainControl.businessemail.errors.invalid && (domainControl.businessemail.dirty || domainControl.businessemail.touched)"
+                style="color: #c3002f">
+                email is required
+              </div>
+              <div *ngIf="emailvalid!=null" style="color: #c3002f">
+                {{emailvalid}}
+              </div>
+            </div>
+            <div class="col-sm-12" style="display:flex; column-gap: 13px;
+            align-items: center;" *ngIf="checkotpEmailSent">
+              <label for="">New Business Email:</label>
+              {{newPrimaryEmail}}
+            </div>
+            <div class="row alrt-dngr">
+              <div *ngIf="checkotpEmailSent" class="alert alert-info addd-dngr" role="alert"
+                style="margin-left:23px; margin-right:23px;">
+                An authentication code has been sent to your new business email. Please, enter it below. The code is
+                valid only for 10 minutes.
+              </div>
+            </div>
+            <div class="col-sm-12" *ngIf="checkotpEmailSent">
+              <label for="domainValidationOtp" class="control-label required-field font-bold">Enter OTP</label>
+              <input class="form-control input-sm" formControlName="domainValidationOtp" type="text" trim="blur"
+                maxlength="6" (change)="updateOtp()">
+            </div>
+            <span *ngIf=" checkotpEmailSent && domainControl.domainValidationOtp.errors?.wrongOtp"
+              style="color: #c3002f; margin-left: 16px;">
+              Incorrect OTP. Enter the right one.
+            </span>
+            <span
+              *ngIf=" checkotpEmailSent && !domainControl.domainValidationOtp.errors?.wrongOtp && domainForm.value.domainValidationOtp?.length==0"
+              style="color: #c3002f; margin-left: 16px;">
+              Please Enter the Otp.
+            </span>
+            <div class="row" *ngIf="checkotpEmailSent">
+              <div class="pull-left" style="margin-left: 28px;">
+                <div>
+                  <a role="button" *ngIf="!resenOtp  && checkotpEmailSent " (click)="requestAnotherOTP()">Request
+                    another code</a>
+                </div>
+                <div *ngIf="resenOtp" style="color: #c3002f">
+                  Another code has been sent to your business email address.
+                  Please enter the code.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="shifu" style="margin-left: 42rem;">
+          <button style="margin-right:12px;" *ngIf="!checkotpEmailSent" class="btn btn-sm btn-default"
+            (click)="closeValidator()">Go Back</button>
+          <button class="btn btn-sm btn-primary" [disabled]="!domainForm.value.businessemail" *ngIf="!checkotpEmailSent"
+            type="submit" (click)="proceedAfterValidation()">Proceed</button>
+          <button class="btn btn-sm btn-primary" style="margin-left: 50px;" *ngIf="checkotpEmailSent" type="submit"
+            (click)="validateOtp()">Validate OTP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

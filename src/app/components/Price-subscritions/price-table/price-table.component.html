@@ -1,0 +1,75 @@
+<app-langding-page-nav-bar></app-langding-page-nav-bar>
+<div class="container " style="margin-top: 83px;">
+
+  <div class="panel-body faqheader">
+    <a class="small-header-action">
+      <div class="clip-header">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+    </a>
+    <h2 class="font-light m-b-xs f-w-800 ">
+      My Account
+    </h2>
+  </div>
+  <div class="col-sm-3">
+    <div class="hpanel panel-group accordion" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel-body" style="height: 85vh; cursor: pointer;">
+
+        <ul class="mailbox-list cat-list-item-" id="myDIV">
+          <li class="nonecls"  >
+            <a  > Plan Summary </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-9">
+    <div class="hpanel panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel-body">
+        <h4 class="m-t-none m-b-none page-headeer">Plan Summary</h4>
+      </div>
+
+      <div class="mlrt-10">
+
+        <div style=" background: #fff;">
+
+
+          <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped"
+            style=" text-align: center; background: #fff;font-size:9px; ">
+            <thead>
+              <tr>
+                <th><i class="fa fa-refresh refreshsshsh" title="Refresh" style="margin-left: 10px;"></i> </th>
+                <th *ngFor="let items of summarylist; let i = index" class="th-center">{{items.benefitKey}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Free Plan</th>
+                <td *ngFor="let items of summarylist; let i = index">{{items.actual}}</td>
+              </tr>
+              <tr>
+                <th>Utilized</th>
+                <td *ngFor="let items of summarylist; let i = index">{{items.utilized}}</td>
+              </tr>
+              <tr>
+                <th>Availble</th>
+                <td *ngFor="let items of summarylist; let i = index">{{items.available}}</td>
+              </tr>
+              <tr>
+                <th>Pay as you Go</th>
+                <td *ngFor="let items of summarylist; let i = index">{{items.payAsyouGo}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button _ngcontent-serverapp-c24="" class="order-btn" type="button" tabindex="0" class="upgradebutton">
+            Upgrade Plan </button>
+        </div>
+
+        <br>
+
+      </div>
+    </div>
+  </div>

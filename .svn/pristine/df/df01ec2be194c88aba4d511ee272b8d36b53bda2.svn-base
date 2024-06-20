@@ -1,0 +1,660 @@
+<app-langding-page-nav-bar></app-langding-page-nav-bar>
+<ngx-spinner></ngx-spinner>
+<div class="msg-page app-content  post-page-background">
+  <div class="container">
+    <div class="margin-top-15">
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <div class="hpanel ">
+            <div class="panel-body no-padding">
+
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-md-3 p-r">
+          <div class="hpanel ">
+            <div class="panel-body no-padding">
+              <div class="chat-users">
+                <!-- <div class="users-header">
+                  <img class="message-avatar" [src]="imgUrl + userData['photo']" alt="">
+                  <button name="" id="" class="btn newmsg-btn btn-md float-right" role="button"
+                    (click)="getNewMesage(newmessagemodal)">
+                    New Message
+                  </button>
+                </div> -->
+                <div class="user-filter">
+                  <div class="form-group" style="margin-bottom: 0px !important;">
+                    <select class="form-control" name="" id="">
+                      <option selected>All</option>
+                      <option disabled>My Company</option>
+                      <option disabled>Community</option>
+                      <option disabled>Network</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- (click)="selectExistMessageContact(item)"  -->
+                <div class="users-list" style="height: 520px !important;">
+                  <ng-container *ngFor="let item of sortBy(existContactList, 'lastMessageOn')">
+                    <div class="chat-user"
+                      [ngClass]="{'active': (SelectedContact['contactId'] === item['contactId'] || SelectedContact['connectorid'] === item['contactId'])}"
+                      (click)="redirectUrl(item['contactId'], item, 'user')">
+                      <!-- <span class="pull-right label label-success">Online</span> -->
+                      <!-- <span class="pull-right" style="margin-left: 5px;">
+                        {{item['lastMessageOn'] | date: 'dd/MM'}}
+                      </span> -->
+                      <span class="pull-right label label-success"
+                        *ngIf="item['notSeenCount']">{{item['notSeenCount']}}</span>
+                      <img class="chat-avatar"
+                        [src]="item['photo'] ? imgUrl+item['photo'] : 'assets/images/userAvatar.png'"
+                        [alt]="item['photo'] ? imgUrl+item['photo'] : 'assets/images/userAvatar.png'"
+                        onerror="src='assets/images/userAvatar.png'">
+                      <div class="chat-user-name">
+                        <div  class="chat-name">{{item['name']}}</div>
+                        <div>{{item['lastMessageOn'] | date: 'dd/MM'}}</div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngFor="let item of sortBy(groupList, 'lastMessageOn')">
+                    <div class="chat-user"
+                      [ngClass]="{'active': (SelectedContact['contactId'] === item['groupId'] || SelectedContact['connectorid'] === item['groupId'])}"
+                      (click)="redirectUrl(item['groupId'], item, 'group')">
+                      <!-- <span class="pull-right label label-success">Online</span> -->
+                      <!-- <span class="pull-right" style="margin-left: 5px;">
+                        {{item['lastMessageOn'] | date: 'dd/MM'}}
+                      </span> -->
+                      <span class="pull-right label label-success"
+                        *ngIf="item['notSeenCount']">{{item['notSeenCount']}}</span>
+                      <img class="chat-avatar"
+                        [src]="item['groupLogo'] ? imgUrl+item['groupLogo'] : 'assets/images/userAvatar.png'"
+                        [alt]="item['groupLogo'] ? imgUrl+item['groupLogo'] : 'assets/images/userAvatar.png'"
+                        onerror="src='assets/images/userAvatar.png'">
+                      <div class="chat-user-name">
+                        <div  class="chat-name">{{item['groupName']}}</div>
+                        <div>{{item['lastMessageOn'] | date: 'dd/MM'}}</div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 p-l">
+          <div [ngSwitch]="messageStatus" style="height: 520px !important;">
+            <div *ngSwitchCase="selectMessage.EMPTY">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="hpanel m-b-0">
+                    <div class="panel-body no-padding">
+                      <ng-container *ngIf="emptyMsgOpt.opt === 'empty'; then emptyscreen; else newmessage">
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-9 p-r">
+                  <div class="hpanel ">
+                    <div class="panel-body no-padding">
+                      <div class="empty-message" style="height: 255px !important;">
+                        <span>Select Contact and start your conversation</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 p-l">
+                  <app-common-widget [page]="'MESSAGE_PAGE'"></app-common-widget>
+                </div>
+              </div>
+            </div>
+            <div *ngSwitchCase="selectMessage.MESSAGE">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="hpanel m-b-0">
+                    <div class="panel-body no-padding">
+                      <div class="chat-discussion-header">
+                        <ng-container [ngTemplateOutlet]="selecteduser"></ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-9 p-r">
+                  <div class="hpanel ">
+                    <div class="panel-body no-padding">
+                      <div class="chat-discussion" id="chat-discussion" style="height: 446px !important;"
+                        #chartDiscussion messagescroll infiniteScroll [infiniteScrollUpDistance]="5"
+                        [infiniteScrollDistance]="5" [scrollWindow]="false" [infiniteScrollThrottle]="1500"
+                        (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
+                        <ng-container *ngFor="let item of sortByMsg(messageList, 'sentDate') | messageunique">
+                          <div class="chat-message right" *ngIf="item['authorId'] === userId" [id]="item['messageId']">
+                            <img class="message-avatar" onerror="src='assets/images/userAvatar.png'"
+                              [src]="userData['photo'] ? imgUrl+userData['photo'] : 'assets/images/userAvatar.png'"
+                              [alt]="userData['photo'] ? imgUrl+userData['photo'] : 'assets/images/userAvatar.png'">
+                            <div class="message">
+                              <a class="message-author" > {{item['authorName']}}
+                              </a>
+                              <span class="message-date"> {{item['sentDate'] | date: "EEE, MMM d, y, h:mm"}} </span>
+                              <span class="message-content" [innerHTML]="item['message']"></span>
+                              <div style="width: 100%;">
+                                <div style="display: flex; flex-wrap: wrap;">
+                                  <div *ngFor="let at of item.attachments; let a = index;">
+                                    <ng-container>
+                                      <ng-container *ngIf="at['attachmentType'] === 'image'">
+                                        <img [src]="imgUrl+at['url']" height="92" style="margin: 3px;"
+                                          (click)="showImageAndVideoPreview(item, a)">
+                                      </ng-container>
+                                      <ng-container *ngIf="at['attachmentType'] === 'video'">
+                                        <video height="92" style="margin: 3px;"
+                                          (click)="showImageAndVideoPreview(item, a)">
+                                          <source [src]="imgUrl+at['url']" [type]="at['mimetype']" />
+                                          Browser not supported
+                                        </video>
+                                      </ng-container>
+                                      <ng-container *ngIf="at['attachmentType'] === 'application'">
+                                        <div class="attach-application">
+                                          name
+                                        </div>
+                                      </ng-container>
+                                      <ng-container *ngIf="at['attachmentType'] === 'audio'">
+
+                                      </ng-container>
+                                      <ng-container *ngIf="at['attachmentType'] === 'others'">
+                                        <div class="attach-others">
+                                          name
+                                        </div>
+                                      </ng-container>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="chat-message left" *ngIf="item['authorId'] !== userId" [id]="item['messageId']">
+                            <img class="message-avatar" onerror="src='assets/images/userAvatar.png'"
+                              [src]="SelectedContact['photo'] ? imgUrl+SelectedContact['photo'] : 'assets/images/userAvatar.png'"
+                              [alt]="SelectedContact['photo'] ? imgUrl+SelectedContact['photo'] : 'assets/images/userAvatar.png'">
+                            <div class="message">
+                              <a class="message-author" href="#"> {{item['authorName']}} </a>
+                              <span class="message-date"> {{item['sentDate'] | date: "EEE, MMM d, y, h:mm"}} </span>
+                              <span class="message-content" [innerHTML]="item['message']"></span>
+                              <div style="width: 100%;">
+                                <div style="display: flex; flex-wrap: wrap;">
+                                  <div *ngFor="let at of item.attachments; let a = index;">
+                                    <ng-container *ngIf="at['attachmentType'] === 'image'">
+                                      <img [src]="imgUrl+at['url']" height="92" style="margin: 3px;"
+                                        (click)="showImageAndVideoPreview(item, a)">
+                                    </ng-container>
+                                    <ng-container *ngIf="at['attachmentType'] === 'video'">
+                                      <video height="92" style="margin: 3px;"
+                                        (click)="showImageAndVideoPreview(item, a)">
+                                        <source [src]="imgUrl+at['url']" [type]="at['mimetype']" />
+                                        Browser not supported
+                                      </video>
+                                    </ng-container>
+                                    <ng-container *ngIf="at['attachmentType'] === 'application'">
+                                      <div class="attach-application">
+
+                                      </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="at['attachmentType'] === 'audio'">
+                                      <audio controls>
+                                        <source [src]="imgUrl+at['url']" [type]="at['mimetype']">
+                                        Your browser does not support the audio tag.
+                                      </audio>
+                                    </ng-container>
+                                    <ng-container *ngIf="at['attachmentType'] === 'others'">
+                                      <div class="attach-others">
+
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="panel-footer msg-panel-footer borders"
+                        *ngIf="messageStatus === selectMessage.MESSAGE">
+                        <ng-container *ngIf="!attachment">
+                          <form style="display: flex; width: 100%;">
+                            <div class="message-attachment">
+                              <i class="pe-7s-paperclip"></i>
+                              <input type="file" multiple id="attachmentfile" name="file" accept="image/jpg, image/jpeg, image/png"
+                                (change)="fileUpload($event, fileupload)" #UploadFileInput />
+                            </div>
+                            <div class="send-msg-txt">
+                              <div [(ngModel)]="sendMessageData['message']" name="message" [ngxSummernote]="config">
+                              </div>
+                            </div>
+                            <div class="send-msg-btn">
+                              <button type="submit" id="sendmsg" class="btn btn-success" (click)="sendMessage()">
+                                Send
+                              </button>
+                            </div>
+                          </form>
+                        </ng-container>
+                        <div *ngIf="attachment" style="width: 100%;">
+                          <div style="display: flex; flex-wrap: wrap;">
+                            <div style="position: relative; float: left;"
+                              *ngFor="let item of uploadFiles; let i = index;">
+                              <ng-container *ngIf="item['t'] === 'image'">
+                                <img [src]="item['src']" style="margin-bottom: 10px; height: 93px;margin-right: 10px;">
+                                <i class="pe-7s-trash attach-remove" (click)="removeAttachMent(item, i)"></i>
+                              </ng-container>
+                              <ng-container *ngIf="item['t'] === 'video'">
+                                <video style="margin-bottom: 10px; height: 93px;margin-right: 10px;" controls
+                                  (click)="toggleVideo()" #videoPlayer>
+                                  <source [src]="item['src']" [type]="item['ft']" />
+                                  Browser not supported
+                                </video>
+                                <i class="pe-7s-trash attach-remove"></i>
+                              </ng-container>
+                              <ng-container *ngIf="item['t'] === 'application'">
+                                <div class="attach-application">
+                                  <i class="pe-7s-trash attach-remove"></i>
+
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="item['t'] === 'audio'">
+                                <div class="attach-application">
+                                  <i class="pe-7s-trash attach-remove"></i>
+                                  <audio controls>
+                                    <source [src]="item['src']" [type]="item['ft']">
+                                    Your browser does not support the audio tag.
+                                  </audio>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="item['t'] === 'others'">
+                                <div class="attach-others">
+                                  <i class="pe-7s-trash attach-remove"></i>
+
+                                </div>
+                              </ng-container>
+                            </div>
+                            <div class="col-md-3 upload-file">
+                              <button type="button" name="" id="" class="btn">
+                                <i class="pe-7s-plus"></i>
+                                <input type="file" multiple  accept="image/jpg, image/jpeg, image/png" id="attachmentfile" name="file"
+                                  (change)="fileUpload($event, UploadFileInput, 'update')" #UploadFileInput />
+                              </button>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12" style="display: flex; flex-wrap: wrap;">
+                              <form style="display: flex; width: 100%;" (submit)="sendMessageWithAttachment()">
+                                <div class="send-msg-txt">
+                                  <div [(ngModel)]="sendMessageData['message']" name="message" id="summessage"
+                                    [ngxSummernote]="config"></div>
+                                </div>
+                                <div class="send-msg-btn">
+                                  <button class="btn btn-success" type="submit" id="sendmsg">
+                                    Send
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 p-l">
+                  <app-common-widget [page]="'MESSAGE_PAGE'"></app-common-widget>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <ng-template #groupModal>
+    <div class="modal-header" style="padding: 10px !important;">
+      <h4 class="pull-left" style="margin: 0;">New Group Message</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 10px !important;">
+      <div class="message-search">
+        <div class="form-group">
+          <input type="text" class="form-control" name="" id="" aria-describedby="helpId"
+            placeholder="Search New Contact" [(ngModel)]="group.search">
+        </div>
+      </div>
+      <div class="message-content">
+        <div class="userlist">
+          <div class="chat-user" *ngFor="let item of existContactList | myfilter:group.search">
+            <div class="row">
+              <div class="col-md-9">
+                <img class="chat-avatar"
+                *ngIf="item['photo']"
+                [src]="imgUrl+item['photo']" [alt]="imgUrl+item['photo']" onerror="src='assets/images/userAvatar.png'">
+                <div class="chat-user-name">
+                  <a >{{item['name']}}</a>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="group-check-box">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input"
+                      name="contacts" id="" [value]="item['contactId']"
+                      (change)="addUserToGroup($event, item['contactId'])">
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="group-name">
+          <div class="form-group">
+            <input type="text"
+              class="form-control" [(ngModel)]="group.groupName" name="groupName"
+              id="" aria-describedby="helpId"
+              placeholder="Enter Group Name">
+          </div>
+        </div>
+        <div class="group-btn">
+          <button type="submit" class="btn btn-primary btn-block" (click)="createGroup()">Start Conversation</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Modal -->
+  <ng-template #newmessagemodal>
+    <div class="modal-header" style="padding: 10px !important;">
+      <h4 class="pull-left" style="margin: 0;">New Message</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 10px !important;">
+      <div class="message-search">
+        <div class="form-group">
+          <input type="text" class="form-control" name="" id="" aria-describedby="helpId"
+            placeholder="Search New Contact">
+        </div>
+      </div>
+      <div class="message-content">
+        <div class="userlist">
+          <div class="chat-user" *ngFor="let item of newContactList" (click)="selectNewMessageContact(item)">
+            <img class="chat-avatar" *ngIf="item['photo']" [src]="imgUrl+item['photo']" [alt]="imgUrl+item['photo']">
+            <div class="chat-user-name">
+              <a >{{item['name']}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Modal -->
+  <ng-template #fileupload>
+    <div class="modal-header">
+      <!-- <h4 class="pull-left" style="margin: 0;">New Message</h4> -->
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="attachment-content">
+        <ng-container *ngFor="let item of uploadFiles">
+          <ng-container *ngIf="item['t'] === 'image'">
+            <img [src]="item['src']" height="150" width="200px" style="margin: 3px;">
+          </ng-container>
+          <ng-container *ngIf="item['t'] === 'video'">
+            <video width="200" height="150" controls (click)="toggleVideo()" #videoPlayer>
+              <source [src]="item['src']" [type]="item['ft']" />
+              Browser not supported
+            </video>
+          </ng-container>
+          <ng-container *ngIf="item['t'] === 'application'">
+            <div class="attach-application">
+
+            </div>
+          </ng-container>
+          <ng-container *ngIf="item['t'] === 'audio'">
+            <audio controls>
+              <source [src]="item['src']" [type]="item['ft']">
+              Your browser does not support the audio tag.
+            </audio>
+          </ng-container>
+          <ng-container *ngIf="item['t'] === 'others'">
+            <div class="attach-others">
+
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a name="" id="" class="btn btn-primary"  (click)="sendMessageWithAttachment()"
+        role="button">Upload</a>
+    </div>
+  </ng-template>
+
+
+  <ng-template #emptyscreen>
+    <div class="chat-discussion-header">
+      <div class="header-right row">
+        <div class="start col-md-3">
+          <span *ngIf="unreadUserMsgCount > 0">Messages <b>{{unreadUserMsgCount}}</b> of Messages </span>
+        </div>
+        <div class="middle col-md-7">
+
+        </div>
+        <div class="end col-md-2">
+          <!-- <button type="button" class="btn btn-primary btn-sm" (click)="getNewMesage()">New Message</button> -->
+          <div class="btn-group" dropdown>
+            <button type="button" class="btn btn-primary btn-sm" (click)="getNewMesage()">New Chat</button>
+            <button id="button-split" type="button" dropdownToggle
+              class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+              <span class="caret"></span>
+              <span class="sr-only">Split button!</span>
+            </button>
+            <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
+              <li role="menuitem">
+                <a class="dropdown-item" >New Private Chat</a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item"  (click)="gropuMessage(groupModal)">New Group Chat</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #newmessage>
+    <div class="chat-discussion-header">
+      <div class="header-right new-msg-header row">
+        <div class="first-msg col-md-11">
+          <span>New Message To : </span>
+          <form class="navbar-form navbar-left app-form example-form">
+            <input type="text" placeholder="Search..." [(ngModel)]="name" debounceTime=1000 [matAutocomplete]="auto"
+              name="newsearch" class="searchBox form-control" #filterData>
+            <ng-container>
+              <mat-autocomplete #auto="matAutocomplete" class="app-search-top">
+                <mat-optgroup class="app-search ">
+                  <mat-option *ngFor="let item of newContactList | filter:name" [value]="item.name"
+                    style="display: flex;" (click)="redirectUrl(item['connectorid'], item)">
+                    <div style="display: flex;">
+                      <div>
+                        <img [src]="item['photo'] ? imgUrl+item['photo'] : 'assets/images/userAvatar.png'"
+                          [alt]="item['photo'] ? imgUrl+item['photo'] : 'assets/images/userAvatar.png'"
+                          onerror="src='assets/images/userAvatar.png'">
+                      </div>
+                      <div>
+                        <span>{{item['name']}}</span>
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-optgroup>
+              </mat-autocomplete>
+            </ng-container>
+          </form>
+        </div>
+        <div class="second-msg col-md-1">
+          <button type="button" class="btn btn-danger btn-sm" (click)="emptyMsgOpt.opt = 'empty'">
+            <i class="pe-7s-close"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #selecteduser>
+    <div class="header-right chat-dis">
+      <div class="first">
+        <span>Messages <b>{{unreadUserMsgCount}}</b> of Messages </span>
+      </div>
+      <div class="second">
+        <form class="navbar-form navbar-left app-form example-form">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchData.value" debounceTime=1000
+            [matAutocomplete]="auto" name="searchData" (keyup)="onSearchChange($event)" class="searchBox form-control"
+            #filterData>
+          <ng-container>
+            <mat-autocomplete #auto="matAutocomplete" class="app-search-top">
+              <mat-option *ngFor="let item of searchMessage | filter: searchData.value" [value]="item['message']"
+                (click)="getSearchMessageDetails(item)">
+                <span class="message-date">{{item['sentDate'] | date}}</span>
+                <span [innerHtml]="item['message']" class="message-txt"></span>
+              </mat-option>
+            </mat-autocomplete>
+          </ng-container>
+        </form>
+      </div>
+      <!-- <div class="third">
+        <button type="button" class="btn btn-primary btn-sm">New Message</button>
+      </div> -->
+      <div class="forth">
+        <button type="button" class="btn btn-danger btn-sm" (click)="closeOpenedMsg()">
+          <i class="pe-7s-close"></i>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="fancybox">
+    <div id="myModal" class="modall">
+      <div
+        style="display: flex; position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; justify-content: center; align-items: center; flex-direction: column; flex: 1 1 auto; align-self: stretch; overflow: hidden; z-index: 10000;">
+        <div role="none"
+          style="position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; overflow: visible; align-items: stretch; align-self: stretch;">
+          <div role="none"
+            style="position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; overflow: visible; align-items: center; align-self: stretch; justify-content: flex-start;">
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; left: 0px; right: 0px; top: 0px; bottom: 0px; background-color: rgb(0, 0, 0); justify-content: center; opacity: 1; transition: none 0s ease 0s;">
+            </div>
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; transform: translateX(0px);">
+              <div role="none" class="mySlidess" *ngFor="let item of fancyList"
+                style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; transform: translateX(0px);">
+                <div role="none"
+                  style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; transform: translateY(0px);">
+                  <div role="none"
+                    style="position: relative; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: stretch; width: 100%; height: 100%;">
+                    <div role="none"
+                      style="position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; overflow: visible; align-items: stretch;">
+                      <div
+                        style="position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; overflow: visible; align-items: center; align-self: stretch; justify-content: center;">
+                        <div
+                          style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; justify-content: center; top: 0px; bottom: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0);">
+                          <div role="none"
+                            style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; width: 100%; height: 100%; opacity: 1; transform: translateX(0px);">
+                            <div role="none"
+                              style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; transform: translateY(0px);">
+                              <div role="none"
+                                style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px; transform: scale(1);">
+                                <div role="none"
+                                  style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: 0px; right: 0px; top: 0px; bottom: 0px;">
+                                  <ng-container *ngIf="item['attachmentType'] === 'image'">
+                                    <div
+                                      style="position: absolute; overflow: visible; background-color: transparent; flex-grow: 0; flex-shrink: 0; left: 0px; right: 0px; top: 0px; bottom: 0px; align-items: stretch; background-position: center center; background-repeat: no-repeat; background-size: contain; border-style: none; display: flex;"
+                                      [style.background-image]="'url('+imgUrl+item['url']+')'">
+                                    </div>
+                                  </ng-container>
+                                  <ng-container *ngIf="item['attachmentType'] === 'video'">
+                                    <div
+                                      style="position: absolute; overflow: visible; background-color: transparent; flex-grow: 0; flex-shrink: 0; left: 0px; right: 0px; top: 0px; bottom: 0px; align-items: stretch; background-position: center center; background-repeat: no-repeat; background-size: contain; border-style: none; display: flex;">
+                                      <video controls (click)="toggleVideo()" #videoPlayer>
+                                        <source [src]="imgUrl+item['url']" [type]="item['mimetype']" />
+                                        Browser not supported
+                                      </video>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; left: -44px; top: 0px; bottom: 0px; justify-content: center; opacity: 1; transition: none 0s ease 0s;">
+              <button role="button" (click)="plusSlides(-1)" title="Previous" aria-label="Previous"
+                style="position: relative; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.65); border-color: transparent; text-align: left; border-width: 0px; padding-top: 35px; padding-bottom: 35px; left: 44px; padding-left: 14px; cursor: pointer; border-style: solid;">
+                <div aria-hidden="true" data-text-as-pseudo-element="" dir="auto"
+                  style="position: relative; display: inline; flex-grow: 0; flex-shrink: 0; overflow: visible; white-space: pre-wrap; overflow-wrap: break-word; height: 44px; font-size: 44px; color: rgb(213, 217, 222); background-color: rgba(0, 0, 0, 0);  padding: 0px; flex-direction: row; align-self: center; align-items: center; justify-content: center; cursor: inherit;">
+                  <i class="pe-7s-angle-left"></i>
+                </div>
+              </button>
+            </div>
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: visible; align-items: stretch; right: -44px; top: 0px; bottom: 0px; justify-content: center; opacity: 1; transition: none 0s ease 0s;">
+              <button role="button" (click)="plusSlides(1)" title="Next" aria-label="Next"
+                style="position: relative; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.65); border-color: transparent; text-align: left; border-width: 0px; padding-top: 35px; padding-bottom: 35px; right: 44px; padding-right: 14px; cursor: pointer; border-style: solid;">
+                <div aria-hidden="true" data-text-as-pseudo-element="" dir="auto"
+                  style="position: relative; display: inline; flex-grow: 0; flex-shrink: 0; overflow: visible; white-space: pre-wrap; overflow-wrap: break-word; height: 44px; font-size: 44px; color: rgb(213, 217, 222); background-color: rgba(0, 0, 0, 0);  padding: 0px; flex-direction: row; align-self: center; align-items: center; justify-content: center; cursor: inherit;">
+                  <i class="pe-7s-angle-right"></i>
+                </div>
+              </button>
+            </div>
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: row; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; left: 0px; right: 0px; justify-content: flex-start; opacity: 1; transition: none 0s ease 0s;">
+              <div
+                style="position: absolute; overflow: visible; background-color: rgba(0, 0, 0, 0); flex-grow: 0; flex-shrink: 0; top: 0px; bottom: 0px; right: 0px; left: 0px; background-position: center center; background-repeat: no-repeat; background-size: 100% 100%; border-style: none; display: flex;">
+              </div>
+              <div role="none"
+                style="justify-content: flex-end;position: relative; display: flex; flex-direction: row; flex-grow: 1; flex-shrink: 1; overflow: hidden; align-items: flex-start; align-self: stretch;">
+                <button role="button" (click)="closeFancyModal()" title="Close" aria-label="Close picture."
+                  style="position: relative; display: flex; flex-direction: column; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; justify-content: center; background-color: transparent; border-color: transparent; text-align: left; border-width: 0px; width: 48px; height: 48px; padding: 0px; cursor: pointer; border-style: solid;">
+                  <div aria-hidden="true" data-text-as-pseudo-element="" dir="auto"
+                    style="position: relative; display: inline; flex-grow: 0; flex-shrink: 0; overflow: visible; white-space: pre-wrap; overflow-wrap: break-word; height: 24px; font-size: 24px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0);  padding: 0px; flex-direction: row; align-self: center; align-items: center; justify-content: center; cursor: inherit;">
+                    <i class="pe-7s-close"></i>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div role="none"
+              style="position: absolute; display: flex; flex-direction: row; flex-grow: 0; flex-shrink: 0; overflow: hidden; align-items: center; left: 0px; right: 0px; justify-content: flex-start; bottom: 0px; opacity: 1; transition: none 0s ease 0s;">
+              <div
+                style="position: absolute; overflow: visible; background-color: rgba(0, 0, 0, 0); flex-grow: 0; flex-shrink: 0; top: 0px; bottom: 0px; right: 0px; left: 0px; transform: scaleY(-1); background-position: center center; background-repeat: no-repeat; background-size: 100% 100%; border-style: none; display: flex;">
+              </div>
+              <div role="none"
+                style="position: relative; display: flex; flex-direction: row; flex-grow: 1; flex-shrink: 1; overflow: hidden; align-items: stretch;">
+                <div role="none"
+                  style="position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; overflow: hidden; align-items: stretch; height: 48px; padding-left: 10px; padding-right: 10px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

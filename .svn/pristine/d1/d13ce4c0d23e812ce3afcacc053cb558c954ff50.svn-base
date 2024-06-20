@@ -1,0 +1,3881 @@
+<app-scroll-to-top></app-scroll-to-top>
+<!-- &&  (values?.adminviewnavigation || values?.employeeAndfollower) -->
+<div class="hpanel margin-bottom-5 padding-right-5" *ngIf="(postView=='HOME_PAGE')
+        ||(postView=='BUSINESS')
+        ||(postView=='COMMUNITY' && communityType == 'true' &&  ( (isCommunityJoined == 'true' ) || (values?.adminviewnavigation == true) || (values?.membersflage == true) || (values?.isAdmin == true) || (values?.isSuperAdmin == true)))
+        || (postView=='COMMUNITY' && communityType == 'false')
+        ||postView=='NETWORK'
+        ||postView=='TEAM'
+        ||postView=='owner';else  ksjdfkhj">
+
+  <div *ngIf=" (postView=='COMMUNITY' &&( (values?.adminviewnavigation == true) || (values?.membersflage == true) || (values?.isAdmin == true) || (values?.isSuperAdmin == true) ))
+            || ( postView== 'BUSINESS' &&  values?.adminviewnavigation)
+            || (postView=='NETWORK')
+            ||( postView=='TEAM')
+            || (postView=='HOME_PAGE')">
+    <div class="panel-body PaddTP-0" *ngIf="ownerView != 'owner'">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav role="navigation " style="display: flex">
+            <ul class="nav navbar-nav no-borders customPost overflow overFlow">
+              <!-- <i class="pe-7s-note"> </i> -->
+
+              <!-- <h2 class="common-font-12">Create Post </h2> -->
+
+              <li style='cursor: pointer;' class="dropdown" (click)="startAPost(postTemplate)">
+                <a class="dropdown-toggle active" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-create-100.png" alt="" srcset="" class="iconImg" />
+                  <label>
+                    <a style="margin-left: -21px" class="card-link common-font-12 ">
+                      Create Post
+                    </a>
+                  </label>
+                </a>
+              </li>
+
+              <li class="dropdown" style='cursor: pointer;'>
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- <i class="pe-7s-camera camera-icon"> </i> -->
+                  <img src="assets/icon/icons8-camera-100.png" alt="" class="iconImg" />
+                  <div class="image-upload photo-icon-click mt-10">
+                    <label for="file-input">
+                      <a class="card-link common-font-12 "> Photo </a>
+                    </label>
+                    <input id="file-input" multiple type="file" accept="image/jpg, image/jpeg, image/png"
+                      (change)="fileUpload($event, 'image', fileuploadPopUp)" />
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown" style='cursor: pointer;'>
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- <i class="pe-7s-video camera-icon"> </i> -->
+                  <img src="assets/icon/icons8-video-call-100.png" alt="" srcset="" class="iconImg" />
+                  <div class="image-upload1 photo-icon-click mt-10">
+                    <label for="file-input1">
+                      <a class="card-link common-font-12 "> Video </a>
+                    </label>
+                    <input multiple id="file-input1" type="file" accept="video/*"
+                      (change)="fileUpload($event, 'video', fileuploadPopUp)" #myFileInputoo
+                      (click)="myFileInputoo.value=null" />
+                  </div>
+                </a>
+              </li>
+              <li style='cursor: pointer;' class="dropdown" (click)="startAPost(postTemplate)">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- <i class="pe-7s-link camera-icon"> </i> -->
+                  <img src="assets/icon/icons8-link-100.png" alt="" srcset="" class="iconImg" />
+                  <div class="image-upload12 photo-icon-click mt-10">
+                    <label for="file-input12">
+                      <a class="card-link common-font-12 "> Link </a>
+                    </label>
+                  </div>
+                </a>
+              </li>
+
+              <!-- <li style='cursor: pointer;'class="dropdown" (click)="job(postTemplate)">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-job-seeker-100.png" alt="" srcset="" class="iconImg" />
+                  <div class="image-upload12 photo-icon-click mt-10">
+                    <label for="file-input12">
+                      <a class="card-link common-font-12 "> Jobs </a>
+                    </label>
+                  </div>
+                </a>
+              </li> -->
+
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-31">
+          <div class="post-text flex-xl-row">
+            <!-- <div class="form-control" [(ngModel)]="commanddata" name="message" id="summessage" [ngxSummernote]="config1">
+          </div> -->
+            <div>
+              <input placeholder="Create a post" class="start-post" (click)="startAPost(postTemplate)" />
+
+
+              <input id="myFileInput1" style="display: none;" multiple type="file"
+                accept="image/jpg, image/jpeg, image/png" #myFileInput1 (click)="myFileInput1.value=null"
+                (change)="fileUpload($event, 'image', fileuploadPopUp)" />
+
+              <input multiple id="myFileInput2" style="display: none;" type="file" accept="video/*"
+                (change)="fileUpload($event, 'video', fileuploadPopUp)" #myFileInput2
+                (click)="myFileInput2.value=null" />
+
+              <input id="myFileInput3" style="display: none;" multiple type="file"
+                accept="image/jpg, image/jpeg, image/png" #myFileInput3 (click)="myFileInput3.value=null"
+                (change)="fileUpload($event, 'image', null)" />
+
+              <input multiple id="myFileInput4" style="display: none;" type="file" accept="video/*"
+                (change)="fileUpload($event, 'video', null)" #myFileInput4 (click)="myFileInput4.value=null" />
+
+
+            </div>
+            <div class="m-t-15">
+              <div class="col-sm-12 text-right p-00" dropdown>
+                <!-- <button class="btn primary-btn btn-xs"    style="margin-right: rm; margin-left: 25px">Public</button> -->
+                <!-- <button class="btn primary-btn btn-xs" id="postbtn" (click)="save()">Post</button> -->
+
+                <!-- post button here -->
+
+                <!-- <div class="btn-group" dropdown>
+                <button class="btn primary-btn btn-xs" id="postbtn" (click)="save()">Post </button>
+                <button dropdownToggle class="btn primary-btn btn-xs" *ngIf="Commomdatass=='USER'"
+                  style="border-radius: 3px;"><span class="caret"></span> </button>
+
+                <ul class="dropdown-menu cardmenu" *dropdownMenu role="menu">
+                  <li role="menuitem">
+                    <a class="dropdown-item common-font-12" (click)="getPostModel('Everyone',postSelect)">Everyone</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item common-font-12"
+                      (click)="getPostModel('Connections',postSelect)">Connections</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item common-font-12" (click)="getPostModel('Network',postSelect)">Network</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item common-font-12" (click)="getPostModel('Community',postSelect)">Community</a>
+                  </li>
+                </ul>
+              </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- [ngClass]="{'main-class-post1':values == undefined ||
+    values.adminviewnavigation == undefined || !values.adminviewnavigation }" -->
+
+  <div style="min-height: 100vh !important" infiniteScroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="1500"
+    (scrolled)="onScrollDown()" class="search-results1 main-panel1">
+
+    <div id="jingalala" style="visibility: hidden;">
+      <div class="sklll"
+        *ngIf="( postView=='BUSINESS' || postView=='TEAM' || postView=='NETWORK' || postView=='HOME_PAGE') && values?.adminviewnavigation == true && userData.length == 0">
+        <div class="col-sm-12">
+          <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+        </div>
+        <div class="col-sm-12">You have no posts yet.</div>
+      </div>
+
+      <div class="sklll"
+        *ngIf="( postView=='BUSINESS' || postView=='TEAM' || postView=='NETWORK' || postView=='HOME_PAGE') && values?.adminviewnavigation == false && userData.length == 0">
+        <div class="col-sm-12">
+          <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+        </div>
+        <div class="col-sm-12">
+          <div>No posts yet to show.</div>
+        </div>
+      </div>
+
+
+
+      <div class="sklll"
+        *ngIf="postView=='COMMUNITY' && communityType == 'true' && (isCommunityJoined == 'true' || isCommunitySuperAdmin =='true' || isCommunityAdmin == 'true') && userData.length == 0">
+        <div class="col-sm-12">
+          <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+        </div>
+        <div class="col-sm-12">
+          <div>No posts yet to show.</div>
+        </div>
+      </div>
+
+      <div class="sklll" *ngIf="postView=='COMMUNITY' && communityType == 'false' && userData.length == 0">
+        <div class="col-sm-12">
+          <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+        </div>
+        <div class="col-sm-12">
+          <div>No posts yet to show.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="sklll" *ngIf="postView=='COMMUNITY' && communityType == 'true' && userData.length == 0">
+      <div class="col-sm-12">
+        <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+      </div>
+      <div class="col-sm-12">
+      <div>No posts yet to show.</div>
+      </div>
+    </div> -->
+
+    <!-- <div class="sklll" *ngIf="postView=='COMMUNITY' && (isCommunitySuperAdmin =='true' || isCommunityAdmin == 'true') && userData.length == 0">
+      <div class="col-sm-12">
+        <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+      </div>
+      <div class="col-sm-12">
+      <div>No posts yet to show.</div>
+      </div>
+    </div> -->
+
+
+    <div *ngFor="let post of userData; let i = index">
+      <div class="social-board">
+        <div class="hpanel margin-bottom-5">
+          <div class="panel-body">
+            <div class="media social-profile clearfix mt-m12 m-b-15">
+              <a class="pull-left">
+                <img class="rounded-circle" style="max-height: 300px !important"
+                  (click)="userprofile(post, post.postedBy)" src="{{ post.photo }}" alt="profile-picture"
+                  (error)="onProfilePhotoError($event, post)" />
+              </a>
+              <div class="media-body">
+                <h4 *ngIf="(post.postEntity == 'USER' || post.postEntity == 'BUSINESS')"
+                  (click)="userprofile(post, post.postedBy)" data-toggle="tooltip" data-placement="top"
+                  title="{{ post.firstName }}" class="cursor-pointer post-font ellipse1">
+                  {{ post.userName }}
+                </h4>
+
+                <ng-container
+                  *ngIf="(post.postEntity == 'COMMUNITY' || post.postEntity == 'NETWORK' || post.postEntity == 'TEAM')">
+                  <h4 data-toggle="tooltip" data-placement="top" title="{{ post.postedByUserData?.fullName }}"
+                    class="cursor-pointer ellipse2 post-font">
+                    <a data-toggle="tooltip" data-placement="top" title="{{ post.postedByUserData?.fullName }}"
+                      (click)="userprofile(post, post.postedBy)">
+                      {{ post.postedByUserData?.fullName }}
+                    </a>
+                    <img src="assets/icon/arrow.png" alt="" srcset="" class="profilelink" />
+
+                    <img src="assets/icon/icons8-myspace-400.png" *ngIf="post.postEntity == 'COMMUNITY' " alt=""
+                      srcset="" class="profilelink" />
+                    <img src="assets/icon/icons8-share-400.png" *ngIf="post.postEntity == 'NETWORK'  " alt="" srcset=""
+                      class="profilelink" />
+                    <img src="assets/icon/icons8-people-100.png" *ngIf="post.postEntity == 'TEAM'" alt="" srcset=""
+                      class="profilelink" />
+                    <img src="assets/icon/icons8-small-business-100.png" *ngIf="post.postEntity == 'BUSINESS'" alt=""
+                      srcset="" class="profilelink" />
+
+                    <a data-toggle="tooltip" class="ellipse2" data-placement="top" title="{{ post?.userName }}"
+                      (click)="communityroute(post)">{{ post?.userName }}
+                    </a>
+                  </h4>
+
+                </ng-container>
+
+                <!--<ng-container *ngIf="post.postType == 'SHARE'">
+                  <h4 *ngIf="post?.shareduser[0].postEntity == 'COMMUNITY1'" data-toggle="tooltip" data-placement="top"
+                    title="{{ post.firstName }}" class="cursor-pointer post-font">
+                    <a data-toggle="tooltip" data-placement="top" title="{{ post.userName }}"
+                      (click)="userprofile(post, post.postedBy)">
+                      {{ post.userName }}
+                    </a>
+                    <img src="assets/icon/arrow.png" alt="" srcset="" class="profilelink" />
+                    <a data-toggle="tooltip" data-placement="top" title="{{ post?.shareduser[0]?.userName }}"
+                      (click)="communityroute(post?.shareduser[0])">{{ post?.shareduser[0]?.userName }}
+                    </a>
+                  </h4>
+
+                  <h4 *ngIf="post?.shareduser[0].postEntity != 'COMMUNITY'" (click)="userprofile(post, post.postedBy)"
+                    data-toggle="tooltip" data-placement="top" title="{{ post.firstName }}"
+                    class="cursor-pointer post-font ellipse1">
+                    {{ post.userName }}
+                  </h4>
+                </ng-container>-->
+
+                <br />
+
+                <div class="btn-group three_icon_cmon1 hovers" dropdown>
+
+
+
+                  <!-- *ngIf="post.postEntityId==userId" -->
+                  <a id="button-animated" dropdownToggle *ngIf="post.postEntityId == userId || post.postedBy == userId">
+                    <!-- <i class="pe-7s-more"></i> -->
+                    <img src="assets/icon/icons8-more-96.png" alt="" srcset="" class="three-dot" />
+                  </a>
+
+                  <a id="button-animated" dropdownToggle *ngIf="post.postEntityId != userId || post.postedBy != userId">
+
+                    <app-flag [type]="post.postEntity" [id]="post.postId" [flagTo]="post.postedBy" [flags]="['Report as abuse']">
+                    </app-flag>
+
+                  </a>
+                  <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+                    style="right: 0; left: auto" aria-labelledby="button-animated">
+
+
+
+
+                    <ng-container *ngIf="post.postEntityId == userId || post.postedBy == userId">
+                      <li role="menuitem">
+                        <a (click)="findPost(post, editpost)">
+                          <i class="fas fa-pencil-alt m-5"></i>Edit</a>
+                      </li>
+                      <li role="menuitem">
+                        <a (click)="removepost(post)">
+                          <i class="fas fa-trash m-5"></i> Delete
+                        </a>
+                      </li>
+
+                    </ng-container>
+                    <ng-container *ngIf="post.postEntityId != userId || post.postedBy != userId">
+                      <!-- <li role="menuitem">
+                        <a>
+                          <i class="fas fa-exclamation-triangle m-5"></i>Report Abuse</a>
+
+                      </li> -->
+
+
+                    </ng-container>
+
+                  </ul>
+
+
+                </div>
+                <div class="time mt-20">
+                  <i class="pe-7s-clock" style="font-size: 14px"></i>
+                  <small class="text-muted">{{ post.posteddate }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="social-content m-t-md mx-fety" *ngIf="post.postContent && post.postContent.length > 600">
+              <div class="showmore break-word" [class.show]="post.visible" [innerHtml]="post.postContent"></div>
+              <p class="showmoreTag break-word cursor-pointer" *ngIf="post.postContent.length > 600"
+                (click)="post.visible = !post.visible">
+                {{ post.visible ? "Show less" : "Show More" }}
+              </p>
+              <div class="rowbay">
+                <!-- <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+                  <slide style="margin-top: 36px" *ngFor="let imageshare of post.medias; let i = index"
+                    aria-hidden="false">
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                      <img class="img-padingdata" [src]="imageshare.url"
+                      class="hover-effect"
+                      (click)="pushImages(post.medias,i)"/>
+                    </ng-container>
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                      <video width="100%" controls (click)="toggleVideo()"
+                        (click)="singleimagevidshows(imageshare, postdatasimg)" #videoPlayer>
+                        <source [src]="imageshare.url" />
+                      </video>
+                    </ng-container>
+                  </slide>
+                </carousel> -->
+
+
+                <div *ngIf="post.medias?.length==1">
+                  <div *ngFor="let imageshare of post.medias; let i = index;">
+
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                      <div class="carousel-image">
+                        <img [src]="imageshare.url" class="hover-effect" (click)="pushImages(post.medias, i)" />
+                      </div>
+                    </ng-container>
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                      <video width="100%" controls (click)="pushImages(post.medias, i)" class="hover-effect"
+                        #videoPlayer>
+                        <source [src]="imageshare.url" />
+                      </video>
+                      <!-- (click)="singleimagevidshows(imageshare, postdatasimg)" -->
+                    </ng-container>
+                  </div>
+
+
+                </div>
+
+
+                <div *ngIf="post.medias?.length>1">
+                  <section id="photos">
+                    <div *ngIf="post.medias.length === 2 || post.medias.length === 4">
+                      <div class="even" *ngFor="let photos of post.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(post.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(post.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="post.medias?.length === 3">
+                      <div class="three" *ngFor="let photos of post.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(post.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(post.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="post.medias?.length === 5">
+                      <div class="five" *ngFor="let photos of post.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(post.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(post.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="post.medias?.length === 6">
+                      <div class="even" *ngFor="let photos of post.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(post.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(post.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="post.medias?.length > 6">
+                      <div class="sixPlus" *ngFor="let photos of post.medias; let i = index;">
+                        <!-- <img *ngIf="4>i" [src]=[photos.url] alt="posts" class="hover-effect"
+                          (click)="pushImages(post.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image' && 4>i">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(post.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video' && 4>i" width="100%" controls
+                            (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                        <span class="plusIcon" (click)="pushImages(post.medias, i)"
+                          *ngIf="post.medias.length>6 && i==3">+{{post.medias.length-4}} more</span>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+
+
+              </div>
+            </div>
+            <div class="social-content m-t-md mx-efty img-post-algn break-word"
+              *ngIf="post.postContent && post.postContent.length < 600">
+              <div [class.show]="post.visible" [innerHtml]="post.postContent"></div>
+              <p class="showmoreTag break-word" *ngIf="post.postContent && post.postContent.length > 600"
+                (click)="post.visible = !post.visible">
+                {{ post.visible ? "Show less" : "Show More" }}
+              </p>
+
+              <div *ngIf="post.medias != null && post.medias.length > 0">
+                <div class="rowbay">
+                  <!-- <img class="img-padingdata" [src]="imageshare.url" class="img-unset"
+                  class="hover-effect"
+                  (click)="pushImages(imageshare)" /> -->
+                  <!-- <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+                    <slide *ngFor="let imageshare of post.medias; let i = index" aria-hidden="false">
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+
+                        <div class="carousel-image">
+                          <img [src]="imageshare.url" class="hover-effect"
+
+                            (click)="pushImages(post.medias,i)" />
+                        </div>
+
+                      </ng-container>
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                        <video width="100%" controls (click)="toggleVideo()" (click)="
+                            singleimagevidshows(imageshare, postdatasimg)
+                          " #videoPlayer>
+                          <source [src]="imageshare.url" />
+                        </video>
+                      </ng-container>
+                    </slide>
+                  </carousel> -->
+
+                  <div *ngIf="post.medias?.length==1">
+                    <div *ngFor="let imageshare of post.medias; let i = index;">
+
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                        <div class="carousel-image">
+                          <img [src]="imageshare.url" class="hover-effect" (click)="pushImages(post.medias, i)" />
+                        </div>
+                      </ng-container>
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                        <video width="100%" controls (click)="pushImages(post.medias, i)" class="hover-effect"
+                          #videoPlayer>
+                          <source [src]="imageshare.url" />
+                        </video>
+                        <!-- (click)="singleimagevidshows(imageshare, postdatasimg)" -->
+                      </ng-container>
+                    </div>
+
+
+                  </div>
+
+
+                  <div *ngIf="post.medias?.length>1">
+                    <section id="photos">
+                      <div *ngIf="post.medias?.length === 2 || post.medias.length === 4">
+                        <div class="even" *ngFor="let photos of post.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(post.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="post.medias?.length === 3">
+                        <div class="three" *ngFor="let photos of post.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(post.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="post.medias?.length === 5">
+                        <div class="five" *ngFor="let photos of post.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(post.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="post.medias?.length === 6">
+                        <div class="even" *ngFor="let photos of post.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="posts" class="hover-effect" (click)="pushImages(post.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(post.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="post.medias?.length > 6">
+                        <div class="sixPlus" *ngFor="let photos of post.medias; let i = index;">
+                          <!-- <img *ngIf="4>i" [src]=[photos.url] alt="posts" class="hover-effect"
+                            (click)="pushImages(post.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image' && 4>i">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(post.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video' && 4>i" width="100%" controls
+                              (click)="pushImages(post.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                          <span class="plusIcon" (click)="pushImages(post.medias, i)"
+                            *ngIf="post.medias.length>6 && i==3">+{{post.medias.length-4}} more</span>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <app-carousel *ngIf="selectedImage1 !== null" (closeCarousel)="selectedImage1 = null" [images]="images"
+              [selectedImage1]="selectedImage1">
+            </app-carousel>
+
+            <ng-container *ngFor="let data of post.shareduser">
+              <div *ngIf="data.postEntity == 'USER' || data.postEntity == 'BUSINESS'" class="panel-body">
+                <div class="media social-profile clearfix mt-m12">
+                  <a class="pull-left">
+                    <img (click)="userprofile(data, data.postedBy)" class="share-logo" src="{{ data.photo }}"
+                      alt="profile-picture" (error)="onProfilePhotoError($event, data)" />
+                  </a>
+                  <div class="media-body">
+                    <span (click)="userprofile(data, data.postedBy)" class="cursor-pointer post-font ellipse">
+                      {{ data.userName }}
+                    </span>
+                    <br />
+                    <div class="time" style="margin-top: 0px;">
+                      <i class="pe-7s-clock clock-icon" style="margin-left: 1px; font-size: 14px">
+                      </i>
+                      <small class="text-muted" style="margin-top: 4px">{{ data.posteddate }}</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="social-content m-t-15">
+                  <div class="showmore1 break-word" [class.show1]="data.visible" [innerHtml]="data.postContent"></div>
+                  <p class="showmoreTag1 cursor-pointer" *ngIf="data.postContent.length > 600"
+                    (click)="data.visible = !data.visible">
+                    {{ data.visible ? "Show less" : "Show More" }}
+                  </p>
+                </div>
+                <div *ngIf="data.medias?.length==1" class="m-t-15">
+                  <div *ngFor="let imageshare of data.medias; let i = index">
+
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                      <div class="carousel-image">
+                        <img [src]="imageshare.url" class="hover-effect" (click)="pushImages(data.medias,i)" />
+                      </div>
+                    </ng-container>
+                    <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                      <video width="100%" controls (click)="pushImages(data.medias,i)" class="hover-effect"
+                        #videoPlayer>
+                        <source [src]="imageshare.url" />
+                      </video>
+                      <!-- (click)="singleimagevidshows(imageshare, postdatasimg)" -->
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div *ngIf="data.medias?.length>1" class="m-t-15">
+                  <section id="photos">
+                    <div *ngIf="data.medias.length === 2 || data.medias.length === 4">
+                      <div class="even" *ngFor="let photos of data.medias; let i = index;">
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(data.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="data.medias?.length === 3">
+                      <div class="three" *ngFor="let photos of data.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(data.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="data.medias?.length === 5">
+                      <div class="five" *ngFor="let photos of data.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(data.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="data.medias?.length === 6">
+                      <div class="even" *ngFor="let photos of data.medias; let i = index;">
+                        <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image'">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video'" width="100%" controls (click)="pushImages(data.medias, i)"
+                            class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="data.medias?.length > 6">
+                      <div class="sixPlus" *ngFor="let photos of data.medias; let i = index;">
+                        <!-- <img *ngIf="4>i" [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(data.medias, i)"> -->
+                        <ng-container *ngIf="photos.type=='image' && 4>i">
+                          <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)">
+                        </ng-container>
+                        <ng-container>
+                          <video *ngIf="photos.type=='video' && 4>i" width="100%" controls
+                            (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                            <source [src]="photos.url" />
+                          </video>
+                        </ng-container>
+                        <span class="plusIcon" (click)="pushImages(data.medias, i)"
+                          *ngIf="data.medias.length>6 && i==3">+{{data.medias.length-4}} more</span>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+
+
+              <div *ngIf="data.postEntity == 'COMMUNITY' || data.postEntity == 'NETWORK' || data.postEntity == 'TEAM'"
+                class="panel-body">
+                <div class="media social-profile clearfix mt-m12">
+                  <a class="pull-left">
+                    <img (click)="userprofile(data, data.postedBy)" class="share-logo" src="{{ data.photo }}"
+                      alt="profile-picture" (error)="onProfilePhotoError($event, data)" />
+                  </a>
+                  <div class="media-body">
+                    <!--<span (click)="userprofile(data, data.postedBy)" class="cursor-pointer post-font ellipse">
+                      {{ data.userName }}
+                    </span>-->
+                    <ng-container>
+                      <div data-toggle="tooltip" data-placement="top" title="{{ data.postedByUserData?.fullName }}"
+                        class="cursor-pointer post-font">
+                        <a data-toggle="tooltip" data-placement="top" title="{{ data.postedByUserData?.fullName }}"
+                          (click)="userprofile(data, data.postedBy)">
+                          {{ data.postedByUserData?.fullName }}
+                        </a>
+                        <img src="assets/icon/arrow.png" alt="" srcset="" class="profilelink" />
+
+                        <img src="assets/icon/icons8-myspace-400.png" *ngIf="data.postEntity == 'COMMUNITY' " alt=""
+                          srcset="" class="profilelink" />
+                        <img src="assets/icon/icons8-share-400.png" *ngIf="data.postEntity == 'NETWORK'  " alt=""
+                          srcset="" class="profilelink" />
+                        <img src="assets/icon/icons8-people-100.png" *ngIf="data.postEntity == 'TEAM'" alt="" srcset=""
+                          class="profilelink" />
+                        <img src="assets/icon/icons8-small-business-100.png" *ngIf="data.postEntity == 'BUSINESS'"
+                          alt="" srcset="" class="profilelink" />
+
+                        <a data-toggle="tooltip" class="ellipse2" data-placement="top" title="{{ data?.userName }}"
+                          (click)="communityroute(data)">{{ data?.userName }}
+                        </a>
+                      </div>
+
+                    </ng-container>
+                    <!--<br />-->
+                    <div class="time" style="margin-top: 0px;">
+                      <i class="pe-7s-clock clock-icon" style="margin-left: 1px; font-size: 14px">
+                      </i>
+                      <small class="text-muted" style="margin-top: 4px">{{ data.posteddate }}</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="social-content m-t-15">
+                  <div class="showmore1 break-word" [class.show1]="data.visible" [innerHtml]="data.postContent"></div>
+                  <p class="showmoreTag1" *ngIf="data.postContent.length > 600" (click)="data.visible = !data.visible">
+                    {{ data.visible ? "Show less" : "Show More" }}
+                  </p>
+                </div>
+
+                <div *ngIf="data.medias != null && data.medias.length > 0">
+                  <!-- <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+                    <slide style="margin-top: 36px" *ngFor="let imageshare of data.medias; let i = index">
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                        <img class="img-padingdata" [src]="imageshare.url" class="img-unset"
+                        class="hover-effect"
+                        (click)="pushImages(post.medias,i)"/>
+                      </ng-container>
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                        <video width="100%" controls (click)="toggleVideo()" (click)="
+                            singleimagevidshows(imageshare, postdatasimg)
+                          " #videoPlayer>
+                          <source [src]="imageshare.url" />
+                        </video>
+                      </ng-container>
+                    </slide>
+                  </carousel> -->
+                  <div *ngIf="data.medias?.length==1">
+                    <div *ngFor="let imageshare of data.medias; let i = index;">
+
+
+
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                        <div class="carousel-image">
+                          <img [src]="imageshare.url" class="hover-effect" (click)="pushImages(data.medias, i)" />
+                        </div>
+                      </ng-container>
+                      <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                        <video width="100%" controls (click)="pushImages(data.medias, i)" class="hover-effect"
+                          #videoPlayer>
+                          <source [src]="imageshare.url" />
+                        </video>
+                        <!-- (click)="singleimagevidshows(imageshare, postdatasimg)" -->
+                      </ng-container>
+                    </div>
+
+
+                  </div>
+
+
+                  <div *ngIf="data.medias?.length>1">
+                    <section id="photos">
+                      <div *ngIf="data.medias?.length === 2 || data.medias.length === 4">
+                        <div class="even" *ngFor="let photos of data.medias; let i = index;">
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(data.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="data.medias?.length === 3">
+                        <div class="three" *ngFor="let photos of data.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(data.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="data.medias?.length === 5">
+                        <div class="five" *ngFor="let photos of data.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(data.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="data.medias?.length === 6">
+                        <div class="even" *ngFor="let photos of data.medias; let i = index;">
+                          <!-- <img [src]=[photos.url] alt="datas" class="hover-effect" (click)="pushImages(data.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image'">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(data.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video'" width="100%" controls
+                              (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="data.medias?.length > 6">
+                        <div class="sixPlus" *ngFor="let photos of data.medias; let i = index;">
+                          <!-- <img *ngIf="4>i" [src]=[photos.url] alt="datas" class="hover-effect"
+                            (click)="pushImages(data.medias, i)"> -->
+                          <ng-container *ngIf="photos.type=='image' && 4>i">
+                            <img [src]=[photos.url] alt="datas" class="hover-effect"
+                              (click)="pushImages(data.medias, i)">
+                          </ng-container>
+                          <ng-container>
+                            <video *ngIf="photos.type=='video' && 4>i" width="100%" controls
+                              (click)="pushImages(data.medias, i)" class="hover-effect" #videoPlayer>
+                              <source [src]="photos.url" />
+                            </video>
+                          </ng-container>
+                          <span class="plusIcon" (click)="pushImages(data.medias, i)"
+                            *ngIf="data.medias.length>6 && i==3">+{{data.medias.length-4}} more</span>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+
+
+
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="panel-footer footerpost">
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="social-details-social-counts" *ngIf="post.likesCount > 0 || post.commentsCount > 0">
+                  <li class="social-details-social-counts__item" *ngIf="post.likesCount > 0">
+                    <span class="mr-2 ml-2">{{ post.likesCount }}</span>
+                    Like<ng-container *ngIf="post.likesCount > 1">s
+                    </ng-container>
+                  </li>
+                  <li class="social-details-social-counts__item" *ngIf="post.commentsCount > 0">
+                    <span class="mr-2 ml-2">{{ post.commentsCount }}</span>
+                    Comment<ng-container *ngIf="post.commentsCount > 1">s</ng-container>
+                  </li>
+                  <li class="social-details-social-counts__item" *ngIf="post.sharedCount > 0">
+                    <span class="mr-2 ml-2">{{ post.sharedCount }}</span>
+                    Share<ng-container *ngIf="post.sharedCount > 1">s</ng-container>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="social-form" style="margin-top: 10px">
+                  <a class="card-link common-font-12" *ngIf="post.userLikedStatus" (click)="like(post, i, false)">
+                    <i class="fa fa-heart liked"></i> Liked</a>
+                  <a class="card-link common-font-12" *ngIf="!post.userLikedStatus" (click)="like(post, i, true)">
+                    <i class="fa fa-heart"></i> Like
+                  </a>
+                  <a class="card-link common-font-12">
+                    <i class="fa fa-comment"></i> Comment</a>
+                  <a class="card-link common-font-12" (click)="share(post, shareModelData)">
+                    <i class="fa fa-mail-forward commom-font-12"></i><span *ngIf="post.sharedCount > 0"
+                      class="mr-2 ml-2">{{
+                      post.sharedCount
+                      }}</span>
+                    Share</a>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <ng-container *ngFor="let cmd of post.comments">
+                  <div class="social-talk">
+                    <div class="media social-profile clearfix">
+                      <a class="pull-left">
+                        <img (click)="userprofile(undefined, cmd.userId)" src="{{ cmd.photo }}" alt="profile-picture"
+                          onerror="this.src='assets/images/userAvatar.png';" />
+                      </a>
+                      <div class="media-body" style="font-size: 13px">
+                        <span class="font-bold mr-2 cursor-pointer ellipse"
+                          (click)="userprofile(undefined, cmd.userId)">{{ cmd.userName }}</span>
+                        <small class="text-muted">{{ cmd.commentedOn }}</small>
+                        <div class="social-content" [innerHtml]="cmd.comment"></div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="load-more-less">
+                  <ng-container *ngIf="
+                      post.commentsCount > 3 &&
+                      post.comments &&
+                      post.comments.length != post.commentsCount
+                    ">
+                    <button type="button" class="btn btn-default btn-sm load-more-btn" (click)="loadMoreComments(post)">
+                      More Comments
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="post.comments && post.comments.length >= 6">
+                    <button type="button" class="btn btn-default btn-sm load-more-btn pull-right"
+                      (click)="loadPreviousComments(post)">
+                      Previous Comments
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="social-talk" style="margin-top: 10px">
+                  <div class="media social-profile clearfix">
+                    <a class="pull-left">
+                      <img (click)="userprofile(undefined, loginUser.userId)" src="{{ loginUser.photo }}"
+                        alt="profile-picture" onerror="this.src='assets/images/userAvatar.png';" />
+                    </a>
+                    <div class="media-body">
+                      <input [(ngModel)]="post.cmd" class="form-control comment-area" placeholder="Add a comment..."
+                        (keyup.enter)="cmdpage(post, 'comment', i, '')" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #shareModelData>
+      <div style="    padding: 14px 14px !important;" *ngIf="!commonVariables.postPrivacyFlag">
+        <label>Share</label>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeSharePage()">
+          <span style="font-size: 2.5rem;" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <hr style="margin: 0px !important; padding: 0px !important">
+      </div>
+
+
+      <div *ngIf="!commonVariables.postPrivacyFlag" class="panel-body"
+        style="padding-bottom: 0px; padding-top: 3px !important">
+        <div class="row encased">
+
+          <div class="col-sm-2 pd-rt-0">
+            <img *ngIf="profPhoto!==null" class="avtar" style="border-radius: 50% !important;" src="{{profPhoto}}" />
+            <img *ngIf="profPhoto===null" class="avtar" style="border-radius: 50% !important;"
+              src="assets/images/userAvatar.png" />
+          </div>
+          <div class="col-sm-4 pd-lt-0">
+            <div class="row">
+              <h5>{{profName}}</h5>
+            </div>
+
+            <div>
+              <!-- <div class="row" [formGroup]="postTypeForm">
+              <select (change)="changePostModal($event.target.value, 'post')" formControlName="postType" role="button"
+                class="btn ert" *ngIf="Commomdatass == 'USER'">
+                <option class="drpdwn-css"  value="Everyone">Everyone</option>
+                <option class="drpdwn-css"  value="Connections">Connections</option>
+                <option class="drpdwn-css"  value="Network">Network</option>
+                <option class="drpdwn-css"  value="Community">Community</option>
+              </select>
+            </div> -->
+
+
+              <div class="row" [formGroup]="postTypeForm" style="display: flex;"
+                *ngIf="(editPost && privacyValue == 'Connections') || !editPost">
+                <input formControlName="postType" [value]="privacyValue" style="display: none!important;">
+
+                <!-- <div>
+                  <select (change)="changePostModal($event.target.value, 'post')" formControlName="postType" role="button"
+                    class="btn ert" *ngIf="Commomdatass == 'USER'">
+                    <option class="drpdwn-css"  value="Everyone">Everyone</option>
+                    <option class="drpdwn-css"  value="Connections">Connections</option>
+                    <option class="drpdwn-css"  value="Network">Network</option>
+                    <option class="drpdwn-css"  value="Community">Community</option>
+                  </select>
+                </div> -->
+                <div yPosition="below" *ngIf="Commomdatass == 'USER'" xPosition="after" [matMenuTriggerFor]="menu">
+
+                  <button class="btn btn-sm btn-default">
+                    <i *ngIf="privacyValue == 'Everyone'" class="fas fa-globe-americas"></i>
+                    <i *ngIf="privacyValue == 'Connections'" class="fas fa-user-friends"></i>
+                    <i *ngIf="privacyValue == 'Network'" class="fas fa-network-wired"></i>
+                    <i *ngIf="privacyValue == 'Community'" class="fas fa-network-wired"></i>
+                    <span class="opaa1"> {{privacyValue}}
+                      <i style="padding-left: 0.3rem;" class="fa fa-chevron-down"></i>
+                      <!-- <i  class="fa fa-chevron-up"></i> -->
+                    </span>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button class="wqmzi" mat-menu-item [disabled]="editPost"
+                      (click)="changePostModal('Everyone', 'post')">
+                      <i class="fas fa-globe-americas"></i>
+                      <span class="opaa">Everyone</span>
+                    </button>
+                    <button type="button" [disabled]="editPost && privacyValue != 'Connections'"
+                      (click)="changePostModal('Connections', 'post')" class="wqmzi" mat-menu-item>
+                      <i class="fas fa-user-friends"></i>
+                      <span class="opaa">Connections</span>
+                    </button>
+                    <button type="button" [disabled]="editPost" (click)="changePostModal('Network', 'post')"
+                      class="wqmzi" mat-menu-item>
+                      <i class="fas fa-network-wired"></i>
+                      <span class="opaa">Network</span>
+                    </button>
+                    <button type="button" [disabled]="editPost" (click)="changePostModal('Community', 'post')"
+                      class="wqmzi" mat-menu-item>
+                      <i class="fas fa-users"></i>
+                      <span class="opaa">Community</span>
+                    </button>
+                  </mat-menu>
+                </div>
+
+                <!-- <label *ngIf="selectedEntities.length>0">Shared with</label> -->
+                <div style="position: relative; left: 1rem; display: flex; column-gap: 0.5rem;">
+                  <div *ngFor="let entity of selectedEntities; let i = index;">
+                    <div *ngIf="i<2">
+
+                      <div [class.ioxlp]="entity.length<=14" [ngClass]="{'jsdhgf': entity.length>14}">
+                        {{entity}}
+                      </div>
+                    </div>
+                    <span class="uwmp" *ngIf="selectedEntities.length>2 && i==2">and {{selectedEntities.length - 2}}
+                      others</span>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        <div [formGroup]="urlLinkDetctForm" class="post-text" style="margin-top: 3px">
+          <div formControlName="snippedLinkText" [(ngModel)]="sharePost.thoughts" name="message" id="summessage"
+            [ngxSummernote]="config1" class="note-editor.note-frame"></div>
+
+
+          <div class="kjsiopzx"
+            *ngIf="linkTitle != null || linkImage != null || linkDescription != null || linkURL != null">
+            <div class="djwjpbf">
+              <img src="{{linkImage}}" alt="">
+            </div>
+            <div class="sdiuqwfp">
+              <h5>{{linkTitle}}</h5>
+              <div>{{linkDescription}}</div>
+              <div class="sdfkfldp">
+                <a href="{{linkURL}}" target="_blank">{{linkURL}}</a>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="posdkfp">
+              <mat-form-field appearance="outline">
+                <mat-label>Start a post...</mat-label>
+                  <textarea [(ngModel)]="sharePost.thoughts" height="15rem" name="message" id="summessage"  matInput matTextareaAutosize matLinkPreview minRows="6"></textarea>
+                <mat-link-preview-container [multiple]="true"></mat-link-preview-container>
+              </mat-form-field>
+            </div> -->
+        </div>
+      </div>
+
+
+
+
+
+      <div *ngIf="!commonVariables.postPrivacyFlag" class="modal-body" style="padding: 12px 15px !important">
+
+        <div class="p-10">
+          <div class="media social-profile clearfix">
+            <a class="pull-left">
+              <img class="share-logo" (click)="userprofile(sharePost, sharePost.userId)" src="{{ sharePost.photo }}"
+                alt="profile-picture" (error)="onProfilePhotoError($event, sharePost)" />
+            </a>
+            <div class="media-body">
+              <h4 *ngIf="(sharePost.postEntity == 'USER' || sharePost.postEntity == 'BUSINESS')"
+                (click)="redirectUserFromShareModel(sharePost, sharePost.postedBy)" data-toggle="tooltip"
+                data-placement="top" title="{{ sharePost.firstName }}" class="cursor-pointer post-font ellipse1">
+                {{ sharePost.userName }}
+              </h4>
+
+              <ng-container
+                *ngIf="(sharePost.postEntity == 'COMMUNITY' || sharePost.postEntity == 'NETWORK' || sharePost.postEntity == 'TEAM')">
+                <div data-toggle="tooltip" data-placement="top" title="{{ sharePost.postedByUserData?.fullName }}"
+                  class="cursor-pointer post-font">
+                  <a data-toggle="tooltip" data-placement="top" title="{{ sharePost.postedByUserData?.fullName }}"
+                    (click)="redirectUserFromShareModel(sharePost, sharePost.postedBy)">
+                    {{ sharePost.postedByUserData?.fullName }}
+                  </a>
+                  <img src="assets/icon/arrow.png" alt="" srcset="" class="profilelink" />
+                  <img src="assets/icon/icons8-myspace-400.png" *ngIf="sharePost.postEntity == 'COMMUNITY' " alt=""
+                    srcset="" class="profilelink" />
+                  <img src="assets/icon/icons8-share-400.png" *ngIf="sharePost.postEntity == 'NETWORK'  " alt=""
+                    srcset="" class="profilelink" />
+                  <img src="assets/icon/icons8-people-100.png" *ngIf="sharePost.postEntity == 'TEAM'" alt="" srcset=""
+                    class="profilelink" />
+                  <img src="assets/icon/icons8-small-business-100.png" *ngIf="sharePost.postEntity == 'BUSINESS'" alt=""
+                    srcset="" class="profilelink" />
+
+
+                  <a data-toggle="tooltip" class="ellipse2" data-placement="top" title="{{ sharePost?.userName }}"
+                    (click)="redirectEntityFromShareModal(sharePost)">{{ sharePost?.userName }}
+                  </a>
+                </div>
+
+              </ng-container>
+              <!--<h5 style="font-weight: 600">{{ sharePost.userName }}</h5>-->
+              <!-- <i class="pe-7s-more three_icon_cmon"></i>
+              <small class="text-muted">{{ sharePost.postedOn | date }}</small>-->
+              <div class="time" style="margin-top: 0px;">
+                <i class="pe-7s-clock clock-icon" style="margin-left: 1px; font-size: 14px"></i>
+                <small class="text-muted" style="margin-top: 4px">{{ sharePost.posteddate }}</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-content m-t-md mx-efty" *ngIf="sharePost.postContent">
+            <div class="showmore break-word" [class.show-share]="sharePost.visible" [innerHtml]="sharePost.postContent">
+            </div>
+            <p class="showmoreTag-share cursor-pointer" *ngIf="sharePost.postContent.length > 600"
+              (click)="sharePost.visible = !sharePost.visible">
+              {{ sharePost.visible ? "Show less" : "Show More" }}
+            </p>
+            <div>
+              <!-- <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+                <slide *ngFor="let imageshare of sharePost.medias; let i = index">
+                  <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                      <img  [src]="imageshare.url" width="100%" style="max-height: 350px !important" />
+                  </ng-container>
+                  <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                    <video width="100%" controls (click)="toggleVideo()" #videoPlayer>
+                      <source [src]="imageshare.url" />
+                    </video>
+                  </ng-container>
+                </slide>
+              </carousel> -->
+
+
+              <div *ngIf="sharePost.medias?.length==1">
+                <div *ngFor="let imageshare of sharePost.medias; let i = index;">
+
+
+
+                  <ng-container class="col-sm-12" *ngIf="imageshare.type === 'image'">
+                    <div class="carousel-image">
+                      <img [src]="imageshare.url" class="hover-effect" (click)="pushImages(sharePost.medias, i)" />
+                    </div>
+                  </ng-container>
+                  <ng-container class="col-sm-12" *ngIf="imageshare.type === 'video'">
+                    <video width=100% controls (click)="pushImages(sharePost.medias, i)" class="hover-effect"
+                      #videoPlayer>
+                      <source [src]="imageshare.url" />
+                    </video>
+                    <!-- (click)="singleimagevidshows(imageshare, postdatasimg)" -->
+                  </ng-container>
+                </div>
+
+
+              </div>
+
+
+              <div *ngIf="sharePost.medias?.length>1">
+                <section id="photos">
+                  <div *ngIf="sharePost.medias?.length === 2 || sharePost.medias.length === 4">
+                    <div class="even" *ngFor="let photos of sharePost.medias; let i = index;">
+                      <!-- <img [src]=[photos.url] alt="sharePosts"> -->
+                      <ng-container *ngIf="photos.type=='image'">
+                        <img [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(sharePost.medias, i)">
+                      </ng-container>
+                      <ng-container>
+                        <video *ngIf="photos.type=='video'" width="100%" controls
+                          (click)="pushImages(sharePost.medias, i)" class="hover-effect" #videoPlayer>
+                          <source [src]="photos.url" />
+                        </video>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div *ngIf="sharePost.medias?.length === 3">
+                    <div class="three" *ngFor="let photos of sharePost.medias; let i = index;">
+                      <!-- <img [src]=[photos.url] alt="sharePosts"> -->
+                      <ng-container *ngIf="photos.type=='image'">
+                        <img [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(sharePost.medias, i)">
+                      </ng-container>
+                      <ng-container>
+                        <video *ngIf="photos.type=='video'" width="100%" controls
+                          (click)="pushImages(sharePost.medias, i)" class="hover-effect" #videoPlayer>
+                          <source [src]="photos.url" />
+                        </video>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div *ngIf="sharePost.medias?.length === 5">
+                    <div class="five" *ngFor="let photos of sharePost.medias; let i = index;">
+                      <!-- <img [src]=[photos.url] alt="sharePosts"> -->
+                      <ng-container *ngIf="photos.type=='image'">
+                        <img [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(sharePost.medias, i)">
+                      </ng-container>
+                      <ng-container>
+                        <video *ngIf="photos.type=='video'" width="100%" controls
+                          (click)="pushImages(sharePost.medias, i)" class="hover-effect" #videoPlayer>
+                          <source [src]="photos.url" />
+                        </video>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div *ngIf="sharePost.medias?.length === 6">
+                    <div class="even" *ngFor="let photos of sharePost.medias; let i = index;">
+                      <!-- <img [src]=[photos.url] alt="sharePosts"> -->
+                      <ng-container *ngIf="photos.type=='image'">
+                        <img [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(sharePost.medias, i)">
+                      </ng-container>
+                      <ng-container>
+                        <video *ngIf="photos.type=='video'" width="100%" controls
+                          (click)="pushImages(sharePost.medias, i)" class="hover-effect" #videoPlayer>
+                          <source [src]="photos.url" />
+                        </video>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div *ngIf="sharePost.medias?.length > 6">
+                    <div class="sixPlus" *ngFor="let photos of sharePost.medias; let i = index;">
+                      <!-- <img *ngIf="4>i" [src]=[photos.url] alt="sharePosts"> -->
+                      <ng-container *ngIf="photos.type=='image' && 4>i">
+                        <img [src]=[photos.url] alt="datas" class="hover-effect"
+                          (click)="pushImages(sharePost.medias, i)">
+                      </ng-container>
+                      <ng-container>
+                        <video *ngIf="photos.type=='video' && 4>i" width="100%" controls
+                          (click)="pushImages(sharePost.medias, i)" class="hover-effect" #videoPlayer>
+                          <source [src]="photos.url" />
+                        </video>
+                      </ng-container>
+                      <span class="plusIcon" *ngIf="sharePost.medias.length>6 && i==3">+{{sharePost.medias.length-4}}
+                        more</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!commonVariables.postPrivacyFlag" class="modal-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button " class="btn primary-btn btn-sm float-r done-btn-size" (click)="sharePostPage()">
+              Share
+            </button>
+            <button type="button " class="btn secondary-btn btn-sm float-r m-r-15" (click)="closeSharePage()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-heading" *ngIf="commonVariables.postPrivacyFlag">
+        <div class="row panel-tools">
+          <div class="col-sm-2">
+            <button type="button" class="close" aria-label="Close" (click)="close()">
+              <span style="font-size: 26px" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+          style="margin-left: 8px !important">Select
+          {{ postviewModelName }}</label>
+      </div>
+      <hr style="margin: 0px !important" />
+
+      <div class="app-form" *ngIf="commonVariables.postPrivacyFlag">
+        <div class="modal-body">
+          <div class="lbl" *ngIf="networkZeroFlag">
+            You don't have anybody in your Network
+          </div>
+          <div class="lbl" *ngIf="teamZeroFlag">
+            You don't have anybody in Team
+          </div>
+          <div class="lbl" *ngIf="connectionZeroFlag">
+            You don't have anybody in Conections
+          </div>
+          <div class="lbl" *ngIf="communityZeroFlag">
+            You don't have anybody in your Community
+          </div>
+
+          <div class="m-t-mins-9"
+            *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+            <input type="text" (keyup)="onSearch($event)" class="form-control" name="searchName" id=""
+              aria-describedby="helpId" placeholder="Search" [(ngModel)]="searchName" />
+          </div>
+
+          <div class="row" *ngFor="
+              let data of modelList
+                | filter: searchName
+                | paginate: config;
+              let i = index
+            ">
+            <!-- Connections -->
+
+            <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Connections'">
+              <div class="row poi">
+                <div class="col-sm-1">
+                  <img class="img-profile" [src]="imgUrl + data['photo']"
+                    onerror="src='assets/images/userAvatar.png'" />
+                </div>
+                <div class="col-sm-10">
+                  <label title="{{ data.firstName }} {{ data.lastName }} ">
+                    <a class="ft-12">{{ data.firstName }} {{ data.lastName }}</a>
+                  </label>
+                  <div class="overflow-hiden-" title="{{ data.title }}">
+                    {{ data.title }}
+                  </div>
+                </div>
+                <div class="col-sm-1 rm">
+                  <!-- <input
+                    type="checkbox"
+                    [(ngModel)]="data.checked"
+                    value="{{ data.userId }}"
+                    (change)="onCheckboxChange(data, $event)"
+                  /> -->
+
+                  <div class="custom-checkbox em">
+                    <label class="checkbox-label font-bold" style="text-align: center">
+                      <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                        (change)="onCheckboxChange(data, $event)" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Network -->
+
+            <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Network'">
+              <div class="row poi">
+                <div class="col-sm-1 p0">
+                  <img class="img-profile" [src]="imgUrl + data['logo']"
+                    onerror="src='assets/icon/icons8-share-400.png'" />
+                </div>
+                <div class="col-sm-10 rm">
+                  <label data-toggle="tooltip" data-placement="top" title="{{ data.networkName }}  ">
+                    <a class="ft-12">{{ data.networkName }} </a>
+                  </label>
+                </div>
+                <div class="col-sm-1 rm">
+                  <div class="custom-checkbox em">
+                    <label class="checkbox-label font-bold" style="text-align: center">
+                      <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                        (change)="onCheckboxChange(data, $event)" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Community kjkhkjh-->
+            <div *ngIf="postviewModelName == 'Community'">
+              <div class="col-lg-12 oi">
+                <div class="row poi">
+                  <div class="col-sm-1 p0">
+                    <img class="img-profile" [src]="imgUrl + data['logo']"
+                      onerror="src='assets/images/gallery/community-banner.png'" />
+                  </div>
+                  <div class="col-sm-10 rm">
+                    <label data-toggle="tooltip" data-placement="top" title="{{ data.communityName }}  ">
+                      <a class="ft-12">{{ data.communityName }} </a>
+                    </label>
+                  </div>
+                  <div class="col-sm-1 p0 rm">
+                    <div class="custom-checkbox em">
+                      <label class="checkbox-label font-bold" style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                          (change)="onCheckboxChange(data, $event)" />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="footerContainer" style="float: right">
+            <div class="footerIteam1">
+              <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+                Cancel
+              </button>
+            </div>
+            <div class="footerIteam2"
+              *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+              <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="checkedList.length === 0"
+                (click)="savePostSelected(postviewModelName)">
+                Continue
+              </button>
+            </div>
+          </div>
+          <pagination-controls *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag"
+            class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+          </pagination-controls>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Modal -->
+  <ng-template #fileuploadPopUp>
+    <div style="padding: 14px 14px !important;" *ngIf="!commonVariables.postPrivacyFlag">
+      <!-- <label>Add a photo/ video to your post</label> -->
+      <label>Create post</label>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+        <span style="font-size: 2.5rem;" aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div>
+      <hr style="margin: 0px !important; padding: 0px !important">
+    </div>
+
+    <div class="modal-body post-text-for-model" style="margin-top: 3px !important;">
+
+      <div *ngIf="!commonVariables.postPrivacyFlag">
+
+        <div class="row encased">
+
+          <div class="col-sm-2 pd-rt-0">
+            <img *ngIf="profPhoto!==null" class="avtar" style="border-radius: 50% !important;" src="{{profPhoto}}" />
+            <img *ngIf="profPhoto===null" class="avtar" style="border-radius: 50% !important;"
+              src="assets/images/userAvatar.png" />
+          </div>
+          <div class="col-sm-4 pd-lt-0">
+            <div class="row">
+              <h5>{{profName}}</h5>
+            </div>
+
+            <div class="row" [formGroup]="postTypeForm" style="display: flex;"
+              *ngIf="(editPost && privacyValue == 'Connections') || !editPost">
+              <input formControlName="postType" [value]="privacyValue" style="display: none!important;">
+
+              <div yPosition="below" *ngIf="Commomdatass == 'USER'" xPosition="after" [matMenuTriggerFor]="menu">
+                <input formControlName="postType" [value]="privacyValue" style="display: none!important;">
+                <button class="btn btn-sm btn-default">
+                  <i *ngIf="privacyValue == 'Everyone'" class="fas fa-globe-americas"></i>
+                  <i *ngIf="privacyValue == 'Connections'" class="fas fa-user-friends"></i>
+                  <i *ngIf="privacyValue == 'Network'" class="fas fa-network-wired"></i>
+                  <i *ngIf="privacyValue == 'Community'" class="fas fa-network-wired"></i>
+                  <span class="opaa1"> {{privacyValue}}
+                    <i style="padding-left: 0.3rem;" class="fa fa-chevron-down"></i>
+                    <!-- <i  class="fa fa-chevron-up"></i> -->
+                  </span>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button class="wqmzi" mat-menu-item [disabled]="editPost"
+                    (click)="changePostModal('Everyone', 'post')">
+                    <i class="fas fa-globe-americas"></i>
+                    <span class="opaa">Everyone</span>
+                  </button>
+                  <button type="button" [disabled]="editPost && privacyValue != 'Connections'"
+                    (click)="changePostModal('Connections', 'post')" class="wqmzi" mat-menu-item>
+                    <i class="fas fa-user-friends"></i>
+                    <span class="opaa">Connections</span>
+                  </button>
+                  <button type="button" [disabled]="editPost" (click)="changePostModal('Network', 'post')" class="wqmzi"
+                    mat-menu-item>
+                    <i class="fas fa-network-wired"></i>
+                    <span class="opaa">Network</span>
+                  </button>
+                  <button type="button" [disabled]="editPost" (click)="changePostModal('Community', 'post')"
+                    class="wqmzi" mat-menu-item>
+                    <i class="fas fa-users"></i>
+                    <span class="opaa">Community</span>
+                  </button>
+                </mat-menu>
+              </div>
+
+              <!-- <label *ngIf="selectedEntities.length>0">Shared with</label> -->
+              <div style="position: relative; left: 1rem; display: flex; column-gap: 0.5rem;">
+                <div *ngFor="let entity of selectedEntities; let i = index;">
+                  <div *ngIf="i<2">
+
+                    <div [class.ioxlp]="entity.length<=14" [ngClass]="{'jsdhgf': entity.length>14}">
+                      {{entity}}
+                    </div>
+                  </div>
+                  <span class="uwmp" *ngIf="selectedEntities.length>2 && i==2">and {{selectedEntities.length - 2}}
+                    others</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="post-text post-summernot" [formGroup]="urlLinkDetctForm">
+          <div class="form-control" formControlName="snippedLinkText" [(ngModel)]="commanddata1" name="message"
+            id="summessage" [ngxSummernote]="config1">
+          </div>
+
+
+          <div class="kjsiopzx"
+            *ngIf="linkTitle != null || linkImage != null || linkDescription != null || linkURL != null">
+            <div class="djwjpbf">
+              <img src="{{linkImage}}" alt="">
+            </div>
+            <div class="sdiuqwfp">
+              <h5>{{linkTitle}}</h5>
+              <div>{{linkDescription}}</div>
+              <div class="sdfkfldp">
+                <a href="{{linkURL}}" target="_blank">{{linkURL}}</a>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="posdkfp">
+            <mat-form-field appearance="outline">
+              <mat-label>Start a post...</mat-label>
+                <textarea [(ngModel)]="commanddata1" name="message" id="summessage" matInput matTextareaAutosize matLinkPreview minRows="6"></textarea>
+              <mat-link-preview-container [multiple]="true"></mat-link-preview-container>
+            </mat-form-field>
+          </div> -->
+        </div>
+
+
+
+
+        <div class="uisd">
+          <div class="row post-img-align udlfphg">
+            <!-- <div class="row post-img-align"> -->
+            <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+              <slide *ngFor="let item of uploadFiles">
+                <ng-container class="col-sm-6" *ngIf="item['t'] === 'image'">
+                  <img [src]="item['src']" width="100%" />
+                </ng-container>
+                <ng-container class="col-sm-6" *ngIf="item['t'] === 'video'">
+                  <video width="100%" controls (click)="toggleVideo()" #videoPlayer>
+                    <source [src]="item['src']" [type]="item['ft']" />
+                  </video>
+                </ng-container>
+                <ng-container class="col-sm-6" *ngIf="item['t'] === 'others'">
+                  <div class="attach-others">name</div>
+                </ng-container>
+              </slide>
+            </carousel>
+            <!-- </div> -->
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <!-- <div class="modal-footer" *ngIf="!commonVariables.postPrivacyFlag"> -->
+      <div class="row" *ngIf="!commonVariables.postPrivacyFlag">
+        <!-- <div class="col-sm-10"></div>
+          <div class="col-sm-2"> -->
+        <!-- <button class="btn primary-btn btn-sm " id="postbtn1" (click)="savewithattachment('new')">Post</button> -->
+
+        <!-- <div class="btn-group" dropdown style="display: flex">
+              <button class="btn primary-btn btn-sm right" id="postbtn1" (click)="savewithattachment('new')">
+                Post
+              </button>
+            </div> -->
+
+
+
+
+
+        <div class="row ajkl2">
+          <div class="dkjgwwx">
+            <label>Add to your post</label>
+          </div>
+
+
+          <div title="Photo" (click)="uploadMediaHere1('photo')">
+            <img src="assets/icon/icons8-camera-100.png" alt="" class="iconImg ixggp" />
+            <div class="image-upload photo-icon-click mt-10">
+
+            </div>
+          </div>
+
+          <div title="Video" (click)="uploadMediaHere1('video')">
+            <img src="assets/icon/icons8-video-call-100.png" alt="" srcset="" class="iconImg ixggp" />
+            <div class="image-upload1 photo-icon-click mt-10">
+
+
+            </div>
+          </div>
+
+
+
+          <div title="Link">
+
+            <img src="assets/icon/icons8-link-100.png" alt="" srcset="" class="iconImg ixggp" />
+            <div class="image-upload12 photo-icon-click mt-10">
+              <label for="file-input12">
+                <!-- <a class="card-link common-font-12"> Link </a> -->
+              </label>
+            </div>
+          </div>
+
+          <div title="Create Job" (click)="createJobs()">
+            <img src="assets/icon/icons8-job-seeker-100.png" alt="" srcset="" class="iconImg ixggp" />
+            <div class="image-upload1 photo-icon-click mt-10">
+            </div>
+          </div>
+
+          <div *ngIf="userType == 'BENCH_RECRUITER'" title="Create Candidate" (click)="createCandidate()">
+            <!-- <img src="assets/icon/icons8-job-seeker-100.png" alt="" srcset="" class="iconImg ixggp" /> -->
+            <i class="fas fa-user-friends tr"></i>
+            <div class="image-upload1 photo-icon-click mt-10">
+            </div>
+          </div>
+
+
+        </div>
+        <div class="row uqpp1">
+          <button class="btn primary-btn btn-sm btn-block" id="postbtn1" (click)="savewithattachment('new', null)">
+            Post
+          </button>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- </div> -->
+      </div>
+      <!-- </div> -->
+    </div>
+
+
+    <div class="panel-heading" *ngIf="commonVariables.postPrivacyFlag">
+      <div class="row panel-tools">
+        <div class="col-sm-2">
+          <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span style="font-size: 26px" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5" style="margin-left: 8px !important">Select
+        {{ postviewModelName }}</label>
+    </div>
+    <hr style="margin: 0px !important" />
+
+    <div class="app-form" *ngIf="commonVariables.postPrivacyFlag">
+      <div class="modal-body">
+        <div class="lbl" *ngIf="networkZeroFlag">
+          You don't have anybody in your Network
+        </div>
+        <div class="lbl" *ngIf="teamZeroFlag">
+          You don't have anybody in Team
+        </div>
+        <div class="lbl" *ngIf="connectionZeroFlag">
+          You don't have anybody in Conections
+        </div>
+        <div class="lbl" *ngIf="communityZeroFlag">
+          You don't have anybody in your Community
+        </div>
+
+        <div class="m-t-mins-9" *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+          <input type="text" class="form-control" name="searchName" id="" aria-describedby="helpId" placeholder="Search"
+            [(ngModel)]="searchName" (keyup)="onSearch($event)" />
+        </div>
+
+        <div class="row" *ngFor="
+            let data of modelList
+              | filter: searchName
+              | paginate: config
+            let i = index
+          ">
+          <!-- Connections -->
+
+          <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Connections'">
+            <div class="row poi">
+              <div class="col-sm-1">
+                <img class="img-profile" [src]="imgUrl + data['photo']" onerror="src='assets/images/userAvatar.png'" />
+              </div>
+              <div class="col-sm-10">
+                <label title="{{ data.firstName }} {{ data.lastName }} ">
+                  <a class="ft-12">{{ data.firstName }} {{ data.lastName }}</a>
+                </label>
+                <div class="overflow-hiden-" title="{{ data.title }}">
+                  {{ data.title }}
+                </div>
+              </div>
+              <div class="col-sm-1 rm">
+                <!-- <input
+                  type="checkbox"
+                  [(ngModel)]="data.checked"
+                  value="{{ data.userId }}"
+                  (change)="onCheckboxChange(data, $event)"
+                /> -->
+
+                <div class="custom-checkbox em">
+                  <label class="checkbox-label font-bold" style="text-align: center">
+                    <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network -->
+
+          <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Network'">
+            <div class="row poi">
+
+              <div class="col-sm-1 p0">
+                <img class="img-profile" [src]="imgUrl + data['logo']"
+                  onerror="src='assets/icon/icons8-share-400.png'" />
+              </div>
+              <div class="col-sm-10 rm">
+                <label class="overflow-hiden-" data-toggle="tooltip" data-placement="top"
+                  title="{{ data.networkName }}  ">
+                  <a class="ft-12">{{ data.networkName }} </a>
+                </label>
+              </div>
+              <div class="col-sm-1 rm">
+                <div class="custom-checkbox em">
+                  <label class="checkbox-label font-bold" style="text-align: center">
+                    <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+                <!-- <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                  (change)="onCheckboxChange(data, $event)" /> -->
+
+                <!-- <input type="checkbox"    value="{{data.userId}}" (change)="onCheckboxChange(data,$event)"> -->
+              </div>
+
+
+
+
+            </div>
+          </div>
+
+          <!-- Community kjkhkjh-->
+          <div *ngIf="postviewModelName == 'Community'">
+
+            <div class="col-lg-12 oi">
+              <div class="row poi">
+                <div class="col-sm-1 p0">
+                  <img class="img-profile" [src]="imgUrl + data['logo']"
+                    onerror="src='assets/images/gallery/community-banner.png'" />
+                </div>
+                <div class="col-sm-10 rm">
+                  <label class="overflow-hiden-" data-toggle="tooltip" data-placement="top"
+                    title="{{ data.communityName }}  ">
+                    <a class="ft-12">{{ data.communityName }} </a>
+                  </label>
+                </div>
+                <div class="col-sm-1 p0 rm">
+                  <div class="custom-checkbox em">
+                    <label class="checkbox-label font-bold" style="text-align: center">
+                      <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                        (change)="onCheckboxChange(data, $event)" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <div class="footerContainer" style="float: right">
+          <div class="footerIteam1">
+            <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+              Cancel
+            </button>
+          </div>
+          <div class="footerIteam2"
+            *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+            <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="checkedList.length === 0"
+              (click)="savePostSelected(postviewModelName)">
+              Continue
+            </button>
+          </div>
+
+        </div>
+        <pagination-controls *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag"
+          class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+        </pagination-controls>
+      </div>
+    </div>
+
+
+
+  </ng-template>
+  <ng-template #postdatasimg>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left" *ngIf="
+          singleimagedata.type === 'video' && singleimagedata.type === 'image'
+        ">
+        Selected Image & Video
+      </h4>
+      <h4 class="modal-title pull-left" *ngIf="singleimagedata.type === 'video'">
+        Selected Video
+      </h4>
+      <h4 class="modal-title pull-left" *ngIf="singleimagedata.type === 'image'">
+        Selected Image
+      </h4>
+      <button type="button" class="close pull-right sdz akkj" aria-label="Close" (click)="sdf()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <ng-container *ngIf="singleimagedata.type === 'image'">
+          <img [src]="singleimagedata.url" width="100%" style="max-height: 350px !important" />
+        </ng-container>
+        <ng-container *ngIf="singleimagedata.type === 'video'">
+          <video width="100%" controls (click)="toggleVideopopup()" #videoPlayerpopup>
+            <source [src]="singleimagedata.url" />
+          </video>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #editpost>
+    <div style="    padding: 14px 14px !important;" *ngIf="!commonVariables.postPrivacyFlag">
+      <label>Edit your post</label>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closeEdit()">
+        <span style="font-size: 2.5rem; position: relative; top: -0.5rem;" aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <hr style="margin: 0px !important; padding: 0px !important">
+
+
+
+    <div class="modal-body post-text-for-model" style="margin-top: 3px !important;"
+      *ngIf="!commonVariables.postPrivacyFlag">
+      <div class="row encased">
+
+        <div class="col-sm-2 pd-rt-0">
+          <img *ngIf="profPhoto!==null" class="avtar" style="border-radius: 50% !important;" src="{{profPhoto}}" />
+          <img *ngIf="profPhoto===null" class="avtar" style="border-radius: 50% !important;"
+            src="assets/images/userAvatar.png" />
+        </div>
+        <div class="col-sm-4 pd-lt-0">
+          <div class="row">
+            <h5>{{profName}}</h5>
+          </div>
+
+          <div class="row" [formGroup]="postTypeForm" style="display: flex;"
+            *ngIf="(editPost && privacyValue == 'Connections') || !editPost">
+            <input formControlName="postType" [value]="privacyValue" style="display: none!important;">
+
+            <div yPosition="below" *ngIf="Commomdatass == 'USER'" xPosition="after" [matMenuTriggerFor]="menu">
+
+              <button class="btn btn-sm btn-default">
+                <i *ngIf="privacyValue == 'Everyone'" class="fas fa-globe-americas"></i>
+                <i *ngIf="privacyValue == 'Connections'" class="fas fa-user-friends"></i>
+                <i *ngIf="privacyValue == 'Network'" class="fas fa-network-wired"></i>
+                <i *ngIf="privacyValue == 'Community'" class="fas fa-network-wired"></i>
+                <span class="opaa1"> {{privacyValue}}
+                  <i style="padding-left: 0.3rem;" class="fa fa-chevron-down"></i>
+                </span>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button class="wqmzi" mat-menu-item [disabled]="editPost" (click)="changePostModal('Everyone', 'post')">
+                  <i class="fas fa-globe-americas"></i>
+                  <span class="opaa">Everyone</span>
+                </button>
+                <button type="button" [disabled]="editPost && privacyValue != 'Connections'"
+                  (click)="changePostModal('Connections', 'post')" class="wqmzi" mat-menu-item>
+                  <i class="fas fa-user-friends"></i>
+                  <span class="opaa">Connections</span>
+                </button>
+                <button type="button" [disabled]="editPost" (click)="changePostModal('Network', 'post')" class="wqmzi"
+                  mat-menu-item>
+                  <i class="fas fa-network-wired"></i>
+                  <span class="opaa">Network</span>
+                </button>
+                <button type="button" [disabled]="editPost" (click)="changePostModal('Community', 'post')" class="wqmzi"
+                  mat-menu-item>
+                  <i class="fas fa-users"></i>
+                  <span class="opaa">Community</span>
+                </button>
+              </mat-menu>
+
+
+            </div>
+
+            <div style="position: relative; left: 1rem; display: flex; column-gap: 0.5rem;">
+              <div *ngFor="let entity of selectedEntities; let i = index;">
+                <div *ngIf="i<2">
+
+                  <div [class.ioxlp]="entity.length<=14" [ngClass]="{'jsdhgf': entity.length>14}">
+                    {{entity}}
+                  </div>
+                </div>
+                <span class="uwmp" *ngIf="selectedEntities.length>2 && i==2">and {{selectedEntities.length - 2}}
+                  others</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="post-text post-summernot" [formGroup]="urlLinkDetctForm">
+        <div formControlName="snippedLinkText" class="form-control" [(ngModel)]="commanddataEdit" name="summessageges"
+          id="summessageges" [ngxSummernote]="config1"></div>
+
+
+        <div class="kjsiopzx"
+          *ngIf="linkTitle != null || linkImage != null || linkDescription != null || linkURL != null">
+          <div class="djwjpbf">
+            <img src="{{linkImage}}" alt="">
+          </div>
+          <div class="sdiuqwfp">
+            <h5>{{linkTitle}}</h5>
+            <div>{{linkDescription}}</div>
+            <div class="sdfkfldp">
+              <a href="{{linkURL}}" target="_blank">{{linkURL}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row xtra">
+        <div class="col-sm-6" *ngFor="let url of imagEditData" class="img-wraps">
+          <ng-container *ngIf="url.type == 'image'">
+            <img *ngIf="url.status == 'ACTIVE'" [src]="PhotoPath + url.fileId" class="img-responsive" height="150" />
+            <img *ngIf="url.status == 'INACTIVE'" [src]="url.url" class="img-responsive" height="150" />
+            <span class="closes" (click)="deleteImage(url.orderBy, url.fileName)" title="Delete">&times;</span>
+          </ng-container>
+
+          <ng-container *ngIf="url.type == 'video'">
+            <video width="100%" class="img-responsive" controls height="150" (click)="toggleVideo()" #videoPlayer>
+              <source [src]="url.url" />
+            </video>
+            <span class="closes" (click)="deleteImage(url.orderBy, url.fileName)" title="Delete">&times;</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" *ngIf="!commonVariables.postPrivacyFlag">
+      <div class="row">
+        <div class="col-sm-10" for="file-input">
+          <input id="file-input-upload" #file style="display: none" multiple type="file" accept="image/*,video/*"
+            (change)="fileUpload($event, 'both', editfileUpload)" />
+
+          <button class="btn primary-btn btn-sm add-files" (click)="file.click()">
+            Add
+          </button>
+        </div>
+        <div class="col-sm-2">
+          <div class="btn-group" style="display: flex">
+            <button class="btn primary-btn btn-sm right" id="postbtn1" (click)="savewithattachment('edit', null)">
+              Post
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="panel-heading" *ngIf="commonVariables.postPrivacyFlag">
+      <div class="row panel-tools">
+        <div class="col-sm-2">
+          <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span style="font-size: 26px" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5" style="margin-left: 8px !important">Select
+        {{ postviewModelName }}</label>
+    </div>
+    <hr style="margin: 0px !important" />
+    <div class="app-form" *ngIf="commonVariables.postPrivacyFlag">
+      <div class="modal-body">
+        <div class="lbl" *ngIf="networkZeroFlag">
+          You don't have anybody in your Network
+        </div>
+        <div class="lbl" *ngIf="teamZeroFlag">
+          You don't have anybody in Team
+        </div>
+        <div class="lbl" *ngIf="connectionZeroFlag">
+          You don't have anybody in Conections
+        </div>
+        <div class="lbl" *ngIf="communityZeroFlag">
+          You don't have anybody in your Community
+        </div>
+
+        <div class="m-t-mins-9" *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+          <input type="text" class="form-control" name="searchName" id="" aria-describedby="helpId" placeholder="Search"
+            [(ngModel)]="searchName" (keyup)="onSearch($event)" />
+        </div>
+
+        <div class="row" *ngFor="
+            let data of modelList
+              | filter: searchName
+              | paginate: config;
+            let i = index
+          ">
+          <!-- Connections -->
+
+          <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Connections'">
+            <div class="row poi">
+              <div class="col-sm-1">
+                <img class="img-profile" [src]="imgUrl + data['photo']" onerror="src='assets/images/userAvatar.png'" />
+              </div>
+              <div class="col-sm-10">
+                <label title="{{ data.firstName }} {{ data.lastName }} ">
+                  <a class="ft-12">{{ data.firstName }} {{ data.lastName }}</a>
+                </label>
+                <div title="{{ data.title }}" class="overflow-hiden-">
+                  {{ data.title }}
+                </div>
+              </div>
+              <div class="col-sm-1 rm">
+                <!-- <input
+                  type="checkbox"
+                  [(ngModel)]="data.checked"
+                  value="{{ data.userId }}"
+                  (change)="onCheckboxChange(data, $event)"
+                /> -->
+
+                <div class="custom-checkbox em">
+                  <label class="checkbox-label font-bold" style="text-align: center">
+                    <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network -->
+
+          <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Network'">
+            <div class="row poi">
+
+              <div class="col-sm-1 p0">
+                <img class="img-profile" [src]="imgUrl + data['logo']"
+                  onerror="src='assets/icon/icons8-share-400.png'" />
+              </div>
+              <div class="col-sm-10 rm">
+                <label data-toggle="tooltip" data-placement="top" title="{{ data.networkName }}  ">
+                  <a class="ft-12">{{ data.networkName }} </a>
+                </label>
+              </div>
+              <div class="col-sm-1 rm">
+                <div class="custom-checkbox em">
+                  <label class="checkbox-label font-bold" style="text-align: center">
+                    <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+                <!-- <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                  (change)="onCheckboxChange(data, $event)" /> -->
+
+                <!-- <input type="checkbox"    value="{{data.userId}}" (change)="onCheckboxChange(data,$event)"> -->
+              </div>
+
+
+
+
+            </div>
+          </div>
+
+          <!-- Community kjkhkjh-->
+          <div *ngIf="postviewModelName == 'Community'">
+
+            <div class="col-lg-12 oi">
+              <div class="row poi">
+                <div class="col-sm-1 p0">
+                  <img class="img-profile" [src]="imgUrl + data['logo']"
+                    onerror="src='assets/images/gallery/community-banner.png'" />
+                </div>
+                <div class="col-sm-10 rm">
+                  <label data-toggle="tooltip" data-placement="top" title="{{ data.communityName }}  ">
+                    <a class="ft-12">{{ data.communityName }} </a>
+                  </label>
+                </div>
+                <div class="col-sm-1 p0 rm">
+                  <div class="custom-checkbox em">
+                    <label class="checkbox-label font-bold" style="text-align: center">
+                      <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                        (change)="onCheckboxChange(data, $event)" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <div class="footerContainer" style="float: right">
+          <div class="footerIteam1">
+            <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+              Cancel
+            </button>
+          </div>
+          <div class="footerIteam2"
+            *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+            <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="checkedList.length === 0"
+              (click)="savePostSelected(postviewModelName)">
+              Continue
+            </button>
+          </div>
+
+        </div>
+        <pagination-controls *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag"
+          class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+        </pagination-controls>
+      </div>
+    </div>
+
+  </ng-template>
+
+  <ng-template #editfileUpload>
+    <div class="modal-header">
+      <label class="pull-left" *ngIf="selectedvideo && selectedImage">
+        Add Image & Video
+      </label>
+      <label class="pull-left" *ngIf="selectedvideo && !selectedImage">
+        Add Video
+      </label>
+      <label class="pull-left" *ngIf="selectedImage && !selectedvideo">
+        Add Image
+      </label>
+
+      <button type="button" class="close sdz pull-right akkj" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row post-img-align">
+        <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+          <slide *ngFor="let item of uploadFiles">
+            <ng-container class="col-sm-6" *ngIf="item['t'] === 'image'">
+              <img [src]="item['src']" width="100%" />
+            </ng-container>
+            <ng-container class="col-sm-6" *ngIf="item['t'] === 'video'">
+              <video width="100%" controls (click)="toggleVideo()" #videoPlayer>
+                <source [src]="item['src']" [type]="item['ft']" />
+              </video>
+            </ng-container>
+          </slide>
+        </carousel>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="footerContainer">
+        <div class="footerIteam2">
+          <button class="btn primary-btn btn-sm btn-close-gap" (click)="closeuploadEdit()">
+            Ok
+          </button>
+        </div>
+
+        <div class="footerIteam1">
+          <button class="btn btn-Success btn-sm mr-2" (click)="close()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #postSelect>
+    <!-- <div class="modal-header">
+
+      <h4 class="modal-title pull-left"> Select {{postviewModelName}} </h4>
+
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div> -->
+
+    <div class="modal-body">
+      <div class="m-t-mins-9">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="searchName" id="" aria-describedby="helpId"
+                placeholder="Search" (keyup)="onSearch($event)" [(ngModel)]="searchName" />
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngFor="
+          let data of modelList
+            | filter: searchName
+            | paginate: config;
+          let i = index
+        ">
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="footerContainer" style="float: right">
+        <div class="footerIteam2">
+          <button class="btn primary-btn btn-sm btn-close-gap" (click)="savePostSelected(postviewModelName)">
+            Ok
+          </button>
+        </div>
+
+        <div class="footerIteam1">
+          <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+            Cancel
+          </button>
+        </div>
+      </div>
+      <pagination-controls class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+      </pagination-controls>
+    </div>
+  </ng-template>
+
+  <ng-template #postTemplate>
+    <div class="hpanel">
+      <div>
+        <!-- [@slide-in]="animState0" -->
+        <div class="panel-heading"
+          *ngIf="!commonVariables.postPrivacyFlag && !commonVariables.jobPostingFlag && !commonVariables.candidatePostingFlag">
+          <div class="row panel-tools">
+            <div class="col-sm-2">
+              <button type="button" class="close" aria-label="Close" (click)="close()">
+                <span style="font-size: 26px" aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
+          <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+            style="margin-left: 8px !important">Create post</label>
+        </div>
+
+        <div
+          *ngIf="!commonVariables.postPrivacyFlag && !commonVariables.jobPostingFlag && !commonVariables.candidatePostingFlag"
+          class="panel-body ksohhdk">
+          <div class="row encased">
+
+            <div class="col-sm-2 pd-rt-0">
+              <img *ngIf="profPhoto!==null" class="avtar" style="border-radius: 50% !important;" src="{{profPhoto}}" />
+              <img *ngIf="profPhoto===null" class="avtar" style="border-radius: 50% !important;"
+                src="assets/images/userAvatar.png" />
+            </div>
+            <div class="col-sm-4 pd-lt-0">
+              <div class="row">
+                <h5>{{profName}}</h5>
+              </div>
+
+              <div class="row" [formGroup]="postTypeForm" style="display: flex;"
+                *ngIf="(editPost && privacyValue == 'Connections') || !editPost">
+                <input formControlName="postType" [value]="privacyValue" style="display: none!important;">
+
+                <div yPosition="below" *ngIf="Commomdatass == 'USER'" xPosition="after" [matMenuTriggerFor]="menu">
+                  <button class="btn btn-sm btn-default">
+                    <i *ngIf="privacyValue == 'Everyone'" class="fas fa-globe-americas"></i>
+                    <i *ngIf="privacyValue == 'Connections'" class="fas fa-user-friends"></i>
+                    <i *ngIf="privacyValue == 'Network'" class="fas fa-network-wired"></i>
+                    <i *ngIf="privacyValue == 'Community'" class="fas fa-network-wired"></i>
+                    <span class="opaa1"> {{privacyValue}}
+                      <i style="padding-left: 0.3rem;" class="fa fa-chevron-down"></i>
+                    </span>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button class="wqmzi" mat-menu-item [disabled]="editPost"
+                      (click)="changePostModal('Everyone', 'post')">
+                      <i class="fas fa-globe-americas"></i>
+                      <span class="opaa">Everyone</span>
+                    </button>
+                    <button type="button" [disabled]="editPost && privacyValue != 'Connections'"
+                      (click)="changePostModal('Connections', 'post')" class="wqmzi" mat-menu-item>
+                      <i class="fas fa-user-friends"></i>
+                      <span class="opaa">Connections</span>
+                    </button>
+                    <button type="button" [disabled]="editPost" (click)="changePostModal('Network', 'post')"
+                      class="wqmzi" mat-menu-item>
+                      <i class="fas fa-network-wired"></i>
+                      <span class="opaa">Network</span>
+                    </button>
+                    <button type="button" [disabled]="editPost" (click)="changePostModal('Community', 'post')"
+                      class="wqmzi" mat-menu-item>
+                      <i class="fas fa-users"></i>
+                      <span class="opaa">Community</span>
+                    </button>
+                  </mat-menu>
+                </div>
+
+                <div style="position: relative; left: 1rem; display: flex; column-gap: 0.5rem;">
+                  <div *ngFor="let entity of selectedEntities; let i = index;">
+                    <div *ngIf="i<2">
+
+                      <div [class.ioxlp]="entity.length<=14" [ngClass]="{'jsdhgf': entity.length>14}">
+                        {{entity}}
+                      </div>
+                    </div>
+                    <span class="uwmp" *ngIf="selectedEntities.length>2 && i==2">and {{selectedEntities.length - 2}}
+                      others</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <form [formGroup]="urlLinkDetctForm">
+            <div class="form-control" formControlName="snippedLinkText" [(ngModel)]="commanddata" name="message"
+              id="summessage" [ngxSummernote]="config1">
+            </div>
+          </form>
+
+          <div class="kjsiopzx"
+            *ngIf="linkTitle != null || linkImage != null || linkDescription != null || linkURL != null">
+            <div class="djwjpbf">
+              <img src="{{linkImage}}" alt="">
+            </div>
+            <div class="sdiuqwfp">
+              <h5>{{linkTitle}}</h5>
+              <div>{{linkDescription}}</div>
+              <div class="sdfkfldp">
+                <a href="{{linkURL}}" target="_blank">{{linkURL}}</a>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+          <div class="uisd" *ngIf="uploadFiles.length > 0">
+            <div class="row post-img-align udlfphg">
+              <carousel [noWrap]="true" [showIndicators]="false" [interval]="0">
+                <slide *ngFor="let item of uploadFiles">
+                  <ng-container class="col-sm-6" *ngIf="item['t'] === 'image'">
+                    <img [src]="item['src']" width="100%" />
+                  </ng-container>
+                  <ng-container class="col-sm-6" *ngIf="item['t'] === 'video'">
+                    <video width="100%" controls (click)="toggleVideo()" #videoPlayer>
+                      <source [src]="item['src']" [type]="item['ft']" />
+                    </video>
+                  </ng-container>
+                  <ng-container class="col-sm-6" *ngIf="item['t'] === 'others'">
+                    <div class="attach-others">name</div>
+                  </ng-container>
+                </slide>
+              </carousel>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+          <div class="row ajkl1">
+            <div class="dkjgwwx">
+              <label>Add to your post</label>
+            </div>
+
+
+
+            <div title="Photo" (click)="uploadMediaHere1('photo')">
+              <img src="assets/icon/icons8-camera-100.png" alt="" class="iconImg ixggp" />
+              <div class="image-upload photo-icon-click mt-10">
+
+              </div>
+            </div>
+
+            <div title="Video" (click)="uploadMediaHere1('video')">
+              <img src="assets/icon/icons8-video-call-100.png" alt="" srcset="" class="iconImg ixggp" />
+              <div class="image-upload1 photo-icon-click mt-10">
+
+
+              </div>
+            </div>
+
+
+
+            <div title="Link">
+
+              <img src="assets/icon/icons8-link-100.png" alt="" srcset="" class="iconImg ixggp" />
+              <div class="image-upload12 photo-icon-click mt-10">
+                <label for="file-input12">
+                  <!-- <a class="card-link common-font-12"> Link </a> -->
+                </label>
+              </div>
+            </div>
+
+            <div *ngIf="userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER'" title="Create Job" (click)="createJobs()">
+              <img src="assets/icon/icons8-job-seeker-100.png" alt="" srcset="" class="iconImg ixggp" />
+              <div class="image-upload1 photo-icon-click mt-10">
+              </div>
+            </div>
+
+            <div title="Create Candidate" *ngIf="userType == 'BENCH_RECRUITER' ||  userType == 'FREELANCE_RECRUITER'" (click)="createCandidate()">
+              <!-- <img src="assets/icon/icons8-job-seeker-100.png" alt="" srcset="" class="iconImg ixggp" /> -->
+              <i class="fas fa-user-friends tr"></i>
+              <div class="image-upload1 photo-icon-click mt-10">
+              </div>
+            </div>
+
+
+          </div>
+          <div class="row uqpp">
+            <button class="btn primary-btn btn-sm btn-block" id="postbtn" (click)="save()">
+              Post
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- [@slide-in]="animState1" -->
+        <div class="panel-heading" *ngIf="commonVariables.postPrivacyFlag">
+          <div class="row panel-tools">
+            <div class="col-sm-2">
+              <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+                <span style="font-size: 26px" aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
+          <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+            style="margin-left: 8px !important">Select {{ postviewModelName }}</label>
+        </div>
+        <hr style="margin: 0px !important" />
+
+        <div class="app-form" *ngIf="commonVariables.postPrivacyFlag">
+          <div class="modal-body">
+            <div class="lbl" *ngIf="networkZeroFlag">
+              You are not part of any Networks
+            </div>
+            <div class="lbl" *ngIf="teamZeroFlag">
+              You are not part of any Teams
+            </div>
+            <div class="lbl" *ngIf="connectionZeroFlag">
+              You don't have anybody in Conections
+            </div>
+            <div class="lbl" *ngIf="communityZeroFlag">
+              You are not part of any Communities
+            </div>
+
+            <div class="m-t-mins-9"
+              *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+              <input type="text" class="form-control tr" name="searchName" id="" aria-describedby="helpId"
+                placeholder="Search" (keyup)="onSearch($event)" [(ngModel)]="searchName" />
+            </div>
+
+            <div class="row" *ngFor="
+                let data of modelList
+                  | filter: searchName
+                  | paginate: config;
+                let i = index
+              ">
+              <!-- Connections -->
+
+              <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Connections'">
+                <div class="row poi">
+                  <div class="col-sm-1">
+                    <img class="img-profile" [src]="imgUrl + data['photo']"
+                      onerror="src='assets/images/userAvatar.png'" />
+                  </div>
+                  <div class="col-sm-10">
+                    <label title="{{ data.firstName }} {{ data.lastName }} ">
+                      <a class="ft-12">{{ data.firstName }} {{ data.lastName }}</a>
+                    </label>
+                    <div class="overflow-hiden-" title="{{ data.title }}">
+                      {{ data.title }}
+                    </div>
+                  </div>
+                  <div class="col-sm-1 rm">
+                    <!-- <input
+                      type="checkbox"
+                      [(ngModel)]="data.checked"
+                      value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)"
+                    /> -->
+
+                    <div class="custom-checkbox em">
+                      <label class="checkbox-label font-bold" style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                          (change)="onCheckboxChange(data, $event)" />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Network -->
+
+              <div class="col-lg-12 oi" *ngIf="postviewModelName == 'Network'">
+                <div class="row poi">
+
+                  <div class="col-sm-1 p0">
+                    <img class="img-profile" [src]="imgUrl + data['logo']"
+                      onerror="src='assets/icon/icons8-share-400.png'" />
+                  </div>
+                  <div class="col-sm-10 rm">
+                    <label class="overflow-hiden-" data-toggle="tooltip" data-placement="top"
+                      title="{{ data.networkName }}  ">
+                      <a class="ft-12">{{ data.networkName }} </a>
+                    </label>
+                  </div>
+                  <div class="col-sm-1 rm">
+                    <div class="custom-checkbox em">
+                      <label class="checkbox-label font-bold" style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                          (change)="onCheckboxChange(data, $event)" />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <!-- <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                      (change)="onCheckboxChange(data, $event)" /> -->
+
+                    <!-- <input type="checkbox"    value="{{data.userId}}" (change)="onCheckboxChange(data,$event)"> -->
+                  </div>
+
+
+
+
+                </div>
+              </div>
+
+              <!-- Community kjkhkjh-->
+              <div *ngIf="postviewModelName == 'Community'">
+
+                <div class="col-lg-12 oi">
+                  <div class="row poi">
+                    <div class="col-sm-1 p0">
+                      <img class="img-profile" [src]="imgUrl + data['logo']"
+                        onerror="src='assets/images/gallery/community-banner.png'" />
+                    </div>
+                    <div class="col-sm-10 rm">
+                      <label class="overflow-hiden-" data-toggle="tooltip" data-placement="top"
+                        title="{{ data.communityName }}  ">
+                        <a class="ft-12">{{ data.communityName }} </a>
+                      </label>
+                    </div>
+                    <div class="col-sm-1 p0 rm">
+                      <div class="custom-checkbox em">
+                        <label class="checkbox-label font-bold" style="text-align: center">
+                          <input type="checkbox" [(ngModel)]="data.checked" value="{{ data.userId }}"
+                            (change)="onCheckboxChange(data, $event)" />
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+
+            <div class="footerContainer" style="float: right">
+              <div class="footerIteam1">
+                <button class="btn btn-Success btn-sm mr-2" (click)="dismiss()">
+                  Cancel
+                </button>
+              </div>
+              <div class="footerIteam2"
+                *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag">
+                <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="checkedList.length === 0"
+                  (click)="savePostSelected(postviewModelName)">
+                  Continue
+                </button>
+              </div>
+
+            </div>
+            <pagination-controls *ngIf="!networkZeroFlag && !communityZeroFlag && !teamZeroFlag && !connectionZeroFlag"
+              class="left-page-align" (click)="pagecount(page)" (pageChange)="page = $event">
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Job posting -->
+      <!-- <div class="slide-in from-left"> -->
+      <div>
+        <!-- [@slide-in]="animState" -->
+        <div class="panel-heading" *ngIf="commonVariables.jobPostingFlag">
+          <div class="row panel-tools">
+            <div class="col-sm-2">
+              <button type="button" class="close" aria-label="Close" (click)="closeJob()">
+                <span style="font-size: 26px" aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
+          <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+            style="margin-left: 8px !important">Create Job</label>
+        </div>
+        <div class="panel-body" *ngIf="commonVariables.jobPostingFlag">
+          <form [formGroup]="jobPostForm" action="">
+            <div class="app-form">
+              <div class="form-group row">
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="clientType" class="control-label required-field font-bold">Client Type</label>
+                  <select class="form-control input-sm" (change)="onClientTypeChange($event.target.value)"
+                    formControlName="clientType" type="text">
+                    <option value="null" selected disabled>Select Your Client Classification</option>
+                    <option *ngFor="let client of clientTypeList" [value]="client.item">
+                      {{client.item}}</option>
+                  </select>
+                  <div *ngIf="
+                      (submit && jobControls.clientType.invalid) ||
+                      (jobControls.clientType.invalid &&
+                        (jobControls.clientType.dirty ||
+                          jobControls.clientType.touched))
+                    " class="error-msg">
+                    <div *ngIf="jobControls.clientType.errors.required">
+                      Client Type is required
+                    </div>
+                  </div>
+                  <div class="custom-checkbox">
+                    <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show Client
+                      Type
+                      <input type="checkbox" name="showClientType" formControlName="showClientType">
+                      <span class="checkmark" title="You can check or uncheck this to show or hide  client type"></span>
+                    </label>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="jobId" class="control-label required-field font-bold">Job - ID</label>
+                  <input type="text" readonly class="form-control input-sm" placeholder="Job - ID" id="jobId"
+                    formControlName="jobId">
+                </div> -->
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="clientName" class="control-label required-field font-bold">Client Name</label>
+                  <!-- <ng-select [items]="clientNameList" [addTag]="true" [hideSelected]="true" dropdownPosition="bottom"
+                    formControlName="clientName" [multiple]="false" placeholder="Name of your business organization">
+                  </ng-select> -->
+
+
+
+
+                  <input placeholder="Name of your business organization" class="form-control input-sm max-hight"
+                    formControlName="clientName" trim="blur"
+                    [ngClass]="{ 'is-invalid': submit && jobControls.clientName.hasError }"
+                    (typeaheadNoResults)="typeaheadNoResults($event)" (typeaheadOnSelect)="onChngOrg($event)"
+                    [typeahead]="clientNameList" [typeaheadMinLength]="0" typeaheadOptionField="organisationName"
+                    [typeaheadItemTemplate]="customItemTemplate" autocomplete="off" [typeaheadOrderBy]="sortConfigWork">
+
+
+                  <ng-template #customItemTemplate let-model="item">
+                    <span>
+                      <strong style="font-size: 14px;">
+                        {{model.organisationName}}
+                      </strong>
+                      <br>
+                      <i *ngIf="model.address1 || model.address2">
+                        <small>
+                          {{model.address1 }}<span *ngIf="model.address1 && model.address2">{{", "}}</span>
+                          {{model.address2}}
+                        </small>
+                      </i>
+
+                      <br *ngIf="model.address1 || model.address2">
+                      <i>
+                        <small>
+                          {{model.street }}<span *ngIf="model.street">{{", "}}</span>
+                          {{model.city}}<span *ngIf="model.city">{{", "}}</span>
+                          {{model.state}}<span *ngIf="model.state">{{", "}}</span>
+                          {{model.country}}
+                        </small>
+                      </i>
+                    </span>
+
+                  </ng-template>
+
+                  <div *ngIf="
+                  !noResult && ((submit && jobControls.clientName.invalid) ||
+                 (jobControls.clientName.invalid &&
+                   (jobControls.clientName.dirty ||
+                     jobControls.clientName.touched)))
+               " class="error-msg">
+                    <div *ngIf="jobControls.clientName.errors.required">
+                      Client Name is required
+                    </div>
+                  </div>
+
+                  <div *ngIf="noResult && (!jobControls.clientName.dirty || jobControls.clientName.value=='')"
+                    class="error-msg">Add new clients for the client type.</div>
+
+
+                  <div class="custom-checkbox">
+                    <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show Client
+                      Name
+                      <input type="checkbox" name="showClientName" formControlName="showClientName">
+                      <span class="checkmark" title="You can check or uncheck this to show or hide  client name"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="jobClassification" class="control-label required-field font-bold">Engagement Type</label>
+                  <select class="form-control input-sm" formControlName="jobClassification" type="text">
+                    <option value="null" selected disabled>Select Job Classification</option>
+                    <option *ngFor="let classification of jobClassificationList" [value]="classification.item">
+                      {{classification.item}}</option>
+                  </select>
+                  <div *ngIf="
+                  (submit && jobControls.jobClassification.invalid) ||
+                  (jobControls.jobClassification.invalid &&
+                    (jobControls.jobClassification.dirty ||
+                      jobControls.jobClassification.touched))
+                " class="error-msg">
+                    <div *ngIf="jobControls.jobClassification.errors.required">
+                      Job Classification is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="jobTitle" class="control-label required-field font-bold">Job Title</label>
+                  <ng-select [items]="candidateJobTitleList" [addTag]="true" [hideSelected]="true"
+                    dropdownPosition="bottom" formControlName="jobTitle" [multiple]="false" placeholder="Job Title">
+                  </ng-select>
+
+                  <!-- <input placeholder="Job Title" class="form-control input-sm max-hight"
+                  formControlName="jobTitle" trim="blur"
+                  [ngClass]="{ 'is-invalid': submit && jobControls.jobTitle.hasError }"
+                   [typeahead]="candidateJobTitleList"  [typeaheadMinLength]="0"
+                  typeaheadOptionField="jobTitle"
+                  autocomplete="off" [typeaheadOrderBy]="sortConfigWork"> -->
+
+                  <div *ngIf="
+                  (submit && jobControls.jobTitle.invalid) ||
+                  (jobControls.jobTitle.invalid &&
+                    (jobControls.jobTitle.dirty ||
+                      jobControls.jobTitle.touched))
+                " class="error-msg">
+                    <div *ngIf="jobControls.jobTitle.errors.required">
+                      Job Title is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="primarySkills" class="control-label required-field font-bold">Primary Skills</label>
+                  <ng-select [items]="primarySkillsList" [addTag]="true" [hideSelected]="true" dropdownPosition="bottom"
+                    formControlName="primarySkills" maxSelectedItems="3" [multiple]="true"
+                    placeholder="e.g. Java, Spring, Hibernate">
+                  </ng-select>
+
+                  <div *ngIf="
+                  (submit && jobControls.primarySkills.invalid) ||
+                  (jobControls.primarySkills.invalid &&
+                    (jobControls.primarySkills.dirty ||
+                      jobControls.primarySkills.touched))
+                " class="error-msg">
+                    <div *ngIf="jobControls.primarySkills.errors.required">
+                      Primary Skills is required
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="secondarySkills" class="control-label required-field font-bold">Secondary Skills</label>
+                  <ng-select [items]="secondarySkillsList" [addTag]="true" [hideSelected]="true"
+                    dropdownPosition="bottom" formControlName="secondarySkills" maxSelectedItems="3" [multiple]="true"
+                    placeholder="e.g. Java, Spring, Hibernate">
+                  </ng-select>
+
+                  <div *ngIf="
+                  (submit && jobControls.secondarySkills.invalid) ||
+                  (jobControls.secondarySkills.invalid &&
+                    (jobControls.secondarySkills.dirty ||
+                      jobControls.secondarySkills.touched))
+                " class="error-msg">
+                    <div *ngIf="jobControls.secondarySkills.errors.required">
+                      Secondary Skills is required
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="location" class="control-label font-bold">Location</label>
+                  <div class="row form-group">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select class="form-control input-sm" formControlName="country" type="text"
+                        (change)="onChangeCountry($event.target.value)">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='US'">
+                      <input type="text" placeholder="Zip Code" formControlName="zipcode" class="form-control input-sm"
+                        (keyup)="onKeyZip($event, 'job')">
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country!='AU'&&
+                                                          jobPostForm.value.country!='IN'&&
+                                                          jobPostForm.value.country!='CA'&&
+                                                          jobPostForm.value.country!='US'">
+                      <input type="text" placeholder="State" formControlName="state" class="form-control input-sm">
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='US'">
+                      <input type="text" disabled placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country!='US'">
+                      <input type="text" placeholder="City" formControlName="city" class="form-control input-sm">
+
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country!='US'">
+                      <input type="text" placeholder="Zipcode" formControlName="zipcode" class="form-control input-sm">
+
+                    </div>
+                    <div class="col-sm-6" *ngIf="jobPostForm.value.country=='US'">
+                      <input type="text" disabled placeholder="State" formControlName="state"
+                        class="form-control input-sm">
+
+                    </div>
+
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="duration" class="control-label font-bold">Duration</label>
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="duration" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>Duration</option>
+                        <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="durationType" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>Type</option>
+                        <option *ngFor="let durationType of durationTypeList" [value]="durationType.item">
+                          {{durationType.item}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                <div class="col-sm-6 form-group">
+                  <label for="duration" class="control-label required-field font-bold">Experience in Years</label>
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="experienceFrom" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>From</option>
+                        <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                      </select>
+
+
+                      <div *ngIf="
+                  (submit && jobControls.experienceFrom.invalid) ||
+                  (jobControls.experienceFrom.invalid &&
+                    (jobControls.experienceFrom.dirty ||
+                      jobControls.experienceFrom.touched))
+                " class="error-msg">
+                        <div *ngIf="jobControls.experienceFrom.errors.required">
+                          From Year is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select type="text" formControlName="experienceTo" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>To</option>
+                        <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                      </select>
+
+
+                      <div *ngIf="
+                  (submit && jobControls.experienceTo.invalid) ||
+                  (jobControls.experienceTo.invalid &&
+                    (jobControls.experienceTo.dirty ||
+                      jobControls.experienceTo.touched))
+                " class="error-msg">
+                        <div *ngIf="jobControls.experienceTo.errors.required">
+                          To Year is required
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <label for="targetRate" class="control-label required-field font-bold">Target Rate</label>
+                      <div style="display: flex;">
+                        <label for="USD" class="control-label font-bold">USD</label>
+                        <input type="text" class="form-control input-sm" placeholder="Target Rate" id="targetRate"
+                          formControlName="targetRate">
+
+                      </div>
+                      <div *ngIf="
+                      (submit && jobControls.targetRate.invalid) ||
+                      (jobControls.targetRate.invalid &&
+                        (jobControls.targetRate.dirty ||
+                          jobControls.targetRate.touched))
+                    " class="error-msg">
+                        <div *ngIf="jobControls.targetRate.errors.required">
+                          This is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <label for="payType" class="control-label required-field font-bold">Pay Type</label>
+                      <select type="text" formControlName="payType" class="form-control input-sm">
+                        <option [selected]=true value=null>Choose Type</option>
+                        <option *ngFor="let list of payTypeList" [value]="list">{{list}}</option>
+                      </select>
+                      <div *ngIf="
+                      (submit && jobControls.payType.invalid) ||
+                      (jobControls.payType.invalid &&
+                        (jobControls.payType.dirty ||
+                          jobControls.payType.touched))
+                    " class="error-msg">
+                        <div style="position: relative; top: 4px;" *ngIf="jobControls.payType.errors.required">
+                          Pay Type is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="remoteWork" class="control-label  font-bold">Remote Work</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="relocationRequired" class="control-label  font-bold">Relocation Required</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="securityClearance" class="control-label  font-bold">Security Clearance</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="workFromHome" class="control-label  font-bold">Work From Home</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+                  <label class="control-label required-field font-bold">Job Description</label>
+                  <div formControlName="jobDescription" [ngxSummernote]="config2" class="note-editor.note-frame"></div>
+                  <div *ngIf="
+                  (submit && jobControls.jobDescription.invalid) ||
+                  (jobControls.jobDescription.invalid &&
+                    (jobControls.jobDescription.dirty ||
+                      jobControls.jobDescription.touched))
+                " class="error-msg">
+                    <div *ngIf="jobControls.jobDescription.errors.required">
+                      Job Description is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="panel-footer" *ngIf="commonVariables.jobPostingFlag">
+          <div class="shifu">
+            <button class="btn btn-sm btn-default" (click)="closeJob()">Cancel</button>
+            <button class="btn btn-sm btn-primary" type="submit" (click)="createJob()">Save</button>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+
+
+      <!-- Candidate posting -->
+      <div>
+        <!-- [@slide-in]="animState2" -->
+        <div class="panel-heading" *ngIf="commonVariables.candidatePostingFlag">
+          <div class="row panel-tools">
+            <div class="col-sm-2">
+              <button type="button" class="close" aria-label="Close" (click)="closeCandidate()">
+                <span style="font-size: 26px" aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
+          <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+            style="margin-left: 8px !important">Create Candidate</label>
+        </div>
+        <div class="panel-body" *ngIf="commonVariables.candidatePostingFlag">
+          <form [formGroup]="candidatePostForm" action="">
+            <div class="app-form">
+              <div class="form-group row">
+
+
+                <div class="dropdox" appDnd (fileDropped)="onFileDropped($event)">
+                  <input accept="application/pdf, image/jpeg, image/jpg, application/docx, application/doc," type="file"
+                    #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
+
+                  <div>
+                    <h6>Drag your files here</h6>
+                  </div>
+                  <div>
+                    <h6>or</h6>
+                  </div>
+                  <div>
+                    <label for="fileDropRef">Click in this area</label>
+                  </div>
+                  <div>
+                    <small>Only PDF, DOCX, DOC, and TXT file formats supported</small>
+                  </div>
+                </div>
+                <div class="files-list" *ngIf="fileDragdrop">
+                  <div class="single-file">
+                    <div class="file-icon" style="width: 50px"></div>
+                    <div class="info">
+                      <h4 class="name">
+                        {{ fileDragdrop?.name }}
+                      </h4>
+                      <!-- <p class="size"></p> -->
+                    </div>
+                  </div>
+                  <!-- <button (click)="savetest()">save</button> -->
+
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="firstName" class="control-label required-field font-bold">First Name</label>
+                  <input type="text" class="form-control input-sm" placeholder="First Name" id="firstName"
+                    formControlName="firstName">
+                  <div *ngIf="
+               (candidateSubmit && candidateControls.firstName.invalid) ||
+               (candidateControls.firstName.invalid &&
+                 (candidateControls.firstName.dirty ||
+                   candidateControls.firstName.touched))
+             " class="error-msg">
+                    <div *ngIf="candidateControls.firstName.errors.required">
+                      First Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="lastName" class="control-label required-field font-bold">Last Name</label>
+                  <input type="text" class="form-control input-sm" placeholder="Last Name" id="lastName"
+                    formControlName="lastName">
+                  <div *ngIf="
+               (candidateSubmit && candidateControls.lastName.invalid) ||
+               (candidateControls.lastName.invalid &&
+                 (candidateControls.lastName.dirty ||
+                   candidateControls.lastName.touched))
+             " class="error-msg">
+                    <div *ngIf="candidateControls.lastName.errors.required">
+                      Last Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="phone" class="control-label font-bold">Phone</label>
+                  <input type="text" class="form-control input-sm" placeholder="Phone" id="phone"
+                    formControlName="phone">
+                  <div class="error-msg">
+                    <div *ngIf="candidateControls.phone.invalid">Please enter only numerals (0-9)</div>
+                  </div>
+
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="clientName" class="control-label  font-bold">Email ID</label>
+                  <input type="text" class="form-control input-sm" placeholder="Email ID" id="email"
+                    formControlName="email">
+                  <div class="error-msg">
+                    <div *ngIf="candidateControls.email.invalid">
+                      Enter a valid email ID
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label for="title" class="control-label required-field font-bold">Job Title</label>
+                      <ng-select [items]="candidateJobTitleList" [addTag]="true" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="jobTitle" [multiple]="false" placeholder="Job Title">
+                      </ng-select>
+
+                      <!-- <input placeholder="Job Title" class="form-control input-sm max-hight"
+                  formControlName="jobTitle" trim="blur"
+                  [ngClass]="{ 'is-invalid': candidateSubmit && candidateControls.jobTitle.hasError }"
+                   [typeahead]="candidateJobTitleList"  [typeaheadMinLength]="0"
+                  typeaheadOptionField="jobTitle"
+                  autocomplete="off" [typeaheadOrderBy]="sortConfigWork"> -->
+
+                      <div *ngIf="
+                  (candidateSubmit && candidateControls.jobTitle.invalid) ||
+                  (candidateControls.jobTitle.invalid &&
+                    (candidateControls.jobTitle.dirty ||
+                      candidateControls.jobTitle.touched))
+                " class="error-msg">
+                        <div *ngIf="candidateControls.jobTitle.errors.required">
+                          Job Title is required
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-sm-12">
+                      <label for="availableIn" class="control-label required-field font-bold">Availability</label>
+                      <select class="form-control input-sm" formControlName="availableIn" type="text"
+                        (change)="onChangePeriod($event.target.value)">
+                        <option value="null" selected disabled>Select One</option>
+                        <option *ngFor="let list of periodList" [value]="list.item">
+                          {{list.item}}</option>
+                      </select>
+                      <div *ngIf="
+                    (candidateSubmit && candidateControls.availableIn.invalid) ||
+                    (candidateControls.availableIn.invalid &&
+                      (candidateControls.availableIn.dirty ||
+                        candidateControls.availableIn.touched))
+                  " class="error-msg">
+                        <div *ngIf="candidateControls.availableIn.errors.required">
+                          Availablility is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label for="primarySkills" class="control-label required-field font-bold">Primary Skills</label>
+                      <ng-select [items]="primarySkillsList" [addTag]="true" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="primarySkills" maxSelectedItems="3" [multiple]="true"
+                        placeholder="e.g. Java, Spring, Hibernate">
+                      </ng-select>
+                      <div *ngIf="
+                (candidateSubmit && candidateControls.primarySkills.invalid) ||
+                (candidateControls.primarySkills.invalid &&
+                  (candidateControls.primarySkills.dirty ||
+                    candidateControls.primarySkills.touched))
+              " class="error-msg">
+                        <div *ngIf="candidateControls.primarySkills.errors.required">
+                          Primary Skills is required
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-sm-12">
+                      <label for="secondarySkills" class="control-label required-field font-bold">Secondary
+                        Skills</label>
+                      <ng-select [items]="secondarySkillsList" [addTag]="true" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="secondarySkills" maxSelectedItems="3"
+                        [multiple]="true" placeholder="e.g. Java, Spring, Hibernate">
+                      </ng-select>
+                      <div *ngIf="
+                (candidateSubmit && candidateControls.primarySkills.invalid) ||
+                (candidateControls.primarySkills.invalid &&
+                  (candidateControls.primarySkills.dirty ||
+                    candidateControls.primarySkills.touched))
+              " class="error-msg">
+                        <div *ngIf="candidateControls.primarySkills.errors.required">
+                          Secondary Skills is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+
+                  <div class="col-sm-6" style="padding-bottom: 7px;">
+                    <label for="engagementType" class="control-label required-field font-bold">Available For</label>
+                    <select class="form-control input-sm" formControlName="engagementType" type="text">
+                      <option value="null" selected disabled>Select Your Engagement Type</option>
+                      <option *ngFor="let engagementType of jobClassificationList" [value]="engagementType.item">
+                        {{engagementType.item}}</option>
+                    </select>
+
+                    <div *ngIf="
+         (candidateSubmit && candidateControls.engagementType.invalid) ||
+         (candidateControls.engagementType.invalid &&
+           (candidateControls.engagementType.dirty ||
+             candidateControls.engagementType.touched))
+       " class="error-msg">
+                      <div *ngIf="candidateControls.engagementType.errors.required">
+                        Engagement Type is required
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6" style="padding-bottom: 7px;">
+                    <label for="totalExperience" class="control-label required-field font-bold">Total Experience</label>
+                    <select type="text" formControlName="totalExperience" class="form-control input-sm">
+                      <option value=null disabled [selected]=true>Select Years </option>
+                      <option *ngFor="let totalExperience of totalExperienceList" [value]="totalExperience.item">
+                        {{totalExperience.item}}</option>
+                    </select>
+                    <div *ngIf="
+                          (candidateSubmit && candidateControls.totalExperience.invalid) ||
+                          (candidateControls.totalExperience.invalid &&
+                            (candidateControls.totalExperience.dirty ||
+                              candidateControls.totalExperience.touched))
+                        " class="error-msg">
+                      <div *ngIf="candidateControls.totalExperience.errors.required">
+                        Total Experience is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-12" style="padding-bottom: 7px;">
+                      <label for="workAuthorization" class="control-label required-field font-bold">Work
+                        Authorization</label>
+                      <select class="form-control input-sm" formControlName="workAuthorization" type="text">
+                        <option value="null" selected disabled>Select Work Authorization</option>
+                        <option *ngFor="let workAuthorization of workAuthorizationList" [value]="workAuthorization.item">
+                          {{workAuthorization.item}}</option>
+                      </select>
+                      <div *ngIf="
+                            (candidateSubmit && candidateControls.workAuthorization.invalid) ||
+                            (candidateControls.workAuthorization.invalid &&
+                              (candidateControls.workAuthorization.dirty ||
+                                candidateControls.workAuthorization.touched))
+                          " class="error-msg">
+                        <div *ngIf="candidateControls.workAuthorization.errors.required">
+                          Work Authorization is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <label for="targetRate" class="control-label required-field font-bold">Target Rate</label>
+                      <div style="display: flex;">
+                        <label for="USD" class="control-label font-bold">USD</label>
+                        <input type="text" class="form-control input-sm" placeholder="Target Rate" id="targetRate"
+                          formControlName="targetRate">
+
+                      </div>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.targetRate.invalid) ||
+                      (candidateControls.targetRate.invalid &&
+                        (candidateControls.targetRate.dirty ||
+                          candidateControls.targetRate.touched))
+                    " class="error-msg">
+                        <div style="position: relative; bottom: 4px;"
+                          *ngIf="candidateControls.targetRate.errors.required">
+                          This is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <label for="payType" class="control-label required-field font-bold">Pay Type</label>
+                      <select type="text" formControlName="payType" class="form-control input-sm">
+                        <option [selected]=true value=null>Select Pay Type</option>
+                        <option *ngFor="let list of payTypeList" [value]="list">{{list}}</option>
+                      </select>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.payType.invalid) ||
+                      (candidateControls.payType.invalid &&
+                        (candidateControls.payType.dirty ||
+                          candidateControls.payType.touched))
+                    " class="error-msg">
+                        <div *ngIf="candidateControls.payType.errors.required">
+                          Pay Type is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="location" class="control-label  font-bold">Current Location</label>
+                  <div class="row form-group">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select class="form-control input-sm" formControlName="country" type="text"
+                        (change)="onChangeCountry($event.target.value)">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='US'">
+                      <input type="text" placeholder="Zip Code" formControlName="zipCode" class="form-control input-sm"
+                        (keyup)="onKeyZip($event, 'candidate')">
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country!='AU'&&
+                                                         candidatePostForm.value.country!='IN'&&
+                                                         candidatePostForm.value.country!='CA'&&
+                                                         candidatePostForm.value.country!='US'">
+                      <input type="text" placeholder="State" formControlName="state" class="form-control input-sm">
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='US'">
+                      <input type="text" disabled placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country!='US'">
+                      <input type="text" placeholder="City" formControlName="city" class="form-control input-sm">
+
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country!='US'">
+                      <input type="text" placeholder="zipCode" formControlName="zipCode" class="form-control input-sm">
+
+                    </div>
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='US'">
+                      <input type="text" disabled placeholder="State" formControlName="state"
+                        class="form-control input-sm">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="remoteWork" class="control-label  font-bold">Remote Work</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="relocationRequired" class="control-label  font-bold">Open To Relocate</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="relocationRequired"
+                                name="relocationRequired">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="securityClearance" class="control-label font-bold">Security Clearance</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="securityClearance"
+                                name="securityClearance">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="workFromHome" class="control-label font-bold">Work From Home</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="workFromHome" name="workFromHome">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="custom-checkbox">
+                    <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Create
+                      Candidate Profile on the Platform
+                      <input type="checkbox" name="createCandidateOnPlatform"
+                        formControlName="createCandidateOnPlatform">
+                      <span class="checkmark" title="You can check or uncheck this to show or hide  client type"></span>
+                    </label>
+                  </div>
+
+                  <input *ngIf="candidatePostForm.value.createCandidateOnPlatform == true" type="text"
+                    title="Provide email address for CareOnline Job Portal activation"
+                    placeholder="Candidate's email ID for CareOnline Job Portal activation"
+                    formControlName="candidateEmailId" class="form-control input-sm">
+                    <div  class="error-msg">
+                      <div *ngIf="candidateControls.candidateEmailId.errors">
+                        Enter a valid email ID.
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <div class="form-group">
+                    <div class="custom-checkbox">
+                      <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Other
+                        Preferred States
+                        <input type="checkbox" name="otherPrefered" formControlName="otherPrefered">
+                        <span class="checkmark"
+                          title="You can check or uncheck this to show or hide  client type"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <ng-select *ngIf="candidatePostForm.value.otherPrefered == true" [items]="otherStatesList"
+                    [addTag]="true" [hideSelected]="true" dropdownPosition="bottom"
+                    formControlName="otherPreferedStates" [multiple]="true" placeholder="Other Preferred States">
+                  </ng-select>
+                </div>
+
+                <!-- <div class="col-sm-6" style="padding-bottom: 7px;">
+                  <label for="media" class="control-label required-field font-bold">Upload Resume</label>
+                  <input type="file" class="form-control input-sm" (change)="resumeUpload($event)"
+                    placeholder="Upload media" id="media" formControlName="media">
+                </div> -->
+
+                <div class="col-sm-12">
+                  <label class="control-label required-field font-bold">Resume Summary</label>
+                  <div formControlName="resumeSummary" [ngxSummernote]="config2" class="note-editor.note-frame"></div>
+                  <div *ngIf="
+                (candidateSubmit && candidateControls.resumeSummary.invalid) ||
+                (candidateControls.resumeSummary.invalid &&
+                  (candidateControls.resumeSummary.dirty ||
+                    candidateControls.resumeSummary.touched))
+              " class="error-msg">
+                    <div *ngIf="candidateControls.resumeSummary.errors.required">
+                      Resume Summary is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="panel-footer" *ngIf="commonVariables.candidatePostingFlag">
+          <div class="shifu">
+            <button class="btn btn-sm btn-default" (click)="closeCandidate()">Cancel</button>
+            <button class="btn btn-sm btn-primary" type="submit" (click)="saveCandidate()">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+
+</div>
+
+<!-- <div class="panel-body"> -->
+<ng-template #ksjdfkhj>
+  <div class="hpanel margin-bottom-5 padding-right-5">
+    <div class="panel-body PaddTP-1" *ngIf="postView != 'BUSINESS'">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav role="navigation " style="display: flex">
+            <ul class="nav navbar-nav no-borders customPost overflow overFlow">
+              <li class="dropdown ios1ao">
+                <a class="dropdown-toggle active" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-create-100.png" alt="" srcset="" class="iconImg" />
+                  <label>
+                    <a style="margin-left: -21px" class="card-link common-font-12">
+                      Create Post
+                    </a>
+                  </label>
+                </a>
+              </li>
+
+              <li class="dropdown ios1ao">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-camera-100.png" alt="" class="iconImg" />
+                  <div class="image-upload photo-icon-click mt-10">
+                    <label for="file-input">
+                      <a class="card-link common-font-12"> Photo </a>
+                    </label>
+                    <input />
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown ios1ao">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-video-call-100.png" alt="" srcset="" class="iconImg" />
+                  <div class="image-upload1 photo-icon-click mt-10">
+                    <label for="file-input1">
+                      <a class="card-link common-font-12"> Video </a>
+                    </label>
+                    <input />
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown ios1ao">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="assets/icon/icons8-link-100.png" alt="" srcset="" class="iconImg" />
+                  <div class="image-upload12 photo-icon-click mt-10">
+                    <label for="file-input12">
+                      <a class="card-link common-font-12"> Link </a>
+                    </label>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-12 mt-31">
+          <div class="post-text flex-xl-row">
+            <div>
+              <input placeholder="Create a post" class="start-post1" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="blengi" style="visibility: hidden;" class="sklll"
+    *ngIf="postView=='COMMUNITY' && communityType == 'true' && (isCommunityJoined == 'false')">
+    <div class="col-sm-12">
+      <img class="iopwwx" src="assets/icon/no_posts.png" alt="">
+    </div>
+    <div class="col-sm-12">
+      <div>Content will be visible only for the members of the community. Please join the community.</div>
+    </div>
+  </div>
+</ng-template>
+<!-- </div> -->

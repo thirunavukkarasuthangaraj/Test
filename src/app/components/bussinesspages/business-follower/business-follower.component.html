@@ -1,0 +1,81 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+  <div class="hpanel">
+    <div class="Bnav panel-body border-radius-top-left-right-6">
+      <div class="Bnav-item-1">
+        <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+          title="{{values.bussinessName}}">
+          {{values.bussinessName| truncate : 15 }}
+        </label>
+        <div *ngIf="BusFollowers">
+          <p>
+            {{ values.follower?.length }} {{ values.follower?.length === 1 ? 'Follower' : 'Followers' }}
+          </p>
+        </div>
+        <div *ngIf="revokedFollower">
+          <p >{{revokedData?.length}} Revoked </p>
+        </div>
+      </div>
+
+
+      <div class="Bnav-item-2">
+        <div>
+          <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search Follower" [(ngModel)]="searchKey"
+              [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+            </div>
+        </div>
+      </div>
+      <div class="Bnav-item-3" *ngIf="isSuperAdmin === 'true'">
+        <div class="btn-group ml-10" dropdown container="body">
+          <button id="button-container" class="btn btn-primary  btn-sm" dropdownToggle
+            aria-controls="dropdown-container">
+            <div class="filter-common" style="gap: 15px !important;">
+              <span>{{filterName}}</span>
+              <i class="pe-7s-filter"></i>
+            </div>
+          </button>
+          <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
+            aria-labelledby="button-container">
+            <li role="menuitem"><a class="dropdown-item" (click)='allFollowers()'>All </a></li>
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Ignored</a></li> -->
+            <li role="menuitem"><a class="dropdown-item" (click)='RevokedFollowers()'>Revoked</a></li>
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Admin</a></li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="Bnav-item-4">
+        <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="loadAPIcall">
+    <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+    *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9]"  >
+    <app-common-skeleton [NameOftheScreen]="'usercard'"></app-common-skeleton>
+  </div>
+  </ng-container>
+    <div *ngIf="DefaultData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of values?.follower | customFilter:{userName:searchKey}:false"  >
+         <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+          [button]="'PRIMARY'" [refresh]="true" [hideButton]="false"></app-user-card>
+      </div>
+    </div>
+
+    <div *ngIf="AllfollowerData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of Alldata | customFilter:{userName:searchKey}:false" >
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+        [button]="'PRIMARY'" [refresh]="true" [hideButton]="false"></app-user-card>
+      </div>
+    </div>
+
+    <div *ngIf="AllRevokeData">
+      <div class="col-sm-12 kcid col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let data of revokedData | customFilter:{userName:searchKey}:false">
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [adminFlag]="values.adminviewnavigation"
+        [button]="'PRIMARY'" [refresh]="true" ></app-user-card>
+      </div>
+    </div>
+</div>

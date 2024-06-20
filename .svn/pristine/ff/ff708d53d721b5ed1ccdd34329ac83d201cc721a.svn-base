@@ -1,0 +1,22 @@
+
+<div class="btn-group three_icon_cmon1 hovers" dropdown>
+  <a id="button-animated" style="font-size: 12px;" dropdownToggle>Report</a>
+  <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" style="right: 0; left: auto"
+    aria-labelledby="button-animated">
+    <ng-container>
+      <li role="menuitem" *ngFor="let flag of flags">
+        <a  (click)="onClick(flag)">{{flag}}</a>
+      </li>
+
+    </ng-container>
+
+  </ul>
+</div>
+
+
+<!--
+<div *ngFor="let season of seasons; let i = index">
+  <input id="season{{i}}" name="seasons" type="radio"
+    [value]="season" [(ngModel)]="favoriteSeason" />
+  <label for="">{{season}}</label>
+</div> -->

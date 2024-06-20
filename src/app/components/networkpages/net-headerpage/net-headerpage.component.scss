@@ -1,0 +1,150 @@
+.mainNav {
+  display: flex;
+  justify-content: space-around;
+  justify-content: center;
+}
+
+.navIteam:nth-of-type(1) {
+  flex-grow: 2;
+}
+.navIteam:nth-of-type(2) {
+  flex-grow: 2;
+}
+.navIteam:nth-of-type(3) {
+  flex-grow: 5;
+}
+.navIteam:nth-of-type(4) {
+  flex-grow: 0;
+}
+.navIteam:nth-of-type(5) {
+  flex-grow: 1;
+}
+
+.net-menu-sticky {
+  position: fixed;
+  top: 92px;
+}
+
+.bg {
+  background-color: white;
+  padding: 10px;
+  margin-top: 175px;
+}
+
+.ellipse1 {
+  text-overflow: ellipsis !important;
+  width: 36rem !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  word-wrap: break-word;
+}
+
+
+.displayflex {
+  display: flex;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.filimg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.connectionbtn {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.topm-6 {
+  // background-color: white;
+  margin-top: 6px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+.mainItem {
+  background-color: white;
+}
+
+.mainItem:nth-of-type(1) {
+  flex-grow: 4;
+}
+.mainItem:nth-of-type(2) {
+  flex-grow: 2;
+}
+
+.mleft {
+  margin-left: 7px;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.disButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.dybtn {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.mt-14 {
+  margin-top: -14px;
+}
+
+.canbtn {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+.subbtn {
+  margin-right: 19px;
+  margin-bottom: 10px;
+}
+
+.bus-hov {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: #1a0dab;
+  }
+}
+
+.scrollHeader{
+  margin-top: 2.5rem !important;
+  position: sticky !important;
+  top: -24rem !important;
+  z-index: 10 !important;
+}
+
+
+.qwc {
+  display: flex;
+  column-gap: 3px;
+}
+
+.lkio{
+  font-size: 13px;
+  color: #2a6482;
+  cursor: pointer;
+}
+
+.opi{
+  font-size: 17px;
+}
+.three-dot {
+  width: 2rem;
+}
+.left-a-msg{
+  left: -43px
+}

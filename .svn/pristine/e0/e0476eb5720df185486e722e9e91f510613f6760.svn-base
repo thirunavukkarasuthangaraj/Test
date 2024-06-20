@@ -1,0 +1,54 @@
+<div class="row margin-0">
+  <div class="col-md-12 padding-left-0 padding-right-0 margin-bottom-5" [class.sticky-nav]="landingsidesticky1" #landingside1>
+    <div class="bg">
+      <div class="navMain">
+        <div class="navIteam1">
+          <!-- <label for="">Community</label> -->
+          <h4>Community   :  <span> {{communityDetails?.length}}</span></h4>
+        </div>
+        <div class="navIteam2">
+          <div class="input-group f-l">
+            <!-- <input type="text" class="form-control input-sm" placeholder="Search Community"
+              aria-label="Amount (to the nearest dollar)"  (keyup)="keyupdata($event)" (keyup.enter)="onsearch(CommSearch)" name="searchadmin" id="searchadmin" [(ngModel)]="CommSearch" />
+              <span class="input-group-addon"  (click)="onsearch(CommSearch)" id="my_btn" ><i class="pe-7s-search"    ></i></span> -->
+
+              <input type="text" class="form-control input-sm" placeholder="Search Community"
+              aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" [(ngModel)]="searchKey" /> 
+              <span class="dummyBtn"></span>
+                  </div>
+        </div>
+        <div class="navIteam3">
+          <button class="btn btn-default btn-sm " (click)="routePage()"> Create Community</button>
+        </div>
+        <div class="navIteam">
+          <div class="btn-group btn-group-sm" dropdown>
+             <button type="button" class="btn primary-btn  btn-sm" (click)="onsearch('')">{{btnnameshow }}</button>
+            <button  id="button-animated" dropdownToggle   type="button" class="btn primary-btn  btn-sm leftview  dropdown-toggle"
+              dropdownToggle data-toggle="dropdown">
+              <span><i class="pe-7s-filter"></i></span>
+            </button>
+              <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-animated">
+                <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('all')">All  </a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('admin')">Admin</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('superadmin')">SuperAdmin</a></li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-0" *ngIf="communityDetails?.length==0" >
+      <app-nodata-found [title]="noDatafound" ></app-nodata-found>
+   </div>
+    <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-0"  *ngIf="communityDetails?.length!=0">
+        <div class="col-md-6 col-lg-4 padding-left-0 padding-right-5" style="margin-bottom: 5px!important;" *ngFor="let item of communityDetails | customFilter:{communityName:searchKey}:false">
+          <app-community-card [data]="item"></app-community-card>
+        </div>
+    </div>
+    <div class="col-sm-30 col-md-30 col-lg-30  padding-left-0 padding-right-0">
+      <div class="" >
+        <app-common-widget [page]="'COMMUNITY_LANDING_HOME_PAGE'" [inputData]="'HOME'"  [hideCompelte]="'LandingCommunity'" [userType]=userType></app-common-widget>
+       </div>
+    </div>
+  </div>

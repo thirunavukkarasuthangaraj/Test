@@ -1,0 +1,70 @@
+ import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Directive } from '@angular/core';
+import { DirectoryProfessionalListComponent } from '../../directory-professional-list/directory-professional-list.component';
+import { BusinesDirectoryProfileslistsComponent } from '../../business-dir-org/busines-directory-profiles-lists/busines-directory-profileslists.component';
+
+@Component({
+  selector: 'app-directory-footer',
+  templateUrl: './directory-footer.component.html',
+  styleUrls: ['./directory-footer.component.scss']
+})
+export class DirectoryFooterComponent implements OnInit {
+  data: any = {};
+  letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+  nameDisplay='Professional'
+  constructor(private directive:DirectoryProfessionalListComponent,
+    private business:BusinesDirectoryProfileslistsComponent,
+    private router: Router,
+    private aroute: ActivatedRoute) { }
+
+  ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      var res = this.router.url.substring(1, 14);
+      if(res=="directory/hcp"){
+        this.nameDisplay="Professional"
+
+      }else if(res=="directory/hco"){
+        this.nameDisplay="Organisation"
+      }
+    }, 1000);
+  }
+
+
+  albhabetval(value){ 
+   // console.log('URL-------'+ this.router.url)
+    var res = this.router.url.substring(1, 14);
+    //console.log(res);
+    if(res=="directory/hcp"){
+     // console.log("directory/hcp");
+      this.router.navigate(["directory/hcp/specality/all/professional"], {queryParams:{name:value}});
+      /* setTimeout(() => {
+        this.directive.alhafilter(value);
+        }, 100);*/
+    } else if(res=="directory/pro"){
+      //console.log("directory/pro");
+       this.router.navigate(["directory/hcp/specality/all/professional"], {queryParams:{name:value}});
+       /*setTimeout(() => {
+        this.directive.alhafilter(value);
+        }, 100);*/
+    }else if(res=="directory/hco"){
+      //console.log("directory/hco");
+      this.router.navigate(["directory/hco/profilelist/others"], {queryParams:{name:value}});
+       /*setTimeout(() => {
+        this.business.alhafilter(value);
+        }, 100);*/
+     }else if(res=="directory/bus"){
+     // console.log("directory/bus");
+       this.router.navigate(["directory/hco/profilelist/others"], {queryParams:{name:value}});
+      /* setTimeout(() => {
+        this.business.alhafilter(value);
+        }, 100);*/
+     }
+
+
+
+  }
+
+}

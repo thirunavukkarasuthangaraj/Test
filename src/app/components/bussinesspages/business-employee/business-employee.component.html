@@ -1,0 +1,66 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+  <div class="hpanel">
+    <div class="Bnav panel-body border-radius-top-left-right-6">
+      <div class="Bnav-item-1">
+        <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+          title="{{values.bussinessName}}">{{values.bussinessName| truncate : 18 }}
+        </label>
+        <div>
+          <p>{{values.employees?.length}} {{values.employees?.length > 1 ? 'Employees' : 'Employee'}}</p>
+
+        </div>
+      </div>
+      <div class="Bnav-item-2">
+        <div>
+          <div class="input-group">
+
+            <input (keyup)="keyupdata($event)" (keyup.enter)="onsearch(empSearch)" type="text" class="form-control"
+              placeholder="Search Employee" [(ngModel)]="searchKey" [ngModelOptions]="{standalone: true}"
+              aria-label="Amount (to the nearest dollar)">
+            <span class="dummyBtn"></span>
+          </div>
+        </div>
+      </div>
+      <div class="Bnav-item-3" *ngIf="isSuperAdmin === 'true'">
+        <div class="btn-group " dropdown container="body">
+          <button id="button-container" style="min-width: 90px !important;"
+            class="btn btn-primary dropdown-toggle btn-sm" dropdownToggle aria-controls="dropdown-container">
+            <div class="filter-common">
+              <span>{{filterName}}</span>
+              <i class="pe-7s-filter"></i>
+            </div>
+          </button>
+          <ul id="dropdown-container" *dropdownMenu class="dropdown-menu m-l-43 " role="menu"
+            aria-labelledby="button-container">
+            <li role="menuitem"><a class="dropdown-item" (click)='filterTeam("All")'>All </a></li>
+            <!-- <li role="menuitem"><a class="dropdown-item"  >Ignored</a></li> -->
+            <li role="menuitem"><a class="dropdown-item" (click)='filterTeam("ADMIN")'>Admin</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)='filterTeam("REVOKED")'>Revoked</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="Bnav-item-4">
+        <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+      </div>
+    </div>
+  </div>
+  <ng-container  *ngIf="loadAPIcallValue">
+    <div class="col-sm-12 col-md-6 col-lg-4 skdjk padding-right-5 padding-left-0"
+    *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+    <app-common-skeleton [NameOftheScreen]="'usercard'"></app-common-skeleton>
+    </div>
+  </ng-container>
+    <ng-container  *ngIf="!loadAPIcallValue">
+      <div class="col-sm-12 col-md-6 col-lg-4 skdjk padding-right-5 padding-left-0"
+        *ngFor="let data of values.employees">
+        <app-user-card [userDataInput]="data" [config]="userCardConfig" [button]="'PRIMARY'"
+          [adminFlag]="values.adminviewnavigation" [refresh]="true">
+        </app-user-card>
+      </div>
+    </ng-container>
+    <div class="col-md-12 pad" *ngIf="values?.employees?.length==0 && showNoDatafound">
+      <app-nodata-found [title]="noDatafound"></app-nodata-found>
+    </div>
+
+</div>

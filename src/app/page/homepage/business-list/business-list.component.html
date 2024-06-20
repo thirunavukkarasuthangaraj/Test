@@ -1,0 +1,345 @@
+<div class="row margin-0">
+  <!-- [class.sticky-nav]="landingsidesticky1"
+    #landingside1 -->
+  <div class="col-md-12 padding-left-0 padding-right-0 margin-bottom-5 sticky-nav">
+    <div class="hpanel">
+
+      <div class="navMain panel-body border-radius-top-left-right-6">
+        <div class="navIteam1">
+          <h4>Business : <span> {{businessdetail?.length}}</span></h4>
+        </div>
+        <div class="navIteam2">
+          <div class="input-group f-l">
+            <!-- <input type="text" class="form-control input-sm"  (keyup)="keyupdata($event)" (keyup.enter)="onsearch(bname)"  placeholder="Search Business"
+              aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" [(ngModel)]="bname"/>
+             <span class="input-group-addon"  (click)="onsearch(bname)" id="my_btn" ><i class="pe-7s-search"    ></i></span> -->
+
+            <input type="text" class="form-control input-sm" placeholder="Search Business"
+              aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" [(ngModel)]="searchKey" />
+            <span class="dummyBtn"></span>
+
+          </div>
+        </div>
+        <div class="navIteam3" *ngIf="loginUserType != 'FREELANCE_RECRUITER'">
+
+          <!-- BusniessCreatePage -->
+          <button class="btn btn-primary btn-sm" *ngIf="loginUserType!='JOB_SEEKER'" (click)="checkPrerequisites()">
+            <span class="mr-5"> </span> Create Business
+          </button>
+        </div>
+        <div class="navIteam4">
+          <div class="btn-group btn-group-sm" style="display: inline-flex;" dropdown>
+            <button type="button" class="btn primary-btn  btn-sm" (click)="onsearch('')">{{btnnameshow}}</button>
+            <button id="button-animated" dropdownToggle type="button"
+              class="btn primary-btn  btn-sm leftview  dropdown-toggle" dropdownToggle data-toggle="dropdown">
+              <span><i class="pe-7s-filter"></i></span>
+            </button>
+            <ul id="dropdown-animated " *dropdownMenu class="dropdown-menu" role="menu"
+              aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('all')">All </a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('admin')">Admin</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="sort_by_key('superadmin')">SuperAdmin</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-5" *ngIf="businessdetail?.length == 0">
+    <app-nodata-found  [title]="noDatafound" [buttonName]="loginUserType !== 'JOB_SEEKER'&& loginUserType !== 'FREELANCE_RECRUITER'? 'Create Business' : undefined"
+      (clickButton)="checkPrerequisites()" [isButtonDisabled]="isButtonDisabled"></app-nodata-found>
+  </div>
+
+  <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-0" *ngIf="businessdetail?.length!=0&&!loadAPIcall">
+    <div class="col-sm-12 col-md-6 col-lg-4  padding-left-0 padding-right-5" style="margin-bottom: 5px!important;"
+      *ngFor="let data of businessdetail | customFilter:{businessName:searchKey}:false ; let i = index;">
+      <app-business-card [BusinessDataInput]="data" (onUnfollow)="onUnfollow($event)"></app-business-card>
+    </div>
+  </div>
+  <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-0" *ngIf="loadAPIcall">
+    <div class="col-sm-12 col-md-6 col-lg-4  padding-left-0 padding-right-5" style="margin-bottom: 5px!important;"
+      >
+      <app-common-skeleton [NameOftheScreen]="'usercard'"></app-common-skeleton>
+    </div>
+  </div>
+
+  <div class="col-sm-30 col-md-30 col-lg-30 padding-left-0 padding-right-0 sticky-widget">
+    <div class="">
+      <app-common-widget [page]="'BUSINESS_LANDING_HOME_PAGE'" [inputData]="'BUSINESS'"
+        [hideCompelte]="'LandingBusiness'" [userType]=userType></app-common-widget>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="isModalShown" [config]="backdropConfig" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div style="margin-right: 2rem; margin-top: 1rem">
+        <button type="button" style="font-size: 27px; margin-right: -8px" class="close pull-right" aria-label="Close"
+          (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 style="margin: 0px 0px 10px 14px; padding-top: 10px">
+          Select Business Page
+        </h5>
+      </div>
+      <hr style="margin-top: 0px" /> -->
+
+      <div style="    padding: 14px 14px !important;">
+        <label>Select Business Page</label>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span style="font-size: 2.5rem; position: relative; top: -0.5rem;" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <hr style="margin: 0px !important; padding: 0px !important">
+
+
+      <div class="modal-body" style="padding: 22px">
+        <p>
+          Please choose one of your current organizations from the dropdown to
+          create Business Page for
+        </p>
+        <br />
+        <div>
+          <form [formGroup]="chooseBusinessPage">
+            <div class="form-group col-sm-8">
+
+              <!-- <select class="form-control input-sm" formControlName="organizationName">
+                  <option [value]="null" selected disabled>
+                    Choose the organization
+                  </option>
+                  <option  style=" font-size: small;" *ngFor="let org of organizationList" [value]="org.organizationId">
+                    <span > {{ org.organizationName }} </span>
+                    <span *ngIf="org.city.length!=0">,{{ org.city }}</span>
+                    <span *ngIf="org.state.length!=0">,{{ org.state }}</span>
+                    <span *ngIf="org.zipCode.length!=0">,{{ org.zipCode }}</span>
+                  </option>
+                </select> -->
+
+              <input placeholder="Select Organization Name" class="form-control input-sm max-hight"
+                formControlName="organizationName" (input)="clear()" [typeahead]="organizationList"
+                (typeaheadOnSelect)="onselecte($event)" [typeaheadMinLength]="0" typeaheadOptionField="organizationName"
+                [typeaheadItemTemplate]="customItemTemplate" autocomplete="off">
+
+              <ng-template #customItemTemplate let-model="item" style="width: 41rem !important;">
+                <span>
+                  <strong style="font-size: 14px;">
+                    {{model.organizationName}}
+                  </strong>
+                  <br>
+                  <!-- Italicized location details -->
+
+
+                  <i *ngIf="model.address1 || model.address2">
+                    <small>
+                      {{model.address1 }}<span *ngIf="model.address1 && model.address2">{{", "}}</span>
+                      {{model.address2}}
+                    </small>
+                  </i>
+
+                  <br *ngIf="model.address1 || model.address2">
+
+                  <i>
+                    <small>
+                      {{model.street }}<span *ngIf="model.street">{{", "}}</span>
+                      {{model.city}}<span *ngIf="model.city">{{", "}}</span>
+                      {{model.state}}<span *ngIf="model.state">{{", "}}</span>
+                      {{model.country}}<span *ngIf="model.country">{{", "}}</span>
+                      {{model.zipCode}}
+                    </small>
+                  </i>
+                </span>
+              </ng-template>
+
+
+              <div class="error-msg red" *ngIf="formValidity && controlOfForms.organizationName.errors">
+                <div *ngIf="controlOfForms.organizationName.errors.required">
+                  Please choose the organization
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="row">
+            <div class="rowchange">
+              <button style="margin-right: 5px" (click)="onHidden()" class="btn secondary-btn btn-sm float">
+                Cancel
+              </button>
+              <button (click)="navigate()" style="margin-right: 10px" class="btn primary-btn btn-sm float">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #businessEmailTemplate>
+  <!-- Email domain validation -->
+  <div class="custom-panel-heading">
+    <div class="panel-heading">
+      <div class="row panel-tools">
+        <div class="col-sm-2">
+          <button type="button" class="close" aria-label="Close" (click)="closeEmailDomainValidator()">
+            <span class="wrongicon" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+        style="margin-left: 8px !important">Validate Business Email</label>
+    </div>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="domainForm" action="">
+      <div class="app-form">
+        <div class="form-group row">
+          <div class="row alrt-dngr">
+            <div class="alert alert-danger addd-dngr" role="alert">
+              You need to have a business email address as your primary email on your profile to be able to create a
+              business/Job/Candidate.<br><br>
+
+              Please update the same and try again.<br><br>
+
+              A validation code will be sent to the business email address provided.<br><br>&nbsp; &nbsp; &nbsp; &nbsp;
+
+              * You can always have your generic email address as secondary email, to regain access to your profile once
+              you change organizations.<br><br>
+
+            </div>
+          </div>
+          <div class="col-sm-6" style="padding-bottom: 7px;">
+            <label for="priEmail" class="control-label font-bold">Primary Email</label>
+            <div>{{primaryEmail}}</div>
+          </div>
+
+          <div class="col-sm-6" style="padding-bottom: 7px;">
+            <label for="secEmail" class="control-label font-bold">Secondary Email</label>
+            <div>{{secondaryEmail}}</div>
+          </div>
+
+
+          <div class="col-sm-12" *ngIf="!otpEmailSent" style="padding-bottom: 7px;">
+            <label for="swapEmail" class="control-label required-field font-bold">Business Email
+              Address</label>
+            <input class="form-control input-sm" formControlName="swapEmail" type="text">
+            <div *ngIf="
+                (domainValidatorSubmit && domainControl.swapEmail.invalid) ||
+                (domainControl.swapEmail.invalid &&
+                  (domainControl.swapEmail.dirty ||
+                    domainControl.swapEmail.touched))
+              " class="error-msg">
+              <div *ngIf="domainControl.swapEmail.errors.required">
+                Primary Email is required
+              </div>
+              <div *ngIf="domainControl.swapEmail.errors.genericDomain">
+                Please, enter a business email domain
+              </div>
+              <div *ngIf="domainControl.swapEmail.errors.emailExistsAlready">
+                That email is taken already. Please, enter a different one.
+              </div>
+
+            </div>
+          </div>
+          <div class="col-sm-12" style="display:flex; column-gap: 13px;
+          align-items: center;" *ngIf="otpEmailSent">
+            <label for="">Business Email</label>
+            {{domainForm.value.swapEmail}}
+          </div>
+
+          <div class="row alrt-dngr">
+            <div *ngIf="otpEmailSent" class="alert alert-info addd-dngr" role="alert">
+              An authentication code has been sent to your business email. Please, enter it below.
+            </div>
+          </div>
+
+          <div class="col-sm-12" *ngIf="otpEmailSent">
+            <label for="domainValidationOtp" class="control-label required-field font-bold">Enter OTP</label>
+            <input class="form-control input-sm" formControlName="domainValidationOtp" type="text">
+            <div *ngIf="
+                  (domainValidatorSubmit && domainControl.domainValidationOtp.invalid) ||
+                  (domainControl.domainValidationOtp.invalid &&
+                    (domainControl.domainValidationOtp.dirty ||
+                      domainControl.domainValidationOtp.touched))
+                " class="error-msg">
+              <div *ngIf="domainControl.domainValidationOtp.errors.required">
+                Please, enter OTP.
+              </div>
+              <div *ngIf="domainControl.domainValidationOtp.errors.wrongDomainValidationOtp">
+                Incorrect OTP. Enter the right one.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="shifu">
+        <button class="btn btn-sm btn-primary" *ngIf="otpEmailSent" type="submit" (click)="validateOtp()">Validate
+          OTP</button>
+        <button class="btn btn-sm btn-primary" *ngIf="!otpEmailSent" type="submit"
+          (click)="proceedAfterValidation()">Proceed</button>
+        <button *ngIf="!otpEmailSent" class="btn btn-sm btn-default" (click)="closeValidator()">Go Back</button>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #workExperienceTemplate >
+  <app-workexperience-modal [header]="'Current Organization Details'" (ModalEmitter)="openBusiness($event)"
+  (closeEmitter)="isModalClosed($event)" [supportModal]="supportModal"
+  [content]="'BUSINESS'"  [ButtonName]="'Submit'"></app-workexperience-modal>
+
+</ng-template>
+
+<ng-template #currentOrganizationList>
+  <div class="custom-panel-heading">
+    <div class="panel-heading f-size">
+      <span class="f-size">Current Organization</span>
+      <button class="close panel-tools" (click)="closeModal()">x</button>
+    </div>
+  </div>
+
+
+  <div class="custom-modal-body panel-body listingDesign">
+    <span>{{userPossibilityStatusForOrgList}}</span>
+    <div class="column col-sm-6" *ngFor="let currentOrg of busListToShow ">
+
+      <input type="radio" class="col-sm-2 m-6" id="{{currentOrg.organizationId}}" [value]="currentOrg"
+        [(ngModel)]="selectedOrganisation">
+      <div class="col-sm-10">
+        <div class="row">
+          <div class=" font-size ">{{currentOrg.organizationName}}</div>
+          <div class="f-size-11">{{currentOrg.countryName}} {{currentOrg.state}} {{currentOrg.city}}</div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer button-flex-end">
+
+      <button class="btn btn-sm btn-default mr-12" (click)="closeModal()"> Cancel</button>
+      <button class="btn btn-sm btn-primary" (click)="checkBusinessStatus(selectedOrganisation)"> Proceed</button>
+    </div>
+  </div>
+
+</ng-template>
+
+
+
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage()" style="z-index: -1;"
+[messageDataPass]="messageData"> </app-message-widget>

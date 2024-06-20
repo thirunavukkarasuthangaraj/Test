@@ -1,0 +1,352 @@
+<div class="navbar-fixed-top">
+  <nav class="navbar app-header after-login">
+    <!-- <div class="color-line"></div> -->
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header" style="display: flex;">
+        <button
+          type="button"
+          class="navbar-toggle collapsed"
+          data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a
+          class="navbar-brand"
+          [routerLink]="['/landingPage']"
+          (click)="selectMenu('landingPage')"
+          routerLinkActive="router-link-active"
+        >
+          <img src="assets/icon/careOnline_icon.jpg" class="logo-size_define" alt="" />
+        </a>
+        <!-- <li
+          ngbDropdown
+          class="menu-item"
+          dropdown
+          (onShown)="onShown()"
+          (onHidden)="onHidden()"
+          alt="logo"
+          dropdownToggle
+          aria-controls="basic-link-dropdown"
+        >
+          <i style="color: black" class="fas fa-plus"></i>
+          <ul
+            id="basic-link-dropdown"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="basic-link"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item">Create Jobs</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item">Create Candidates</a>
+            </li>
+          </ul>
+        </li> -->
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse">
+        <form
+          [formGroup]="serachForm"
+          class="navbar-form navbar-left app-form example-form"
+        >
+          <input
+            type="text"
+            placeholder="Search..."
+            matInput
+            formControlName="serachData"
+            (keyup)="onChangeSearch($event)"
+            debounceTime="1000"
+            [matAutocomplete]="auto"
+            class="searchBox form-control"
+            [(ngModel)]="name"
+            #filterData
+          />
+          <div>
+            <ng-container>
+              <mat-autocomplete #auto="matAutocomplete" class="app-search-top">
+                <mat-optgroup
+                  *ngIf="searchBarShow && userData?.length > 0"
+                  class="app-search m-t-25"
+                >
+                  <h3>User</h3>
+                  <mat-option *ngIf="userData?.length > 3">
+                    <h6 class="pull-right">{{ userData?.length }} Results</h6>
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let option of userData | slice: 0:3"
+                    [value]="option.firstName"
+                    (click)="userSelected(option, 'USER')"
+                    class="display-flex"
+                  >
+                    <div class="display-flex">
+                      <img
+                        *ngIf="option.userImage != null"
+                        [src]="option.userImage"
+                        alt=""
+                        onerror="this.src='assets/images/userAvatar.png';"
+                      />
+                      <img
+                        *ngIf="option.userImage == null"
+                        src="assets/images/userAvatar.png"
+                        alt=""
+                      />
+                      <span class="d"
+                        >{{ option.firstName }} {{ option.lastName }}</span
+                      >
+                    </div>
+                  </mat-option>
+                  <mat-option *ngIf="userData?.length > 3">
+                    <a class="pull-right" (click)="searchList('USER')">
+                      <h6>View All >>></h6>
+                    </a>
+                  </mat-option>
+                </mat-optgroup>
+                <mat-optgroup
+                  *ngIf="searchBarShow && bunissData?.length > 0"
+                  class="app-search"
+                >
+                  <h3>Business</h3>
+                  <mat-option *ngIf="bunissData?.length > 3">
+                    <h6 class="pull-right">{{ bunissData?.length }} Results</h6>
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let option of bunissData | slice: 0:3"
+                    [value]="option.businessName"
+                    (click)="businessSelected(option)"
+                  >
+                    <div class="display-flex">
+                      <img
+                        *ngIf="option.businessLogo1 != null"
+                        [src]="option.businessLogo1"
+                        alt=""
+                        onerror="this.src='assets/images/gallery/company.png';"
+                      />
+                      <img
+                        *ngIf="option.businessLogo1 == null"
+                        src="assets/images/gallery/company.png"
+                        alt=""
+                      />
+                      <span>{{ option.businessName }}</span>
+                    </div>
+                  </mat-option>
+                  <mat-option *ngIf="bunissData?.length > 3">
+                    <div>
+                      <a
+                        class="pull-right"
+                        (click)="searchList('BUSINESS_PAGE')"
+                      >
+                        <h6>View All >>></h6>
+                      </a>
+                    </div>
+                  </mat-option>
+                </mat-optgroup>
+
+                <mat-optgroup
+                  *ngIf="searchBarShow && CommunityData?.length > 0"
+                  class="app-search"
+                >
+                  <h3>Community</h3>
+                  <mat-option *ngIf="CommunityData?.length > 3">
+                    <h6 class="pull-right">
+                      {{ CommunityData?.length }} Results
+                    </h6>
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let option of CommunityData | slice: 0:3"
+                    [value]="option.businessName"
+                    (click)="businessSelected(option)"
+                  >
+                    <div class="display-flex">
+                      <img
+                        *ngIf="option.logo != null"
+                        [src]="option.logo"
+                        alt=""
+                        onerror="this.src='assets/icon/comm.png';"
+                      />
+                      <img
+                        *ngIf="option.logo == null"
+                        src="assets/icon/comm.png"
+                        alt=""
+                      />
+                      <span>{{ option.communityName }}</span>
+                    </div>
+                  </mat-option>
+                  <mat-option *ngIf="CommunityData?.length > 3">
+                    <a
+                      class="pull-right"
+                      (click)="searchList('COMMUNITY_PAGE')"
+                    >
+                      <h6>View All >>></h6>
+                    </a>
+                  </mat-option>
+                </mat-optgroup>
+
+                <button
+                  class="btn btn-outline-info btn-lg btn-block"
+                  *ngIf="searchBarShow"
+                  (click)="searchList('ALL')"
+                >
+                  View All
+                </button>
+              </mat-autocomplete>
+            </ng-container>
+          </div>
+        </form>
+        <div class="navbar-right">
+          <ul class="nav navbar-nav no-borders">
+            <li
+              [class.axtive]="pageName == 'landingPage'"
+              ngbDropdown
+              display="dynamic"
+              class="menu-item"
+              (click)="selectMenu('landingPage')"
+              [routerLink]="['/landingPage']"
+              routerLinkActive="router-link-active"
+              title="Home"
+            >
+              <a>
+                <i class="pe-7s-home" aria-hidden="true"></i>
+              </a>
+            </li>
+
+            <li
+              [class.axtive]="pageName == 'jobs'"
+              routerLinkActive="active"
+              ngbDropdown
+              display="dynamic"
+              class="menu-item"
+              (click)="selectMenu('jobs')"
+              [routerLink]="['/jobs']"
+              routerLinkActive="router-link-active"
+              title="Jobs"
+            >
+              <a>
+                <i class="fa fa-briefcase"></i>
+              </a>
+            </li>
+
+            <li
+              [class.axtive]="pageName == 'candidates'"
+              routerLinkActive="active"
+              ngbDropdown
+              display="dynamic"
+              class="menu-item"
+              (click)="selectMenu('candidates')"
+              [routerLink]="['/candidates']"
+              routerLinkActive="router-link-active"
+              title="Candidates"
+            >
+              <a>
+                <i class="fas fa-user-friends"></i>
+                <!-- fas fa-user-friends -->
+              </a>
+            </li>
+
+            <li
+              ngbDropdown
+              class="menu-item"
+              title="Messages"
+              [class.axtive]="pageName == 'message'"
+              (click)="selectMenu('message')"
+              [routerLink]="['/message']"
+              routerLinkActive="router-link-active"
+            >
+              <a>
+                <i class="pe-7s-comment" aria-hidden="true"></i>
+                <span class="badge noti-badge" *ngIf="unreadUserMsgCount > 0">{{
+                  unreadUserMsgCount
+                }}</span>
+              </a>
+            </li>
+            <li
+              ngbDropdown
+              class="menu-item"
+              title="Notifications"
+              (click)="selectMenu('notification')"
+              [class.axtive]="pageName == 'notification'"
+            >
+              <a [routerLink]="['/notification']">
+                <i class="pe-7s-bell" aria-hidden="true"></i>
+                <span class="badge noti-badge" *ngIf="notificationcount > 0">{{
+                  notificationcount
+                }}</span>
+              </a>
+            </li>
+
+            <li ngbDropdown class="menu-item">
+              <div
+                class="profile-img"
+                dropdown
+                (onShown)="onShown()"
+                (onHidden)="onHidden()"
+                (isOpenChange)="isOpenChange()"
+              >
+                <img
+                  *ngIf="photoId == undefined || photoId == null"
+                  alt="logo"
+                  dropdownToggle
+                  (click)="(false)"
+                  aria-controls="basic-link-dropdown"
+                  class="img-circle"
+                  src="assets/images/userAvatar.png"
+                />
+                <img
+                  *ngIf="
+                    photoId != undefined && photoId != null && photoId != ''
+                  "
+                  alt="logo"
+                  dropdownToggle
+                  (click)="(false)"
+                  aria-controls="basic-link-dropdown"
+                  class="img-circle"
+                  [src]="img.src"
+                  onerror="this.src='assets/images/userAvatar.png';"
+                />
+                <ul
+                  id="basic-link-dropdown"
+                  *dropdownMenu
+                  class="dropdown-menu"
+                  style="margin-left: -95px"
+                  role="menu"
+                  aria-labelledby="basic-link"
+                >
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="viewMyProfile()"
+                      >View Profile</a
+                    >
+                  </li>
+                  <li role="menuitem">
+                    <a
+                      class="dropdown-item"
+                      (click)="goToSecuritySettings()"
+                      routerLinkActive="router-link-active"
+                      >Security Settings</a
+                    >
+                  </li>
+                  <li role="menuitem"><a class="dropdown-item">Feedback</a></li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="onLogout()">LogOut</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+  <!--<app-message></app-message>-->
+</div>
+<!-- <div class="addHeader"></div> -->

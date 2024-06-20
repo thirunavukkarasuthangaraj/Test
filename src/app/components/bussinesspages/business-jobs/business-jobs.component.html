@@ -1,0 +1,30 @@
+<div class="hpanel">
+    <div class="panel-body border-radius-top-left-right-6">
+      <div class="headerBusinessJobTitle">
+        <i class="fa fa-briefcase fa-lg"></i>
+        <h5>Business Jobs</h5>
+        <div class="businesscount">{{totalJobsCount}}</div>
+        <div class="app-form">
+          <div class="form-group">
+            <input class="form-control input-sm cutsom-in" placeholder="Search Job Title, Job ID, Skills" type="text"
+              [(ngModel)]="searchContent" (keyup)="searchfilter()" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<div class="col-sm-12" style="width: 99.3%;">
+  <app-jobs [loadAPIcall]="loadAPIcall" [viewSize]="'large'" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300"
+    (scrolled)="onScrollDown()" [passValues]="response" [jobsFoundStatus]="jobFoundStatus"
+    style="z-index: -1;"></app-jobs>
+  <div *ngIf="stopscrollFlag  && response?.length != 0" class="row caught_up_business">
+    <div class="col-md-12 mg-bt-9">
+      <app-svg-templates [svgType]="'CHECKMARK_CIRCLE_SMALL'"></app-svg-templates>
+    </div>
+    <div class="col-md-12">
+      <p class="biase">You've reached the bottom of the page</p>
+    </div>
+  </div>
+</div>

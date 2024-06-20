@@ -1,0 +1,263 @@
+.b-g-clr {
+  background-color: #f5f5f5;
+}
+
+.suggestionStick {
+  // position: -webkit-sticky;
+  position: -webkit-sticky;
+  position: sticky;
+  // top: 0;
+  top: -150px;
+}
+
+.modal-jobheader {
+  padding: 0px 20px;
+  height: 70px;
+  background: #f7f9fa;
+  background-color: #63cfbe;
+  color: #fff;
+}
+
+.pull-right {
+  margin-top: -15px;
+  margin-right: -12px;
+}
+
+.consume {
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.scroll-bar {
+  width: 869px;
+  height: 300px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.scroll-two {
+  width: 869px;
+  height: 185px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.modal-header {
+  padding: 16px 30px;
+  background: #f7f9fa;
+  background-color: #63cfbe;
+  color: #fff;
+}
+
+.hpanel .panel-heading {
+  background-color: #fff !important;
+}
+
+.shdwcon {
+  box-shadow: 0px 3px 5px #81889387;
+}
+
+.height {
+  height: 31px;
+}
+
+.borderLine {
+  position: relative;
+  top: 58px;
+}
+
+.biase {
+  color: #8f9090;
+}
+
+.custom-slider {
+  .ngx-slider {
+    background: rgb(255, 255, 0) !important;
+  }
+}
+
+.custom-checkbox {
+  margin-top: 0px !important;
+}
+
+.flt-ret {
+  display: flex;
+  flex-direction: row-reverse;
+  column-gap: 5px;
+}
+
+.wertpoi {
+  height: 19px;
+}
+
+.xcbha {
+  margin-bottom: 6px;
+  border-radius: 0px;
+  border: none;
+  background: #fff;
+  // margin: -5px;
+  box-shadow: 0 2px 7px;
+}
+
+.r-side-width {
+  width: 450px !important;
+}
+
+
+.background-accod {
+  background-color: #fff;
+  padding-right: 1px !important;
+}
+
+.panel-heading .accordion-toggle:after {
+  /* symbol for "opening" panels */
+  font-family: "Glyphicons Halflings";
+  /* essential for enabling glyphicon */
+  content: "\e114";
+  /* adjust as needed, taken from bootstrap.css */
+  float: right;
+  /* adjust as needed */
+  color: grey;
+  /* adjust as needed */
+}
+
+.panel-heading .accordion-toggle.collapsed:after {
+  /* symbol for "collapsed" panels */
+  content: "\e080";
+  /* adjust as needed, taken from bootstrap.css */
+}
+
+.in .panel-collapse .collapse .in {
+  display: none !important;
+}
+
+.panel-collapse .collapse .out {
+  display: inline !important;
+}
+
+.panel-collapse .collapse .in {
+  display: none !important;
+}
+
+.panel-collapse .collapse .out {
+  display: inline !important;
+}
+
+.titlefi {
+  justify-content: space-evenly;
+  display: flex;
+}
+
+.text-filter-header {
+  cursor: pointer;
+}
+
+mat-slider {
+  width: 300px;
+}
+
+hr {
+  margin-top: 9px;
+  margin-bottom: 6px;
+  border: 0;
+  border-top: 1px solid #eaeaea;
+  margin-right: -13px;
+}
+
+.noti-chat-icon {
+  background: #ff0000;
+  color: #fff;
+  margin-left: 4px;
+  border-radius: 20px;
+}
+
+::ng-deep {
+  .ngbAccordionj .card-header {
+
+    // font-family: "Poppins";
+    // margin-top: 10px;
+    // padding: 6px;
+    // color: #111;
+    // font-size: 19px;
+    // // background-color: #ebebeb;
+    button.btn.btn-link.ng-star-inserted i {
+      transform: rotate(180deg) !important;
+      margin-left: 10px;
+      // margin-left: 100%;
+    }
+
+    button.btn.btn-link.ng-star-inserted.collapsed i {
+      transform: rotate(0deg) !important;
+    }
+
+    //  button.btn.btn-link.ng-star-inserted {
+    //   padding-left: 0;
+    //   width: 100%;
+    //   text-align: left;
+    //   border-bottom: 1px solid #eee;
+    // }
+
+    //  .collapse .card-body {
+    //   padding: 15px 0;
+    // }
+
+    button.btn.btn-link.ng-star-inserted i {
+      transform: rotate(180deg) !important;
+    }
+
+    button.btn.btn-link.ng-star-inserted.collapsed i {
+      transform: rotate(0deg) !important;
+    }
+
+    button.btn.btn-link.ng-star-inserted {
+      padding-left: 0;
+      width: 100%;
+      text-align: left;
+      // border-bottom: 1px solid #eee;
+    }
+  }
+}
+
+.flexs {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px;
+}
+
+.tab-title {
+  margin-left: 15px;
+}
+
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.job-widget-width {
+  width: 20.666667%;
+  padding-right: 0;
+}
+
+.job-listing-width {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+// smooth scroll job listing
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+ ::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

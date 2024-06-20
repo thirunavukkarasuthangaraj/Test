@@ -1,0 +1,18 @@
+
+<div class="hpanel margin-bottom-5"  *ngIf="showflag">
+  <div class="panel-body add-cls">
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- Sponsored Ads -->
+
+        <div class="text-center wig-c">
+          <p>Copyright © 2021 CareOnline, Inc. All rights reserved. </p>
+          <p>Privacy Policy </p>
+          <p>Terms of Use </p>
+          <p>Notice of Privacy Practices </p>
+          <p>Community Guidelines	</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

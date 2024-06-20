@@ -1,0 +1,126 @@
+.red{
+    color: #c3002f;
+    float: right;
+}
+
+.redish{
+    color: red;
+}
+
+
+.success-modal{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.modal-button {
+  text-align: center;
+}
+
+.sucessimage{
+  text-align-last:center;
+  img{
+  width: 150px;
+  }
+}
+
+.close{
+  float:right !important;
+  font-size: 30px;
+}
+
+.custom-modal-body{
+  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+  padding: 55px;
+}
+
+.ta-c{
+  text-align:center !important;
+}
+
+.ta-r{
+  text-align:right !important;
+}
+
+.center{
+    text-align: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.float-right{
+    float: right !important;
+}
+
+.d-flex{
+ display: flex;
+ gap: 29%;
+}
+
+.mr-10{
+    margin-right: 10px;
+}
+
+.mr-tp-10 {
+  margin-top: 10px;
+}
+
+.modal-footer{
+    padding: 10px 15px;
+    background-color: #f1f3f6;
+    border-top: 1px solid #ddd;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.disabled-domain-validation {
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.mat-workExp-group{
+  position: relative;
+  top: -55px;
+}
+
+ .workExp{
+    display: grid;
+    row-gap: 0px;
+    line-height: initial;
+
+    .orgName{
+      font-size: 13px;
+      padding: 0px 6px 0px 0px;
+    }
+
+    .address , .location{
+      line-height: 10px;
+    }
+
+    .address-font{
+      font-size: 60%;
+    }
+
+    .location-details{
+      font-size: 60%;
+    }
+}
+
+.pre-requisite-checks {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mar-10-0 {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}

@@ -1,0 +1,48 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="profile-list">
+          <ng-container *ngFor="let item of peopelData | slice:0:5; let i=index">
+            <app-common-profile-info  [userIdInput]="item.userId" [data]="item">
+              <ng-container headline1 class="ellipse">{{item.firstName}}  {{item.lastName}}</ng-container>
+              <ng-container headline2 class="ellipse">{{item.organisation}}</ng-container>
+              <!-- <ng-container btn>
+                <button class="btn-primary btn btn-xs" (click)="connect(item)">
+                 <i class="fas fa-plus" aria-hidden="true" ></i> Connect
+              </button>
+            </ng-container> -->
+            </app-common-profile-info>
+          </ng-container>
+        </ul>
+        <!-- *ngIf="peopelData.length > 3" -->
+        <!-- <p style="float: right;"  *ngIf="peopelData.length > 5">
+          <u><a  (click)="modelopen(peopelData)">...More</a></u>
+        </p> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="margin-bottom-5"  *ngIf="viewType=='MAX'" infiniteScroll [infiniteScrollDistance]="2"
+[infiniteScrollThrottle]="1500" (scrolled)="onScrollDown()" >
+  <div class="panel-body cardw">
+    <div class="row">
+      <div class="col-3">
+
+        <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of peopelData">
+         <app-user-card     [userDataInput]="item" [button]="'PRIMARY'"></app-user-card>
+         <!--<app-business-card  *ngIf="inputData=='BUSINESS'" [BusinessDataInput]="item"></app-business-card>
+         <app-community-card *ngIf="inputData=='COMMUNITY'" [data]="item"></app-community-card>-->
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+

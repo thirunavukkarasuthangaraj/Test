@@ -1,0 +1,190 @@
+<ng-container *ngIf="screenName != 'invite-job-listing'">
+  <app-jobs-candidates-slide-filter [valuesSentForFilters]="entitySent"
+    (valuesRetainedForFilters)="onFilterToggle($event)">
+    <app-job-filter-vertical-template *ngIf="panel == 'jobs' " [filterChanges]="filterChanges"
+      [jobFilterData]="filterConfig"> </app-job-filter-vertical-template>
+    <app-job-applicant-filter
+      *ngIf="panel === 'job applicants' && showApplicantFilter==true"></app-job-applicant-filter>
+    <app-candidate-invited-for-job-filter
+      *ngIf="panel === 'candidates invited'  && showApplicantFilter==true"></app-candidate-invited-for-job-filter>
+  </app-jobs-candidates-slide-filter>
+
+  <ng-container [class.pointer-events-none]="isFilterOpen">
+    <header>
+      <div class="hpanel">
+        <div class="panel-body filter-hdr-pad shdwcon">
+          <div class="job-candidate-container pad-lt-0">
+            <div class="row">
+              <div class="dropdown-filters-container mr-rt-lt-0 form-group">
+                <div class="job-cand-search-svg-icon-container">
+                  <span class="job-search-svg-icon">
+                    <app-svg-templates [svgType]="'SEARCH_SMALL'"></app-svg-templates>
+                  </span>
+                  <input #Search placeholder="Search Job Title, Job ID, Skills" type="text" [(ngModel)]="searchContent"
+                    (keyup)="searchfilter(Search.value)" class="input-sm form-control job-cand-searchBox" />
+                </div>
+                <div class="job-cand-dropdown-filter-elements-container">
+                  <app-job-filter-template (panelValue)="getPanelValue($event)"
+                    (valuesRetainedForFilters)="onFilterToggle($event)" [jobFilterData]="filterConfig"
+                    [filterChanges]="tempFilterChanges"></app-job-filter-template>
+                </div>
+                <div class="all-filter-container">
+                  <!-- <div class="divider"></div> -->
+                  <div class="all-filters" (click)="openFilterSlider()">
+                    <app-svg-templates [svgType]="'FILTER'"></app-svg-templates>
+                    <span>
+                      All Filters
+                    </span>
+                  </div>
+                  <div class="reset-filters" (click)="resetFilternew()">
+                    <span>
+                      Reset
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div id="job-listing-content" class="job-listing-content">
+      <div id="entity-container" class="job-candidate-container">
+        <div class="job-candidate-listing-flex-container">
+
+
+
+            <div class="entity-listing">
+              <div class="entity-listing-header">
+                <div class="entity-summary pad-rt-0">
+                  <app-svg-templates [svgType]="'SUITCASE_WHITE'"></app-svg-templates>
+                  <div class="entity-name">
+                     <h5> Jobs </h5>
+                  </div>
+                  <div class="entitycount">
+                    <span>{{totalCountJob}}</span>
+                  </div>
+                </div>
+              </div>
+
+
+              <ng-container *ngIf="(response | async)?.length == 0 && loadAPIcall">
+                <app-common-skeleton  [NameOftheScreen]="'jobcardMediumscreen'"></app-common-skeleton>
+              </ng-container>
+
+              <div class="entity-listing-body" [scrollWindow]="false" infiniteScroll [infiniteScrollDistance]="1"
+                [infiniteScrollThrottle]="300" (scrolled)="onScrollDown()">
+                <app-jobs    [updateJobModule]="jobModule" [loadAPIcall]="loadAPIcall"  [Obj]="selectedJobData"
+                [responseReceived]="responseReceived"  [jobsFoundStatus]="jobsFoundStatus" [viewSize]="'small'"  (suggcandidate)="getdatafromjob($event)"
+                  (jobReload)="reloadJobData($event)" (jobListing)="onStatuChange($event)" (selectedJob)="getchildData($event)"
+                  [passValues]="(response | async)" style="z-index: -1;"></app-jobs>
+
+                <div *ngIf="stopscrollFlag  && (response | async)?.length > 0" class="row caught_up">
+                  <div class="col-md-12 mg-bt-9">
+                    <app-svg-templates [svgType]="'CHECKMARK_CIRCLE_SMALL'"></app-svg-templates>
+                  </div>
+                  <div class="col-md-12">
+                    <p class="biase">You've reached the bottom of the page</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          <div class="entity-details">
+
+            <app-common-skeleton *ngIf="loadAPIcall && filterPayLoad.searchAfterKey === null" [NameOftheScreen]="'jobselectedscreen'"></app-common-skeleton>
+
+            <ng-container *ngIf="(response | async)?.length > 0; else emptyMessage">
+              <div class="entity-details-header"   >
+                <app-job-portfolio [jobData]="selectedJobData" [pageName]="jobDetailsTabName"
+                  [jobPortfolio]="jobPortfolioModule" (removeCandidate)="removeCandidate($event)"
+                  (resetfilters)="filterReset($event)"></app-job-portfolio>
+              </div>
+              <div class="entity-details-body"  >
+                 <app-job-profile-detail *ngIf="jobDetailsTabName === 'job-details'" [jobDetails]="selectedJobData"
+                  (jobListing)="onStatuChange($event)"></app-job-profile-detail>
+                <app-job-applicants *ngIf="jobDetailsTabName === 'job-applicants' || jobDetailsTabName === 'candidate-applied'"
+                  [jobDetails]="selectedJobData" [pagelist]="jobDetailsTabName"
+                  (parentValueChange)="updatetocandidateActivity($event)"> </app-job-applicants>
+                <app-jobs-viewed-by *ngIf="jobDetailsTabName === 'jobs-viewed'"
+                  [jobDetails]="selectedJobData"></app-jobs-viewed-by>
+                <app-jobliked-list *ngIf="jobDetailsTabName === 'jobs-liked'" [jobDetails]="selectedJobData"></app-jobliked-list>
+                <app-candiates-invited *ngIf="jobDetailsTabName === 'candidates-invited'"
+                  (parentValueChange)="updatetocandidateActivity($event)"
+                  [clickedCandidateIdIntraction]="candidateIdgetfromIntraction"
+                  [jobDetails]="selectedJobData"></app-candiates-invited>
+                <app-resume-request-sent *ngIf="jobDetailsTabName === 'resume-requests'" [jobDetails]="selectedJobData"
+                  [pagelist]="jobDetailsTabName"></app-resume-request-sent>
+              </div>
+            </ng-container>
+
+
+          </div>
+
+          <ng-template #emptyMessage>
+            <div class="entity-details">
+              <div class="nothing-to-show-svg">
+                <app-svg-templates [svgType]="'SEARCH_CROSS_XL'"></app-svg-templates>
+                <div>There's nothing to show here.</div>
+              </div>
+            </div>
+          </ng-template>
+          <div class="widget-flex-item">
+
+            <app-candidate-activity-widget [TabName]="jobDetailsTabName" [CandidateAcvityData]="CandidateAcvityData" [jobDetails]="selectedJobData">
+            </app-candidate-activity-widget>
+
+            <div [class.suggestionStick]="suggestionStick" #suggestionSticky>
+              <app-common-widget [page]="'GIG_JOB_LIST'"
+                *ngIf=" userType!='FREELANCE_RECRUITER' && userType!='MANAGEMENT_TALENT_ACQUISITION'"
+                [showsuggJobsData]="showSuggJobsDataServer" [inputData]="'GIG_JOB_LIST'"></app-common-widget>
+              <app-common-widget [page]="'GIG_JOB_LIST_BOTH'"
+                *ngIf=" userType=='FREELANCE_RECRUITER' || userType=='MANAGEMENT_TALENT_ACQUISITION'"
+                [showsuggJobsData]="showSuggJobsDataServer" [inputData]="'GIG_JOB_LIST_BOTH'"></app-common-widget>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="chatPopup">
+    <button (click)="chatbottom()" class="btn btn-info btn-circle" type="button"> <i class="pe-7s-comment"></i> Chat
+      <span class="badge noti-badge noti-chat-icon" *ngIf="totalmsgcounts>0"> {{totalmsgcounts}}</span></button>
+    <app-message-widget style="z-index: -1;" *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)"
+      [messageDataPass]="messageData"> </app-message-widget>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="screenName == 'invite-job-listing'">
+  <div class="row mr-0">
+    <div class="col-sm-8 pad-lt-rt-0">
+      <div class="xs-heading-flex-parent">
+        <div class="xs-heading-entity">My Jobs</div>
+      </div>
+      <div class="xs-body-container" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+        (scrolled)="onScrollDown()" [scrollWindow]="false">
+        <app-jobs [viewSize]="'extra-small'" [responseReceived]="responseReceived" [focus]="focus"
+          [jobsFoundStatus]="jobsFoundStatus" (suggcandidate)="getdatafromjob($event)"
+          (jobReload)="reloadJobData($event)" (selectedJob)="getchildData($event)" [passValues]="(response | async)"
+          style="z-index: -1;"></app-jobs>
+      </div>
+      <div class="xs-footer-container"></div>
+    </div>
+    <div class="col-sm-4 pad-lt-0 pad-rt-0">
+      <div class="hpanel mr-bt-0">
+        <div class="hpanel-heading xs-heading-flex-entity-detail">
+          <div>Candidate Details</div>
+          <app-svg-templates [svgType]="'CROSS_20'" class="cursor-pointer"
+            (click)="closeCandidateSupplyModal()"></app-svg-templates>
+        </div>
+        <app-job-submit-skillfilter [candidateData]="filterData" [focus]="focus" [feaJ]="feaJ"
+          [dataPasstoSkillwidgets]="dataPasstoSkillwidgets" (emitRemoveTag)="removeUserfromTag($event)">
+        </app-job-submit-skillfilter>
+      </div>
+    </div>
+  </div>
+</ng-container>

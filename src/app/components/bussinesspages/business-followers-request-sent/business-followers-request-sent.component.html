@@ -1,0 +1,61 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+    <div class="hpanel">
+        <div class="Bnav panel-body border-radius-top-left-right-6">
+            <div class="Bnav-item-1">
+                <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+                    title="{{values.bussinessName}}">{{values.bussinessName| truncate : 18 }}
+                </label>
+                <div>
+                    <p *ngIf="visitorsList?.length>1">{{visitorsList?.length}} Visitor
+                    </p>
+                    <p *ngIf="visitorsList?.length==1 || visitorsList?.length==0">{{visitorsList?.length}} Visitor
+                    </p>
+
+                </div>
+            </div>
+            <div class="Bnav-item-2">
+                <div>
+                    <div class="input-group">
+                        <!-- <input type="text" class="form-control" placeholder="Search Followers" [(ngModel)]="empSearch"
+                            [ngModelOptions]="{standalone: true}" (keyup)="keyupdata($event)" (keyup.enter)="onsearch(empSearch)" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-addon"  (click)="onsearch(empSearch)" id="my_btn" ><i class="pe-7s-search"    ></i></span>                    -->
+
+                            <input type="text" class="form-control" placeholder="Search Followers" [(ngModel)]="searchKey"
+                            [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+
+                        </div>
+                </div>
+            </div>
+            <div class="Bnav-item-3" *ngIf="isSuperAdmin === 'true'">
+                <div class="btn-group " dropdown container="body">
+                    <button id="button-container" class="btn btn-primary dropdown-toggle btn-sm" dropdownToggle
+                        aria-controls="dropdown-container">
+                        <div class="filter-common" style="gap: 10px !important;">
+                          <span>All</span>
+                          <i class="pe-7s-filter"></i>
+                        </div>
+                    </button>
+                    <!-- <ul id="dropdown-container" *dropdownMenu class="dropdown-menu m-l-43 " role="menu"
+                        aria-labelledby="button-container">
+                        <li role="menuitem"><a class="dropdown-item" >Pending Acceptance </a></li>
+                    </ul> -->
+                </div>
+            </div>
+            <div class="Bnav-item-4">
+                <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+            </div>
+        </div>
+    </div>
+    <div   *ngIf="visitorsList.length==0">
+                 <p>
+                   <app-nodata-found [title]="noDatafound"></app-nodata-found>
+                </p>
+      </div>
+    <!-- | customFilter:{userName:searchKey}:false ;index as i -->
+        <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0"  *ngFor="let data of visitorsList  ">
+               <app-user-card [userDataInput]="data" [config]="userCardConfig" [button]="'PRIMARY'"
+                [adminFlag]="true" [refresh]="true" [userIdInput]="data.userId">
+              </app-user-card>
+        </div>
+ </div>

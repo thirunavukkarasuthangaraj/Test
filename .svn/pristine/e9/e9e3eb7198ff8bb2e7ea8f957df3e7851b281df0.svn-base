@@ -1,0 +1,11 @@
+<div class="row margin-left-0 margin-right-0">
+  <div class="col-sm-70 col-md-70 col-lg-70 padding-left-0 padding-right-0">
+    <app-bussiness-post [postView]="'HOME_PAGE'"></app-bussiness-post>
+  </div>
+
+  <div class="col-sm-30 col-md-30 col-lg-30 padding-left-0 padding-right-0" [ngClass]="{'stickyPos': landingsidesticky3}">
+    <app-common-widget [page]="'HOME_PAGE'" [inputData]="'HOME'"  [userType]="'ALL'"></app-common-widget>
+  </div>
+</div>
+
+

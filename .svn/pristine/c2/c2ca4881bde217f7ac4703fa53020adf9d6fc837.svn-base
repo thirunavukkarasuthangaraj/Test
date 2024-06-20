@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-directory-header',
+  templateUrl: './directory-header.component.html',
+  styleUrls: ['./directory-header.component.scss']
+})
+export class DirectoryHeaderComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

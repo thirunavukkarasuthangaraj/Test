@@ -1,0 +1,1707 @@
+<div class="nav-bar-css">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" style="margin-top: -16px;cursor: default;"  > <img
+          src="assets/icon/careOnline_icon.jpg"   class="logo-size_define" width="150"></a>
+    </div>
+    <ul class="nav navbar-nav nav-right">
+      <li class="nav-item" ngbDropdown>
+        <div style="margin-top: -5px;margin-right: -30px; cursor: pointer" dropdown (onShown)="onShown()"
+          (onHidden)="onHidden()" (isOpenChange)="isOpenChange()">
+          <img *ngIf="photoId==undefined || photoId==null || photoId==''" alt="logo" href id="basic-link" dropdownToggle
+            (click)="false"  aria-controls="basic-link-dropdown"
+            class="img-circle m-b m-t-md photoNav" src="assets/images/userAvatar.png">
+
+          <img *ngIf="photoId!==undefined && photoId!==null && photoId!==''" alt="logo" href id="basic-link"
+            dropdownToggle (click)="false" aria-controls="basic-link-dropdown" class="img-circle m-b m-t-md photoNav"
+            [src]="img.src" >
+
+          <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" style=" margin-top: -19px;" role="menu"
+            aria-labelledby="basic-link">
+            <li role="menuitem"><a class="dropdown-item" (click)="onLogout()">LogOut</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+  <div class="row">
+    <div class="col-sm-9">
+      <p>Fields marked with <span style="color: red;">*</span> are mandatory!</p>
+      <form [formGroup]="userDetailForm" class="app-form form-horizontal">
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            Personal Details
+          </div>
+          <div class="panel-body">
+            <div class="form-group row" style="margin-bottom: 7px;">
+              <div class="col-sm-3" style="padding-left: 51px;" *ngIf="photoId != undefined || photoId != null">
+                <img class="img-circle profile-image-view" [src]="img.src">
+              </div>
+              <div class="col-sm-3" style="padding-left: 51px;" *ngIf="photoId == undefined || photoId == null">
+                <img class="img-circle profile-image-view" src="assets/images/userAvatar.png">
+              </div>
+              <div class="col-sm-8">
+                <label for="designation" class="margin-bottom-5 control-label required-field  font-bold">I am</label>
+                <select class="form-control input-sm" formControlName="userType"
+                  (change)="onChangePhysician($event.target.value)">
+                  <option value="null" *ngIf="userDetailForm.value.userType==null" selected>Choose your user type
+                  </option>
+                  <!-- <option value=""  selected disabled>Choose your user type</option> -->
+                  <!-- <option value="HEALTHCARE">Medical/ Healthcare professional </option> -->
+                  <!-- <option value="adminPersonnel">Administrative Healthcare Personnel</option> -->
+                  <option title="Recruiter can create jobs on the platform to attract consultants." value="RECRUITER">Recruiter</option>
+                  <option title="Bench Recruiter can create consultants on the platform to attract jobs." value="BENCH_RECRUITER">Bench Sales Recruiter</option>
+                  <option title="Freelance Recruiter can create jobs and create candidates." value="FREELANCE_RECRUITER">Freelance Recruiter</option>
+                  <option title="Job Seeker can look up for jobs." value="JOB_SEEKER">Job Seeker </option>
+                  <!-- <option value="medicPracticeBusiness">Medical/Healthcare (Practice or Business)</option>
+                                      <option value="institution">Educational Institution (Medical, Nursing, Healthcare) </option>
+                                      <option value="nonProfit">Non-Profit Organization (Health/Wellness/Medical) </option> -->
+                  <option value="student">Student</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div
+                  *ngIf="submit  && userControl.userType.invalid || userControl.userType.invalid && (userControl.userType.dirty || userControl.userType.touched)"
+                  class="error-msg">
+                  <div *ngIf="userControl.userType.errors.required"> This field is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="npiNo" class="col-sm-3 control-label font-bold">NPI Number</label>
+              <div class="col-sm-8">
+                <input type="text" [disabled]="disfield" class="form-control input-sm" placeholder="NPI Number"
+                  id="npiNo" formControlName="npiNo" (keyup)="onEnterNpiNo($event)" (keypress)="filterNo($event)">
+
+                  <div
+                  *ngIf="userControl.npiNo.invalid"
+                  class="error-msg">
+                  <div>Invalid NPI number.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="firstName" class="col-sm-3 control-label required-field font-bold">First Name</label>
+              <div class="col-sm-8">
+                <input type="text" readonly class="form-control input-sm" placeholder="First Name" id="firstName"
+                  formControlName="firstName">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="lastName" class="col-sm-3 control-label required-field font-bold">Last Name</label>
+              <div class="col-sm-8">
+                <input type="text" readonly class="form-control input-sm" placeholder="Last Name" id="lastName"
+                  formControlName="lastName">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="pitch" class="col-sm-3 control-label font-bold">Pitch</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-sm" placeholder="Pitch" id="pitch" formControlName="pitch">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="photo" class="col-sm-3 control-label font-bold">Photo</label>
+              <div class="col-sm-8">
+                <input type="file" class="form-control" accept="image/*" (click)="myFileInput.value=null" #myFileInput
+                  formControlName="photo" (change)="fileChangeEvent($event,templatePhoto)" />
+                <!-- <input type="text"> -->
+                <!-- <button class="btn btn-sm btn-primary" (click)="uploadPhoto()">Upload</button> -->
+                <ng-template #templatePhoto>
+                  <div class="modal-content">
+                    <div style="padding: 14px 14px !important;">
+                      <label>Profile Photo</label>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="closePhoto()">
+                        <span style="font-size: 2.5rem;" aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <hr style="margin: 0px !important; padding: 0px !important">
+                    <div class="modal-body">
+                      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="4 / 4" format="jpeg, png, jpeg" (imageCropped)="imageCropped($event)"
+                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                    </div>
+                    <div class="modal-footer" style="border-radius: 5px !important;">
+                      <div style="float: right;">
+                        <button class="btn primary-btn btn-sm" (click)="imageLoaded()">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </ng-template>
+                <div *ngIf="photoWindow">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="aboutMe" class="col-sm-3 control-label font-bold">About Yourself</label>
+              <div class="col-sm-8">
+                <div formControlName="aboutMe" id="aboutMe" [ngxSummernote]="config"></div>
+                <div style="color: #c3002f;" *ngIf="userDetailForm.controls.aboutMe.invalid">
+                  <div *ngIf="userDetailForm.controls.aboutMe.errors.maxlength">
+                    Maximum characters allowed is 1000
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <label><small><span *ngIf="remainingCount===undefined">1000 </span> <span *ngIf="remainingCount!==undefined && remainingCount > 0">{{remainingCount + " "}}</span>
+                      <span *ngIf="remainingCount <= 0">0 {{" "}}</span>
+                      characters remaining</small></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="phoneNo" class="col-sm-3 control-label font-bold">Phone</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-sm" placeholder="Phone" id="phoneNo"
+                  formControlName="phoneNo">
+                <div class="error-msg" *ngIf="userControl.phoneNo.invalid">
+                  <div *ngIf="userControl.phoneNo.errors.maxlength"> Phone numbers cannot exceed 15 digits</div>
+                  <div *ngIf="userControl.phoneNo.errors.pattern"> Please enter only numerals (0-9)</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-sm-3 control-label required-field font-bold">Primary Email ID</label>
+              <div class="col-sm-8">
+                <input type="email" readonly class="form-control input-sm" placeholder="Primary Email ID" id="email"
+                  formControlName="email">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="secondaryEmail" class="col-sm-3  control-label font-bold">Secondary Email ID</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-sm" placeholder="Secondary Email ID" id="secondaryEmail"
+                  formControlName="secondaryEmail">
+                <div class="error-msg" *ngIf="userControl.secondaryEmail.invalid && userControl.secondaryEmail.dirty">
+                  <div *ngIf="userControl.secondaryEmail.errors.mustMatch"> Secondary Email cannot be the same as
+                    Primary Email</div>
+                  <div *ngIf="userControl.secondaryEmail.errors.email"> Please enter a valid Email ID</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3 control-label required-field font-bold"
+                style="padding-right: 0px;">Location</label>
+              <div class="col-sm-8">
+                <div class="row form-group">
+                  <div class="col-sm-6 ">
+                    <select class="form-control input-sm" formControlName="country" type="text"
+                      (change)="onChangeCountry($event.target.value, 'user', 'val')">
+                      <option value="" selected disabled>Country</option>
+                      <option *ngFor="let country of countryList" [value]="country.countryCode">{{country.countryName}}
+                      </option>
+                    </select>
+                    <div *ngIf="submit  && userControl.country.invalid ||
+                                         userControl.country.invalid && (userControl.country.dirty ||
+                                          userControl.country.touched)" class="error-msg">
+                      <div *ngIf="userControl.country.errors.required"> Country is required</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='US'">
+                    <input type="text" class="form-control input-sm" placeholder="Zipcode"
+                      (keyup)="onKeyZip($event,'user', null)" formControlName="zipcode">
+                    <div *ngIf="userDetailForm.value.country=='US'&&(submit  && userControl.zipcode.invalid ||
+                                       userControl.zipcode.invalid && (userControl.zipcode.dirty ||
+                                        userControl.zipcode.touched))" class="error-msg">
+                      <div *ngIf="userControl.zipcode.errors.required"> Zipcode is required</div>
+                      <div *ngIf="userControl.zipcode.errors.pattern"> Please enter only numbers</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='IN'">
+                    <select class="form-control input-sm" formControlName="state" type="text">
+                      <option value="null" selected disabled>State</option>
+                      <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}</option>
+                    </select>
+                    <div *ngIf="userDetailForm.value.country=='IN'&&(submit  && userControl.state.invalid ||
+                                              userControl.state.invalid && (userControl.state.dirty ||
+                                               userControl.state.touched))" class="error-msg">
+                      <div *ngIf="userControl.state.errors.required"> State is required</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='CA'">
+                    <select class="form-control input-sm" formControlName="state" type="text">
+                      <option value="null" selected disabled>State</option>
+                      <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}</option>
+                    </select>
+                    <div *ngIf="userDetailForm.value.country=='CA'&&(submit  && userControl.state.invalid ||
+                                          userControl.state.invalid && (userControl.state.dirty ||
+                                           userControl.state.touched))" class="error-msg">
+                      <div *ngIf="userControl.state.errors.required"> State is required</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='AU'">
+                    <select class="form-control input-sm" formControlName="state" type="text">
+                      <option value="null" selected disabled>State</option>
+                      <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}</option>
+                    </select>
+                    <div *ngIf="userDetailForm.value.country=='AU'&&(submit  && userControl.state.invalid ||
+                                      userControl.state.invalid && (userControl.state.dirty ||
+                                       userControl.state.touched))" class="error-msg">
+                      <div *ngIf="userControl.state.errors.required"> State is required</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country!='AU'&&
+                                                                userDetailForm.value.country!='CA'&&
+                                                                userDetailForm.value.country!='IN'&&
+                                                                userDetailForm.value.country!='US'">
+                    <input formControlName="state" class="form-control input-sm" placeholder="State">
+                    <div *ngIf="userDetailForm.value.country!='AU'&&
+                                                userDetailForm.value.country!='CA'&&
+                                                userDetailForm.value.country!='IN'&&
+                                                userDetailForm.value.country!='US'&&(submit  && userControl.state.invalid ||
+                                                userControl.state.invalid && (userControl.state.dirty ||
+                                                userControl.state.touched))" class="error-msg">
+                      <div *ngIf="userControl.state.errors.required"> State is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country!='US'">
+                    <input type="text" placeholder="City" formControlName="city" class="form-control input-sm">
+                    <div
+                      *ngIf="submit  && userControl.city.invalid || userControl.city.invalid && (userControl.city.dirty || userControl.city.touched)"
+                      class="error-msg">
+                      <div *ngIf="userControl.city.errors.required"> City is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='US'">
+                    <input type="text" placeholder="City" formControlName="city" class="form-control input-sm" disabled>
+                    <div
+                      *ngIf="submit  && userControl.city.invalid || userControl.city.invalid && (userControl.city.dirty || userControl.city.touched)"
+                      class="error-msg">
+                      <div *ngIf="userControl.city.errors.required"> City is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country=='US'">
+                    <input formControlName="state" class="form-control input-sm" placeholder="State" disabled>
+                    <div *ngIf="userDetailForm.value.country=='US'&&(submit  && userControl.state.invalid ||
+                                                    userControl.state.invalid && (userControl.state.dirty ||
+                                                    userControl.state.touched))" class="error-msg">
+                      <div *ngIf="userControl.state.errors.required"> State is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6" *ngIf="userDetailForm.value.country!='US'">
+                    <input type="text" class="form-control input-sm" placeholder="Zipcode" formControlName="zipcode">
+                    <div *ngIf="userDetailForm.value.country!='US'&&(submit  && userControl.zipcode.invalid ||
+                                             userControl.zipcode.invalid && (userControl.zipcode.dirty ||
+                                              userControl.zipcode.touched))" class="error-msg">
+                      <div *ngIf="userControl.zipcode.errors.required"> Zipcode is required</div>
+                      <div *ngIf="userControl.zipcode.errors.pattern"> Please enter only numbers</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <!-- <div class="hpanel" *ngIf="physicianFlag">
+          <div class="panel-heading hbuilt">
+            <div class="pull-right">
+              <div class="custom-checkbox margin-top-0" [formGroup]="userDetailForm">
+                <label class="checkbox-label font-bold" style="text-align: center"> Not Applicable
+                  <input type="checkbox" (click)="notApplicable($event)" formControlName="nonApplicable"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+            </div>
+            Service Options
+          </div>
+          <ng-container>
+            <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
+              <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses()"
+                (expands)="expands()" (collapsed)="collapsed()" (expanded)="expanded()">
+
+                <div class="panel-body" formArrayName="physicianData">
+                  <div *ngFor="let physician of physicianArray.controls; let i = index">
+                    <div [formGroupName]="i">
+                      <div class="form-group row">
+                        <label for="conditions" class="col-sm-3 control-label font-bold">Conditions Treated</label>
+                        <div class="col-sm-8">
+                          <ng-select [items]="conditionList" [hideSelected]="false" dropdownPosition="bottom"
+                            formControlName="conditions" [multiple]="true" placeholder="Conditions Treated"
+                            [(ngModel)]="conditionSelectedItems" [closeOnSelect]="false">
+
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                              <div class="custom-control custom-radio flex">
+                                <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                                  [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                                  style="margin-right:5px; margin-top: 9px;">
+                                <label class="form-radio-label m-t-5 custom-control-label">{{item}}</label>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="insurance" class="col-sm-3 control-label font-bold">Insurance Accepted</label>
+                        <div class="col-sm-8">
+
+                          <ng-select [items]="insuranceList" [multiple]="true" [hideSelected]="false"
+                            dropdownPosition="bottom" placeholder="Insurance Accepted"
+                            [(ngModel)]="insuranceSelectedItems" formControlName="insurance" [closeOnSelect]="false">
+
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                              <div class="custom-control custom-radio flex">
+                                <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                                  [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                                  style="margin-right:5px; margin-top: 9px;">
+                                <label class="form-radio-label m-t-5 custom-control-label">{{item}}</label>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="patientAcceptance" class="col-sm-3 control-label font-bold">Accepting New
+                          Patients</label>
+                        <div class="col-sm-8">
+                          <div class="row">
+                            <div class="col-md-2" style="margin-left: 19px;">
+                              <div class="custom-radiobox">
+                                <label class="containerR font-bold" style="margin-right: 3px;">Yes
+                                  <input type="radio" name="patientAcceptance" formControlName="patientAcceptance"
+                                    id="j87ui" value="Yes">
+                                  <span class="checkmarkR radio_c" style="margin-top: 9px; margin-left: -22px;"></span>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: 19px;">
+                              <div class="custom-radiobox">
+                                <label class="containerR font-bold" style="margin-right: 3px;">No
+                                  <input type="radio" name="patientAcceptance" formControlName="patientAcceptance"
+                                    id="loju" value="No">
+                                  <span class="checkmarkR radio_c" style="margin-top: 9px; margin-left: -22px;"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="privatePay" class="col-sm-3 control-label font-bold">Private Pay Accepted</label>
+                        <div class="col-sm-8">
+
+                          <div class="row">
+                            <div class="col-md-2" style="margin-left: 19px;">
+                              <div class="custom-radiobox">
+                                <label class="containerR font-bold" style="margin-right: 3px;">Yes
+                                  <input type="radio" name="privatePay" formControlName="privatePay" id="pok"
+                                    value="Yes">
+                                  <span class="checkmarkR radio_c" style="margin-top: 9px; margin-left: -22px;"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2" style="margin-left: 19px;">
+                              <div class="custom-radiobox">
+                                <label class="containerR font-bold" style="margin-right: 3px;">No
+                                  <input type="radio" name="privatePay" formControlName="privatePay" id="vbg"
+                                    value="No">
+                                  <span class="checkmarkR radio_c" style="margin-top:  9px; margin-left: -22px;"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </ng-container>
+
+
+        </div> -->
+
+
+        <!-- <div class="hpanel" *ngIf="professionalFlag"> -->
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            <div class="pull-right">
+              <div class="custom-radiobox">
+                <label class="containerR">Private
+                  <input type="radio" name="workExperiencePrivacy" formControlName="workExperiencePrivacy"
+                    id="workExperienceRadio1" [value]="false">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <div class="custom-radiobox padding-left-15">
+                <label class="containerR">Public
+                  <input type="radio" name="workExperiencePrivacy" formControlName="workExperiencePrivacy"
+                    id="workExperienceRadio2" [value]="true">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <i style="padding:4px 5px; margin: 0px 16px;" (click)="addWorkExperience1()"
+                class="fa fa-plus btn btn-xs btn-primary btn-circle" title="Add work experience"></i>
+            </div>
+            Work Experience
+
+          </div>
+          <div class="panel-body">
+            <div formArrayName="workExperience">
+              <div *ngFor="let work of experienceArray.controls; let i  = index; let lastItem = last;">
+                <div [formGroupName]="i" class="form-horizontal">
+
+                  <div class="form-group row">
+                    <label *ngIf="professionalFlag || recruiterFlag" for="organisationName"
+                      class="col-sm-3 control-label required-field font-bold">Organization</label>
+                    <label *ngIf="studentFlag" for="organisationName"
+                      class="col-sm-3 control-label  font-bold">Organization</label>
+                      <label *ngIf="jobSeekerFlag" for="organisationName"
+                      class="col-sm-3 control-label  font-bold">Organization</label>
+
+                    <div class="col-sm-8">
+                      <!-- (keyup)="dateValidityCheck(i, 'work')" -->
+                      <input placeholder="Organization" class="form-control input-sm max-hight"
+                        formControlName="organisationName" trim="blur"
+                        [ngClass]="{ 'is-invalid': submit && workSubmit  && getWorkFormGroup(i).controls['organisationName'].hasError }"
+                        (typeaheadOnSelect)="onChngOrg($event, i)" [typeahead]="orgList"
+                        (typeaheadNoResults)="changeTypeaheadNoResults(i, 'work')" [typeaheadMinLength]="0"
+                        typeaheadOptionField="organizationName" [typeaheadItemTemplate]="customItemTemplate"
+                        autocomplete="off" [typeaheadOrderBy]="sortConfigWork">
+
+                      <ng-template #customItemTemplate let-model="item">
+                        <span>
+                          <strong style="font-size: 14px;">
+                            {{model.organizationName}}
+                          </strong>
+                          <br>
+                          <i *ngIf="model.address1 || model.address2">
+                            <small>
+                              {{model.address1 }}<span *ngIf="model.address1 && model.address2">{{", "}}</span>
+                              {{model.address2}}
+                            </small>
+                          </i>
+
+                          <br *ngIf="model.address1 || model.address2">
+                          <i>
+                            <small>
+                              {{model.street }}<span *ngIf="model.street">{{", "}}</span>
+                              {{model.city}}<span *ngIf="model.city">{{", "}}</span>
+                              {{model.state}}<span *ngIf="model.state">{{", "}}</span>
+                              {{model.countryName}}
+                            </small>
+                          </i>
+                        </span>
+                      </ng-template>
+                      <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['organisationName'].hasError ||
+                                                getWorkFormGroup(i).controls['organisationName'].hasError &&
+                                                (getWorkFormGroup(i).controls['organisationName'].dirty ||
+                                                getWorkFormGroup(i).controls['organisationName'].touched) "
+                        class="error-msg">
+
+                        <div *ngIf="getWorkFormGroup(i).controls['organisationName'].hasError('required')">Organization
+                          is required</div>
+                        <!-- <div *ngIf="getWorkFormGroup(i).controls['organisationName'].hasError('pattern')">Please avoid
+                          unwanted spaces</div> -->
+
+                      </div>
+                      <!-- *ngIf="currentIndex == i || currentIndex==null" -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="custom-checkbox">
+                            <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;">
+                              Current Organization
+                              <input type="checkbox" formControlName="currentOrganization" (change)="curOrg($event, i)"
+                                name="currentOrganization"
+                                [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['currentOrganization'].hasError }">
+                              <span class="checkmark" title="Check this if this is your current organization"></span>
+                            </label>
+                          </div>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['currentOrganization'].hasError ||
+                          getWorkFormGroup(i).controls['currentOrganization'].hasError &&
+                          (getWorkFormGroup(i).controls['currentOrganization'].dirty ||
+                          getWorkFormGroup(i).controls['currentOrganization'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['currentOrganization'].hasError('required')">
+                              Current Organization
+                              is required</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+
+                          <div
+                            *ngIf="workExperience.value[i].currentOrganization===true && (currentIndex === i || currentIndex === null) && userControl.userType.value != 'student'">
+                            <div class="custom-checkbox">
+                              <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show
+                                this workplace in Profile
+                                <input type="checkbox" (change)="showThis($event, i)" name="badge"
+                                  formControlName="badge">
+                                <span class="checkmark"
+                                  title="Only when this is checked, this workplace is shown in your profile"></span>
+                              </label>
+                            </div>
+                          </div>
+                          <div *ngIf="workExperience.value[i].currentOrganization===true && (currentIndex === i || currentIndex === null)&&(submit && workSubmit && getWorkFormGroup(i).controls['badge'].hasError ||
+                          getWorkFormGroup(i).controls['badge'].hasError &&
+                          (getWorkFormGroup(i).controls['badge'].dirty ||
+                          getWorkFormGroup(i).controls['badge'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['badge'].hasError('required')">Choose at least one
+                              to be shown on Profile</div>
+                          </div>
+                        </div>
+                      </div>
+                      <label *ngIf="i == 0 && disablePromptFlag == true"><small>This current organization is
+                          uncheckable as you are going to claim
+                          it.</small></label>
+
+
+
+                    </div>
+                    <div class="col-sm-1">
+                      <!-- <div class="pull-right" style="padding-right: 35px;">
+                                <i  (click)="removeWorkExperience(i)" title="Delete work experience"
+                                 class="fas fa-trash" style="cursor: pointer"></i>
+                            </div> -->
+                      <div class="btn-group" style="margin-left: -13px;" title="Remove work experience"
+                        (click)="removeWorkExperience(i)">
+                        <button type="button" class="edit-pencil"><span>
+                            <i class="fas fa-trash delBG"></i>
+                          </span></button>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- <div class="form-group row">
+                    <label for="title" *ngIf="professionalFlag || recruiterFlag" class="col-sm-3 required-field control-label font-bold">Client Type</label>
+                    <label for="title"  *ngIf="studentFlag" class="col-sm-3 control-label font-bold">Client Type</label>
+                    <label for="title"  *ngIf="jobSeekerFlag" class="col-sm-3 control-label font-bold">Client Type</label>
+
+                    <div class="col-sm-8">
+                    <select class="form-control input-sm" formControlName="clientType" type="text"
+                    [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['clientType'].hasError }">
+                    <option value="null" selected disabled>Client Type</option>
+                    <option *ngFor="let clientType of clientTypeList" [value]="clientType">
+                      {{clientType}}</option>
+                  </select>
+                    <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['clientType'].hasError ||
+                    getWorkFormGroup(i).controls['clientType'].hasError &&
+                    (getWorkFormGroup(i).controls['clientType'].dirty ||
+                    getWorkFormGroup(i).controls['clientType'].touched) " class="error-msg">
+                      <div *ngIf="getWorkFormGroup(i).controls['clientType'].hasError('required')">Client Type is
+                        required</div>
+                    </div>
+                  </div>
+                  </div> -->
+
+                  <div class="form-group row">
+
+                    <label for="title" *ngIf="professionalFlag || recruiterFlag"
+                      class="col-sm-3 control-label required-field font-bold">Title</label>
+                    <label for="title" *ngIf="studentFlag || jobSeekerFlag" class="col-sm-3 control-label  font-bold">Title</label>
+                    <div class="col-sm-8">
+                      <input *ngIf="!physicianFlag && !adminFlag && professionalFlag" type="text"
+                        class="form-control input-sm" placeholder="Title" formControlName="title"
+                        class="form-control input-sm" placeholder="Title" trim="blur"
+                        [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['title'].hasError }">
+
+                        <input *ngIf="recruiterFlag" type="text"
+                        class="form-control input-sm" placeholder="Title" formControlName="title">
+
+                      <!-- <ng-select *ngIf="physicianFlag" [items]="phyTitleList" [addTag]="false" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="title" [multiple]="false" placeholder="Title">
+                      </ng-select> -->
+
+                      <!-- <ng-select *ngIf="adminFlag" [items]="busiTitleList" [addTag]="false" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="title" [multiple]="false" placeholder="Title">
+                      </ng-select> -->
+
+                      <ng-select *ngIf="studentFlag || jobSeekerFlag" [items]="studentTitles" [addTag]="false" [hideSelected]="true"
+                        dropdownPosition="bottom" formControlName="title" [multiple]="false" placeholder="Title">
+                      </ng-select>
+
+                      <!-- <input *ngIf="physicianFlag"  [typeaheadMinLength]="0" [typeahead]="phyTitleList"
+                                placeholder="Title" class="form-control input-sm"  formControlName="title"
+                                [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['title'].hasError }"> -->
+
+                      <!-- <input *ngIf="adminFlag"  [typeaheadMinLength]="0" [typeahead]="busiTitleList"
+                                placeholder="Title" class="form-control input-sm"  formControlName="title"
+                                [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['title'].hasError }"> -->
+
+                      <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['title'].hasError ||
+                                  getWorkFormGroup(i).controls['title'].hasError &&
+                                  (getWorkFormGroup(i).controls['title'].dirty ||
+                                  getWorkFormGroup(i).controls['title'].touched) " class="error-msg">
+
+                        <div *ngIf="getWorkFormGroup(i).controls['title'].hasError('required')">Title is required</div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+
+                    <label *ngIf="professionalFlag || recruiterFlag"
+                      class="col-sm-3  col-form-label required-field font-bold">Location</label>
+                    <label *ngIf="studentFlag" class="col-sm-3  col-form-label  font-bold">Location</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3  col-form-label  font-bold">Location</label>
+
+                    <div class="col-sm-8">
+                      <div class="row form-group">
+                        <div class="col-sm-6">
+                          <select class="form-control input-sm" formControlName="country" type="text"
+                            (change)="onChangeCountry($event.target.value,'work',i)"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['country'].hasError }">
+                            <option value="null" selected disabled>Country</option>
+                            <option *ngFor="let country of countryList" [value]="country.countryCode">
+                              {{country.countryName}}</option>
+                          </select>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['country'].hasError ||
+                                          getWorkFormGroup(i).controls['country'].hasError &&
+                                          (getWorkFormGroup(i).controls['country'].dirty ||
+                                          getWorkFormGroup(i).controls['country'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['country'].hasError('required')">Country is
+                              required</div>
+                          </div>
+                        </div>
+                        <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['country'].invalid ||
+                                getWorkFormGroup(i).controls['country'].invalid && (getWorkFormGroup(i).controls['country'].dirty ||
+                                getWorkFormGroup(i).controls['country'].touched)" class="error-msg">
+                          <div *ngIf="getWorkFormGroup(i).controls['country'].errors.required"> Country is required
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <input type="text" placeholder="Zipcode" formControlName="zipcode"
+                            class="form-control input-sm" (keyup)="onKeyZip($event,'work', i)"
+                            *ngIf="workExperience.value[i].country=='US'"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['zipcode'].hasError }">
+                          <div *ngIf="workExperience.value[i].country=='US'&&
+                                        (submit && workSubmit && getWorkFormGroup(i).controls['zipcode'].hasError ||
+                                        getWorkFormGroup(i).controls['zipcode'].hasError &&
+                                        (getWorkFormGroup(i).controls['zipcode'].dirty ||
+                                        getWorkFormGroup(i).controls['zipcode'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['zipcode'].hasError('required')">Zipcode is
+                              required</div>
+                            <div *ngIf="getWorkFormGroup(i).controls['zipcode'].hasError('pattern')">Please enter only
+                              numbers</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country=='CA'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+                          <div *ngIf="workExperience.value[i].country=='CA'&&
+                                      (submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError ||
+                                      getWorkFormGroup(i).controls['state'].hasError &&
+                                      (getWorkFormGroup(i).controls['state'].dirty ||
+                                      getWorkFormGroup(i).controls['state'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['state'].hasError('required')"> State is required
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country=='IN'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+                          <div *ngIf="workExperience.value[i].country=='IN'&&
+                                      (submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError ||
+                                      getWorkFormGroup(i).controls['state'].hasError &&
+                                      (getWorkFormGroup(i).controls['state'].dirty ||
+                                      getWorkFormGroup(i).controls['state'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['state'].hasError('required')"> State is required
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country=='AU'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+                          <div *ngIf="workExperience.value[i].country=='AU'&&
+                                      (submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError ||
+                                      getWorkFormGroup(i).controls['state'].hasError &&
+                                      (getWorkFormGroup(i).controls['state'].dirty ||
+                                      getWorkFormGroup(i).controls['state'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['state'].hasError('required')"> State is required
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country!='AU'&&
+                                                              workExperience.value[i].country!='IN'&&
+                                                              workExperience.value[i].country!='CA'&&
+                                                              workExperience.value[i].country!='US'">
+                          <input type="text" placeholder="State" formControlName="state" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError }">
+                          <div *ngIf=" workExperience.value[i].country!='AU'&&
+                                                      workExperience.value[i].country!='IN'&&
+                                                      workExperience.value[i].country!='CA'&&
+                                                      workExperience.value[i].country!='US'&&
+                                                      (submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError||
+                                        getWorkFormGroup(i).controls['state'].hasError &&(getWorkFormGroup(i).controls['state'].dirty ||
+                                        getWorkFormGroup(i).controls['state'].touched)) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['state'].hasError('required')">State is required
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country=='US'">
+                          <input type="text" disabled placeholder="City" formControlName="city"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['city'].hasError }">
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['city'].hasError ||
+                                    getWorkFormGroup(i).controls['city'].hasError &&
+                                    (getWorkFormGroup(i).controls['city'].dirty ||
+                                    getWorkFormGroup(i).controls['city'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['city'].hasError('required')">City is required
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country!='US'">
+                          <input type="text" placeholder="City" formControlName="city" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['city'].hasError }">
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['city'].hasError ||
+                                  getWorkFormGroup(i).controls['city'].hasError &&
+                                  (getWorkFormGroup(i).controls['city'].dirty ||
+                                  getWorkFormGroup(i).controls['city'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['city'].hasError('required')">City is required
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country!='US'">
+                          <input type="text" placeholder="Zipcode" formControlName="zipcode"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['zipcode'].hasError }">
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['zipcode'].hasError ||
+                                    getWorkFormGroup(i).controls['zipcode'].hasError &&
+                                    (getWorkFormGroup(i).controls['zipcode'].dirty ||
+                                    getWorkFormGroup(i).controls['zipcode'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['zipcode'].hasError('required')">Zipcode is
+                              required</div>
+                            <div *ngIf="getWorkFormGroup(i).controls['zipcode'].hasError('pattern')">Please enter only
+                              numbers</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="workExperience.value[i].country=='US'">
+                          <input type="text" disabled placeholder="State" formControlName="state"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError }">
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['state'].hasError ||
+                                    getWorkFormGroup(i).controls['state'].hasError &&
+                                    (getWorkFormGroup(i).controls['state'].dirty ||
+                                    getWorkFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['state'].hasError('required')">State is required
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="form-group row">
+                    <label *ngIf="professionalFlag || recruiterFlag" class="col-sm-3 col-form-label required-field font-bold">From
+                      Date</label>
+
+                    <label *ngIf="studentFlag" class="col-sm-3 col-form-label  font-bold">From Date</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3 col-form-label  font-bold">From Date</label>
+
+                    <div class="col-sm-8">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <select placeholder="Month" type="text" formControlName="startMonth"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['startMonth'].hasError }"
+                            (change)="monthChange(i,'exp')">
+                            <option value="null" disabled [selected]="true">Month</option>
+                            <!-- <option [selected]="true" hidden value="null"  > Month </option> -->
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth1(month.code,i,'exp')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['startMonth'].hasError ||
+                                        getWorkFormGroup(i).controls['startMonth'].hasError &&
+                                        (getWorkFormGroup(i).controls['startMonth'].dirty ||
+                                        getWorkFormGroup(i).controls['startMonth'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['startMonth'].hasError('required')">Start Month is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="startYear" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['startYear'].hasError }"
+                            (change)="yearChange(i,$event,'exp', 'stYr')">
+                            <!-- <option value="null" disabled [selected]="true">Year</option> -->
+                            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                          </select>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['startYear'].hasError ||
+                                getWorkFormGroup(i).controls['startYear'].hasError &&
+                                (getWorkFormGroup(i).controls['startYear'].dirty ||
+                                getWorkFormGroup(i).controls['startYear'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['startYear'].hasError('required')">Start Year is
+                              required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- *ngIf="!hide || currentIndex!=i" -->
+                  <div class="form-group row" *ngIf="workExperience.value[i].currentOrganization==false">
+
+                    <label *ngIf="studentFlag" class="col-sm-3 col-form-label font-bold">To Date</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3 col-form-label font-bold">To Date</label>
+
+                    <label *ngIf="professionalFlag || recruiterFlag" class="col-sm-3 col-form-label required-field font-bold">To Date</label>
+
+
+                    <div class="col-sm-8">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endMonth" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['endMonth'].hasError }">
+
+                            <option value="null" disabled [selected]="true">Month</option>
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth(month.code,i,'exp')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['endMonth'].hasError ||
+                          getWorkFormGroup(i).controls['endMonth'].hasError &&
+                          (getWorkFormGroup(i).controls['endMonth'].dirty ||
+                          getWorkFormGroup(i).controls['endMonth'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['endMonth'].hasError('required')">End Month is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endYear" class="form-control input-sm"
+                            (change)="onChangeYear(i,'exp','endYr')"
+                            [ngClass]="{ 'is-invalid': submit && workSubmit && getWorkFormGroup(i).controls['endYear'].hasError }">
+
+                            <!-- <option value="null" disabled [selected]="true">Year</option> -->
+                            <option *ngFor="let year of years" [value]="year" [disabled]="checkYear(year,i,'exp')">
+                              {{year}}</option>
+                          </select>
+                          <div *ngIf="submit && workSubmit && getWorkFormGroup(i).controls['endYear'].hasError ||
+                            getWorkFormGroup(i).controls['endYear'].hasError &&
+                            (getWorkFormGroup(i).controls['endYear'].dirty ||
+                            getWorkFormGroup(i).controls['endYear'].touched) " class="error-msg">
+                            <div *ngIf="getWorkFormGroup(i).controls['endYear'].hasError('required')">End Year is
+                              required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+                <hr *ngIf="!lastItem">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            <div class="pull-right">
+              <div class="custom-radiobox">
+                <label class="containerR"> Private
+                  <input type="radio" name="educationDetailPrivacy" formControlName="educationDetailPrivacy"
+                    id="educationPrivacyRadio1" [value]="false">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <div class="custom-radiobox padding-left-15">
+                <label class="containerR"> Public
+                  <input type="radio" name="educationDetailPrivacy" formControlName="educationDetailPrivacy"
+                    id="educationPrivacyRadio2" [value]="true">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <i style="padding:4px 5px; margin: 0px 16px;" (click)="addEducation1()"
+                class="fa fa-plus btn btn-xs btn-primary btn-circle" title="Add education"></i>
+            </div>
+
+            Education
+
+          </div>
+          <div class="panel-body">
+            <div formArrayName="educationDetail">
+              <div *ngFor="let work of educationArray.controls; let i  = index; let lastItem = last">
+                <div [formGroupName]="i" class="form-horizontal">
+
+                  <div class="form-group row" style="margin-bottom: 10px;">
+                    <label *ngIf="studentFlag" for="schoolName"
+                      class="col-sm-3 required-field control-label font-bold">School / College / University</label>
+                    <label *ngIf="jobSeekerFlag" for="schoolName"
+                    class="col-sm-3 required-field control-label font-bold">School / College / University</label>
+
+                    <label *ngIf="professionalFlag || recruiterFlag" for="schoolName" class="col-sm-3  control-label font-bold">School /
+                      College / University</label>
+
+                    <div class="col-sm-8">
+                      <!-- (keyup)="dateValidityCheck(i, 'edu')" -->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <input placeholder="School Name" class="form-control input-sm max-hight"
+                            formControlName="schoolName"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['schoolName'].hasError }"
+                            (typeaheadOnSelect)="onChangeSchool($event, i)" [typeahead]="instList"
+                            (typeaheadNoResults)="changeTypeaheadNoResults(i, 'edu')" [typeaheadMinLength]="1"
+                            typeaheadOptionField="institutionName" [typeaheadItemTemplate]="customItemTemplate1"
+                            autocomplete="off" [typeaheadOrderBy]="sortConfigEdu">
+
+                          <ng-template #customItemTemplate1 let-model="item">
+                            <span>
+                              <strong style="font-size: 14px;">
+                                {{model.institutionName}}
+                              </strong>
+                              <br>
+                              <i>
+                                <small>
+                                  {{model.street }}<span *ngIf="model.street">{{", "}}</span>
+                                  {{model.city}}<span *ngIf="model.city">{{", "}}</span>
+                                  {{model.state}}<span *ngIf="model.state">{{", "}}</span>
+                                  {{model.countryName}}
+                                </small>
+                              </i>
+                            </span>
+                          </ng-template>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['schoolName'].hasError ||
+                                                     getEducationFormGroup(i).controls['schoolName'].hasError &&
+                                                     (getEducationFormGroup(i).controls['schoolName'].dirty ||
+                                                     getEducationFormGroup(i).controls['schoolName'].touched) "
+                            class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['schoolName'].hasError('required')">School
+                              name is
+                              required</div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row " style="margin-bottom: 8px;">
+                        <div class="col-sm-6">
+                          <div class="custom-checkbox">
+                            <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;">
+                              Currently
+                              Pursuing
+                              <input type="checkbox" formControlName="currentlyPursued"
+                                (change)="currentlyPursued($event, i)" name="currentlyPursued">
+                              <span class="checkmark" title="Check this if you're currently studying here"></span>
+                            </label>
+                          </div>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['currentlyPursued'].hasError ||
+                                            getEducationFormGroup(i).controls['currentlyPursued'].hasError &&
+                                            (getEducationFormGroup(i).controls['currentlyPursued'].dirty ||
+                                            getEducationFormGroup(i).controls['currentlyPursued'].touched) "
+                            class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['currentlyPursued'].hasError('required')">At
+                              least
+                              one should be currently pursued</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6"
+                          *ngIf="educationDetail.value[i].currentlyPursued===true && (receivedArbitraryData.curIndex === i || receivedArbitraryData.curIndex === null) && userControl.userType.value == 'student'">
+                          <div>
+                            <div class="custom-checkbox">
+                              <label class="checkbox-label font-bold" style="text-align: center;margin-top: -4px;"> Show
+                                this education in Profile
+                                <input type="checkbox" (change)="eduShowThis($event, i)" name="showThisOnProfile"
+                                  formControlName="showThisOnProfile">
+                                <span class="checkmark"
+                                  title="Only when this is checked, this education is shown in your profile"></span>
+                              </label>
+                            </div>
+                            <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['showThisOnProfile'].hasError ||
+                                             getEducationFormGroup(i).controls['showThisOnProfile'].hasError &&
+                                             (getEducationFormGroup(i).controls['showThisOnProfile'].dirty ||
+                                             getEducationFormGroup(i).controls['showThisOnProfile'].touched) "
+                              class="error-msg">
+                              <div *ngIf="getEducationFormGroup(i).controls['showThisOnProfile'].hasError('required')">
+                                Show at least
+                                one education</div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <div class="btn-group" style="margin-left: -13px;" title="Remove education"
+                        (click)="removeEducation(i)">
+                        <button type="button" class="edit-pencil"><span>
+                            <i class="fas fa-trash delBG"></i>
+                          </span></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label *ngIf="professionalFlag || recruiterFlag" class="col-sm-3 control-label font-bold ">Location</label>
+                    <label *ngIf="studentFlag" class="col-sm-3 required-field control-label font-bold ">Location</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3 required-field control-label font-bold ">Location</label>
+
+                    <div class="col-sm-8">
+                      <div class="row form-group">
+                        <div class="col-sm-6 ">
+                          <select class="form-control input-sm" formControlName="country" type="text"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['country'].hasError }"
+                            (change)="onChangeCountry($event.target.value,'edu',i)">
+                            <option value="null" selected disabled>Country</option>
+                            <option *ngFor="let country of countryList" [value]="country.countryCode">
+                              {{country.countryName}}</option>
+                          </select>
+
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['country'].hasError ||
+                                                 getEducationFormGroup(i).controls['country'].hasError &&
+                                                 (getEducationFormGroup(i).controls['country'].dirty ||
+                                                 getEducationFormGroup(i).controls['country'].touched) "
+                            class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['country'].hasError('required')">Country is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='US'">
+                          <input type="text" placeholder="Zipcode" formControlName="zipcode"
+                            class="form-control input-sm" (keyup)="onKeyZip($event,'edu', i)"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['zipcode'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['zipcode'].hasError ||
+                                    getEducationFormGroup(i).controls['zipcode'].hasError &&
+                                    (getEducationFormGroup(i).controls['zipcode'].dirty ||
+                                    getEducationFormGroup(i).controls['zipcode'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['zipcode'].hasError('pattern')">Please enter
+                              only numbers</div>
+                            <div *ngIf="getEducationFormGroup(i).controls['zipcode'].hasError('required')">Zip code is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='IN'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError ||
+                                      getEducationFormGroup(i).controls['state'].hasError &&
+                                      (getEducationFormGroup(i).controls['state'].dirty ||
+                                      getEducationFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['state'].hasError('required')">State is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='CA'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError ||
+                                      getEducationFormGroup(i).controls['state'].hasError &&
+                                      (getEducationFormGroup(i).controls['state'].dirty ||
+                                      getEducationFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['state'].hasError('required')">State is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='AU'">
+                          <select class="form-control input-sm" formControlName="state" type="text"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError }">
+                            <option value="null" selected disabled>State</option>
+                            <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                            </option>
+                          </select>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError ||
+                                      getEducationFormGroup(i).controls['state'].hasError &&
+                                      (getEducationFormGroup(i).controls['state'].dirty ||
+                                      getEducationFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['state'].hasError('required')">State is
+                              required</div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country!='AU'&&
+                                                              educationDetail.value[i].country!='CA'&&
+                                                              educationDetail.value[i].country!='IN'&&
+                                                              educationDetail.value[i].country!='US'">
+                          <input formControlName="state" class="form-control input-sm" placeholder="State"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError ||
+                                      getEducationFormGroup(i).controls['state'].hasError &&
+                                      (getEducationFormGroup(i).controls['state'].dirty ||
+                                      getEducationFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['state'].hasError('required')">State is
+                              required</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='US'">
+                          <input type="text" disabled placeholder="City" formControlName="city"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['city'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['city'].hasError ||
+                                      getEducationFormGroup(i).controls['city'].hasError &&
+                                      (getEducationFormGroup(i).controls['city'].dirty ||
+                                      getEducationFormGroup(i).controls['city'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['city'].hasError('required')">City is required
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country!='US'">
+                          <input type="text" placeholder="City" formControlName="city" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['city'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['city'].hasError ||
+                                        getEducationFormGroup(i).controls['city'].hasError &&
+                                        (getEducationFormGroup(i).controls['city'].dirty ||
+                                        getEducationFormGroup(i).controls['city'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['city'].hasError('required')">City is required
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country=='US'"
+                          [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError }">
+                          <input disabled formControlName="state" class="form-control input-sm" placeholder="State">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['state'].hasError ||
+                                          getEducationFormGroup(i).controls['state'].hasError &&
+                                          (getEducationFormGroup(i).controls['state'].dirty ||
+                                          getEducationFormGroup(i).controls['state'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['state'].hasError('required')">State is
+                              required</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="educationDetail.value[i].country!='US'">
+                          <input type="text" placeholder="Zipcode" formControlName="zipcode"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['zipcode'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['zipcode'].hasError ||
+                                        getEducationFormGroup(i).controls['zipcode'].hasError &&
+                                        (getEducationFormGroup(i).controls['zipcode'].dirty ||
+                                        getEducationFormGroup(i).controls['zipcode'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['zipcode'].hasError('pattern')">Please enter
+                              only numbers</div>
+                            <div *ngIf="getEducationFormGroup(i).controls['zipcode'].hasError('required')">Zip code is
+                              required</div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <input type="text" placeholder="Street/Road/Nearby Landmark" formControlName="street"
+                            class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['street'].hasError }">
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['street'].hasError ||
+                                      getEducationFormGroup(i).controls['street'].hasError &&
+                                      (getEducationFormGroup(i).controls['street'].dirty ||
+                                      getEducationFormGroup(i).controls['street'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['street'].hasError('required')">Street is
+                              required</div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="form-group row">
+                    <label for="degree" *ngIf="studentFlag"
+                      class="col-sm-3 required-field control-label font-bold">Degree</label>
+                      <label for="degree" *ngIf="jobSeekerFlag"
+                      class="col-sm-3 required-field control-label font-bold">Degree</label>
+
+                    <label for="degree" *ngIf="professionalFlag || recruiterFlag" class="col-sm-3  control-label font-bold">Degree</label>
+
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Degree" formControlName="degree"
+                        [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['degree'].hasError }">
+                      <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['degree'].hasError ||
+                                getEducationFormGroup(i).controls['degree'].hasError &&
+                                (getEducationFormGroup(i).controls['degree'].dirty ||
+                                getEducationFormGroup(i).controls['degree'].touched) " class="error-msg">
+                        <div *ngIf="getEducationFormGroup(i).controls['degree'].hasError('required')">Degree is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label *ngIf="studentFlag" for="speciality"
+                      class="col-sm-3 required-field control-label font-bold">Speciality</label>
+                      <label *ngIf="jobSeekerFlag" for="speciality"
+                      class="col-sm-3 required-field control-label font-bold">Speciality</label>
+
+                    <label *ngIf="professionalFlag || recruiterFlag" for="speciality"
+                      class="col-sm-3  control-label font-bold">Speciality</label>
+
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Speciality"
+                        formControlName="speciality"
+                        [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['speciality'].hasError }">
+                      <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['speciality'].hasError ||
+                                getEducationFormGroup(i).controls['speciality'].hasError &&
+                                (getEducationFormGroup(i).controls['speciality'].dirty ||
+                                getEducationFormGroup(i).controls['speciality'].touched) " class="error-msg">
+                        <div *ngIf="getEducationFormGroup(i).controls['speciality'].hasError('required')">Speciality is
+                          required</div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group row">
+                    <label *ngIf="studentFlag" class="col-sm-3 required-field control-label font-bold">From Date</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3 required-field control-label font-bold">From Date</label>
+
+                    <label *ngIf="professionalFlag || recruiterFlag" class="col-sm-3  control-label font-bold">From Date</label>
+
+                    <div class="col-sm-8">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="startMonth" class="form-control input-sm"
+                            (change)="monthChange(i,'edu')"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['startMonth'].hasError }">
+
+                            <option value="null" selected disabled>Month</option>
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth1(month.code,i,'edu')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['startMonth'].hasError ||
+                                getEducationFormGroup(i).controls['startMonth'].hasError &&
+                                (getEducationFormGroup(i).controls['startMonth'].dirty ||
+                                getEducationFormGroup(i).controls['startMonth'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['startMonth'].hasError('required')">Start
+                              Month is required</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="startYear" class="form-control input-sm"
+                            (change)="yearChange(i,$event,'edu', null)"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['startYear'].hasError }">
+
+                            <!-- <option value="null" selected disabled>Year</option> -->
+                            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                          </select>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['startYear'].hasError ||
+                                getEducationFormGroup(i).controls['startYear'].hasError &&
+                                (getEducationFormGroup(i).controls['startYear'].dirty ||
+                                getEducationFormGroup(i).controls['startYear'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['startYear'].hasError('required')">Start Year
+                              is required</div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row" *ngIf="educationDetail.value[i].currentlyPursued===false">
+                    <label *ngIf="studentFlag" class="col-sm-3 required-field control-label font-bold">To Date</label>
+                    <label *ngIf="jobSeekerFlag" class="col-sm-3 required-field control-label font-bold">To Date</label>
+
+                    <label *ngIf="professionalFlag || recruiterFlag" class="col-sm-3  control-label font-bold">To Date</label>
+
+                    <div class="col-sm-8">
+                      <div class="row">
+
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endMonth" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['endMonth'].hasError }">
+                            <option value="null" selected disabled>Month</option>
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth(month.code,i,'edu')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['endMonth'].hasError ||
+                                getEducationFormGroup(i).controls['endMonth'].hasError &&
+                                (getEducationFormGroup(i).controls['endMonth'].dirty ||
+                                getEducationFormGroup(i).controls['endMonth'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['endMonth'].hasError('required')">End Month is
+                              required</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endYear" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && educationSubmit && getEducationFormGroup(i).controls['endYear'].hasError }"
+                            (change)="onChangeYear(i,'edu', null)">
+                            <!-- <option value="null" selected disabled>Year</option> -->
+                            <option *ngFor="let year of years" [value]="year" [disabled]="checkYear(year,i,'edu')">
+                              {{year}}</option>
+                          </select>
+                          <div *ngIf="submit && educationSubmit && getEducationFormGroup(i).controls['endYear'].hasError ||
+                                    getEducationFormGroup(i).controls['endYear'].hasError &&
+                                    (getEducationFormGroup(i).controls['endYear'].dirty ||
+                                    getEducationFormGroup(i).controls['endYear'].touched) " class="error-msg">
+                            <div *ngIf="getEducationFormGroup(i).controls['endYear'].hasError('required')">End Year is
+                              required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr *ngIf="!lastItem">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            <div class="pull-right">
+              <div class="custom-radiobox">
+                <label class="containerR"> Private
+                  <input type="radio" name="certificationPrivacy" formControlName="certificationPrivacy"
+                    id="certificationRadio1" [value]="false">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <div class="custom-radiobox padding-left-15">
+                <label class="containerR"> Public
+                  <input type="radio" name="certificationPrivacy" formControlName="certificationPrivacy"
+                    id="certificationRadio2" [value]="true">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <i style="padding:4px 5px; margin: 0px 16px;" (click)="addCertification()"
+                class="fa fa-plus btn btn-xs btn-primary btn-circle" title="Add certifications"></i>
+              <!-- <i class="fa fa-plus padding-left-15" style="cursor: pointer; color: black;" (click)="addCertification()"></i> -->
+
+            </div>
+
+            <!-- <label class="control-label padding-top-0 margin-bottom-5 margin-top-5">Certifications</label> -->
+            Certifications
+          </div>
+          <div class="panel-body">
+            <div formArrayName="certification">
+              <div *ngFor="let work of certArray.controls; let i  = index; let lastItem = last">
+                <div [formGroupName]="i" class="form-horizontal">
+                  <!-- <div  class="row">
+                                        <div class="form-group">
+                                             <div class="pull-right" style="padding-right: 35px;">
+                                                 <i  (click)="removeCertification(i)" title="Delete certifications"
+                                                 class="fas fa-trash" style="cursor: pointer"></i>
+                                             </div>
+                                        </div>
+                                     </div> -->
+                  <div class="form-group row">
+                    <label for="certificationName" class="col-sm-3  control-label font-bold">Certificate Name</label>
+                    <div class="col-sm-8">
+                      <!-- (keyup)="dateValidityCheck(i, 'cert')" -->
+                      <!-- <input type="text" class="form-control input-sm" placeholder="Certificate Name"
+                        formControlName="certificationName"
+                        [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['certificationName'].hasError }"> -->
+
+
+
+                        <input placeholder="Certificate Name" class="form-control input-sm max-hight"
+                        formControlName="certificationName"
+                        [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['certificationName'].hasError  }"
+                        (typeaheadOnSelect)="onChangeCertificate($event, i)" [typeahead]="certificationList"
+                        (typeaheadNoResults)="changeTypeaheadNoResults(i, 'cert')" [typeaheadMinLength]="1"
+                        typeaheadOptionField="certificationName" [typeaheadItemTemplate]="customItemTemplate2"
+                        autocomplete="off" [typeaheadOrderBy]="sortConfigCert">
+
+                      <ng-template #customItemTemplate2 let-model="item">
+                        <span>
+                          <strong style="font-size: 14px;">
+                            {{model.certificationName}}
+                          </strong>
+                          <!-- <br>
+                          <i>
+                            <small>
+                              {{model.street }}<span *ngIf="model.street">{{", "}}</span>
+                              {{model.city}}<span *ngIf="model.city">{{", "}}</span>
+                              {{model.state}}<span *ngIf="model.state">{{", "}}</span>
+                              {{model.countryName}}
+                            </small>
+                          </i> -->
+                        </span>
+                      </ng-template>
+                      <div *ngIf="submit && getCertFormGroup(i).controls['certificationName'].hasError ||
+                                        getCertFormGroup(i).controls['certificationName'].hasError &&
+                                        (getCertFormGroup(i).controls['certificationName'].dirty ||
+                                        getCertFormGroup(i).controls['certificationName'].touched) " class="error-msg">
+                                    <div *ngIf="getCertFormGroup(i).controls['certificationName'].hasError('required')">Certificate Name is required</div>
+                                  </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <!-- <div class="pull-right" style="padding-right: 35px;">
+                                        <i  (click)="removeCertification(i)" title="Delete certifications"
+                                        class="fas fa-trash" style="cursor: pointer"></i>
+                                    </div> -->
+                      <div class="btn-group" style="margin-left: -13px;" title="Remove certifications"
+                        (click)="removeCertification(i)">
+                        <button type="button" class="edit-pencil"><span>
+                            <i class="fas fa-trash delBG"></i>
+                          </span></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="certificateOrganization" class="col-sm-3  control-label font-bold">Issuing
+                      Authority</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Issuing Authority"
+                        formControlName="certificateOrganization"
+                      [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['certificateOrganization'].hasError }">
+                      <div *ngIf="submit && getCertFormGroup(i).controls['certificateOrganization'].hasError ||
+                                        getCertFormGroup(i).controls['certificateOrganization'].hasError &&
+                                        (getCertFormGroup(i).controls['certificateOrganization'].dirty ||
+                                        getCertFormGroup(i).controls['certificateOrganization'].touched) " class="error-msg">
+                                    <div *ngIf="getCertFormGroup(i).controls['certificateOrganization'].hasError('required')">Issuing Authority is required</div>
+                                  </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="certificateLicenseNo" class="col-sm-3  control-label font-bold">License Number</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="License Number"
+                      [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['certificateLicenseNo'].hasError }"
+                      formControlName="certificateLicenseNo">
+                      <div *ngIf="submit && getCertFormGroup(i).controls['certificateLicenseNo'].hasError ||
+                                        getCertFormGroup(i).controls['certificateLicenseNo'].hasError &&
+                                        (getCertFormGroup(i).controls['certificateLicenseNo'].dirty ||
+                                        getCertFormGroup(i).controls['certificateLicenseNo'].touched) " class="error-msg">
+                                    <div *ngIf="getCertFormGroup(i).controls['certificateLicenseNo'].hasError('required')">License Number is required</div>
+                                  </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group row">
+                    <label class="col-sm-3 control-label  font-bold">Issue Date</label>
+                    <div class="col-sm-8">
+                      <div class="row">
+
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="startMonth" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['startMonth'].hasError }"
+                            (change)="monthChange(i,'cert')">
+
+                            <option value="null" selected disabled>Month</option>
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth1(month.code,i,'cert')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && getCertFormGroup(i).controls['startMonth'].hasError ||
+                                            getCertFormGroup(i).controls['startMonth'].hasError &&
+                                            (getCertFormGroup(i).controls['startMonth'].dirty ||
+                                            getCertFormGroup(i).controls['startMonth'].touched) " class="error-msg">
+                            <div *ngIf="getCertFormGroup(i).controls['startMonth'].hasError('required')">Please fill
+                              this also</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="startYear" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['startYear'].hasError }"
+                            (change)="yearChange(i,$event,'cert', null)">
+
+                            <!-- <option value="null" selected disabled>Year</option> -->
+                            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                          </select>
+                          <div *ngIf="submit && getCertFormGroup(i).controls['startYear'].hasError ||
+                                            getCertFormGroup(i).controls['startYear'].hasError &&
+                                            (getCertFormGroup(i).controls['startYear'].dirty ||
+                                            getCertFormGroup(i).controls['startYear'].touched) " class="error-msg">
+                            <div *ngIf="getCertFormGroup(i).controls['startYear'].hasError('required')">Please fill this
+                              also</div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group row">
+                    <label class="col-sm-3 control-label  font-bold">Expiration Date</label>
+                    <div class="col-sm-8">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endMonth" class="form-control input-sm"
+                            [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['endMonth'].hasError }">
+
+                            <option value="null" selected disabled>Month</option>
+                            <option *ngFor="let month of months" [value]="month.name"
+                              [disabled]="checkMonth(month.code,i,'cert')">{{month.name}}</option>
+                          </select>
+                          <div *ngIf="submit && getCertFormGroup(i).controls['endMonth'].hasError ||
+                                                getCertFormGroup(i).controls['endMonth'].hasError &&
+                                                (getCertFormGroup(i).controls['endMonth'].dirty ||
+                                                getCertFormGroup(i).controls['endMonth'].touched) " class="error-msg">
+                            <div *ngIf="getCertFormGroup(i).controls['endMonth'].hasError('required')">Please fill this
+                              also</div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <select type="text" formControlName="endYear" class="form-control input-sm"
+                            (change)="onChangeYear(i,'cert',null)"
+                            [ngClass]="{ 'is-invalid': submit && getCertFormGroup(i).controls['endYear'].hasError }">
+
+                            <!-- <option value="null" selected disabled>Year</option> -->
+                            <option *ngFor="let year of years" [value]="year" [disabled]="checkYear(year,i,'cert')">
+                              {{year}}</option>
+                          </select>
+                          <div *ngIf="submit && getCertFormGroup(i).controls['endYear'].hasError ||
+                                                getCertFormGroup(i).controls['endYear'].hasError &&
+                                                (getCertFormGroup(i).controls['endYear'].dirty ||
+                                                getCertFormGroup(i).controls['endYear'].touched) " class="error-msg">
+                            <div *ngIf="getCertFormGroup(i).controls['endYear'].hasError('required')">Please fill this
+                              also</div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <hr *ngIf="!lastItem">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+
+                </div> -->
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            <div class="pull-right m-r-56">
+              <div class="custom-radiobox">
+                <label class="containerR"> Private
+                  <input type="radio" name="socialInfluencePrivacy" formControlName="socialInfluencePrivacy"
+                    id="socialInfluenceRadio1" [value]="false">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+              <div class="custom-radiobox padding-left-15">
+                <label class="containerR"> Public
+                  <input type="radio" name="socialInfluencePrivacy" formControlName="socialInfluencePrivacy"
+                    id="socialInfluenceRadio2" [value]="true">
+                  <span class="checkmarkR radio_c" title="Show/hide this to others with Public/Private"></span>
+                </label>
+              </div>
+
+            </div>
+
+            <!-- <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"> Social Presence</label> -->
+            Social Presence
+          </div>
+          <div class="panel-body">
+            <div formArrayName="socialPresence">
+              <div *ngFor="let task of socialPresenceArray.controls; let i = index;">
+                <div [formGroupName]="i">
+
+                  <div class="form-group row">
+                    <label for="twitter" class="col-sm-3 control-label font-bold">Twitter Handle</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Twitter Handle"
+                        formControlName="twitter">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="linkedin" class="col-sm-3 control-label font-bold">LinkedIn URL</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="LinkedIn URL"
+                        formControlName="linkedin">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="blogURL" class="col-sm-3 control-label font-bold">Blog Website URL</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Blog Website URL"
+                        formControlName="blogURL">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="alternamePageLink" class="col-sm-3 control-label font-bold">Alternative Webpage
+                      Link</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control input-sm" placeholder="Alternative Webpage Link"
+                        formControlName="alternamePageLink">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button type="button" class="btn btn-default btn-sm" style="line-height: 21px;border-radius: 5px;"
+            (click)="clearData()">Cancel</button>
+          <button type="button" style="margin-left:2%" class="btn primary-btn btn-sm" [disabled]="valid"
+            (click)="save()">Submit</button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="col-sm-3 kjsdf" [ngClass]="{'stopThereCss': stopThere}">
+      <app-common-widget [page]="'PROFILE_CREATE_PAGE'" [inputData]="'PROFILE_CREATE_PAGE'"></app-common-widget>
+      <!-- <app-user-badge></app-user-badge> -->
+    </div>
+
+
+  </div>
+
+</div>

@@ -1,0 +1,228 @@
+.mainNav {
+  display: flex;
+  justify-content: space-around;
+  justify-content: center;
+}
+
+.navMain {
+  display: flex;
+  column-gap: 5px;
+
+  .navIteam1 {
+    flex: 0 0 30%;
+  }
+
+  .navIteam2 {
+    flex: 0 0 41%;
+  }
+
+  .navIteam3 {
+    flex: 1;
+    text-align: right;
+  }
+
+  .navIteam4 {
+    flex: 0 0 15%;
+  }
+}
+
+.wrongicon {
+  font-size: 26px;
+  font-weight: 400;
+  color: white;
+}
+
+.wrongicon {
+  font-size: 26px;
+  font-weight: 400;
+  color: white;
+}
+
+.img-size {
+  max-height: 250px;
+  margin-top: 20px;
+}
+
+.bg {
+  background-color: white;
+  padding: 10px;
+}
+
+.sticky-widget {
+  position: sticky;
+  top: 155px;
+}
+
+.shifu {
+  display: flex;
+  column-gap: 0.5rem;
+  flex-direction: row-reverse;
+}
+
+.addd-dngr {
+  width: 90%;
+  border-radius: 3px;
+}
+
+
+.displayflex {
+  display: flex;
+}
+
+.business-no-data {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 4rem;
+  left: 156px;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.business-no-data .text-style {
+  font-weight: 600;
+  color: black;
+
+}
+
+.m-6 {
+  margin: 6px 0 0;
+}
+
+.font-size {
+  font-size: large;
+  font-weight: 600;
+}
+
+.left-move {
+  left: 101px;
+}
+
+.button-flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.listingDesign {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 10px;
+}
+
+.alrt-dngr {
+  display: flex;
+  justify-content: center;
+}
+
+.f-size-11 {
+  font-size: 11px;
+}
+
+.mr-12 {
+  margin-right: 12px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.filimg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.connectionbtn {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.topm-6 {
+  // background-color: white;
+  margin-top: 6px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+
+.mainItem {
+  background-color: white;
+}
+
+.mainItem:nth-of-type(1) {
+  flex-grow: 4;
+}
+
+.mainItem:nth-of-type(2) {
+  flex-grow: 2;
+}
+
+.mleft {
+  margin-left: 7px;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+
+
+
+
+.bg {
+  background-color: white;
+  padding: 10px;
+}
+
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.filimg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.displayflex {
+  display: flex;
+}
+
+.mt-17 {
+  margin-top: 17px;
+}
+
+.float {
+  float: right;
+}
+
+.rowchange {
+  margin-left: 15px;
+  margin-right: 28px;
+
+}
+
+.red {
+  color: red;
+}
+
+.sticky-nav {
+  position: sticky;
+  top: 91px;
+  z-index: 1;
+  // box-shadow: 2px 3px 5px 3px #cfd4db;
+}
+
+@media all and (min-width: 992px) and (max-width: 1100px) {
+  .Nav-bar {
+    // width: 724px !important;
+  }
+}
+
+@media all and (min-width: 1101px) and (max-width: 1200px) {
+  .Nav-bar {
+    // width: 724px !important;
+  }
+}

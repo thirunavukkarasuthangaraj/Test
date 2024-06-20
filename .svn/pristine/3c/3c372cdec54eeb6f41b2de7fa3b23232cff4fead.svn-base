@@ -1,0 +1,6 @@
+<app-directory-header></app-directory-header>
+<div class="directory-content">
+    <router-outlet></router-outlet>
+</div>
+<app-directory-footer></app-directory-footer>
+

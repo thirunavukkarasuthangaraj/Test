@@ -1,0 +1,5 @@
+.font {
+  font-size: 20px;
+  font-style: unset;
+}
+/*# sourceMappingURL=password-reset-confirmed.component.css.map */

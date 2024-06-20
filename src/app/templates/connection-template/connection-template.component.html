@@ -1,0 +1,215 @@
+<ng-container *ngIf="page == 'job-profile-pop-up' || page == 'job-card-1' || page == 'job-card'
+|| page == 'candidate-card' || page == 'candidate-listing' || page == 'candidate-profile'">
+  <div class="common-header-flex">
+    <div class="f-1">
+      <div>Send Connection Request</div>
+    </div>
+    <div>
+      <button>
+        <span class="common-close" (click)="closeConnectionProcess()">&times;</span>
+      </button>
+    </div>
+  </div>
+  <div class="hpanel">
+    <div class="panel-body br-bt-none">
+      <div class="connection-graphics">
+        <img src="assets/images/connection-design.png" alt="">
+      </div>
+      <div class="alert alert-info addd-dngr" role="alert">
+        It seems that you are not connected with the owner of the <span *ngIf="module == 'job'">job</span> <span
+          *ngIf="module == 'candidate'">candidate</span>.
+        Please, complete the connection process to proceed.
+      </div>
+      <div class="counterparts-container">
+
+        <div class="counterpart-image">
+          <img *ngIf="counterpartsDetails?.photo" class="photo-style" [src]="url + counterpartsDetails?.photo"
+          alt="Object Photo">
+
+        <div *ngIf="!counterpartsDetails?.photo">
+          <div class="circles" [style.background-color]="getColor(counterpartsDetails?.fullname)">
+            <div class="circle-text">{{ getInitials(counterpartsDetails?.fullname) }}</div>
+          </div>
+        </div>
+
+        </div>
+        <div class="counterparts-details">
+          <div class="ellipsces" title="{{counterpartsDetails?.fullname}}">{{counterpartsDetails?.fullname}}</div>
+          <div class="designation-workplace">
+            <span class="ellipsces" *ngIf="counterpartsDetails?.userType == 'RECRUITER'">{{counterpartsDetails?.userType
+              | titlecase}}</span>
+            <span class="ellipsces" *ngIf="counterpartsDetails?.userType == 'FREELANCE_RECRUITER'">Freelance
+              Recruiter</span>
+            <span class="ellipsces" *ngIf="counterpartsDetails?.userType == 'MANAGEMENT_TALENT_ACQUISITION'">Management
+              Talent Acquisition</span>
+            <span class="ellipsces" *ngIf="counterpartsDetails?.userType == 'BENCH_RECRUITER'">Bench Recruiter</span>
+            <span class="ellipsces" *ngIf="counterpartsDetails?.userType == 'JOB_SEEKER'">Job Seeker</span>
+            <span>@</span>
+            <span *ngFor="let work of counterpartsDetails?.workExperience">
+              <div class="ellipsces" *ngIf="work?.currentOrganization">
+                <span>{{work?.organisationName}}</span>
+              </div>
+            </span>
+          </div>
+
+          <div *ngFor="let work of counterpartsDetails?.workExperience">
+            <div *ngIf="work?.currentOrganization">
+              <div class="ellipsces">{{work?.city | titlecase}}, {{" "}} {{work?.state}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="connection-actions">
+          <div *ngIf="connectionStatus == 'REQUEST_PENDING' || connectionStatus == 'REQUEST_RECEIVED'">
+            <div class="btn-group" style="display: contents;">
+              <button type="button" class="btn btn-sm accept" (click)="accept()">Accept Connection Request</button>
+              <button id="button-split" type="button" [matMenuTriggerFor]="menu" class="btn accept btn-sm">
+                <span class="caret"></span>
+              </button>
+            </div>
+            <div>
+              <mat-menu #menu="matMenu" xPosition="before" [overlapTrigger]="false">
+                <button class="mat-menu-height" mat-menu-item (click)="reject()">Reject Connection Request</button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="connectionStatus == 'NOT_CONNECTED'||connectionStatus == 'REJECTED'">
+          <button class="btn primary-btn btn-sm" (click)="connect()">
+            Connect
+          </button>
+        </div>
+        <div *ngIf="connectionStatus == 'REQUEST_SENT'">
+          <button class="btn btn-sm btn-danger" (click)="cancelConnectionRequest() ">
+            Cancel Connect Request
+          </button>
+        </div>
+        <div ngbDropdown *ngIf="connectionStatus == 'CONNECTED'">
+          <div class="btn-group smxv" dropdown (onShown)="onShown()" (onHidden)="onHidden()"
+            (isOpenChange)="isOpenChange()">
+
+            <a id="button-animated" dropdownToggle>
+              <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+            </a>
+            <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" style="margin-left: -160px; " role="menu"
+              aria-labelledby="basic-link">
+              <li role="menuitem"><a class="dropdown-item" (click)="removeConnection()">Remove Connection</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm" (click)="closeConnectionProcess()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="page == 'job-profile' || page == 'candidate-profile-1'">
+  <div class="xs-counterparts-container">
+    <div class="xs-conterparts-flex">
+      <div class="xs-counterpart-image">
+        <img *ngIf="counterpartsDetails?.photo" class="photo-style" [src]="url + counterpartsDetails?.photo"
+          alt="Object Photo">
+        <div *ngIf="!counterpartsDetails?.photo">
+          <div class="circles" [style.background-color]="getColor(counterpartsDetails?.fullname)">
+            <div class="circle-text">{{ getInitials(counterpartsDetails?.fullname) }}</div>
+          </div>
+        </div>
+
+        <div *ngIf="connectionStatus == 'CONNECTED'">
+          <i title="You are connected with this owner" class="fa fa-link link primary-color"></i>
+        </div>
+
+      </div>
+      <div class="xs-counterparts-details">
+        <div class="xs-ellipsces" title="{{counterpartsDetails?.fullname}}">{{counterpartsDetails?.fullname}}</div>
+        <div class="xs-designation-workplace">
+          <span class="xs-ellipsces"
+            *ngIf="counterpartsDetails?.userType == 'RECRUITER'">{{counterpartsDetails?.userType
+            |
+            titlecase}}</span>
+          <span class="xs-ellipsces" *ngIf="counterpartsDetails?.userType == 'FREELANCE_RECRUITER'">Freelance
+            Recruiter</span>
+          <span class="xs-ellipsces" *ngIf="counterpartsDetails?.userType == 'MANAGEMENT_TALENT_ACQUISITION'">Management
+            Talent Acquisition</span>
+          <span class="xs-ellipsces" *ngIf="counterpartsDetails?.userType == 'BENCH_RECRUITER'">Bench Recruiter</span>
+          <span class="xs-ellipsces" *ngIf="counterpartsDetails?.userType == 'JOB_SEEKER'">Job Seeker</span>
+        </div>
+        <div *ngIf="values?.user?.userType!='FREELANCE_RECRUITER'">
+          <div *ngFor="let work of counterpartsDetails?.workExperience">
+            <div *ngIf="work?.currentOrganization">
+              <div class="xs-ellipsces">
+                {{work?.organisationName}}
+              </div>
+              <div class="xs-ellipsces">{{work?.city | titlecase}}, {{" "}} {{work?.state}}</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="values?.user?.userType=='FREELANCE_RECRUITER'">
+          <div *ngFor="let work of counterpartsDetails?.workExperience">
+            <div *ngIf="module == 'job'">
+              <div *ngIf="values?.jobPostedBehalfOf == work.organisationName">
+                <div class="xs-ellipsces">
+                  {{work?.organisationName}}
+                </div>
+                <div class="xs-ellipsces">{{work?.city | titlecase}}, {{" "}} {{work?.state}}</div>
+              </div>
+            </div>
+            <div *ngIf="module == 'candidate'">
+              <div *ngIf="values?.postedBehalfOf == work.organisationName">
+                <div class="xs-ellipsces">
+                  {{work?.organisationName}}
+                </div>
+                <div class="xs-ellipsces">{{work?.city | titlecase}}, {{" "}} {{work?.state}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="values?.jobPostedBy != userId && connectionStatus == 'CONNECTED' || values?.createdBy!= userId && connectionStatus == 'CONNECTED'"
+          [ngClass]="{disabled : !values?.availability || values?.status != 'ACTIVE' }">
+          <button class="btn primary-btn btn-xs" (click)="sendMessage(values)">
+            Live Chat
+            <i class="pe-7s-mail jwsk" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="xs-counter-part-connection">
+      <div class="xs-connection-actions">
+        <div *ngIf="connectionStatus == 'REQUEST_PENDING' || connectionStatus == 'REQUEST_RECEIVED'">
+          <div class="btn-group" style="display: contents;">
+            <button type="button" class="btn btn-sm accept" (click)="accept()">Accept Connection Request</button>
+            <button id="button-split" type="button" [matMenuTriggerFor]="menu" class="btn accept btn-sm">
+              <span class="caret"></span>
+            </button>
+          </div>
+          <div>
+            <mat-menu #menu="matMenu" xPosition="before" [overlapTrigger]="false">
+              <button class="mat-menu-height" mat-menu-item (click)="reject()">Reject Connection Request</button>
+            </mat-menu>
+          </div>
+        </div>
+        <div *ngIf="connectionStatus == 'NOT_CONNECTED'||connectionStatus == 'REJECTED'">
+          <button class="btn primary-btn btn-xs" (click)="connect()">
+            Connect
+          </button>
+        </div>
+        <div *ngIf="connectionStatus == 'REQUEST_SENT'">
+          <button class="btn btn-xs btn-danger" (click)="cancelConnectionRequest() ">
+            Cancel Connection Request
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-container>

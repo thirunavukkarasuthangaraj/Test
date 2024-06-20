@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row ">
+    <div class="clo-md-12  ">
+      <div class="row">
+        <div class="col-md-9" style="margin-left: -25px;">
+          <div class="navMain">
+            <div class="navIteam">
+              <h5> {{selectedMenu.menu}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9" style="margin-left: -25px;background: none !important;">
+          <ndc-dynamic [ndcDynamicComponent]="widget[selectedMenu.widgetName]"  [ndcDynamicInputs]="sendWidgetInfo"></ndc-dynamic>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

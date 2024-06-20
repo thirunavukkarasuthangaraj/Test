@@ -1,0 +1,80 @@
+
+export interface PlanModel {
+  userId: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  secondaryEmail: string,
+  phoneNo: string,
+  password: string,
+  city: string,
+  state: string,
+  country: string,
+  zipcode: string,
+  aboutMe: string,
+  title: string,
+  nonApplicable: string,
+  organisation: string,
+  photo: string,
+  banner: string,
+  pitch: string,
+  userType: string,
+  careOnlineNo: string,
+  gigsumoNo: string,
+  npiNo: string,
+  directoryProfileId: string,
+  profileStatus: string,
+  userStatus: string,
+  profileId: string,
+  timeZone: string,
+  timeZoneCountry: string,
+  source: string,
+  socialPresence: string,
+  applicationAccess: string,
+  userPrivacy: string,
+  connectionCnt: number,
+  followEnabled: string,
+  completePercentage: number,
+  online: string,
+  purpose: string,
+  clientType: string,
+  memberShipType: string,
+  jobSkillsInNeed: string,
+  candidateSkillsInNeed: string,
+  previousMails: string,
+  createdOn: number,
+  modifiedOn: string,
+  referredBy: string,
+  benefitsBalance: [
+    {
+      benefitKey: string,
+      balance: number,
+    },
+
+    {
+      benefitKey: string,
+      balance: number,
+    },
+
+    {
+      benefitKey: string,
+      balance: number,
+    },
+
+    {
+      benefitKey: string,
+      balance: number,
+    },
+
+    {
+      benefitKey: string,
+      balance: number,
+    },
+
+    {
+      benefitKey: string,
+      balance: number,
+    },
+  ],
+}

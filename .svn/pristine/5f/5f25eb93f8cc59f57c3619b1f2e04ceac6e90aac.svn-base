@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from 'express';
+import { ApiService } from 'src/app/services/api.service';
+import { UtilService } from 'src/app/services/util.service';
+
+@Component({
+  selector: 'app-healthcare-professionals',
+  templateUrl: './healthcare-professionals.component.html',
+  styleUrls: ['./healthcare-professionals.component.scss']
+})
+export class HealthcareProfessionalsComponent implements OnInit {
+
+  hcpData = []
+  page: number = 1;
+
+  constructor(private api: ApiService, private util: UtilService) { }
+
+  ngOnInit() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'})
+    this.getHCP()
+  }
+
+  getHCP() {
+    this.util.startLoader()
+    this.api.query('healthcare/gethcp/types?offset=0&limit=100').subscribe(res => {
+      this.util.stopLoader()
+      if (res != null) {
+        this.hcpData = res.data.hcptypes
+      } else {
+
+      }
+
+    },err => {
+      this.util.stopLoader(); 
+    })
+  }
+
+}

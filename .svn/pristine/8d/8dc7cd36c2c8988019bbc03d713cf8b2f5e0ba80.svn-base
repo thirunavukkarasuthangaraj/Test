@@ -1,0 +1,782 @@
+<div class="business-banner-top post-box-shadow">
+  <div class="business-banner">
+    <div class="banner-shadow"></div>
+    <img class="banner-img" [ngStyle]="{'background-image': 'url(' + bannerimg.src + ')'}">
+    <div class="banner-overlay">
+      <div class="banner-edit" title="Edit banner" (click)="uploadBannerHere()" style="cursor: pointer;" *ngIf="commonVariables?.localUser">
+        <input type="file" style="display: none!important;" accept="image/jpg, image/jpeg, image/png" #myFileInput title="Edit banner"
+          (change)="fileChangeEvent($event,template)" />
+        <div class="image-upload"></div>
+        <i class="fa fa-camera" aria-hidden="true"></i>
+      </div>
+      <div title="Change or remove picture" (mouseenter)="showImage=true" (mouseleave)="showImage=false" *ngIf="commonVariables.localUser" yPosition="below" xPosition="after" [matMenuTriggerFor]="menu" class="banner-profile-image" style="position: absolute; bottom: -25px;" >
+        <img class="img-small1" src="{{profilePhoto.src}}" onerror="this.src='assets/images/userAvatar.png';">
+
+
+          <mat-menu #menu="matMenu" >
+            <input #myFileInput2  style="display: none;" type="file" (click)="myFileInput2.value=null" (change)="fileChangeEvent2($event, profilePhotoUpload)"
+            accept="image/jpg, image/jpeg, image/png"  />
+            <button   class="wqmzi" mat-menu-item (click)="uploadPhotoHere()">
+              <span class="ixym"><i class="far fa-user-circle fa-lg"></i></span>
+              <span class="ixym kjp"><i class="fas fa-user"></i></span>
+              <span class="skpax">Change profile photo</span>
+            </button>
+            <button  type="button" (click)="openSweetalert()" class="wqmzi" mat-menu-item>
+              <span class="ixym"><i class="fas fa-user-slash"></i></span>
+              <span>Remove profile photo</span>
+            </button>
+            <!-- <button  class="wqmzi" mat-menu-item>
+              <span class="ixym"><i class="far fa-user-circle fa-lg"></i></span>
+              <span>View profile photo</span>
+            </button> -->
+          </mat-menu>
+          <span class='sssld'>
+            <i  *ngIf="showImage==true" class="fa fa-camera"  aria-hidden="true"></i>
+          </span >
+        </div>
+
+
+
+      <div class="banner-profile-image1" *ngIf="!commonVariables.localUser" style="position: absolute; bottom: -25px;">
+        <img class="img-small1" src="{{profilePhoto.src}}" onerror="this.src='assets/images/userAvatar.png';">
+      </div>
+
+      <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button> -->
+
+    </div>
+  </div>
+
+  <div class="row business-details1" style="word-wrap: break-word;">
+    <div class="col-md-8" style="margin: 30px 0px 0px;">
+      <div *ngIf="this.infoData.userType !== 'student'">
+        <p *ngIf="infoData.firstName && infoData.lastName" class="profile-name ellipse2" title="{{infoData.firstName + ' ' + infoData.lastName}}" data-toggle="tooltip"
+          data-placement="top">
+          {{infoData.firstName + " " + infoData.lastName}}
+        </p>
+        <p *ngIf="infoData.pitch" class="profile-tag ellipse1" data-toggle="tooltip" data-placement="top">
+          {{infoData.pitch}}
+        </p>
+
+        <p *ngIf="experelement.title" class="profile-others ellipse1" title="{{experelement.title}}">
+          {{experelement.title}}
+        </p>
+
+        <p *ngIf="experelement.organisationName" class="profile-others ellipse1" title="{{experelement.organisationName}}">
+          {{experelement.organisationName}}
+        </p>
+
+        <p *ngIf="infoData.city && infoData.state" class="profile-others ellipse1" title="{{infoData.city + ', ' + infoData.state}}">
+          {{infoData.city + ', ' + infoData.state}}
+        </p>
+      </div>
+
+
+
+      <div *ngIf="this.infoData.userType === 'student'">
+        <p *ngIf="infoData.firstName && infoData.lastName" class="profile-name ellipse2" title="{{infoData.firstName + ' ' + infoData.lastName}}" data-toggle="tooltip"
+          data-placement="top">
+          {{infoData.firstName + " " + infoData.lastName}}
+        </p>
+        <p *ngIf="infoData.pitch" class="profile-tag ellipse" data-toggle="tooltip" data-placement="top">
+          {{infoData.pitch}}
+        </p>
+
+        <p class="profile-others ellipse">
+          Student
+        </p>
+        <div class="col-sm-1">
+        </div>
+        <p *ngIf="educationElement.schoolName" class="profile-others ellipse" title="{{educationElement.schoolName}}">
+          <span>
+            <i class="fas fa-user-graduate "></i>
+          </span>
+          {{educationElement.schoolName}}
+        </p>
+
+        <p *ngIf="educationElement.city && educationElement.state" class="profile-others" title="{{educationElement.city + ', ' + educationElement.state}}">
+          {{educationElement.city + ', ' + educationElement.state}}
+        </p>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="pull-right row ">
+        <div class="col-md-1" *ngIf="commonVariables?.localUser">
+          <div class="btn-group">
+            <div title="Edit personal info" (click)="infoEdit(infoTemplate, null)">
+              <button class="edit-pencil">
+                <span>
+                  <i class="fas fa-pencil-alt " style="cursor: pointer; color: #2a3e73 !important;font-size: 15px;"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="iuiy1">
+          <div *ngIf="!commonVariables?.localUser">
+            <button *ngIf="connected" class="btn primary-btn btn-sm" (click)="sendMessage($event)">
+              Send Message
+              <i class="pe-7s-mail jwsk" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div *ngIf="!commonVariables?.localUser" style="padding-left: 0px; ">
+            <div style="display: flex;" *ngIf="requestPending">
+              <div class="btn-group" dropdown style="display: contents;">
+                <button type="button" class="btn primary-btn btn-sm" (click)="accept()">Accept</button>
+                <button id="button-split" type="button" dropdownToggle
+                  class="btn primary-btn btn-sm dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                  <span class="caret"></span>
+                </button>
+                <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
+                  <li role="menuitem"><a class="dropdown-item" (click)="reject()">Ignore</a></li>
+                  <li role="menuitem"><a class="dropdown-item" (click)="reject()">Deny</a></li>
+                </ul>
+              </div>
+            </div>
+            <div *ngIf="notConnected">
+              <button class="btn primary-btn btn-sm" (click)="connect()">
+                Connect
+              </button>
+            </div>
+            <!-- <div *ngIf="connected">
+              <button class="btn btn-danger btn-sm" style="border-radius:3px !important;" (click)="removeConnection()">
+                Remove Connection
+              </button>
+            </div> -->
+            <div *ngIf="requestSent">
+              <button class="btn btn-secondary btn-sm" (click)="cancelConnectionRequest() ">
+                Cancel Sent Request
+              </button>
+            </div>
+
+            <!-- <div class="btn-group smxv" id="the-dropdown" dropdown *ngIf="connected">
+              <a id="button-animated"  dropdownToggle >
+                <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+              </a>
+              <ul id="dropdown-animated" id="the-dropdowns" *dropdownMenu class="dropdown-menu m-l-81" role="menu"
+                aria-labelledby="button-animated">
+                <li role="menuitem" dropdown>
+                  <a class="dropdown-item common-font-12 padd" dropdownToggle
+                  (click)="removeConnection()">Remove Connection</a>
+                </li>
+              </ul>
+            </div> -->
+
+
+
+
+            <div ngbDropdown *ngIf="connected">
+              <div class="btn-group smxv" dropdown (onShown)="onShown()" (onHidden)="onHidden()"
+              (isOpenChange)="isOpenChange()">
+
+              <a id="button-animated"  dropdownToggle >
+                <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+              </a>
+              <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" style="margin-left: -160px; "
+                role="menu" aria-labelledby="basic-link">
+                <li role="menuitem"><a class="dropdown-item" (click)="removeConnection()">Remove Connection</a></li>
+              </ul>
+            </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+
+    <!-- <div class="col-sm-12">
+      <div class="iuiy1">
+        <div *ngIf="!commonVariables?.localUser">
+          <button *ngIf="connected" class="btn primary-btn btn-sm" (click)="sendMessage($event)">
+            Send Message
+          </button>
+        </div>
+        <div *ngIf="!commonVariables?.localUser" style="padding-left: 0px; ">
+          <div style="display: flex;" *ngIf="requestPending">
+            <div class="btn-group" dropdown style="display: contents;">
+              <button type="button" class="btn primary-btn btn-sm" (click)="accept()">Accept</button>
+              <button id="button-split" type="button" dropdownToggle
+                class="btn primary-btn btn-sm dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-split">
+                <li role="menuitem"><a class="dropdown-item" (click)="reject()">Ignore</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="reject()">Deny</a></li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="notConnected">
+            <button class="btn primary-btn btn-sm" (click)="connect()">
+              Connect
+            </button>
+          </div>
+
+          <div *ngIf="requestSent">
+            <button class="btn btn-secondary btn-sm" (click)="cancelConnectionRequest() ">
+              Cancel Sent Request
+            </button>
+          </div>
+
+          <div class="btn-group smxv" id="the-dropdown" dropdown *ngIf="connected">
+            <a id="button-animated"  dropdownToggle >
+              <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+            </a>
+            <ul id="dropdown-animated" id="the-dropdowns" *dropdownMenu class="dropdown-menu m-l-81" role="menu"
+              aria-labelledby="button-animated">
+              <li role="menuitem" dropdown>
+                <a class="dropdown-item common-font-12 padd" dropdownToggle
+                (click)="removeConnection()">Remove Connection</a>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </div> -->
+    <!-- </div> -->
+  </div>
+</div>
+
+<ng-template #template>
+  <button type="button" style="font-size: 31px;padding-right: 17px;padding-top: 7px;" class="close pull-right"
+    aria-label="Close" (click)="closePhoto()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <label style="margin: 6px 10px 14px 10px;padding-top:10px">Profile Banner Image</label>
+  <hr style="margin: 0px !important;">
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4.5 / 1"
+      format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+
+
+  <div class="modal-footer" style="border-radius: 5px !important;">
+    <button class="btn primary-btn btn-sm m-r-18" (click)="imageLoaded()">Apply</button>
+  </div>
+
+</ng-template>
+
+<ng-template #profilePhotoUpload>
+  <button type="button" style="font-size: 31px;padding-right: 17px;padding-top: 7px;" class="close pull-right"
+    aria-label="Close" (click)="closePhoto2()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <label style="margin: 6px 10px 14px 10px;padding-top:10px">Profile Photo</label>
+  <hr style="margin: 0px !important;">
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+      format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+
+
+  <div class="modal-footer" style="border-radius: 5px !important;">
+    <button class="btn primary-btn btn-sm m-r-18" (click)="imageLoaded2()">Apply</button>
+  </div>
+
+</ng-template>
+
+
+
+
+<ng-template #infoTemplate>
+  <div class="hpanel ">
+   <div *ngIf="medPrompt == false && studPrompt == false">
+    <div class="panel-heading">
+      <div class="row panel-tools">
+        <button type="button" class="close pull-left" aria-label="Close" (click)="decline()">
+          <span style="padding-right: 22px;font-size: 26px" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+        style="margin-left: 8px !important;">Personal Details</label>
+
+    </div>
+    <div class="panel-body">
+      <div>
+        <form [formGroup]="personalInfoForm">
+          <div class="container-fluid app-form form-horizontal">
+            <div class="row">
+              <div class="form-group">
+                <div class="col-sm-3" style="padding-left: 41px;">
+                  <!-- *ngIf="photoId != undefined || photoId != null" -->
+                  <img *ngIf="photoId !== undefined && photoId !== null" alt="logo" class="rc" [src]="img4.src">
+                  <img *ngIf="photoId === undefined || photoId === null" class="rc" src='assets/images/userAvatar.png'
+                    alt="">
+                </div>
+                <div class="col-sm-8">
+                  <label for="userType" class="control-label required-field font-light">I am</label>
+
+                  <select class="form-control input-sm" formControlName="userType" id="userType1"
+                    (change)="onChangeIam($event.target.value)" open>
+                    <option value="null" *ngIf="personalInfoForm.value.userType==null" selected>
+                      Choose your user type</option>
+                    <!-- <option value="HEALTHCARE">Medical/ Healthcare professional </option> -->
+                    <!-- <option value="adminPersonnel">Administrative Healthcare personnel</option> -->
+                    <option title="Recruiter can create jobs on the platform to attract consultants" value="RECRUITER">Recruiter </option>
+                    <option title="Bench Recruiter can create consultants on the platform to attract jobs" value="BENCH_RECRUITER">Bench Sales Recruiter </option>
+                  <option title="Freelance Recruiter can create jobs." value="FREELANCE_RECRUITER">Freelance Recruiter</option>
+                  <option title="Job Seeker can look up for jobs posted by recruiters" value="JOB_SEEKER">Job Seeker </option>
+                    <!-- <option value="medicPracticeBusiness">Medical/Healthcare (Practice or Business)</option>
+                                <option value="institution">Educational Institution (Medical, Nursing, Healthcare) </option>
+                                <option value="nonProfit">Non-Profit Organization (Health/Wellness/Medical) </option> -->
+                    <option value="student">Student (Medical/Healthcare)</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div *ngIf="p.userType.invalid && (p.userType.dirty || p.userType.touched)" class="error-msg">
+                    <div *ngIf="p.userType.errors.required"> This field is required</div>
+                  </div>
+                  <div *ngIf="commonVariables?.previousFlag" class="error-msg">
+                    <div>Change your user type here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group ">
+                <label for="npiNo" class="col-sm-3 control-label font-light">NPI Number</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="NPI Number" id="npiNo" trim="blur"
+                    formControlName="npiNo" (keyup)="onEnterNpiNo($event)" (keypress)="filterNo($event)">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label required-field font-light">First Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="First Name" formControlName="firstName"
+                    disabled>
+                  <div *ngIf="p.firstName.invalid && (p.firstName.dirty || p.firstName.touched)" class="error-msg">
+                    <div *ngIf="p.firstName.errors.required">First Name is required</div>
+                    <!-- <div *ngIf="p.firstName.errors.spaceInvalid">First Name cannot contain whitespaces</div> -->
+                    <!-- <div *ngIf="p.firstName.errors.cannotContainSpace"
+                                  style="color: #c3002f;">First Name cannot contain spaces</div> -->
+                    <div *ngIf="p.firstName.errors.pattern" style="color: #c3002f;">First Name must
+                      contain alphabets only</div>
+                    <div *ngIf="p.firstName.errors.cannotContainSpace" style="color: #c3002fed;">
+                      First Name cannot contain space</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label required-field font-light">Last Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="Last Name" formControlName="lastName"
+                    disabled>
+                  <div *ngIf="p.lastName.invalid && (p.lastName.dirty || p.lastName.touched)" class="error-msg">
+                    <div *ngIf="p.lastName.errors.required">Last Name is required</div>
+                    <!-- <div *ngIf="p.lastName.errors.pattern" style="color:  #c3002f;">Last
+                                          Name cannot contain spaces</div> -->
+                    <div *ngIf="p.lastName.errors.pattern" style="color:  #c3002f;">Last Name must
+                      contain alphabets only</div>
+                    <div *ngIf="p.lastName.errors.cannotContainSpace" style="color: #c3002f;">Last
+                      Name cannot contain space</div>
+                    <!-- <div *ngIf="p.lastName.errors.spaceInvalid">Last Name cannot contain whitespaces</div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label required-field font-light">Pitch</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="Pitch" formControlName="pitch">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label style="text-align: right;" for="photo" class="col-sm-3 control-label font-light">Photo</label>
+                <div class="col-sm-8">
+                  <!-- <button class="btn btn-sm btn-primary" (click)="uploadPhoto()">Upload</button> -->
+                  <input title="Choose a photo" placeholder="Choose a photo" #myFileInput1 type="file" accept="image/jpg, image/jpeg, image/png" class="form-control  "
+                    (change)="fileChangeEvent1($event, templateNested)" id="profileimage"
+                    (click)="myFileInput1.value=null" />
+                  <ng-template #templateNested>
+
+                    <div class="modal-content">
+                      <div style="padding: 14px 14px !important;">
+                        <label>Profile Photo</label>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="closeImage()">
+                          <span style="font-size: 2.5rem;" aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <hr style="margin: 0px !important; padding: 0px !important">
+                      <div class="modal-body">
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                          [aspectRatio]="4   / 4" format="png,jpeg" (imageCropped)="imageCropped($event)"
+                          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+
+                        </image-cropper>
+                      </div>
+                      <div class="modal-footer" style="border-radius: 5px;">
+                        <div style="float: right;">
+                          <button class="btn primary-btn btn-sm" (click)="imageLoaded1()">Apply</button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+
+
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group">
+                <label for="phoneNo" class="col-sm-3 control-label font-light">Phone</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="Phone" formControlName="phoneNo">
+                  <div class="error-msg" *ngIf="p.phoneNo.invalid">
+                    <div *ngIf="p.phoneNo.errors.maxlength">Phone numbers cannot exceed 15 digits
+                    </div>
+                    <div *ngIf="p.phoneNo.errors">Please enter only numerals (0-9)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label for="username" class="col-sm-3 control-label required-field font-light">Primary
+                  Email ID</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control input-sm" disabled placeholder="Primary Email ID"
+                    formControlName="email">
+                  <div *ngIf="p.email.invalid && (p.email.dirty || p.email.touched)" class="error-msg">
+                    <div *ngIf="p.email.errors.required">Primary Email ID is required</div>
+                    <div *ngIf="p.email.errors.email"> Please enter a valid Email ID</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label for="secondaryEmail" class="col-sm-3 control-label font-light">Secondary Email
+                  ID</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control input-sm" placeholder="Secondary Email ID" trim="blur"
+                    formControlName="secondaryEmail">
+                  <div *ngIf="p.secondaryEmail.invalid" class="error-msg">
+                    <div *ngIf="p.secondaryEmail.errors.email">Please enter a valid Email ID</div>
+                    <div *ngIf="p.secondaryEmail.errors.mustMatch">Secondary Email cannot be the
+                      same as Primary Email</div>
+                  </div>
+                  <!-- <div class="error-msg" *ngIf="p.secondaryEmail.invalid && (p.secondaryEmail.dirty || p.secondaryEmail.touched)">
+                                  <div *ngIf="p.secondaryEmail.errors.mustMatch"> Alternate Email cannot be the same as Primary Email</div>
+                                </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label class="control-label col-sm-3 required-field font-light">Location</label>
+                <div class="col-sm-8">
+                  <div class="row form-group">
+                    <div class="col-sm-6">
+                      <select class="form-control input-sm" formControlName="country"
+                        (change)="onChangeCountry($event.target.value, 'user', 'user')">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+
+                      </select>
+                      <div *ngIf="p.country.invalid && (p.country.dirty || p.country.touched)" class="error-msg">
+                        <div *ngIf="p.country.errors.required"> Country is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input type="text" class="form-control input-sm" placeholder="Zipcode"
+                        (keyup)="onKeyZip($event,'user', 'user')" formControlName="zipcode">
+                      <div *ngIf="personalInfoForm.value.country=='US'&&( p.zipcode.invalid ||
+                                   p.zipcode.invalid && (p.zipcode.dirty ||
+                                    p.zipcode.touched))" class="error-msg">
+                        <div *ngIf="p.zipcode.errors.required"> Zipcode is required</div>
+                        <div *ngIf="p.zipcode.errors.pattern"> Please enter only numbers</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='IN'&&( p.state.invalid ||
+                                          p.state.invalid && (p.state.dirty ||
+                                           p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='CA'&&( p.state.invalid ||
+                                      p.state.invalid && (p.state.dirty ||
+                                       p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='AU'&&( p.state.invalid ||
+                                  p.state.invalid && (p.state.dirty ||
+                                   p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='AU'&&
+                                                            personalInfoForm.value.country!='CA'&&
+                                                            personalInfoForm.value.country!='IN'&&
+                                                            personalInfoForm.value.country!='US'">
+                      <input formControlName="state" class="form-control input-sm" placeholder="State">
+                      <div *ngIf="personalInfoForm.value.country!='AU'&&
+                                            personalInfoForm.value.country!='CA'&&
+                                            personalInfoForm.value.country!='IN'&&
+                                            personalInfoForm.value.country!='US'&&( p.state.invalid ||
+                                            p.state.invalid && (p.state.dirty ||
+                                            p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input type="text" disabled placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+                      <div *ngIf=" p.city.invalid || p.city.invalid && (p.city.dirty || p.city.touched)"
+                        class="error-msg">
+                        <div *ngIf="p.city.errors.required"> City is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='US'">
+                      <input type="text" placeholder="City" formControlName="city" class="form-control input-sm">
+                      <div *ngIf=" p.city.invalid || p.city.invalid && (p.city.dirty || p.city.touched)"
+                        class="error-msg">
+                        <div *ngIf="p.city.errors.required"> City is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input disabled formControlName="state" class="form-control input-sm" placeholder="State">
+                      <div *ngIf="personalInfoForm.value.country=='US'&&( p.state.invalid ||
+                                              p.state.invalid && (p.state.dirty ||
+                                              p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='US'">
+                      <input type="text" class="form-control input-sm" placeholder="Zipcode" formControlName="zipcode">
+                      <div *ngIf="personalInfoForm.value.country!='US'&&( p.zipcode.invalid ||
+                                       p.zipcode.invalid && (p.zipcode.dirty ||
+                                        p.zipcode.touched))" class="error-msg">
+                        <div *ngIf="p.zipcode.errors.required"> Zipcode is required</div>
+                        <div *ngIf="p.zipcode.errors.pattern"> Please enter only numbers</div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="text-right" style="padding-right: 46px;padding-top: 7px;padding-bottom:7px">
+        <button class="btn btn-default btn-sm " (click)="decline()">
+          Cancel
+        </button>
+        <button *ngIf="!weird" class="btn primary-btn btn-sm " style="margin-left:2%;" type="button"
+          (click)="infoSave()">
+          Submit
+        </button>
+        <button class="btn primary-btn btn-sm " style="margin-left:2%;" type="button" *ngIf="weird"
+          (click)="onChangePhysician1()">
+          Submit
+        </button>
+      </div>
+    </div>
+   </div>
+
+
+    <!-- <div class="modal-dialog "> -->
+      <div class="panel-body" *ngIf="medPrompt">
+        <div style="justify-content: center; display: flex; padding: 10px;">
+          <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+        </div>
+        <div class="text-center"><label>Are you sure?</label></div>
+        <div  style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+          <p>Changing to {{"'" + userTypeValue + "'"}} user type requires your work experience. If you hadn't
+            provided your
+            work experience details, on submitting the
+            form you will be asked to fill your work experience. Do you wish to continue?
+          </p><br>
+        </div>
+        <div class="row" style="padding: 10px;">
+          <div class="col-sm-6">
+            <button (click)="hidePhyPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+          </div>
+          <div class="col-sm-6">
+            <button (click)="changeToPhysician()" class="btn primary-btn btn-sm btn-block">Continue</button>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+
+    <!-- <div class="modal-dialog"> -->
+      <div class="panel-body" *ngIf="studPrompt">
+        <div style="justify-content: center; display: flex; padding: 10px;">
+          <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+        </div>
+        <div class="text-center"><label>Are you sure?</label></div>
+        <div  style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+          <p>Changing to 'Student (Medical/ Healthcare)' user type requires your education
+            qualifications. If you
+            hadn't provided your education details already, on submitting the
+            form you will be asked to fill your education details. Do you wish to continue?
+          </p><br>
+        </div>
+        <div class="row" style="padding: 10px;">
+          <div class="col-sm-6">
+            <button (click)="hideStudPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+          </div>
+          <div class="col-sm-6">
+            <button (click)="changeToStudent()" class="btn primary-btn btn-sm btn-block">Continue</button>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+
+
+  </div>
+</ng-template>
+
+<!-- <ng-template #physicianPrompTemplate>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div style="justify-content: center; display: flex; padding: 10px;">
+        <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+      </div>
+      <div class="text-center"><label>Are you sure?</label></div>
+      <div class="modal-body" style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+        <p>Changing to {{"'" + userTypeValue + "'"}} user type requires your work experience. If you hadn't
+          provided your
+          work experience details, on submitting the
+          form you will be asked to fill your work experience. Do you wish to continue?
+        </p><br>
+      </div>
+      <div class="row" style="padding: 10px;">
+        <div class="col-sm-6">
+          <button (click)="hidePhyPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button (click)="changeToPhysician()" class="btn primary-btn btn-sm btn-block">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<!-- <ng-template #studentPrompTemplate>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div style="justify-content: center; display: flex; padding: 10px;">
+        <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+      </div>
+      <div class="text-center"><label>Are you sure?</label></div>
+      <div class="modal-body" style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+        <p>Changing to 'Student (Medical/ Healthcare)' user type requires your education
+          qualifications. If you
+          hadn't provided your education details already, on submitting the
+          form you will be asked to fill your education details. Do you wish to continue?
+        </p><br>
+      </div>
+      <div class="row" style="padding: 10px;">
+        <div class="col-sm-6">
+          <button (click)="hideStudPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button (click)="changeToStudent()" class="btn primary-btn btn-sm btn-block">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+<ng-template #photoDeleteTemplate>
+  <button type="button" style="font-size: 31px;padding-right: 17px;padding-top: 7px;" class="close pull-right"
+    aria-label="Close" (click)="no()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <label style="margin: 6px 10px 14px 10px;padding-top:10px">Remove Profile Photo</label>
+  <hr style="margin: 0px !important;">
+  <div class="modal-body ">
+    <div class="text-left">
+      <p>Are you sure you want to delete the profile photo?</p>
+    </div>
+    <div class="text-right">
+    <button type="button" class="btn btn-default" (click)="no()" >No</button>
+    <button type="button" class="btn btn-primary" (click)="yes()" style="margin-left: 0.5rem;">Yes</button>
+    </div>
+  </div>
+</ng-template>

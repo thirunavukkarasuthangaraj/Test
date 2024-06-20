@@ -1,0 +1,451 @@
+<div class="directory-profile">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-sm-12 col-xs-12 padding-right-0">
+        <section class="dir-profile-lf-personal">
+          <div class="dir-banner">
+            <!-- <img class="banner-img" style="background-image: url('../../../../assets/images/female.png');"> -->
+            <img class="banner-img" style="background: #9aa8db" />
+          </div>
+
+          <div class="dir-profile-details">
+            <div class="profile-details">
+              <div class="profile-image">
+                <img [src]="img.src" *ngIf="data?.businessLogo != null" />
+                <img   style="background: url(assets/images/log.png) top right /32px 31px no-repeat,
+                                          url(assets/images/gallery/company.png) center/94px 87px no-repeat;"
+                  *ngIf="
+                    data?.businessLogo == null ||
+                    data?.businessLogo == undefined ||
+                    data?.businessLogo == ''
+                  "
+                />
+              </div>
+            </div>
+
+            <div class="pro-details m-r-35 fs-16">
+              <p class="name fs-16 bold txt-overflow">
+                {{ data?.organizationName }}
+              </p>
+              <p
+                class="special fs-16 font-600 txt-overflow"
+                *ngIf="data?.primaryHCPName == null"
+              >
+                {{ data?.primaryHCPType }}
+              </p>
+              <p
+                class="special fs-16 font-600 txt-overflow"
+                *ngIf="data?.primaryHCPName != null"
+              >
+                {{ data?.primaryHCPName }}
+              </p>
+              <p class="address fs-14">
+                <span>
+                  {{ data?.primaryPracticeLocation.city }} ,
+                  {{ data?.primaryPracticeLocation.state }}</span
+                >
+                <br />
+              </p>
+            </div>
+
+            <div class="profile-btn text-end">
+              <div class="mar-btm-10">
+                <button
+                  (click)="redirectTo('login')"
+                  class="btn-primary btn btn-xs"
+                >
+                  Login to connect & see full profile
+                </button>
+              </div>
+
+              <div>
+                <button class="btn primary-btn">Book Appointment</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="dir-profile-lf-about" *ngIf="data?.aboutCompany != null && data?.aboutCompany?.length != 0">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">About Us</div>
+            <div class="panel-body">
+              <!-- <p>{{ data?.aboutCompany }}</p> -->
+              <div [ngxSummernoteView]="data?.aboutCompany"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dir-profile-lf-work">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">
+              Authorized Official Information
+            </div>
+            <div class="panel-body">
+              <table style="width: 100%">
+                <tr class="td-high-26">
+                  <th style="width: 128px">Name</th>
+                  <td>: {{ data?.authOfficialFullNameWithCredential }}</td>
+                </tr>
+                <tr class="td-high-26">
+                  <th style="width: 128px">Title</th>
+                  <td>: {{ data?.authorizedOfficialTitle }}</td>
+                </tr>
+                <tr class="td-high-26">
+                  <th style="width: 128px">Phone</th>
+                  <td>: {{ data?.authorizedOfficialTelephoneNumber }}</td>
+                </tr>
+              </table>
+              <br />
+            </div>
+          </div>
+        </section>
+
+        <!--<section class="dir-profile-lf-work">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">Mailing Address</div>
+            <div class="panel-body">
+              <table class="m-12-w1-100">
+                <tr>
+                  <ng-container *ngIf="data?.mailingAddress?.length != 0">
+                    <td class="font-wei-600">
+                      <p>
+                        {{ data?.mailingAddress.firstLineAddress }}
+                        <span
+                          *ngIf="
+                            data?.mailingAddress.firstLineAddress.length != 0
+                          "
+                        >
+                          ,</span
+                        >
+                        {{ data?.mailingAddress.secondLineAddress }}
+                      </p>
+                      <p>
+                        {{ data?.mailingAddress.city }}
+                        <span *ngIf="data?.mailingAddress.city.length != 0">
+                          ,</span
+                        >
+                        {{ data?.mailingAddress.state }}
+                        <span *ngIf="data?.mailingAddress.state.length != 0">
+                          ,</span
+                        >
+                        {{ data?.mailingAddress.postalCode }}
+                      </p>
+                      <p>{{ data?.mailingAddress.country }}</p>
+                      <span
+                        *ngIf="data?.mailingAddress.telephoneNumber.length != 0"
+                      >
+                        Phone : {{ data?.mailingAddress.telephoneNumber }} |
+                      </span>
+                      <span
+                        *ngIf="data?.mailingAddress.telephoneNumber.length != 0"
+                      >
+                        Fax : {{ data?.mailingAddress.faxNumber }}
+                      </span>
+                    </td>
+                  </ng-container>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>-->
+
+        <section class="dir-profile-lf-work">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">Primary Practice Address</div>
+            <div class="panel-body">
+              <table class="m-12-w1-100">
+                <tr>
+                  <ng-container
+                    *ngIf="data?.primaryPracticeLocation?.length != 0"
+                  >
+                    <td class="font-wei-600">
+                      <p>
+                        {{ data?.primaryPracticeLocation.firstLineAddress }}
+                        <span
+                          *ngIf="
+                            data?.primaryPracticeLocation.firstLineAddress
+                              .length != 0
+                          "
+                        >
+                          ,</span
+                        >
+                        {{ data?.primaryPracticeLocation.secondLineAddress }}
+                      </p>
+                      <p>
+                        {{ data?.primaryPracticeLocation.city }}
+                        <span
+                          *ngIf="data?.primaryPracticeLocation.city.length != 0"
+                        >
+                          ,</span
+                        >
+                        {{ data?.primaryPracticeLocation.state }}
+                        <span
+                          *ngIf="
+                            data?.primaryPracticeLocation.state.length != 0
+                          "
+                        >
+                          ,</span
+                        >
+                        {{ data?.primaryPracticeLocation.postalCode }}
+                      </p>
+                      <p>{{ data?.primaryPracticeLocation.country }}</p>
+                      <span
+                        *ngIf="
+                          data?.primaryPracticeLocation.telephoneNumber
+                            .length != 0
+                        "
+                      >
+                        Phone :
+                        {{ data?.primaryPracticeLocation.telephoneNumber }}
+                      </span>
+                      <span
+                        *ngIf="
+                          data?.primaryPracticeLocation.faxNumber
+                            .length != 0
+                        "
+                      >
+                      |   Fax : {{ data?.primaryPracticeLocation.faxNumber }}
+                      </span>
+                    </td>
+                  </ng-container>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="dir-profile-lf-work">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">Hours of Operation</div>
+            <div class="panel-body">
+              <div
+                *ngIf="
+                  data?.businessWorkingHours?.sunWorking == true ||
+                    data?.businessWorkingHours?.monWorking == true ||
+                    data?.businessWorkingHours?.tueWorking == true ||
+                    data?.businessWorkingHours?.wedWorking == true ||
+                    data?.businessWorkingHours?.thrWorking == true ||
+                    data?.businessWorkingHours?.friWorking == true ||
+                    data?.businessWorkingHours?.satWorking == true;
+                  else noWorkingHour
+                "
+              >
+                <div class="row form-group" style="font-weight: 600">
+                  <div class="col-sm-4">
+                    <!-- <label>Monday</label> -->
+                    Working Days
+                  </div>
+                  <div class="col-sm-4">Opens At</div>
+                  <div class="col-sm-4">
+                    <p>Closes At</p>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="data.businessWorkingHours?.monWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label>Monday</label> -->
+                    Monday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.monFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.monToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.tueWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Tuesday</label> -->
+                    Tuesday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.tueFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.tueToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.wedWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Wednesday</label> -->
+                    Wednesday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.wedFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.wedToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.thrWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Thursday</label> -->
+                    Thursday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.thrFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.thrToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.friWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Friday</label> -->
+                    Friday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.friFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.friToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.satWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Saturday</label> -->
+                    Saturday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.satFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.satToTime }}</p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="data.businessWorkingHours?.sunWorking"
+                  class="row form-group"
+                >
+                  <div class="col-sm-4">
+                    <!-- <label class="control-label">Sunday</label> -->
+                    Sunday
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.sunFromTime }}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{ data.businessWorkingHours.sunToTime }}</p>
+                  </div>
+                </div>
+              </div>
+              <ng-template #noWorkingHour>
+                <p>
+                  {{ data?.organizationName + " " }}hadn't provided their
+                  working hour details
+                </p>
+              </ng-template>
+            </div>
+          </div>
+        </section>
+
+        <section class="dir-profile-lf-bottom">
+          <div class="hpanel">
+            <div class="panel-body">
+              <div class="bottom-login">
+                <p>Please login to connect & see full profile</p>
+                <p>
+                  <!-- <button class="btn primary-btn" [routerLink]="'/login'"> -->
+                  <button class="btn primary-btn" (click)="redirectTo('login')">
+                    Login
+                  </button>
+                </p>
+                <p (click)="redirectTo('signUp')">
+                  New user? <span>Sign Up</span>
+                </p>
+                <!-- <p [routerLink]="'/signUp'">New user? <span>Sign Up</span></p> -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-3 col-sm-12 col-xs-12 padding-right-0">
+        <section class="dir-profile-rh-personal">
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">Is this your Business ?</div>
+            <div class="panel-body">
+              <p>
+                Claim your profile immediately to connect, share and
+                colloborate.
+              </p>
+              <button
+                class="btn primary-btn"
+                (click)="redirectTo('claimBusiness')"
+              >
+                Claim this Business Page
+              </button>
+            </div>
+          </div>
+        </section>
+        <section
+          class="dir-profile-lf-similar"
+          *ngIf="similarorganization != null"
+        >
+          <div class="hpanel">
+            <div class="panel-heading hbuilt">Similar Facilities near you</div>
+            <div class="panel-body">
+              <ng-container
+                *ngFor="let item of similarorganization; let i = index"
+              >
+                <div
+                  *ngIf="i < indexcount"
+                  class="similar-card pointer"
+                  (click)="route(item.organizationId)"
+                  [routerLink]="[
+                    '/directory/business-profiles/' + item.organizationId
+                  ]"
+                >
+                  <img src="assets/images/gallery/company.png" />
+                  <!-- <img src="assets/images/userAvatar.png" /> -->
+
+                  <!-- <div class="dir-profile-details">
+                    <div class="profile-details">
+                      <div class="profile-image">
+
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="similar-details">
+                    <p class="dr-name">
+                      {{ item?.organizationName | truncate: 25 }}
+                    </p>
+                    <p class="dr-other">
+                      {{ item?.primaryPracticeLocation.city }} ,
+                      {{ item?.primaryPracticeLocation.state }} ,
+                      {{ item?.primaryPracticeLocation.countryCode }}
+                    </p>
+                  </div>
+                </div>
+
+                <p
+                  *ngIf="i == indexcount"
+                  style="float: right"
+                  (click)="viewmore()"
+                >
+                  <a> View more </a>
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

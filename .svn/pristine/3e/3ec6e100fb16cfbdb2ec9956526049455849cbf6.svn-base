@@ -1,0 +1,49 @@
+// .sidebar-scroll{
+//     // height: 170%;
+//     // overflow: hidden !important;
+//  }
+:host {
+  height: 100vh !important;
+}
+
+.cm-menu-ln {
+  max-width: 30px;
+}
+
+.cm-feed-pd {
+  margin-left: 156px;
+  width: 59.2%;
+}
+
+@media (min-width: 992px) {
+  .cm-menu-ln {
+    max-width: 30px;
+  }
+
+  .cm-feed-pd {
+    margin-left: 156px;
+    width: 59.2%;
+  }
+}
+
+@media (min-width: 992px) {
+  .stk-rt {
+    width: 20%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stk-rt {
+    width: 23%;
+  }
+}
+
+@media (min-width: 1320px) {
+  .stk-rt {
+    width: 25%;
+  }
+}
+
+.m-l-8{
+  margin-left: 8px;
+}

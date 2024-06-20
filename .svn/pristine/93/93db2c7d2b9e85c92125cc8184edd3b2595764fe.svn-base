@@ -1,0 +1,65 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+      <div class="business-list-view-search CommNav post-box-shadow margin-bottom-5 margin-right-5">
+        <div class="row">
+          <div class="col-sm-3">
+            <!-- <label class=" control-label font-bold">{{businessData.businessName | uppercase}}</label> -->
+
+            <ng-container *ngIf="createCommunity != 'SUPERADMIN'">
+              <label class=" control-label font-bold" style="margin-top: 5px;">{{businessData.businessName | truncate :
+                18 }}</label>
+            </ng-container>
+
+            <div *ngIf="SuperAdminData ==='true'">
+              <a  (click)="routePage()"
+                class="btn btn-primary btn-xs primary-btn" style="margin-top: 5px; margin-bottom: 5px;"
+                #createcommunity>Create Community</a>
+            </div>
+
+            <div *ngIf="communityList.length >=1">
+              {{communityList.length}} Community
+            </div>
+          </div>
+          <div class="col-sm-6" style="padding-right: 0px">
+            <input type="text" name="searchtxt" id="searchtxt" [(ngModel)]="searchText" placeholder="Search Communities"
+              class="form-control input-sm">
+          </div>
+          <div class="col-sm-2">
+            <button type="submit" class="btn primary-btn btn-xs" style="margin-top: 5px;"
+              (click)="searchCommunity()">Search</button>
+          </div>
+        </div>
+      </div>
+
+
+  <div>
+    <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0" *ngFor="let data of communityList | customFilter :{communityName:searchText}:false"
+      >
+      <app-community-card [data]="data"></app-community-card>
+      <!-- <div class="hpanel {{data.comColor}} contact-panel">
+        <div class="panel-body" style="padding: 10px;">
+          <div class="pull-right m-t-m-15">
+          </div>
+          <img alt="logo" class="img-circle" [src]="data.logo ? photoUrl+data.logo : 'assets/icon/comm.png'">
+          <h5 class="com-ellipse"><a (click)="redirectCommunity(data)" data-toggle="tooltip" data-placement="top"
+              title="{{ data.communityName}}">{{data.communityName}}</a></h5>
+          <div class="text-muted font-bold m-b-xs">{{data.communityType ? 'PRIVATE' : 'PUBLIC'}}</div>
+        </div>
+        <div class="panel-footer contact-footer" style="padding: 0;">
+          <div class="row">
+            <div class="col-md-6 border-right">
+              <div class="contact-stat"><span>Members: </span>
+                <strong>{{data['memberCnt']}}</strong>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="contact-stat"><span>Posts: </span>
+                <strong>{{data['postCnt']}}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

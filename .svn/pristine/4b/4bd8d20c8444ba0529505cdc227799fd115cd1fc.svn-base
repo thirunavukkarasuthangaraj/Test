@@ -1,0 +1,131 @@
+.app-footer{
+
+    & .directory-footer{
+        background-color: $directory-bg;
+
+        h4{
+            text-align: center;
+            color: #fff;
+            span{
+                font-size: 13.33px;
+                font-weight: 600;
+            }
+
+            ul{
+                display: inline-block;
+                margin: 0;
+                padding: 0 0 0 10px;
+
+                li{
+                    text-align: left;
+                    display: inline;
+                    padding-right: 10px;
+                    font-size: 13.33px;
+                    text-decoration: underline;
+                    font-weight: 600;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    & .main-footer{
+        padding: 30px 0;
+        background-color: $primary-bg;
+        color: $primary-fg;
+
+        h5{
+            font-size: 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: $footer-title-color;
+            margin-bottom: 15px;
+        }
+
+        .footer-menu{
+            padding-top: 25px;
+            ul{
+                margin: 0;
+                padding: 0;
+                li{
+                    padding-bottom: 15px;
+                    a{
+                        font-size: 13.33px;
+                        color: #cdcdc5;
+                        &:hover{
+                            color:#fff
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer-social-icon{
+            padding-top: 20px;
+            ul{
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                li{
+                    display: inline;
+                    padding-right: 30px;
+                    a{
+                        font-size: 18px;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .footer-1{
+            .footer-logo{
+                padding-bottom: 15px;
+                img{
+                    width: 80%;
+                }
+            }
+        }
+
+        .footer-4{
+            p{
+                font-weight: 700;
+                margin: 30px 0;
+            }
+            .footer-subscribe-btn{
+                border-radius: 0;
+                background-color: $subscribe-btn-bg;
+                border-color: $subscribe-btn-bg;
+                color: $subscribe-btn-fg;
+            }
+        }
+    }
+
+    & .sub-footer{
+        background-color: #2f3232;
+        padding: 15px 0;
+        color: #fff;
+
+        .sub-footer-menu{
+            padding-left: 120px;
+            ul{
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                li{
+                    display: inline;
+                    padding-right: 20px;
+                    a{
+                        color: #cdcdc5;
+
+                        &:hover{
+                            color:#fff;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}

@@ -1,0 +1,108 @@
+import { element } from 'protractor';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { Component, OnInit, TemplateRef, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ApiService } from 'src/app/services/api.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppSettings } from 'src/app/services/AppSettings'
+import { Subscription } from 'rxjs';
+import { CommonValues } from 'src/app/services/commonValues';
+import { NavigationHeaderComponent } from '../navigation-header/navigation-header.component';
+
+import { MessageService } from '../../services/message.service';
+
+import { LocationStrategy, PlatformLocation } from '@angular/common';
+import { UtilService } from 'src/app/services/util.service';
+import Swal from 'sweetalert2';
+import { ProfilePhoto } from 'src/app/services/profilePhoto';
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { Listener } from 'selenium-webdriver';
+import { SearchData } from 'src/app/services/searchData';
+// import { NewNavBarComponent } from 'src/app/NewDesign/new-nav-bar/new-nav-bar.component';
+
+@Component({
+  selector: 'app-landing-page',
+  templateUrl: './landing-page.component.html',
+  styleUrls: ['./landing-page.component.scss']
+})
+export class LandingPageComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('landingside1', { static: false }) menuElement: ElementRef;
+  @ViewChild('landingside2', { static: false }) menuElement1: ElementRef;
+  @ViewChild('businessmenusticky', { static: false }) menuElements: ElementRef;
+
+  businessmenustick: boolean = false;
+  landingsidesticky1: boolean = false;
+  landingsidesticky2: boolean = false;
+  elementPosition: any;
+  studentFlag: boolean = false
+  schoolName: any;
+  connectionRequest: FormGroup;
+  Streamform: FormGroup;
+  landingPageUserDatails;
+  otherData: any;
+  place: any;
+  img: any = {};
+  userDetailsLanding: any;
+  userDetailsLanding_array = [];
+  userName: any;
+
+  userId: any;
+  showhide = false;
+  mystreams = false;
+  mynetwork = false;
+  todaystoppick = false;
+  mycommunities = false;
+  businessPage = false;
+  tag = false;
+  businessdetail;
+
+  communityDetails;
+  commLength;
+  comm;
+  commContent: any[];
+
+  showLessCommunity = false;
+  showMoreCommunity = false;
+
+  startPageCom: number;
+  paginationLimitCom: number;
+
+  startPageBus;
+  paginationLimitBus;
+  stickyPosition:any;
+  showLessBus = false;
+  clickEventsubscription: Subscription;
+  landingsidesticky3: boolean = false;
+  public config: PerfectScrollbarConfigInterface = {};
+
+  constructor(private router:Router,private message:MessageService, private searchData: SearchData
+    ) {
+      this.searchData.getSticky().subscribe(res=>{
+        if(res.position){
+         this.stickyPosition = res.position
+        }
+      })
+    }
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+  }
+
+  ngOnInit() {
+      this.message.success('Login successfully')
+      localStorage.removeItem("isJoined");
+      this.userId = localStorage.getItem('userId');
+      // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+  }
+
+  @HostListener('window:scroll')
+onScroll(){
+  if(this.stickyPosition < window.pageYOffset){
+    this.landingsidesticky3 = true
+  }else{
+    this.landingsidesticky3 = false
+  }
+}
+}

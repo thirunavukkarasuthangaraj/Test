@@ -1,0 +1,19 @@
+<div class="business-menu post-box-shadow hpanel">
+  <ul class="panel-body pad-0 border-radius-top-left-right-6">
+    <li  [ngClass]="{'active': selectMenu === 'ALL'}"  ><a (click)="onSelect('ALL')">All</a></li>
+    <li [ngClass]="{'active': selectMenu === 'USER'}" ><a (click)="onSelect('USER')">People</a></li>
+    <!-- <li [ngClass]="{'active': selectMenu === 'post'}"  ><a (click)="onSelect('post')">Post</a></li> -->
+    <li [ngClass]="{'active': selectMenu === 'BUSINESS_PAGE'}" ><a (click)="onSelect('BUSINESS_PAGE')">Business</a></li>
+    <!-- <li [ngClass]="{'active': selectMenu === 'COMMUNITY_PAGE'}" ><a (click)="onSelect('COMMUNITY_PAGE')">Communities</a></li> -->
+   <!-- <li [class.selectMenu]='JOBSSEARCH' [ngClass]="{'active': selectMenu}"><a (click)="onSelect('JOBSSEARCH')">Jobs</a></li> -->
+
+    <!-- <li [ngClass]="{'active': selectMenu === 'JOBSSEARCH'}" ><a (click)="onSelect('JOBSSEARCH')">Jobs</a></li>
+    <li [ngClass]="{'active': selectMenu === 'CANDIDATESEARCH'}"><a (click)="onSelect('CANDIDATESEARCH')">Candidate</a></li> -->
+    <!-- <li [ngClass]="{'active': selectMenu === 'TAG'}" ><a (click)="onSelect('TAG')">#Tags </a></li> -->
+
+
+    <!-- <li [ngClass]="{'active': selectMenu === 'people'}"><a (click)="onSelect('people')">School/College</a></li> -->
+    <!-- <li><a (click)="onSelect('people')">Jobs</a></li> -->
+    <!-- <li><a (click)="onSelect('people')">#Tags</a></li> -->
+  </ul>
+</div>

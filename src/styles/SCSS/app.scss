@@ -1,0 +1,19 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~ngx-cropper/lib/cropperjs.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~angular2-multiselect-dropdown/themes/default.theme.css";
+@import "../SCSS/vendor/ng-select.scss";
+@import "./components/navigation.styles.scss";
+
+
+
+
+@import "mixins";
+@import "functions";
+@import "variables";
+@import "fonts";
+@import "common";
+@import "components";
+@import "screens";
+@import "vendor";

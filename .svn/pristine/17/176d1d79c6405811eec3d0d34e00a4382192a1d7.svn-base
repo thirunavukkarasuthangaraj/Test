@@ -1,0 +1,87 @@
+import { ApiService } from './../../services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CareonlineTodayComponent, CollegueYouMayKnowComponent, CommunitiesYouMayLikeComponent, CommunityAdminComponent, ConnectionsComponent, FollowCareonlineComponent, HashtagsYouMayLikeComponent, InviteCollegueComponent, PeopleYouMayKnowComponent, ProfileCompletionComponent, SimilarBusinessNearYouComponent, SimilarCommunityComponent, TrendingCommunityComponent, TrendingHashtagComponent, TrendingPostComponent, VisitorsComponent, WidgetComponent, JobsYouMightBeIntrestedInComponent, CommonProfileInfoComponent } from 'src/app/widget';
+import { SocialMediaComponent } from 'src/app/widget/social-media/social-media.component';
+import { CopywriteComponent } from 'src/app/widget/copywrite/copywrite.component';
+import { EmptyWidgetComponent } from 'src/app/widget/empty-widget/empty-widget.component';
+import { HashtagsToFollowComponent } from 'src/app/widget/hashtags-to-follow/hashtags-to-follow.component';
+import { NodataFoundComponent } from 'src/app/widget/nodata-found/nodata-found.component';
+import { PeopleInyourNetworkComponent } from 'src/app/widget/people-inyour-network/people-inyour-network.component';
+import { BusinessbusinessComplteDataComponent } from 'src/app/widget/business-profile-complete/business-profile-complete.component';
+import { CommunityProfileCompleteComponent } from 'src/app/widget/community-profile-complete/community-profile-complete.component';
+import { FollowerComponent } from 'src/app/widget/follower/follower.component';
+import { CardComponent } from 'src/app/widget/card/card.component';
+import { BToFollowComponent } from 'src/app/widget/b-to-follow/b-to-follow.component';
+ 
+@Component({
+  selector: 'app-suggestions',
+  templateUrl: './suggestions.component.html',
+  styleUrls: ['./suggestions.component.scss']
+})
+export class SuggestionsComponent implements OnInit {
+  searchMenudata;
+  pathData;
+  user;
+  @Input()selectedMenu : any;
+   widget:any;
+   sendWidgetInfo: any = {};
+
+  constructor( private route: ActivatedRoute,private auth: ApiService ) {
+
+  }
+
+  ngOnInit() {
+
+      this.route.queryParams.subscribe((res) => {
+      this.pathData= res.master;
+       this.sendWidgetInfo = {
+         maxMin: {"viewType":"MAX","master":res.masterMenu},
+      };
+
+      this.widget  = {
+        "BusinessToFollowComponent": BToFollowComponent,
+        "BusinessProfileCompleteComponent": BusinessbusinessComplteDataComponent,
+        "CommunityProfileCompleteComponent": CommunityProfileCompleteComponent,
+        "CareonlineTodayComponent": CareonlineTodayComponent,
+        "CollegueYouMayKnowComponent": CollegueYouMayKnowComponent,
+        "CommunitiesYouMayLikeComponent": CommunitiesYouMayLikeComponent,
+        "CommunityAdminComponent": CommunityAdminComponent,
+        "ConnectionsComponent": ConnectionsComponent,
+        "FollowCareonlineComponent": FollowCareonlineComponent,
+        "HashtagsYouMayLikeComponent": HashtagsYouMayLikeComponent,
+        "InviteCollegueComponent": InviteCollegueComponent,
+        "PeopleYouMayKnowComponent": PeopleYouMayKnowComponent,
+        "ProfileCompletionComponent": ProfileCompletionComponent,
+        "SimilarBusinessNearYouComponent": SimilarBusinessNearYouComponent,
+        "SimilarCommunityComponent": SimilarCommunityComponent,
+        "TrendingCommunityComponent": TrendingCommunityComponent,
+        "TrendingHashtagComponent": TrendingHashtagComponent,
+        "TrendingPostComponent": TrendingPostComponent,
+        "VisitorsComponent": VisitorsComponent,
+        "WidgetComponent": WidgetComponent,
+        "JobsYouMightBeIntrestedInComponent": JobsYouMightBeIntrestedInComponent,
+        "CommonProfileInfoComponent": CommonProfileInfoComponent,
+        "PeopleInyourNetworkComponent": PeopleInyourNetworkComponent,
+        "HashtagsToFollowComponent": HashtagsToFollowComponent,
+        "EmptyWidgetComponent": EmptyWidgetComponent,
+        "CopywriteComponent": CopywriteComponent,
+        "NodataFoundComponent":NodataFoundComponent,
+        "SocialMediaComponent":SocialMediaComponent,
+        "FollowerComponent": FollowerComponent,
+        "CardComponent":CardComponent
+
+       };
+
+    });
+  }
+
+
+
+  // communitytofollow(){
+  //   this.auth.query("widget/community/suggestion?userId="+localStorage.getItem('userId')+"&page=0&size=4")
+  //     .subscribe((res)=>{
+  //     this.user = res;0
+  // })
+  //}
+}

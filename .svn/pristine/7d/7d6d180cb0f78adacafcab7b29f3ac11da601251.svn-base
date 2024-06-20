@@ -1,0 +1,64 @@
+.m-t-18 {
+  margin-top: 18px;
+}
+.d-flex{
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.padheader{
+  padding: 4px 10px !important;
+}
+
+.mr-10{
+  margin-top: 10px;
+}
+
+img{
+  width: 16.4rem;
+}
+
+.minHeight{
+  min-height: 25rem;
+}
+
+.ml-10{
+  margin-left: 15px;
+}
+.mr{
+  margin: 15px 0 15px 0;
+}
+
+.bder{
+  border-right: 1px solid #e2dddd;
+}
+
+.paddd{
+  padding: 0px 30px 20px !important;
+}
+
+.mrgtop{
+  margin-top: 15px;
+}
+.hun{
+  width: 100%;
+}
+.modalHeight{
+  width: 75rem !important;
+  // height: 39rem !important;
+}
+
+.mt40{
+  margin-top:40,
+}
+
+.wd{
+  width: 389px;
+}
+
+.mt{
+  margin-top: 3px;
+  font-size: 30px;
+
+}

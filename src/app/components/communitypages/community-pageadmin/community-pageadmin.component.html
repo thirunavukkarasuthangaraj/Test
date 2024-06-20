@@ -1,0 +1,503 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+  <!-- <div class="row">
+    <div class="col-md-12 cp"> -->
+      <div class="hpanel">
+        <!-- <form class="app-form form-inline">
+          <div class="row mt-10">
+            <div class="col-sm-2 align-datas">
+              <div class="row">
+                <div class="col  font-size-bold" style="font-size: 14px; margin-left: 10px;  ">
+                  <label class=" font-size-bold" data-toggle="tooltip" data-placement="top"
+                    title="{{values.communityName }}"> {{values.communityName | truncate : 15 }} </label></div>
+              </div>
+            </div>
+            <div class="col-sm-2  align-datas" style="font-size: 10px; ">
+              {{values.adminlistdata.length}} Admin
+            </div>
+            <div class="col-sm-5">
+              <div class="input-group f-l M-R">
+                <input type="text" class="form-control" placeholder="Search Admin " [(ngModel)]="name"
+                  aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin">
+                <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <button type="submit" class="btn primary-btn btn-xs f-l" style="margin-left: -8rem; margin-top: 7px;"
+                *ngIf="superadminflag" (click)="openModal(adminTemplate)">
+                <i class="fa fa-plus"></i>
+                Add Admin
+              </button>
+            </div>
+          </div>
+        </form> -->
+
+        <div class="comNavBar panel-body border-radius-top-left-right-6">
+          <div class="nav-iteam-1">
+            <label class="font-size-bold" data-toggle="tooltip" data-placement="top" title="{{ values.communityName }}">
+              {{ values.communityName | truncate: 15 }}
+            </label>
+            <div class="red">
+              <div *ngIf="AdminCount">
+                <p *ngIf="values.adminlistdata?.length === 1">
+                  {{ values.adminlistdata?.length }} Admin
+                </p>
+                <p *ngIf="values.adminlistdata?.length > 1">
+                  {{ values.adminlistdata?.length }} Admins
+                </p>
+              </div>
+              <div *ngIf="AdminCountData">
+                <p *ngIf="AdminFilterDatas?.length === 1">
+                  {{ AdminFilterDatas?.length }} Admin
+                </p>
+                <p *ngIf="AdminFilterDatas?.length > 1">
+                  {{ AdminFilterDatas?.length }} Admins
+                </p>
+              </div>
+            </div>
+
+            <!-- <div *ngIf="AdminCountRevokeData">
+              <p *ngIf="revokedData.length === 1">
+                {{ revokedData.length }} Revoke
+              </p>
+              <p *ngIf="revokedData.length > 1">
+                {{ revokedData.length }} Revoked
+              </p>
+            </div> -->
+            <!-- <div>
+              {{values.adminlistdata.length}} Admin
+            </div> -->
+          </div>
+          <div class="nav-iteam-2">
+            <div class="input-group f-l">
+              <!-- <input type="text" class="form-control" placeholder="Search Admin "
+                aria-label="Amount (to the nearest dollar)" (keyup)="keyupdata($event)" (keyup.enter)="onsearch(adminSreach)" name="searchadmin" id="searchadmin"
+                [(ngModel)]="adminSreach" />
+                <span class="input-group-addon"  (click)="onsearch(adminSreach)" id="my_btn" ><i class="pe-7s-search"    ></i></span>           -->
+
+                <input type="text" class="form-control" placeholder="Search Admin "
+                aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin"
+                [(ngModel)]="searchKey" />
+                <span class="dummyBtn"></span>
+
+              </div>
+          </div>
+          <div class="nav-iteam-3">
+            <!-- <a class="btn primary-btn btn-sm" style="min-width: 50px !important;" disabled ><i class="pe-7s-filter"></i></a> -->
+            <div class="btn-group" dropdown>
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                style="min-width: 44px; font-size: 12px" aria-controls="dropdown-basic">
+                <i class="pe-7s-filter"></i>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="getadmins()">All </a>
+                </li>
+                <!-- <li role="menuitem"><a class="dropdown-item"  disabled>Ignored</a></li> -->
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="revokedAdmins()">Revoked</a>
+                </li>
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="AdminFilter()">Admin</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="nav-iteam-4">
+            <button class="btn primary-btn btn-sm" style="min-width: 50px !important" disabled>
+              Advance Search
+            </button>
+          </div>
+          <div class="nav-iteam-5">
+            <button type="submit" class="btn primary-btn btn-sm f-l" style="min-width: 89px !important"
+              *ngIf="superadminflag" (click)="openModal(adminTemplate)">
+              Add Admin<span class="ghg"> <i class="pe-7s-add-user font-15"></i> </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    <!-- </div>
+  </div> -->
+  <div *ngIf="AllData">
+    <ng-container *ngIf="!superadminflag">
+
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0"
+        *ngFor="let admin of values.adminlistdata  | filter:searchKey">
+        <app-user-card [button]="'PRIMARY'" [userDataInput]="admin"></app-user-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="superadminflag">
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0 pd-bt-5" *ngFor="let data of values.adminlistdata | filter:searchKey">
+        <!-- | customFilter:{userName:searchKey}:false -->
+        <div class="hpanel contact-panel" style="height: fit-content !important">
+          <div class="panel-body ogqm" (click)="userprofile(data.userId)">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <img alt="logo" (click)="userprofile(data.userId)" *ngIf="
+                (data.photo != undefined && data.photo != null) ||
+                data.photo != ''
+              " class="img-circle" src="{{ data.photo }}" />
+            <img alt="logo" (click)="userprofile(data.userId)" class="img-circle" *ngIf="
+                data.photo == undefined ||
+                data.photo == null ||
+                data.photo == ''
+              " src="assets/images/userAvatar.png" />
+
+              </div>
+              <div class="col-sm-6 fgdf">
+                <div *ngIf="data.userId == loginUserId && !superadminflag">
+                  <span class="label label-info font-normal" style="font-size: 11px">You</span>
+                </div>
+
+                <div class="btn-group efef" *ngIf="data.userId == loginUserId">
+                  <div *ngIf="superadminflag && data.type == 'SUPERADMIN'">
+                    <button type="button" class="btn primary-btn btn-xs commom-font-12"
+                      (click)="superAdmin(transferTemplate, data);$event.stopPropagation();">
+                      Transfer Rights
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary b-5 btn-xs"
+                  *ngIf="data.userId!=loginUserId"
+                  (click)="sendmsg(data);$event.stopPropagation();">Send Message
+                  <i class="pe-7s-mail jwsk" aria-hidden="true"></i></button>
+                </div>
+                <!-- <div class="btn-group" *ngIf="data.userId != loginUserId">
+                  <div class="btn-group " style="float: right !important;" dropdown>
+                    <button type="button" class="btn primary-btn btn-xs commom-font-12" dropdownToggle
+                      (click)="$event.stopPropagation();" data-toggle="dropdown">
+                      <i class="pe-7s-more"></i>
+                    </button>
+                    <ul class="dropdown-menu r-0-l-auto" *dropdownMenu role="menu">
+                      <li role="menuitem" *ngIf="superadminflag && data.type == 'ADMIN'">
+                        <a class="dropdown-item commom-font-12" (click)="
+                            makeSuperAdminTransfer(directtransferTemplate, data);$event.stopPropagation();
+                          ">Make Super Admin</a>
+                      </li>
+                      <li><a (click)="sendmsg(data)">Send Message</a></li>
+                      <li role="menuitem">
+                        <a class="dropdown-item commom-font-12" *ngIf="superadminflag && data.type == 'ADMIN'" (click)="
+                            revoke(
+                              revokeTemplate,
+                              data.userId,
+                              data.communityId
+                            );$event.stopPropagation();
+                          ">Revoke</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div> -->
+
+
+
+
+
+                <div class="btn-group" *ngIf="data.userId != loginUserId">
+                  <div class="btn-group " style="float: right !important;" dropdown>
+                    <a id="button-animated" dropdownToggle
+                    (click)="$event.stopPropagation();" data-toggle="dropdown"
+                    *ngIf="data.userId!=userId&&values.isSuperAdmin && data.type=='ADMIN'" class="m-r-10">
+                      <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="tri-dot">
+                    </a>
+                    <ul class="dropdown-menu r-0-l-auto fnt-12" *dropdownMenu role="menu">
+                      <!-- <li><a (click)="sendmsg(admin);$event.stopPropagation();">Send Message</a></li> -->
+                      <li role="menuitem" *ngIf="superadminflag && data.type == 'ADMIN'">
+                        <a class="dropdown-item commom-font-12" (click)="
+                            makeSuperAdminTransfer(directtransferTemplate, data);$event.stopPropagation();
+                          ">Make Super Admin</a>
+                      </li>
+                      <li role="menuitem">
+                        <a class="dropdown-item commom-font-12" *ngIf="superadminflag && data.type == 'ADMIN'" (click)="
+                            revoke(
+                              revokeTemplate,
+                              data.userId,
+                              data.communityId
+                            );$event.stopPropagation();
+                          ">Revoke</a>
+                      </li>
+                    </ul>
+</div>
+</div>
+
+
+
+
+
+
+
+                <!-- <div *ngIf="data.type=='SUPERADMIN'" style="text-align: right;">
+                  <span class="label label-info font-normal" style="font-size: 11px;">Owner</span>
+                </div>
+                <div *ngIf="data.type=='ADMIN'" style="text-align: right;">
+                  <span class="label label-info font-normal" style="font-size: 11px;">Admin</span>
+                </div> -->
+
+              </div>
+            </div>
+              <div class="row lxzi">
+                  <div class="col-sm-8">
+                    <div class="ellipse font-bold-14" (click)="userprofile(data.userId)" data-toggle="tooltip"
+                      data-placement="top" title="{{ data.userName }}">
+                      {{ data.userName }}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <span  *ngIf="data.type=='SUPERADMIN'"><img class="crown" title="Owner" src="assets/icon/crown_.PNG" alt=""></span>
+                    <span   *ngIf="data.type=='ADMIN'"><img class="crown" title="Admin" src="assets/icon/admin_cogs.PNG" alt=""></span>
+                  </div>
+
+              </div>
+              <div class="row hjg">
+                <div class="col-sm-12">
+                  <p class="ellipse" data-toggle="tooltip" data-placement="top"  title="{{ data.title }}">
+                    {{ data.title }}
+                  </p>
+                  <p class="ellipse" data-toggle="tooltip" data-placement="top" title="{{ data.organisation }}">
+                    {{ data.organisation }}
+                  </p>
+                </div>
+
+                <div  style="position: relative; top: 2rem; right: 0.5rem">
+                  <div class="col-md-6 border-right" style="background-color: #f1f3f6 ;">
+                    <div class="contact-stat"><span>Connections: </span>
+                      <strong *ngIf="data.connectionCnt === null || data.connectionCnt === undefined">0</strong>
+                      <strong *ngIf="data.connectionCnt !== null && data.connectionCnt !== undefined">{{data.connectionCnt}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-md-6" style="background-color: #f1f3f6 ;">
+                    <div class="contact-stat"><span>Posts: </span>
+                      <strong *ngIf="data.postCnt === null || data.postCnt === undefined">0</strong>
+                      <strong *ngIf="data.postCnt !== null && data.postCnt !== undefined">{{data.postCnt}}</strong>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="admindata">
+    <ng-container *ngIf="!superadminflag">
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0" *ngFor="let admin of AdminFilterDatas | customFilter:{userName:searchKey}:false">
+        <app-user-card [button]="'SECONDARY'" [userIdInput]="admin.userId"></app-user-card>
+
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="superadminflag">
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0" *ngFor="let data of AdminFilterDatas | customFilter:{userName:searchKey}:false">
+        <app-user-card [button]="'SECONDARY'" [userIdInput]="data.userId"></app-user-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="AdminFilterDatas?.length === 0">
+      <div>
+         <app-nodata-found [title]="noDatafound"></app-nodata-found>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="revokedmember">
+    <ng-container *ngIf="!superadminflag">
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0" *ngFor="let admin of revokedData | customFilter:{userName:searchKey}:false">
+        <app-user-card [button]="'SECONDARY'" [userIdInput]="admin.userId"></app-user-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="superadminflag">
+      <div class="col-sm-12 col-md-6 col-lg-4 padding-right-5 padding-left-0" *ngFor="let data of revokedData | customFilter:{userName:searchKey}:false">
+        <app-user-card [button]="'SECONDARY'" [userIdInput]="data.userId"></app-user-card>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="revokedData?.length === 0">
+      <div >
+         <app-nodata-found [title]="noDatafound"></app-nodata-found>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #adminTemplate >
+  <div class="modal-content">
+
+    <div class="common-header-flex" >
+      <div>Add Admin</div>
+      <button >
+        <span (click)="close()" class="common-close">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div>
+          <div class="row">
+            <p>
+              Only members of this Community who are connected to you can be
+              added as Admins
+            </p>
+            <p class="control-label">Search</p>
+          </div>
+          <div [formGroup]="serachForm">
+            <div class="form-group">
+              <div class="row">
+                <div class="ng-autocomplete width-500" style="
+                    color: black !important;
+                    background-color: black !important;
+                  ">
+                  <ng-autocomplete [data]="userData" [searchKeyword]="keyword" (selected)="selectEvent($event)"
+                    (inputChanged)="onChangeSearch($event)" formControlName="serachData" placeholder="Search In Name"
+                    (inputFocused)="onFocused($event)" (inputCleared)="cleardata($event)" [itemTemplate]="itemTemplate"
+                    [notFoundTemplate]="notFoundTemplate">
+                  </ng-autocomplete>
+                  <ng-template #itemTemplate let-item>
+
+                    <div class="item">
+                      <img class="name-diff" src="{{item.photo}}">
+                      <a routerLinkActive="router-link-active" [innerHTML]="item.userName"></a> &nbsp;
+                    </div>
+
+                  </ng-template>
+                  <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+            <div style="float: right; margin-right: 3rem">
+              <button class="btn secondary-btn btn-sm" (click)="decline()">
+                Cancel
+              </button>
+              <button class="btn primary-btn btn-sm" style="margin-left: 5px" (click)="addAdmin()">
+                Add Admin
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #directtransferTemplate>
+  <div class="modal-content">
+
+    <div class="common-header-flex">
+      <div>Transfer Super Admin Rights</div>
+      <button>
+        <span class="common-close" (click)="close()">&times;</span>
+      </button>
+    </div>
+
+
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <p>
+            You will no longer be the Super Admin of this Community Page and
+            will not be able to manage other Admins.
+          </p>
+        </div>
+        <div style="float: right">
+          <button class="btn secondary-btn btn-sm" (click)="decline()">
+            Cancel
+          </button>
+          <button class="btn primary-btn btn-sm" style="margin-left: 5px" (click)="makeSuperAdminTransferAccept()">
+            Make Super Admin
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #transferTemplate>
+  <div class="modal-content">
+
+  <div  class="common-header-flex" >
+    <div>Transfer Super Admin Rights</div>
+    <button  >
+      <span class="common-close" (click)="close()">&times;</span>
+    </button>
+  </div>
+
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <p>
+            You will no longer be the Super Admin of this Community Page and
+            will not be able to manage other Admins.
+          </p>
+          <br />
+          <p>
+            Super Admin rights can be transfered only to other members connected
+          </p>
+        </div>
+        <div [formGroup]="serachForm">
+          <div class="form-group">
+            <div class="ng-autocomplete width-500" style="
+                color: black !important;
+                background-color: black !important;
+              ">
+              <ng-autocomplete [data]="autoCompleteAdminList" [searchKeyword]="keyword"
+                (selected)="selectEventtransfer($event)" (inputChanged)="onChangeSearchtransfer($event)"
+                formControlName="serachData" (inputFocused)="onFocused($event)" (inputCleared)="cleardata($event)"
+                (input)="cleardata($event)" [itemTemplate]="itemTemplate" placeHolder="Search In Name"
+                [notFoundTemplate]="notFoundTemplate">
+              </ng-autocomplete>
+              <ng-template #itemTemplate let-item>
+                <div class="item">
+                  <img class="name-diff" src="{{item.photo}}">
+                  <a routerLinkActive="router-link-active" [innerHTML]="item.userName"></a> &nbsp;
+                </div>
+              </ng-template>
+              <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+              </ng-template>
+            </div>
+          </div>
+          <div style="float: right">
+            <button class="btn secondary-btn btn-sm" (click)="decline()">
+              Cancel
+            </button>
+            <button class="btn primary-btn btn-sm" style="margin-left: 5px" (click)="makeadmin()">
+              Make Super Admin
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #revokeTemplate>
+  <div class="modal-content">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span style="font-size: 27px;font-weight: 400; margin-right: 10px" aria-hidden="true">&times;</span>
+    </button>
+    <h5 style="padding: 10px">Revoke</h5>
+    <hr style="margin-top: 0px; margin-bottom: 0px" />
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <p>
+            Once you revoke Admin rights, user will no longer be able to manage
+            this page
+          </p>
+        </div>
+        <div style="float: right">
+          <button class="btn secondary-btn btn-sm" (click)="decline()">
+            Cancel
+          </button>
+          <button class="btn primary-btn btn-sm" style="margin-left: 5px" (click)="remove()">
+            Revoke
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

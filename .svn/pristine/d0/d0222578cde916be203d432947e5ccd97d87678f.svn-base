@@ -1,0 +1,49 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
+export const environment = {
+  production: false,
+  name: "dev",
+  useHash: false,
+
+// dev
+ serverUrl: "http://localhost:8090/careonline-social/",
+ careOnlineWebUrl: "http://198.168.1.100:4200/",
+ directoryUrl: "http://localhost:400/",
+ webSocketUrl: "http://localhost:8090/careonline-social/ws",
+//  serverUrl: "http://socialportalserver-802810032.us-east-1.elb.amazonaws.com:8090/careonline-social/",
+
+// qa
+// serverUrl: "http://162.55.48.199:8090/careonline-social/",
+// careOnlineWebUrl: "http://localhost:4200/",
+// directoryUrl: "http://localhost:400/",
+// webSocketUrl: "http://162.55.48.199:8090/careonline-social/ws"
+
+
+// // serverUrl: "http://socialportal-ui-test.s3-website-us-east-1.amazonaws.com/",
+// //  serverUrl: "http://192.168.1.59:8090/careonline-social/",
+// //  serverUrl: "http://162.55.48.199:8090/careonline-social/",
+// //serverUrl: "http://socialportal-ui.s3-website-us-east-1.amazonaws.com/",
+// //  serverUrl: "https://1t7re51br3.execute-api.us-east-1.amazonaws.com/uat/"
+  // // serverUrl: "http://socialportal-ui.s3-website-us-east-1.amazonaws.com/",
+  // webSocketUrl: "http://socialportalserver-273974177.us-east-1.elb.amazonaws.com:8090/careonline-social/ws",
+  // serverUrl: "http://192.168.1.109:8090/careonline-social/",
+  // serverUrl: "http://192.168.1.251:8091/careonline-social/",
+  // serverUrl: "http://162.55.48.199:8090/CareOnLine/"  //QA 
+  // serverUrl: 'http://162.55.48.199:1991/CareOnLine/#/',
+
+  
+  // serverUrl: "http://162.55.48.199:8090/careonline-social/", // from thiru
+  // webSocketUrl: "http://162.55.48.199:8090/careonline-social/ws" // from thiru
+};
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// "http://162.55.48.199:8090/careonline-social/",

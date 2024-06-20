@@ -1,0 +1,22 @@
+.m{
+  margin-left: 10px;
+}
+ .topmargin{
+  margin-top: -2px;
+ }
+
+ .searchBar{
+  width: 200%;
+  margin: 1rem;
+  margin-left: 11rem;
+ }
+
+ .bar{
+  margin-top: 13px;
+  display: flex;
+  margin-left: 20rem;
+ }
+ .logo-size_define{
+  height: 51px;
+  width: 100px;
+}

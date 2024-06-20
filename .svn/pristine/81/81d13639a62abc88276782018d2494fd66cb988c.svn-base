@@ -1,0 +1,8 @@
+export const environment = {
+  production: true,
+  name: "prod",
+  useHash: true,
+  serverUrl: "http://localhost:8090/careonline-social/",
+  careOnlineWebUrl: "http://localhost:4200/",
+  webSocketUrl: "http://localhost:8090/careonline-social/ws"
+};

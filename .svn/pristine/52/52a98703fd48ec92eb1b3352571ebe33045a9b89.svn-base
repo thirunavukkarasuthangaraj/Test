@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { JobSubmitSkillfilterComponent } from './job-submit-skillfilter.component';
+
+describe('JobSubmitSkillfilterComponent', () => {
+  let component: JobSubmitSkillfilterComponent;
+  let fixture: ComponentFixture<JobSubmitSkillfilterComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ JobSubmitSkillfilterComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(JobSubmitSkillfilterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

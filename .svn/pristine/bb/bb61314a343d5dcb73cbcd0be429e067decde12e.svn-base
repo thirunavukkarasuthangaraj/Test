@@ -1,0 +1,97 @@
+<!-- <div class="row wrapper bgcolor" style="margin-left: 2px;">
+  <div class="col-lg-12 ">
+    <div class="">
+      <div class="" style="height: 5rem;">
+        <div class="row" style="margin-top: 0rem;">
+          <div class="col-md-2">
+            <div style="margin-top: 5px;">
+              <!-- <h5><span>{{title}}</span> {{Arraylength}} </h5> --
+            </div>
+          </div>
+          <div class="col-md-6 ">
+            <div class="input-group">
+              <input class="form-control" (keyup)="peopleData($event)" [formControl]="clearInput"
+                style="width: 38rem; margin-top:1px ; margin-left: -5px;" type="text" [(ngModel)]="term" #filterData>
+              <div class="input-group-btn">
+                <button class="btn btn-default " style="margin-top:1px ">
+                  <i class="fa fa-search"></i>
+                </button>
+                <button class="btn btn-default " style="margin-top:1px " (click)="clearData()">
+                  <i class="pe-7s-close"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button class="btn secondary-btn btn-sm" style="margin-top:1px ">Filter</button>
+            <button class="btn primary-btn btn-sm" style="margin-left: 5px;margin-top:1px ">Advance Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="row wrapper bgcolor seachTopNav">
+  <div class="col-lg-12 ">
+    <div class="mainNav">
+      <div class="navIteam">
+        <!-- <span> new 2</span> -->
+      </div>
+      <div class="navIteam">
+
+        <div class="input-group f-l">
+          <input type="text" class="form-control input-sm"
+            (keyup)="peopleData($event)" [formControl]="clearInput" name="searchadmin" id="searchadmin" />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon" (click)="clearData()"><i class="pe-7s-close"></i></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button id="button-animated" dropdownToggle type="button" class="btn  btn-sm dropdown-toggle fbtn"
+                  aria-controls="dropdown-animated">
+                  <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" /></span>Filter
+          </button>
+          <!-- <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="apicall('CONNECTED')">All Connection</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Received')">Request Received</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Sent')">Invitations Sent </a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div class="navIteam">
+        <!-- <button class="btn btn-default btn-sm displayflex dropdown-toggle">
+          <span class="mr-5">
+            <img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" />
+          </span>
+          Filter
+        </button> -->
+        <button class="btn primary-btn btn-sm" >Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+  [scrollWindow]="false" (scrolled)="onScroll()"> -->
+  <div>
+  <!--*ngIf="userData"-->
+    <div class="row">
+      <div class="col-md-12"  style="z-index: 1;">
+        <div class="row pcard m-top-5">
+          <div class="col-sm-70 col-lg-70 col-md-70" style="padding: 0rem 1.6rem !important;">
+            <div class="col-md-4 sCard pad-right-5" *ngFor="let item of allpost |filter:term">
+              <app-user-card [userDataInput]="item"></app-user-card>
+            </div>
+          </div>
+          <div class="col-sm-30 col-md-30 col-lg-30 sCard ml-9 m-r" >
+            <div  class="w-103">
+              <app-common-widget [page]="'NETWORK_PAGE'" [inputData]="'NETWORK'"></app-common-widget>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

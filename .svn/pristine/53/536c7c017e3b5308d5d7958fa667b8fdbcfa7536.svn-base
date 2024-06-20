@@ -1,0 +1,35 @@
+
+.landingside2 {
+  position: sticky;
+  top: 62px;
+  -webkit-transition: all 2scubic-bezier(0.65, 0.05, 0.36, 1);
+  -moz-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  -o-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: all 2s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.landing-side1 {
+  position: sticky;
+  top: 62px;
+  -webkit-transition: all 2scubic-bezier(0.65, 0.05, 0.36, 1);
+  -moz-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  -o-transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: all 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: all 2s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.menu{
+    width: 270px
+}
+
+@media all and (min-width: 992px) and (max-width: 1100px) {
+  .menu{
+    width: 220px
+  }
+}
+
+@media all and (min-width: 1101px) and (max-width: 1200px) {
+  .menu{
+    width: 220px
+  }
+}

@@ -1,0 +1,5 @@
+// @media (min-width: 768px)
+.modal-dialog {
+    width: 330px !important;
+    margin: 30px auto;
+}

@@ -1,0 +1,57 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
+import { UtilService } from 'src/app/services/util.service';
+
+@Component({
+  selector: 'app-directory-state',
+  templateUrl: './directory-state.component.html',
+  styleUrls: ['./directory-state.component.scss']
+})
+export class DirectoryStateComponent implements OnInit {
+  countryCode
+  stateData
+  page: number = 1;
+  constructor(private aroute: ActivatedRoute,private api: ApiService, private router: Router, private util:UtilService) {
+    this.aroute.params.subscribe(res => {
+     // //// console.log(res)
+      this.countryCode = res.countryId
+    })
+  }
+
+  ngOnInit() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'})
+     this.getState()
+  }
+
+  stateclick(stateDatas){
+    var res = this.router.url.substring(1, 14);
+    if(res=="directory/hcp"){
+      this.router.navigate(['/directory/hcp/country/' +this.countryCode +'/state/'+stateDatas.stateCode+'/city'])    
+     
+ 
+  }else if(res=="directory/hco"){
+    this.router.navigate(['/directory/hco/country/' +this.countryCode +'/state/'+stateDatas.stateCode+'/city'])    
+    
+  }
+}
+
+  getState(){
+    this.util.startLoader()
+      this.api.query('country/getAllStates?countryCode='+ this.countryCode ).subscribe(res=>{
+        this.util.stopLoader()
+        if(res != null){
+          this.stateData = res
+        }else{
+
+        }
+
+      },err => {
+        this.util.stopLoader(); 
+      })
+    }
+
+}

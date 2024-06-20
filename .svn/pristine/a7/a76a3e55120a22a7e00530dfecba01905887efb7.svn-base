@@ -1,0 +1,17 @@
+
+.panel-body-padding-0{
+    padding:0px
+}
+
+.bgcolor{
+  background-color: #ffff !important;
+}
+.search-menu-sticky{
+  position: fixed;
+ }
+
+ @media (min-width: 1200px){
+  .container {
+    width: 1272px;
+ }
+ }

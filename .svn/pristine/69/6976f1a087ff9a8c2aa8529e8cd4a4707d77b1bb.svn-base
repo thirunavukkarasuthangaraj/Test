@@ -1,0 +1,8 @@
+import { unwatchFile } from 'fs';
+
+export const environment = {
+  production: false,
+  name: 'otavauat',
+  useHash: true,
+  serverUrl: 'http://104.37.222.3:5555/careonline-social/'
+};

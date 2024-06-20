@@ -1,0 +1,288 @@
+/* You can add global styles to this file, and also import other style files */
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  height: 90% !important;
+}
+
+.user-profile svg image {
+  clip-path: circle(40%) !important;
+  width: 100% !important;
+  x: 0 !important;
+  y: 0 !important;
+  height: 100% !important;
+  // transform: translate(-32px, -32px) !important;
+}
+
+// svg image {
+//   clip-path: circle(50%) !important;
+// }
+
+.msg-page {
+  .note-editor.note-frame {
+    width: 100%;
+    margin-right: 10px;
+  }
+
+  .note-status-output {
+    display: none !important;
+  }
+
+  .note-statusbar {
+    display: none !important;
+  }
+
+  .note-editable {
+    padding: 7px !important;
+  }
+}
+
+.group-msg-modal {
+  margin-top: 10px;
+  height: 97vh;
+  overflow: auto;
+  overflow-x: hidden !important;
+
+}
+
+.post-text {
+  .note-editor {
+    border-radius: 0px !important;
+    height: 100px !important;
+  }
+
+  .note-status-output {
+    display: none !important;
+  }
+
+  .note-statusbar {
+    display: none !important;
+  }
+
+  .note-editing-area {
+    height: 100px !important;
+    overflow-y: auto !important;
+  }
+
+  .note-placeholder {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .note-editable {
+    height: 100% !important;
+  }
+}
+
+typeahead-container .dropdown-menu {
+  max-height: 250px;
+  width: 41rem;
+}
+
+.ng2-tag-input__text-input {
+  width: 250px !important;
+}
+
+.swal2-title {
+  font-size: 1.5rem !important;
+}
+
+.landingside1 {
+  position: fixed;
+  top: 65px;
+  width: 270px !important;
+}
+
+/**.landing-side1 {
+  position: fixed;
+  top: 65px;
+  width: 270px !important;
+}*/
+
+.landing-side2 {
+  position: fixed;
+  top: 65px;
+  width: 260px !important;
+}
+
+.profile-menu {
+  position: fixed;
+  margin-top: -25px;
+  width: 14.3%;
+  // overflow-y: auto;
+  // z-index: 0;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 5px;
+
+  .btn i {
+    font-size: 9px !important;
+  }
+}
+
+.move-right {
+  margin-left: 192px;
+}
+
+.profile-suggestion {
+  position: fixed;
+  // margin-top: -12px;
+  margin-top: -25px;
+  width: 289px;
+  margin-left: 866px;
+}
+
+.business-menu-sticky1 {
+  position: fixed;
+  width: 21%;
+  top: 65px;
+  overflow-y: auto;
+}
+
+.business-list-view {
+  .cp {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .cpl {
+    padding-left: 5px;
+  }
+}
+
+.dropdown-menu {
+  min-width: auto !important;
+  overflow-x: auto;
+  overflow-y: auto;
+  height: auto;
+}
+
+.swal2-confirm {
+  margin-left: 5px;
+  border-radius: 0px !important;
+}
+
+element.style {}
+
+.media:first-child {
+  margin-top: 0;
+}
+
+.mt-m12 {
+  margin-top: -12px !important;
+}
+
+.la-ball-clip-rotate>div {
+  color: #f00707;
+}
+
+.overlay {}
+
+.cardmarge {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.ellipse {
+  text-overflow: ellipsis;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.qwlpzxii {
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  text-overflow: ellipsis;
+  background-color: #e5e7ea;
+  ;
+  overflow: hidden;
+  width: 25rem;
+  white-space: nowrap;
+}
+
+.Nav-bar {
+  position: fixed;
+  top: 61px;
+  width: 874px !important;
+  z-index: 10;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.cardw {
+  background: none !important;
+  border: none !important;
+}
+
+.mar-lft-18 {
+  margin-left: -18px;
+}
+
+.mar-mmbr {
+  margin-left: -13px;
+  margin-top: 1px;
+  margin-right: 6px;
+}
+
+.mar-tp-2 {
+  margin-top: 2px;
+}
+
+.b-nav-w {
+  width: 102.5%;
+  margin-left: -9px;
+  padding-bottom: 0px !important;
+}
+
+.mar-btm-10 {
+  margin-bottom: 10px;
+
+}
+
+.jwsk {
+  font-size: 14px !important;
+  position: relative;
+  top: 0.3rem;
+  left: 0.2rem;
+
+}
+
+.custom-slider {
+  span.ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-min {
+    background-color: #2a3e73 !important;
+    width: 25px !important;
+    height: 25px !important;
+    top: -11px !important;
+  }
+
+  .ngx-slider .ngx-slider-pointer:after {
+    width: 5px !important;
+    height: 5px !important;
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+  }
+
+  .ngx-slider .ngx-slider-selection {
+    background: #2a3e73;
+  }
+  .ngx-slider .ngx-slider-pointer {
+    background-color: #2a3e73 !important;
+    width: 25px !important;
+    height: 25px !important;
+    top: -11px !important;
+  }
+
+  .ngx-slider .ngx-slider-bubble {
+    font-size: 12px!important;
+  }
+
+}

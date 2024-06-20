@@ -1,0 +1,48 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="profile-list">
+          <ng-container *ngFor="let item of bussinesssuggestion | slice: 0:3; let i = index" (click)="route(item)">
+            <app-common-profile-info [type]="'BUSINESS'" [userIdInput]="item.userId"
+              [page]="'BUSINESS'" [data]="item" >
+              <ng-container headline1 (click)="route(item)">{{item.businessName}} </ng-container>
+              <ng-container headline2  >{{item.followersCnt}} Follower(s)</ng-container>
+              <ng-container btn><button class="btn-primary btn btn-xs" (click)="follow(item.businessId)">
+                  Follow
+                </button></ng-container>
+            </app-common-profile-info>
+          </ng-container>
+        </ul>
+
+        <p style="float: right"  *ngIf="bussinesssuggestion?.length > 3" >
+          <u><a  (click)="modelopen(user)">...More</a></u>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="noListMessage">
+  You have no business to follow yet.
+</div>
+<div class="margin-bottom-5"  *ngIf="viewType=='MAX'">
+  <div class="panel-body cardw" >
+    <div class="row">
+      <div class="col-3">
+        <!-- <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of user"> -->
+          <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of bussinesssuggestion | paginate: { itemsPerPage: 8, currentPage: page ,totalItems:totalCount }">
+
+          <app-business-card [BusinessDataInput]="item"></app-business-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pagination-controls
+    class="left-page-align" (click)="movePage(page)" (pageChange)="page = $event">
+  </pagination-controls>

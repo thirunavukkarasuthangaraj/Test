@@ -1,0 +1,30 @@
+<!-- <div *ngIf="communityDetails?.length==0" >
+    <app-nodata-found [title]="noDatafound" ></app-nodata-found>
+ </div> -->
+ <div class="bg">
+  <div class="navMain">
+    <div class="navIteam1">
+      <label>Community   :  <span> {{communityDetails?.length}}</span></label>
+    </div>
+    <div class="navIteam2">
+      <div class="app-form input-group f-l">
+          <input type="text" class="form-control input-sm" placeholder="Search Community"
+          aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" [(ngModel)]="searchKey" /> 
+          <span class="dummyBtn"></span>
+              </div>
+    </div>
+    <div class="navIteam3">
+      <button class="btn btn-default btn-sm " (click)="routePage()"> Create Community</button>
+    </div>
+  </div>
+ </div>
+  <div *ngIf="communityDetails?.length!=0">
+      <div class="col-md-6 col-lg-4 padding-left-0 padding-right-5 sdyie"  *ngFor="let item of communityDetails | customFilter:{communityName:searchKey}:false">
+        <app-community-card [data]="item"></app-community-card>
+      </div>
+  </div>
+  
+  <div *ngIf="communityDetails?.length===0">
+    <p class="text-center" style="position: relative; top: 4rem;"><span>
+      </span> You are not part of any Communities</p>
+  </div>

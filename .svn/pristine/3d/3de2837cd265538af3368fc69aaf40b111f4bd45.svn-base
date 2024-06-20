@@ -1,0 +1,39 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="profile-list">
+          <ng-container *ngFor="let item of responseData | slice:0:3; let i=index">
+            <app-common-profile-info [userIdInput]="item['userId']">
+              <ng-container headline1> {{item.firstName}} {{item.lastName}}</ng-container>
+              <ng-container headline2>{{item.organisation}}</ng-container>
+              <ng-container btn>
+                <button class="btn-primary btn btn-xs" (click)="connect(item)">
+                  <i class="fas fa-plus" aria-hidden="true"></i> Connect
+                </button>
+              </ng-container>
+            </app-common-profile-info>
+          </ng-container>
+        </ul>
+        <p style="float: right;" *ngIf="responseData.length > 3"   >
+          <u><a (click)="modelopen(responseData)">...More</a></u>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="margin-bottom-5"  *ngIf="viewType=='MAX'">
+  <div class="panel-body cardw" >
+    <div class="row">
+      <div class="col-3">
+        <div class="col-md-3 padding-left-0 padding-right-5" *ngFor="let item of responseData">
+           <app-user-card  [userDataInput]="item" [button]="'PRIMARY'"></app-user-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

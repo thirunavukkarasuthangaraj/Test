@@ -1,0 +1,191 @@
+<div class="app-footer">
+  <div class="directory-footer">
+    <div class="container">
+      <div class="row">
+        <!-- <h4><a [routerLink]="['/memberDirectory']" routerLinkActive="router-link-active" >Member Directory</a></h4> -->
+        <h4>
+          <span>CareOnline Member Directory :</span>
+          <ul>
+            <li (click)="getvalue(l)" *ngFor="let l of letterArray">{{ l }}</li>
+          </ul>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div class="main-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-1">
+            <h5>CareOnline</h5>
+            <div class="footer-logo">
+              <img src="assets/images/mylogo.png" />
+            </div>
+            <div class="footer-address">
+              <address>
+                <strong>CareOnline, Inc.</strong><br />
+                2591 Dallas Parkway Suite 300,<br />
+                Dallas, TX 75034<br />
+                <!-- <abbr title="Phone">P:</abbr> (123) 456-7890 -->
+              </address>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-2">
+            <h5>Company</h5>
+            <div class="footer-menu">
+              <ul>
+                <li><a>Help</a></li>
+                <li><a>About Us</a></li>
+                <li><a>News</a></li>
+                <li><a>Blog</a></li>
+                <li><a>Careers</a></li>
+                <li><a>Policies</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-3">
+            <h5>Directories</h5>
+            <div class="footer-menu">
+              <ul>
+                <li>
+                  <a href="{{profDirectoryUrl}}">Healthcare Professionals</a
+                  >
+                </li>
+                <li>
+                  <a href="{{orgDirectoryUrl}}">Healthcare Organization</a
+                  >
+                </li>
+                <li><a>Communities</a></li>
+                <li><a>Jobs</a></li>
+                <li><a>Pulse</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-4">
+            <h5>NewsLetter</h5>
+            <p>Email address:</p>
+            <form class="form-inline app-form margin-bottom-30">
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Your email address"
+                />
+              </div>
+              <button type="submit" class="btn footer-subscribe-btn">
+                Subscribe
+              </button>
+            </form>
+            <h5>Social Media</h5>
+            <div class="footer-social-icon">
+              <ul>
+                <li>
+                  <a><i class="fa fa-facebook"></i></a>
+                </li>
+                <li>
+                  <a><i class="fa fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a><i class="fa fa-linkedin"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <span>Copyright © 2019 CareOnline, Inc. All rights reserved</span>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="sub-footer-menu">
+            <ul>
+              <li>
+                <a>Privacy Policy</a>
+              </li>
+              <li>
+                <a>Terms & Conditions</a>
+              </li>
+              <li>
+                <a>Notice Of Privacy Practices</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="panel-footer">
+        <div class="row">
+          <div class="col-sm-3">
+            <UL>
+              <li><h5>COMPORATE HEADQUARTERS</h5></li>
+              <li><img src="../../../assets/images/c1.JPG" alt=""></li>
+              <li><i class="fas fa-map-marker-alt"></i><span>
+                CareOnline , lnc<br>
+                 2591 Dallas Parkway Suite 300 <br>
+                 Dallas, TX75034
+              </span>
+                </li>
+              <li><i class="fas fa-phone"></i> +1 877 454 6500</li>
+              <li><i class="far fa-envelope"></i> Sales@CareOnline.com</li>
+            </UL>
+          </div>
+          <div class="col-sm-3">
+              <ul>
+              <li><h5>SOLUTION</h5></li>
+              <li><a href="">health</a></li>
+              <li><a href="">Physican</a></li>
+              <li><a href="">Personal</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <ul>
+              <li><h5>COMPANY</h5></li>
+              <li><a href="">About As</a></li>
+              <li><a href="">Partners</a></li>
+              <li><a href="">Associates</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <ul>
+              <li><h5>NEWS LETTERS</h5></li>
+              <li>
+                <div class="input-group" >
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-info" type="button">Subscription</button>
+                  </span>
+                </div>
+              </li>
+              <li>
+                <ul style="margin-top: 1rem;">
+                  <li>Social Media</li>
+                </ul>
+                <ul class="l">
+                  <li><i class="fab fa-facebook"></i></li>
+                  <li><i class="fab fa-linkedin-in"></i></li>
+                  <li><i class="fab fa-twitter"></i></li>
+                </ul>
+               </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+              <strong>CareOnline</strong><br/>Copyright © 2015 CareOnline Inc. All Rights Reserved
+          </div>
+      </div>
+      </div> -->
+</div>

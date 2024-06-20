@@ -1,0 +1,46 @@
+li {
+  list-style: none;
+}
+
+ul {
+  li {
+    border-radius: 6px;
+
+    a {
+      padding: 12px 16px;
+      display: inline-block;
+      width: 100%;
+      font-size: 12px;
+      line-height: 20px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    a:hover {
+      background: #f1f3f6;
+      color: black;
+      border-radius: 6px;
+
+    }
+
+    a:active {
+      outline: none;
+      background: #c1daffbd;
+    }
+  }
+}
+
+
+
+
+.active a,
+.active a:hover {
+  outline: none;
+  background: #c1daffbd !important;
+  color: black !important;
+}
+
+.active:hover {
+  background: #c1daffbd !important;
+  color: black !important;
+}

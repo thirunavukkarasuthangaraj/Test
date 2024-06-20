@@ -1,0 +1,1652 @@
+// // Common Skeleton design
+.skeleton {
+  background-image: linear-gradient(90deg, #e0e0e0 0px, #f8f8f8 40px, #e0e0e0 80px);
+  animation: skeleton-loading 1.5s linear infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 0px;
+  }
+
+  100% {
+    background-position: 100px;
+    /* Adjust this value to change the speed */
+  }
+}
+
+// User badge css
+.user-badge-skeleton {
+  .skeleton {
+    background-image: linear-gradient(90deg, #e0e0e0 0px, #f8f8f8 40px, #e0e0e0 80px);
+    // background-size: 800px 100%;
+  }
+
+  .dashboard-skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .circle-skeleton,
+  .text-skeleton,
+  .stat-item-skeleton,
+  .button-skeleton {
+    background-color: #e0e0e0 !important;
+  }
+
+  .circle-skeleton {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .text-skeleton {
+    width: 80%;
+    height: 20px;
+    margin: 5px 0;
+  }
+
+  .name-skeleton {
+    width: 85%;
+    margin-bottom: 20px;
+  }
+
+  .stats-skeleton {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .stat-item-skeleton {
+    width: 30%;
+    height: 30px;
+  }
+
+  .plan-skeleton {
+    width: 70%;
+    margin-bottom: 10px;
+    margin-top: 13px;
+  }
+
+  .button-skeleton {
+    width: 40%;
+    height: 30px;
+    border-radius: 15px;
+  }
+}
+
+// Post Page CSS code Started
+.postPagecssdesgin {
+  padding: 1px 0px 0px 2px;
+  background: #fff;
+  height: 400px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+
+  .skeleton-container {
+    max-width: 600px;
+    margin: 20px auto;
+  }
+
+  .skeleton-heading,
+  .skeleton-subheading,
+  .skeleton-text,
+  .skeleton-link,
+  .skeleton-button {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    height: 20px;
+    margin: 10px 0;
+    // animation: shimmer 2s infinite linear;
+  }
+
+  .skeleton-heading {
+    width: 60%;
+    height: 30px;
+  }
+
+  .skeleton-subheading {
+    width: 24%;
+    height: 16px;
+  }
+
+  .skeleton-text {
+    width: 90%;
+    height: 16px;
+    margin-bottom: 20px;
+  }
+
+  .skeleton-link {
+    width: 30%;
+    height: 18px;
+  }
+
+  .skeleton-button {
+    width: 25%;
+    height: 32px;
+    margin-top: 20px;
+  }
+
+  .logo-skeleton {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-icon-skeleton {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+    // animation: shimmer 2s infinite linear;
+  }
+
+  .logo-text-skeleton {
+    width: 120px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    //    -webkit-animation: shimmer 2s infinite linear;
+    //  animation: shimmer 2s infinite linear;
+    margin-top: -15px;
+  }
+
+  .content-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .text-skeleton {
+    flex-grow: 1;
+    height: 15px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 20px;
+    // animation: shimmer 2s infinite linear;
+  }
+
+  .skeleton-button {
+    width: 76px;
+    height: 26px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    // -webkit-animation: shimmer 2s infinite linear;
+    // animation: shimmer 2s infinite linear;
+    margin-top: 57px;
+  }
+
+  .height-secondcard {
+    height: 350px;
+  }
+
+  .post-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .profile-icon {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .profile-info strong {
+    display: block;
+    color: #333;
+  }
+
+  .profile-info span {
+    color: #666;
+    font-size: 0.8rem;
+  }
+
+  .post-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .post-content img {
+    width: 49%;
+    /* Adjust based on your design preference */
+    height: auto;
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .post-actions button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .post-comment {
+    padding: 10px;
+  }
+
+  .post-comment input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .post-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .profile-icon {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .profile-info strong {
+    display: block;
+    color: #333;
+  }
+
+  .profile-info span {
+    color: #666;
+    font-size: 0.8rem;
+  }
+
+  .post-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .post-content img {
+    width: 49%;
+    /* Adjust based on your design preference */
+    height: auto;
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .post-actions button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .post-comment {
+    padding: 10px;
+  }
+
+  .post-comment input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+}
+
+// Widgets page CSS code
+.widgetsPage {
+  background: #fff;
+  padding: 12px 8px 4px 8px;
+  height: 264px;
+  margin-bottom: 15px;
+
+  .candidates-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    width: 350px;
+    /* Adjust width based on your layout */
+  }
+
+  .candidates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-title,
+  .header-icon {
+    background: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .header-title {
+    width: 70%;
+    height: 20px;
+  }
+
+  .header-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+
+  .candidate-skeleton {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .profile-pic {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .candidate-info {
+    flex-grow: 1;
+  }
+
+  .candidate-name,
+  .candidate-role {
+    background-color: #e0e0e0;
+    height: 10px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+
+  .candidate-name {
+    width: 70%;
+  }
+
+  .candidate-role {
+    width: 90%;
+  }
+
+  .more-link {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .skeleton {
+    // animation: shimmer 1.5s infinite linear;
+    background-image: linear-gradient(90deg, #e0e0e0 0px, #f8f8f8 40px, #e0e0e0 80px);
+    background-size: 800px 100%;
+  }
+}
+
+//  LandingPage header componet screen design
+.LandingpageHeader {
+  background-color: #fff;
+
+  .navbar-skeleton {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .icon-skeleton {
+    width: 40px;
+    height: 40px;
+    border-radius: 28%;
+    background-color: #e0e0e0;
+    position: relative;
+    margin-right: 20px;
+    // animation: shimmer 1.5s infinite linear;
+  }
+
+  .radius-UI {
+    border-radius: 50%;
+  }
+
+  .badge-skeleton {
+    width: 15px;
+    /* Approximate width of the badge */
+    height: 15px;
+    /* Approximate height of the badge */
+    background-color: #ff0000;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+  }
+
+  .circle-skeleton,
+  .text-skeleton,
+  .stat-item-skeleton,
+  .button-skeleton {
+    background-color: #e0e0e0 !important;
+    //animation: shimmer 0ms infinite linear !important;
+  }
+
+  .stat-item-skeleton {
+    width: 30%;
+    height: 30px;
+  }
+}
+
+//Landing Page sidenavbar
+.landingPagesidenavbar {
+  background-color: #fff;
+
+  .sidebar-skeleton {
+    // width: 200px; /* Adjust based on your design */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+  }
+
+  .menu-item-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .icon-skeleton {
+    width: 24px;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+    // animation: shimmer 2s infinite linear;
+  }
+
+  .text-skeleton {
+    flex-grow: 1;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    // animation: shimmer 2s infinite linear;
+  }
+}
+
+// Help module design
+.video-card-ui-design {
+  background-color: #fff;
+  display: flex;
+  padding: 10px;
+
+  .header-title {
+    width: 70%;
+    height: 20px;
+  }
+
+  .video-card-skeleton {
+    width: 350px;
+    /* height: 259px; */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    margin: 10px 10px 10px 10px;
+  }
+
+  .thumbnail-skeleton {
+    height: 150px;
+    background-color: #e0e0e0;
+    position: relative;
+    // animation: shimmer 1.5s infinite linear;
+  }
+
+  .info-bar-skeleton {
+    background-color:#9cc3e5;
+    height: 59px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #fff;
+  }
+
+  .title-skeleton,
+  .duration-skeleton {
+    height: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+  }
+
+  .title-skeleton {
+    width: 60%;
+    margin-right: auto;
+  }
+
+  .duration-skeleton {
+    width: 20%;
+  }
+}
+
+// Job card medium design
+.jobcardui-design {
+  width: 350px !important;
+
+  .job-card-skeleton {
+    width: 360px !important;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+  }
+
+  .top-section,
+  .interaction-section,
+  .actions-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .avatar-skeleton {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+  }
+
+  .info-skeleton {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+
+  .name-skeleton,
+  .title-skeleton,
+  .details-skeleton,
+  .salary-skeleton,
+  .views-skeleton,
+  .likes-skeleton,
+  .applicants-skeleton,
+  .button-skeleton {
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 4px;
+    // animation: shimmer 1.5s infinite linear;
+  }
+
+  .name-skeleton {
+    width: 60%;
+    margin-bottom: 5px;
+  }
+
+  .title-skeleton {
+    width: 80%;
+    margin-bottom: 5px;
+  }
+
+  .details-skeleton,
+  .salary-skeleton {
+    width: 70%;
+    margin-bottom: 5px;
+  }
+
+  .status-skeleton {
+    width: 60px;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .views-skeleton,
+  .likes-skeleton,
+  .applicants-skeleton {
+    width: 30px;
+  }
+
+  .actions-skeleton {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .button-skeleton {
+    width: 70px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+}
+
+// Job Selection Section
+.jobselectedMidscreen {
+  background-color: #f4f4f4;
+
+  .job-details-skeleton {
+    width: 100%;
+    height: calc(100vh - 100px);
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-skeleton,
+  .job-info-skeleton,
+  .actions-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .info-skeleton {
+    width: 100%;
+    height: 100px;
+  }
+
+  .avatar-skeleton {
+    width: 55px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .info-skeleton div,
+  .title-skeleton,
+  .id-skeleton,
+  .salary-skeleton,
+  .details-skeleton,
+  .section-skeleton,
+  .description-skeleton,
+  .button-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    height: 20px;
+    // animation: shimmer 2s infinite linear;
+  }
+
+  .name-skeleton {
+    width: 70%;
+  }
+
+  .role-skeleton,
+  .location-skeleton {
+    width: 50%;
+  }
+
+  .title-skeleton {
+    width: 80%;
+    margin: 10px 0;
+  }
+
+  .id-skeleton,
+  .salary-skeleton,
+  .details-skeleton {
+    flex-grow: 1;
+    margin-right: 100px;
+  }
+
+  .section-skeleton {
+    width: 90%;
+    margin-bottom: 5px;
+  }
+
+  .description-skeleton {
+    width: 100%;
+    height: 290px;
+    margin-bottom: 10px;
+  }
+
+  .actions-skeleton {
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .button-skeleton {
+    width: 90px;
+    height: 40px;
+  }
+
+  .info-skeleton {
+    display: flex;
+    flex-direction: column; // Ensure this is set correctly to stack children
+    margin-left: 10px; // Ensure this does not push the element out of view
+  }
+
+  .name-skeleton,
+  .role-skeleton,
+  .location-skeleton {
+    height: 20px; // Ensure these have height and are visible
+    background-color: #e0e0e0; // Background should make the skeleton visible
+    border-radius: 4px;
+    margin-bottom: 5px; // Adds space between the items
+  }
+
+  .action-items {
+    width: 10%;
+    margin: 11px 0;
+    float: right;
+    padding: 4px;
+    margin-left: 33px;
+  }
+}
+
+.message-widget-conversation-load {
+  .chat-container-skeleton {
+    width: 100%;
+    /* Full width for better control */
+    max-width: 600px;
+    /* Limit the max width for aesthetics */
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+    margin: auto;
+  }
+
+  .chat-bubble-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #e0e0e0;
+    // animation: shimmer 1.5s infinite linear;
+  }
+
+  .chat-bubble-skeleton-right {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #e0e0e0;
+    // animation: shimmer 1.5s infinite linear;
+  }
+
+  .incoming {
+    justify-content: flex-start;
+    background-color: #e0e0e0;
+    margin-inline-end: 40px;
+  }
+
+  .outgoing {
+    justify-content: flex-end;
+    background-color: #c0c0c0;
+    text-align: right;
+    margin-inline-start: 40px;
+  }
+
+  .avatar-skeleton {
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
+
+  .text-skeleton {
+    flex-grow: 1;
+    height: 15px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin: 0 10px;
+    /* Add space around the text */
+  }
+
+  .timestamp-skeleton {
+    width: 50px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+}
+
+.userChatDesign {
+  background-color: #f4f4f4;
+
+  .contact-list-skeleton {
+    width: 100%;
+    padding: 10px;
+    background-color: #f4f4f4;
+  }
+
+  .contact-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .avatar-skeleton {
+    width: 46px;
+    height: 44px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .info-skeleton {
+    flex-grow: 1;
+  }
+
+  .name-skeleton {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .details-skeleton {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    width: 30%;
+  }
+}
+
+.checkboxSelectioncard {
+  .job-source-skeleton {
+    width: 250px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+
+  .skeleton-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 9px;
+  }
+
+  .skeleton-checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .skeleton-text {
+    flex-grow: 1;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+}
+
+.loader-mini-size {
+  .loader-overlay {
+    position: absolute;
+    /* Position relative to the parent div */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Light background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader-circle {
+    width: 47px;
+    height: 47px;
+    border: 6px solid #f3f3f3;
+    border-top-color: #63cfbe;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.Notification {
+  .notification-card-skeleton {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 12px;
+    background-color: #f4f4f4;
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    height: 65px;
+    border-radius: 9px;
+  }
+
+  .avatar-skeleton {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .text-skeleton {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .full-width {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  .short-width {
+    width: 100px;
+  }
+}
+
+.connectionscard {
+  .contact-card-skeleton {
+    width: 260px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-skeleton {
+    width: 60px;
+    height: 60px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+  }
+
+  .sendmsg-skeleton {
+    background-color: #e0e0e0;
+    height: 25px;
+    float: right;
+  }
+}
+
+.faq {
+  .faq-skeleton {
+    width: 90%;
+    /* Adjust based on the container width */
+    margin: auto;
+  }
+
+  .faq-item-skeleton {
+    background-color: #f0f0f0;
+    padding: 20px 20px;
+    margin-bottom: 5px;
+    border-radius: 9px;
+  }
+
+  .text-skeleton {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .arrow-skeleton {
+    width: 20px;
+    /* Approximate width of an arrow icon */
+    height: 20px;
+    /* Approximate height of an arrow icon */
+    background-color: #e0e0e0;
+    clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+    /* Downward triangle shape */
+    float: right;
+    margin-top: -18px;
+    margin-inline-end: -20px;
+  }
+}
+
+.pricing {
+  .pricing-page-skeleton {
+    width: 990px !important;
+    max-width: 990px !important;
+    margin: auto;
+    // background: #fff;
+  }
+
+  .header-pricecard {
+    max-width: 990px !important;
+    margin: auto;
+    background: #fff;
+    margin-bottom: 12px;
+    padding: 1px;
+  }
+
+  .h-30 {
+    height: 30px;
+    margin-top: 15px;
+  }
+
+  .header-skeleton .text-skeleton.large {
+    width: 60%;
+    height: 30px;
+    background-color: #e0e0e0;
+    background: #fff;
+    margin-bottom: 20px;
+  }
+
+  .itemcenter {
+    justify-content: center !important;
+  }
+
+  .headerpage-button {
+    width: 30%;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 20px;
+  }
+
+  .plan-cards-skeleton {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .plan-card-skeleton {
+    width: 45%;
+    background-color: #f0f0f0;
+    padding: 22px;
+    border-radius: 5px;
+    margin-right: 15px;
+    background: #fff;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .text-skeleton.medium {
+    width: 80%;
+    height: 35px;
+    margin-top: 16px;
+  }
+
+  .text-skeleton.small {
+    width: 100%;
+    height: 30px;
+  }
+
+  .text-skeletonstartat {
+    width: 20%;
+    height: 20px;
+  }
+
+  .button-skeleton {
+    width: 50%;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .pricedummycard-ui {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 25px;
+    background: #fff;
+  }
+
+  .yearmonth {
+    margin-top: 15px;
+    width: 80%;
+    height: 55px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    border-radius: 25px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .upgrade {
+    margin-top: 15px;
+    width: 100%;
+    height: 55px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .table-skeleton .text-skeleton.medium {
+    width: 90%;
+    height: 20px;
+    margin-bottom: 5px;
+  }
+
+  .table-skeleton .text-skeleton.small {
+    width: 90%;
+    height: 15px;
+    margin-bottom: 5px;
+  }
+
+  .number-list-skeleton {
+    width: 100%;
+    padding: 20px;
+    background-color: #f4f4f4;
+    background: #fff;
+  }
+
+  .skeleton-block {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .skeleton-divider {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+    opacity: 0.5;
+    /* Make the dividers less pronounced */
+  }
+}
+
+.jobcardlarge {
+  .card-skeleton {
+    width: 100%;
+    // max-width: 830px;
+    padding: 7px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 11px;
+  }
+
+  .header-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .avatar-skeleton {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+  }
+
+  .info-skeleton {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .name {
+    width: 350px;
+    height: 20px;
+  }
+
+  .title {
+    width: 410px;
+    height: 15px;
+  }
+
+  .experience {
+    width: 200px;
+    height: 15px;
+  }
+
+  .status-skeleton {
+    width: 80px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .details-skeleton {
+    margin-bottom: 10px;
+  }
+
+  .location {
+    width: 550px;
+    height: 15px;
+  }
+
+  .salary {
+    width: 100px;
+    height: 15px;
+  }
+
+  .footer-skeleton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .icon-skeleton {
+    width: 80px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+}
+
+.timelinedesign {
+  .timeline-skeleton {
+    padding: 20px;
+    border-left: 2px solid #e0e0e0;
+    /* Vertical line */
+    position: relative;
+  }
+
+  .timeline-item-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .circle-skeleton {
+    width: 30px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    position: absolute;
+    left: -35px;
+    /* Adjust to position the circle */
+  }
+
+  .content-skeleton {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+
+  .title {
+    width: 150px;
+    height: 15px;
+  }
+
+  .date {
+    width: 100px;
+    height: 10px;
+  }
+
+  .shimmer {
+    background-image: linear-gradient(to right, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+    background-size: 200% 100%;
+  }
+}
+
+.smallcarduidesign {
+  .job-list-skeleton {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .job-item-skeleton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+  }
+
+  .checkbox-skeleton {
+    width: 20px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .avatar-skeleton {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .content-skeleton {
+    flex-grow: 1;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+
+  .text-skeleton.title {
+    width: 60%;
+    height: 20px;
+  }
+
+  .text-skeleton.location {
+    width: 40%;
+    height: 15px;
+  }
+
+  .shimmer {
+    background-image: linear-gradient(to right, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+    background-size: 200% 100%;
+  }
+}
+
+.likeviewcard {
+  .mb-10{
+    margin-bottom: 10px !important;
+  }
+
+  .card-skeleton {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    /* Adjust based on your design */
+    margin: auto;
+    /* Center align the card */
+  }
+
+  .avatar-skeleton {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .info-skeleton {
+    flex-grow: 1;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 5px;
+   }
+
+  .text-skeleton.name {
+    width: 150px;
+    height: 20px;
+  }
+
+  .text-skeleton.role {
+    width: 200px;
+    height: 15px;
+  }
+
+  .text-skeleton.timestamp {
+    width: 100px;
+    height: 10px;
+  }
+
+  .icon-skeleton {
+    width: 20px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+}
+
+.candidateDetails{
+  .page-skeleton {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .section-skeleton {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    padding: 15px;
+  }
+
+  .header-skeleton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .text-skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+   }
+
+  .text-skeleton.header {
+    width: 50%;
+    height: 20px;
+  }
+
+  .icons-skeleton {
+    display: flex;
+  }
+
+  .icon-skeleton {
+    width: 20px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+
+  .content-skeleton {
+    padding-left: 20px;
+  }
+
+  .text-skeleton.content-line {
+    width: 80%;
+    height: 15px;
+  }
+  .shimmer {
+    background-image: linear-gradient(to right, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+    background-size: 200% 100%;
+   }
+
+}
+//table skeleton
+ /* Skeleton Loader Styles */
+ .billing-history-skeleton {
+  .skeleton {
+    background: #ddd;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-header {
+    height: 20px;
+    width: 100%;
+  }
+
+  .skeleton-cell {
+    height: 20px;
+    width: 100%;
+  }
+
+  .skeleton-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures equal width columns */
+  }
+
+  .skeleton-table th,
+  .skeleton-table td {
+    padding: 10px; /* Adjust padding as needed */
+    width: calc(100% / 6); /* Ensure each column has equal width for 6 columns */
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ddd;
+  }
+  50% {
+    background-color: #ccc;
+  }
+  100% {
+    background-color: #ddd;
+  }
+}
+
+ //usercard
+
+.usercard-skeleton {
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+}
+
+.panel-body,
+.panel-footer {
+  padding: 5px; /* Adjust padding as needed */
+}
+
+.img-circle {
+  width: 50px; /* Adjust image width */
+  height: 50px; /* Adjust image height */
+  border-radius: 50%;
+  background: #e0e0e0;
+  margin-bottom: 5px; /* Adjust margin-bottom for spacing */
+}
+
+.skeleton-text {
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 5px; /* Adjust margin-bottom for spacing */
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 15px; /* Reduce height */
+}
+
+.skeleton-subtitle {
+  width: 90%;
+  height: 12px; /* Reduce height */
+}
+
+.skeleton-footer-text {
+  width: 80%;
+  height: 12px; /* Reduce height */
+}
+
+.skeleton-btn {
+  width: 80px; /* Adjust button width */
+  height: 25px; /* Adjust button height */
+  margin-bottom: 5px; /* Adjust margin-bottom for spacing */
+}
+
+.skeleton-btn-group {
+  width: 40px; /* Adjust button group width */
+  height: 25px; /* Adjust button group height */
+  margin-top: 5px; /* Adjust margin-top for spacing */
+}
+
+.skeleton-icon {
+  width: 15px; /* Adjust icon width */
+  height: 15px; /* Adjust icon height */
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+//network card
+.networkcard-skeleton {
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+}
+
+.panel-body,
+.panel-footer {
+  padding: 10px; /* Adjust padding as needed */
+}
+
+.skeleton-text {
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 10px; /* Adjust margin-bottom for spacing */
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 20px; /* Adjust height */
+}
+
+.skeleton-subtitle {
+  width: 100%;
+  height: 15px; /* Adjust height */
+}
+
+.skeleton-footer-text {
+  width: 80%;
+  height: 15px; /* Adjust height */
+}

@@ -1,0 +1,66 @@
+<div class="business-list-view col-md-12 padding-right-0 padding-left-0">
+
+    <div class="business-list-view-search CommNav post-box-shadow margin-bottom-5 margin-right-5">
+        <div class="Bnav">
+            <div class="Bnav-item-1">
+                <label class=" control-label font-bold font-size-bold" data-toggle="tooltip" data-placement="top"
+                    title="{{values.bussinessName}}">{{values.bussinessName }}
+                </label>
+                <div>
+                    <p *ngIf="pendingList?.length>1">{{pendingList?.length}} Employee<span
+                            *ngIf="pendingList?.length>1">s </span></p>
+                    <p *ngIf="pendingList?.length === 1">{{pendingList?.length}} Request received</p>
+
+                </div>
+            </div>
+            <div class="Bnav-item-2">
+                <div>
+                    <div class="input-group">
+                        <!-- <input type="text" class="form-control" placeholder="Search Employee" [(ngModel)]="empSearch"
+                            [ngModelOptions]="{standalone: true}"  (keyup)="keyupdata($event)" (keyup.enter)="onsearch(empSearch)" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-addon"  (click)="onsearch(empSearch)" id="my_btn" ><i class="pe-7s-search"    ></i></span>            -->
+
+                        <input type="text" class="form-control" placeholder="Search Employee" [(ngModel)]="searchKey"
+                            [ngModelOptions]="{standalone: true}" aria-label="Amount (to the nearest dollar)">
+                        <span class="dummyBtn"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="Bnav-item-3">
+                <div class="btn-group " dropdown container="body">
+                    <button id="button-container" style="min-width: 90px !important;"
+                        class="btn btn-primary dropdown-toggle btn-sm" dropdownToggle
+                        aria-controls="dropdown-container">
+                        <i class="pe-7s-filter"></i>
+                    </button>
+                    <ul id="dropdown-container" *dropdownMenu class="dropdown-menu m-l-43 " role="menu"
+                        aria-labelledby="button-container">
+                    </ul>
+                </div>
+            </div>
+            <div class="Bnav-item-4">
+                <button class="btn primary-btn btn-sm" disabled>Advance Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="col-sm-12 col-md-6 col-lg-4 sdpoo padding-right-5 padding-left-0"
+            *ngFor="let data of pendingList | customFilter:{userName:searchKey}:false;index as i ">
+            <app-user-card [userIdInput]="data.userId" [config]="userCardConfig" [button]="'PRIMARY'"
+                [adminFlag]="values.adminviewnavigation" [refresh]="true" [userDataInput]='data'>
+            </app-user-card>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="pendingList.length==0">
+        <div class="cp margin-top-12">
+            <div class="promp-align">
+                <p>
+                    You have no pending employee requests.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>

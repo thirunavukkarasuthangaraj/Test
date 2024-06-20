@@ -1,0 +1,307 @@
+<app-langding-page-nav-bar></app-langding-page-nav-bar>
+<div class="container " style="margin-top: 83px;">
+
+  <div class="panel-body faqheader">
+    <a class="small-header-action">
+      <div class="clip-header">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+    </a>
+
+    <h2 class="font-light m-b-xs f-w-800 ">
+      FAQ
+    </h2>
+  </div>
+
+
+  <div class="col-sm-3">
+    <div class="hpanel panel-group accordion" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel-body" style="height: 85vh; cursor: pointer;">
+
+        <ul class="mailbox-list cat-list-item-" id="myDIV" style="font-weight: bold;" >
+          <li class="nonecls" (click)="clickitem('General',1)">
+            <a [ngClass]="{'active': title=='General'}"> General </a>
+          </li>
+            <li class="nonecls" (click)="clickitem('Referral FAQ',2)">
+            <a [ngClass]="{'active': title=='Referral FAQ'}">Referral FAQ</a>
+          </li>
+          <!-- <li class="nonecls" (click)="clickitem('Credit Consumption-Matrix',2)">
+            <a [ngClass]="{'active': title=='Credit Consumption-Matrix'}">Credit Consumption-Matrix</a>
+          </li>   -->
+          <!-- <li class="nonecls" (click)="clickitem('Website Resources',3)">
+            <a [ngClass]="{'active': title=='Website Resources'}">Website Resources</a>
+          </li> -->
+
+        </ul>
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="col-sm-9">
+    <div class="hpanel panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel-body">
+        <h4 class="m-t-none m-b-none page-headeer">{{title}} </h4>
+      </div>
+
+
+      <div class="panel-body" style="height: 85vh; overflow: auto;">
+
+      <app-common-skeleton *ngIf="loadAPIcall" [countforView]="15" [NameOftheScreen]="'faq'"></app-common-skeleton>  
+
+        <ngb-accordion *ngIf="title!='Credit Consumption-Matrix' && !loadAPIcall " #acc="ngbAccordion" activeIds="ngb-panel-0"
+          class="ngb-accordion">
+          <ng-container *ngFor="let data of faqresponse?.faqList">
+            <ngb-panel>
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <span class="card-header- tab-title"><b> {{data.question}}</b></span>
+                <i class="fa fa-chevron-down pull-right text-muted"></i>
+              </ng-template>
+
+              <ng-template ngbPanelContent>
+                <span class="expand-item" [innerHTML]="data?.answer"> </span>
+              </ng-template>
+
+            </ngb-panel>
+          </ng-container>
+
+
+        </ngb-accordion>
+
+
+
+        <ng-container *ngIf="title=='Credit Consumption-Matrix'">
+
+          <div>
+            <div class="col-sm-6">
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">POST</th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (daily per active job /candidate)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Job </td>
+                        <td class="faq-table-align" > {{getelement(getName.CREATE_JOB)?.points}} </td>
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Candidate </td>
+                        <td class="faq-table-align">{{getelement(getName.CREATE_CANDIDATE)?.points}}</td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+              </div>
+
+
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">VIEW</th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (1st time the activity is performed)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value"> Job </td>
+                        <td class="faq-table-align"> {{getelement(getName.JOB_VIEW)?.points}}</td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value"> Supplier Candidate </td>
+                        <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}} </td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value"> Jobseeker </td>
+                        <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}} </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">INVITE </th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (per invite sent)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Supplier Candidate </td>
+                        <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}}</td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value"> Jobseeker </td>
+                        <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}} </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">Request Resume </th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (per request sent)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Supplier candidate Resume</td>
+                        <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}}</td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value"> Jobseeker Resume </td>
+                        <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}} </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+
+            <div class="col-sm-6">
+
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">UPGRADE</th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (daily per active upgraded job /candidate)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Job </td>
+                        <td class="faq-table-align"> {{getelement(getName.UPGRADED_JOB)?.points}}</td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Candidate </td>
+                        <td class="faq-table-align">{{getelement(getName.UPGRADE_CANDIDATE)?.points}}</td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+
+              <div style="margin-top: 20px;">
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">APPLY</th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed
+                          <br>
+                          <span style="font-size: 10px;"> (per job applied)</span>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Client Job </td>
+                        <td class="faq-table-align"> {{getelement(getName.JOB_APPLY)?.points}}</td>
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">SI Job </td>
+                        <td class="faq-table-align">{{getelement(getName.SI_JOB_APPLY)?.points}}</td>
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Prime Vendor/ Staffing Agency </td>
+                        <td class="faq-table-align">{{getelement(getName.PRIME_VENDORE)?.points}}</td>
+                      </tr>
+
+
+                      <tr>
+                        <td class="faq-table-align-value">Vendor Job </td>
+                        <td class="faq-table-align">{{getelement(getName.VENDOR_JOB_APPLY)?.points}}</td>
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Freelancer Job </td>
+                        <td class="faq-table-align">{{getelement(getName.FREELANCER_JOB_APPLY)?.points}}</td>
+                      </tr>
+
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+
+
+
+
+
+            </div>
+
+          </div>
+
+        </ng-container>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</div>

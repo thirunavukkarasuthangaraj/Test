@@ -1,0 +1,247 @@
+.b-g-clr {
+  background-color: #fff;
+}
+
+.sticktherecss {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 86px;
+}
+
+.modal-dialog {
+  width: 606px;
+}
+
+.borderLine {
+  position: relative;
+  top: -2px;
+}
+
+.consume {
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.pull-right {
+  margin-top: -15px;
+  margin-right: -12px;
+}
+
+.modal-candheader {
+  padding: 0px 20px;
+  height: 70px;
+  background: #f7f9fa;
+  background-color: #63cfbe;
+  color: #fff;
+}
+
+.modal.in .modal-dialog {
+  width: 607px;
+}
+
+.scroll-bar {
+  width: 869px;
+  height: 300px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.scroll-two {
+  width: 869px;
+  height: 185px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.noti-chat-icon {
+  background: #ff0000;
+  color: #fff;
+  margin-left: 4px;
+  border-radius: 20px;
+}
+
+.modal-header {
+  padding: 16px 30px;
+  background: #f7f9fa;
+  background-color: #63cfbe;
+  color: #fff;
+}
+
+.hpanel .panel-heading {
+  background-color: #fff !important;
+}
+
+.suggestionStick {
+  // position: -webkit-sticky;
+  position: -webkit-sticky;
+  position: sticky;
+  // top: 0;
+  top: -150px;
+}
+
+.biase {
+  color: #8f9090;
+}
+
+.paddo {
+  padding-right: 49px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.custom-checkbox {
+  margin-top: 0px !important;
+}
+
+.errr-msg {
+  color: #c3002f;
+  float: right;
+  padding-right: 72px;
+}
+
+.filter-hdr-pos {
+  // height: 78px;
+  padding: 11px 20px !important;
+  margin: 0px 14px 5px 14px;
+}
+
+.shdwcon {
+  box-shadow: 0px 3px 5px #81889387;
+}
+
+.flt-ret {
+  display: flex;
+  flex-direction: row-reverse;
+  column-gap: 3px;
+}
+
+.wertpoi {
+  height: 19px;
+}
+
+.xcbha {
+  margin-bottom: 6px;
+  border-radius: 0px;
+  border: none;
+  background: #fff;
+  // margin: -5px;
+  box-shadow: 0 2px 7px;
+}
+
+.well-lg {
+  margin: -5px !important;
+}
+
+
+.background-accod {
+  background-color: #fff;
+  padding-right: 1px !important;
+}
+
+.titlefi {
+  justify-content: space-evenly;
+  display: flex;
+}
+
+.text-filter-header {
+  cursor: pointer;
+}
+
+hr {
+  margin-top: 9px;
+  margin-bottom: 6px;
+  border: 0;
+  border-top: 1px solid #eaeaea;
+  margin-right: -13px;
+}
+
+
+
+::ng-deep {
+  .ngbAccordions .card-header {
+
+    // font-family: "Poppins";
+    // margin-top: 10px;
+    // padding: 6px;
+    // color: #111;
+    // font-size: 19px;
+    // // background-color: #ebebeb;
+    button.btn.btn-link.ng-star-inserted i {
+      transform: rotate(180deg) !important;
+      margin-left: 10px;
+      // margin-left: 100%;
+    }
+
+    button.btn.btn-link.ng-star-inserted.collapsed i {
+      transform: rotate(0deg) !important;
+    }
+
+    //  button.btn.btn-link.ng-star-inserted {
+    //   padding-left: 0;
+    //   width: 100%;
+    //   text-align: left;
+    //   border-bottom: 1px solid #eee;
+    // }
+
+    //  .collapse .card-body {
+    //   padding: 15px 0;
+    // }
+
+    button.btn.btn-link.ng-star-inserted i {
+      transform: rotate(180deg) !important;
+    }
+
+    button.btn.btn-link.ng-star-inserted.collapsed i {
+      transform: rotate(0deg) !important;
+    }
+
+    button.btn.btn-link.ng-star-inserted {
+      padding-left: 0;
+      width: 100%;
+      text-align: left;
+      // border-bottom: 1px solid #eee;
+    }
+  }
+}
+
+.flexs {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px;
+}
+
+.tab-title {
+  margin-left: 15px;
+}
+
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.candidate-widget-width {
+  width: 20.666667%;
+  padding-right: 0;
+}
+
+.candidate-listing-width {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 5px;  /* You can change the width of the scrollbar */
+}
+
+/* This styles the scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

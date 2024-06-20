@@ -1,0 +1,131 @@
+<div class="hpanel contact-panel pointer-hover" (click)="CommunityData(community)"  [ngClass]="{'deactivated': community?.status=='INACTIVE' && community?.isSuperAdmin==false}"
+ style="margin-bottom: 0px!important" >
+
+  <div [ngClass]="{'deactivated': community?.status=='INACTIVE' && community?.isSuperAdmin==false}" class="panel-body border-radius-top-left-right-6 border-radius-bottom-left-right-0 padding-top-10 padding-bottom-10 msojs"
+    (click)="CommunityData(community)">
+
+    <div class="ywosj">
+        <div>
+          <div class="svg-background-community">
+            <app-svg-templates class="svg-position" [svgType]="'COMMUNITY'"></app-svg-templates>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="community?.isSuperAdmin==true" [ngClass]="{'iewbdlq': community?.status=='INACTIVE' && community?.isSuperAdmin==true}" class="iewbdl" id="the-dropdown" dropdown
+        (click)="$event.stopPropagation();">
+        <a id="button-animated"
+          dropdownToggle class="m-r-10">
+          <img src="assets/icon/icon-vert-thr-dot.png" alt="" height="25px" srcset="" >
+        </a>
+        <ul id="dropdown-animated" id="the-dropdowns" *dropdownMenu class="dropdown-menu zloipfhh m-l-81" role="menu"
+          aria-labelledby="button-animated">
+          <li *ngIf="community?.status=='INACTIVE'"  role="menuitem" dropdown>
+            <a class="dropdown-item common-font-12 padd" dropdownToggle
+              (click)="activate(community);$event.stopPropagation();">Activate Community</a>
+          </li>
+          <li *ngIf="community?.status=='ACTIVE'"  role="menuitem" dropdown>
+            <a class="dropdown-item common-font-12 padd" dropdownToggle
+              (click)="deactivate(community);$event.stopPropagation();">Deactivate Community</a>
+          </li>
+        </ul>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class=community-card-content>
+      <div class="row">
+        <div class="col-sm-10">
+          <h3 [ngClass]="{'deactivated': community?.status=='INACTIVE' && community?.isSuperAdmin==false}" class="ellipse eyia" >
+            <a [ngClass]="{'deactivated': community?.status=='INACTIVE' && community?.isSuperAdmin==false}" class="font-bold" style="font-size: 16px;" data-toggle="tooltip" data-placement="top"
+            title="{{ community.communityName}}">
+            {{community.communityName }} </a></h3>
+        </div>
+        <div class="col-sm-2">
+          <p *ngIf="community?.isSuperAdmin === true ">
+            <span><img class="crown" title="Owner" src="assets/icon/crown_.PNG" alt=""></span>
+          </p>
+          <p *ngIf="community?.isAdmin === true ">
+            <span><img class="crown" title="Owner" src="assets/icon/admin_cogs.PNG" alt=""></span>
+          </p>
+
+        </div>
+      </div>
+
+      <!-- <p *ngIf="community?.isSuperAdmin !== true && community.ownerFullName"  title="{{ community.ownerFullName}}" class="sdjfhj">By
+        {{community.ownerFullName}}</p> -->
+
+      <div class="text-muted font-bold m-b-xs" *ngIf="community.communityType">Private</div>
+      <div class="text-muted font-bold m-b-xs" *ngIf="!community.communityType ">Public</div>
+      <p class="ellipse" >
+        {{community.tagLine }}
+      </p>
+      <!--<div class="row padding-left-15 padding-right-15">
+            <button class="btn primary-btn btn-sm btn-block" *ngIf="community.joined == undefined || community.joined == null || !community.joined">Join Group</button>
+            <button class="btn primary-btn btn-sm btn-block" *ngIf="community.joined != undefined && community.joined != null && community.joined">Leave Community</button>
+        </div>-->
+    </div>
+  </div>
+  <div class="panel-footer kotkl border-radius-top-left-right-0 contact-footer pdd">
+    <div class="row">
+      <div class="col-md-6 border-right">
+        <div class="contact-stat">
+          <span>Members: </span>
+          <strong *ngIf="community.memberCnt == null || community.memberCnt == undefined">0</strong>
+          <strong *ngIf="community.memberCnt != null || community.memberCnt != undefined">
+            {{community.memberCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="contact-stat">
+          <span>Post: </span>
+          <strong *ngIf="community.postCnt == null || community.postCnt == undefined">0</strong>
+          <strong *ngIf="community.postCnt != null || community.postCnt != undefined">{{community.postCnt}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+<div class="business-banner-top post-box-shadow" >
+    <div class="business-banner">
+      <div class="banner-shadow"></div>
+      <img alt="logo" style="width: 100%;" *ngIf= "community.commLog == undefined || community.commLog == null" class=" m-b"
+      src="assets/images/gallery/a131.png">
+     <img alt="logo" style="width: 100%;" *ngIf= "community.commLog != undefined || community.commLog != null"
+      class=" m-b" src={{community.commLog}}>
+
+   </div>
+
+   <div class="row business-details" >
+     <div>
+          <div class="col-md-8">
+            <p class="business-name common-font-12"><a>{{community.communityName}}</a></p>
+           </div>
+     </div>
+
+   </div>
+   <div class="panel-footer contact-footer">
+     <div class="row">
+         <div class="col-md-6 border-right"> <div class="contact-stat common-font-12"><span>Members: </span>
+           <strong *ngIf ="community.memberCnt == null || community.memberCnt == undefined">0</strong>
+           <strong *ngIf ="community.memberCnt != null || community.memberCnt != undefined"> {{community.memberCnt}}</strong>
+         </div> </div>
+         <div class="col-md-6 border-right"> <div class="contact-stat"><span>Posts so far: </span>
+           <strong *ngIf ="community.postCnt == 0 || community.postCnt == undefined">0</strong>
+           <strong *ngIf ="community.postCnt == null || community.postCnt == undefined">{{community.postCnt}}</strong>
+         </div> </div>
+
+     </div>
+ </div>
+   <div class="row business-details">
+    <button class="btn primary-btn btn-sm btn-block">Join Group</button>
+   </div>
+   </div>
+-->

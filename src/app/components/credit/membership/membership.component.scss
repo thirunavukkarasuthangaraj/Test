@@ -1,0 +1,186 @@
+.mar-top-30 {
+  margin-top: 61px;
+  width: 155px;
+}
+
+.modal-dialog {
+  width: 330px !important;
+  margin: 30px auto;
+}
+
+.modal-header {
+  padding: 15px 15px 15px 15px !important;
+  /* background: white !important; */
+  border-radius: 3px;
+  background: #49a7a9;
+  color: #fff;
+}
+
+.modal-body {
+  padding: 0px 15px !important;
+}
+
+.modal-footer {
+  background: #f7f9fa;
+  border-radius: 3px !important;
+  padding: 4px;
+  text-align: center;
+}
+
+.credit-title {
+  font-size: 15px;
+  color: #fff;
+}
+
+.close-icoon {
+  font-weight: 400;
+  font-size: 26px;
+  color: #fff;
+}
+
+.modal-title {
+  font-size: 19px;
+  font-weight: 300;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 3px 6px 0;
+  float: left;
+  line-height: normal;
+}
+
+.m-t-6 {
+  margin-top: 6px;
+}
+
+.txt-al-ce {
+  text-align: center;
+}
+
+.m-b-9 {
+  margin-bottom: 9px;
+}
+
+@keyframes bottomarrowAnimation {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(19px);
+  }
+}
+
+.bottomarrow {
+  width: 0;
+  height: 0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-top: 23px solid #3498db;
+  margin: 0 auto;
+  animation: bottomarrowAnimation 1s infinite;
+}
+
+
+@keyframes uparr {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.uparrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 16px solid #3498db;
+  margin: 0 auto;
+  animation: uparr 1s infinite;
+}
+
+
+
+@keyframes rightArr {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(24px);
+  }
+}
+
+.right-arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid red;
+  /* Change the color if needed */
+  margin: 0 auto;
+  animation: rightArr 1s infinite;
+}
+
+
+.table-lrbt {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  // margin-inline-start: -10px;
+}
+
+.dongrade-model {
+  background-color: #fff;
+  height: 80vh;
+}
+
+.candidate-list-scroll {
+  height: 58vh !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+}
+
+.candidate-job-list-scroll {
+  height: 58vh !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-view-members {
+
+  display: flex !important;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: left;
+  width: 100%;
+  padding-left: 14px;
+}
+
+.btn-plan-style {
+  display: flex;
+  align-items: center;
+  column-gap: 7px;
+}
+
+.plan-info-text {
+  display: grid;
+  justify-items: center;
+  font-size: x-small;
+  text-align: left;
+  padding: 7px;
+  margin-top: 8px;
+  border-radius: 3px;
+}

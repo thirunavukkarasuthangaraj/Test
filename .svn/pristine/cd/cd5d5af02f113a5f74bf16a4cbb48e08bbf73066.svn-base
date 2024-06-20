@@ -1,0 +1,28 @@
+.p {
+  font-size: 16px;
+  font-style: inherit;
+  font-weight: bold;
+}
+
+.flex-container {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.background {
+  margin-top: 57px;
+  background-color: white;
+}
+/*# sourceMappingURL=login.component.css.map */

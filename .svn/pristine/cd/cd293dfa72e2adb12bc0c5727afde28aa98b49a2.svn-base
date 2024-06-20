@@ -1,0 +1,49 @@
+export class NetworkUser {
+  networkOwnerId: String;
+  networkId: String;
+  networkName: String;
+  description: String;
+  status: any;
+  viewCnt: String;
+  postCnt: String;
+  memberCnt: String;
+  memberType: String;
+  isAdmin: boolean;
+  memberStatus: String;
+  name: String;
+  members: MemberData[];
+
+}
+
+
+export interface MemberData {
+  userId: String,
+  username: String,
+  firstName: String,
+  lastName: String,
+  title: String,
+  photo: String,
+  memberStatus: String;
+  image: String,
+  organisation: String,
+  email: String,
+  phoneNo: String,
+  city: String,
+  state: String,
+  country: String,
+  connected: false,
+  isAdmin: boolean,
+  connection: String,
+  connectionStatus: String,
+  connectionCnt: number,
+  postCnt: number,
+  userType: String,
+  schoolName: String,
+  searchText: String,
+  status: String,
+  networkMemberId: String,
+  memberUserId: String,
+  networkId: String,
+  memberedOn: String,
+  networkName: String
+}
