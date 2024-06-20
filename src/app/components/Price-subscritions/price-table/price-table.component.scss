@@ -1,0 +1,174 @@
+.faq-menu-item{
+  margin-top: 6px;
+  text-align: initial;
+  margin-bottom: 15px;
+  font-size: 19px;
+}
+.card.ng-star-inserted{
+  background-color: #ebebeb !important;
+}
+
+// .card .card-header .btn .btn-link{
+//   background-color: #ebebeb;
+//   color: #333;
+//   font-size: 17px;
+// }
+
+button.btn.btn-link.ng-star-inserted.collapsed{
+  background-color: #ebebeb;
+  color: #333;
+  font-size: 17px;
+}
+
+.card-header-{
+  // background-color: #ebebeb;
+  // color: #333;
+  font-size: 17px;
+ }
+
+.accordion .card .card-header{
+   background: #ebebe8 !important;
+
+}
+
+
+
+.faqheader{
+  background-color: #63cfbe;
+  color: #fff;
+  margin-bottom: 16px;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-family: 'Roboto';
+}
+.white{
+  background-color: #fff;
+}
+.page-headeer{
+    font-weight: 800;
+    color: #111;
+    font-size: 20px;
+    font-family: 'Roboto';
+}
+
+.f-w-800{
+  font-weight: 800;
+}
+
+.expand-item{
+  font-family: 'Roboto';
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.cat-list-item-{
+  margin-top: 6px;
+  text-align: initial;
+  margin-bottom: 15px;
+  font-size: 16px;
+  margin: -9px 0px 0px -16px;
+
+
+
+ }
+ .mailbox-list ul li a.active{
+  background-color: #4CAF50;
+  color: white;
+  }
+
+  .active{
+    background: #eaeaea;
+   }
+
+    ::ng-deep  {
+      .ngb-accordion .card-header  {
+          font-family: "Poppins";
+          margin-top: 10px;
+          padding: 6px;
+          color: #111;
+          font-size: 19px;
+          background-color: #ebebeb;
+           button.btn.btn-link.ng-star-inserted i {
+            transform: rotate(180deg) !important;
+          }
+
+           button.btn.btn-link.ng-star-inserted.collapsed i {
+            transform: rotate(0deg) !important;;
+          }
+
+           button.btn.btn-link.ng-star-inserted {
+            padding-left: 0;
+            width: 100%;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+          }
+
+          //  .collapse .card-body {
+          //   padding: 15px 0;
+          // }
+      }
+
+
+}
+
+
+.faq-table-align{
+    width: 160px;
+    text-align: center !important;
+}
+.faq-table-align-value{
+  width: 160px;
+  text-align: left !important;
+}
+
+.faq-tableheader{
+  background: #eee;
+  vertical-align: middle;
+
+}
+
+.upgradebutton{
+  /* display: inline-block; */
+  margin-inline-start: 164px;
+  border: 3px solid #ddd;
+
+  color: #fff;
+
+  font-size: 11px;
+
+  padding: 6px 20px;
+
+  margin-bottom: 5px;
+
+  border-radius: 3px;
+
+  -webkit-margin-end: 14px;
+
+  margin-top: -17px;
+
+  /* margin-inline-end: 14px; */
+
+  background: #63cfbe;
+
+  font-weight: 500;
+
+  transition: 0.3s linear;
+  margin-left: 692px;
+
+}
+.tdpayasyougo{
+  background: #ffff00;
+}
+.payasyouheader{
+  background: #ffff00; font-weight: 700; color: black;
+  text-align: center;
+}
+.theader{
+  font-weight: 700;  color: black;
+  text-align: center;
+}
+
+
+
+
+

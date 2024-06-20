@@ -1,0 +1,55 @@
+<div class="row margin-0">
+  <div class="col-md-12 padding-left-0 padding-right-0 margin-bottom-5" [class.sticky-nav]="landingsidesticky1" #landingside1>
+    <div class="hpanel">
+      <div class="navMain panel-body">
+        <div class="navIteam1">
+          <h4>Post</h4>
+        </div>
+        <div class="navIteam2 ">
+          <div class="input-group f-l">
+            <!-- <input type="text" class="form-control input-sm" placeholder="Search Post"
+              aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" />
+            <span class="input-group-addon"><i class="pe-7s-search"></i></span> -->
+
+            <input type="text" class="form-control input-sm" placeholder="Search Post"
+              aria-label="Amount (to the nearest dollar)" name="searchadmin" id="searchadmin" [(ngModel)]="searchKey" [ngModelOptions]="{standalone: true}"/>
+            <span class="dummyBtn"></span>
+          </div>
+        </div>
+
+        <!-- prasanna commented this anil wanted to remove this button-->
+
+        <!-- <div class="navIteam3">
+          <button class="btn btn-default btn-sm">
+            <span class="mr-5"> </span> Create Post
+          </button>
+        </div> -->
+        <!-- <div class="navIteam">
+          <div class="btn-group btn-group-sm" dropdown>
+            <button id="button-animated" dropdownToggle type="button" class="btn  btn-sm dropdown-toggle"
+              aria-controls="dropdown-animated">
+              <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset=""
+                  class="filimg" /></span>Filter
+            </button> 
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+<!-- </div>
+
+<div>
+  <div class="row"> -->
+    <div class="col-md-8 padding-left-0 padding-right-5">
+      <!-- <div class="mt-15"> -->
+        <app-bussiness-post [commonemit]="passdata"  [postView]="'owner' "[ownerView]="'owner'" ></app-bussiness-post>
+      <!-- </div> -->
+    </div>
+    <div class="col-md-4 padding-left-0 padding-right-0">
+      <div class="">
+        <app-common-widget [page]="'POST_PAGE'" [inputData]="'HOME'"  [userType]="'ALL'"></app-common-widget>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->

@@ -1,0 +1,23 @@
+.pad-24px {
+    padding: 0px 24px!important;
+}
+
+.empty-message-container {
+  display: grid;
+  row-gap: 33px;
+  justify-content: center;
+  justify-items: center;
+  position: relative;
+  top: 50px;
+
+
+  img {
+    vertical-align: middle;
+    height: 165px;
+  }
+
+  .empty-message {
+    font-weight: 400px;
+    font-size: 13px;
+  }
+}

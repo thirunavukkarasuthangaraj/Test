@@ -1,0 +1,131 @@
+<div class="hpanel business-menu-sticky">
+  <div class="panel-body p-0 business-menu border-radius-top-left-right-6">
+    <ul id="grouplist side-menu" class="list-group nav custom-post-menu ">
+      <ng-container>
+        <li class="list-group-item br-none cursor-ponit" [ngClass]="{'active':commondata.menu==='home'}"
+          (click)="menuclick('home')" routerLinkActive="router-link-active">
+          <span class="nav-label">Home </span>
+
+        </li>
+        <li class="list-group-item br-none cursor-ponit" [ngClass]="{'active':commondata.menu==='about'}"
+          (click)="menuclick('about')" routerLinkActive="router-link-active">
+          <span class="nav-label"> About us </span>
+
+        </li>
+
+        <div>
+          <div class="ty">
+            <div class="br-none business-menu-dropdown " [ngClass]="{'subactive':commondata.menu === 'employee'}">
+              <div class="panel-tools" *ngIf="commondata.adminviewnavigation">
+                <a (click)="employeeRequestFlag = !employeeRequestFlag" [attr.aria-expanded]="!employeeRequestFlag">
+                  <i *ngIf="employeeRequestFlag" class="fa fa-chevron-down"></i>
+                  <i *ngIf="!employeeRequestFlag" class="fa fa-chevron-up"></i>
+                </a>
+              </div>
+              <div class="cursor-ponit" (click)="menuclick('employee')" routerLinkActive="active">
+                Employees
+                <span class="join-req" *ngIf="commondata.adminviewnavigation && reqPendinCnt>0 ">{{reqPendinCnt}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="custom-panel" *ngIf="commondata.adminviewnavigation" [collapse]="employeeRequestFlag"
+            [isAnimated]="true">
+            <ul id="grouplist" class="list-group cursor-ponit ">
+              <ng-container>
+                <li class="list-group-item active cursor-ponit br-none"
+                  [ngClass]="{'subactive':commondata.menu==='requestsReceived'}" (click)="menuclick('requestsReceived')"
+                  routerLinkActive="router-link-active" class="common-font-12"> Manage Employees
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+
+
+        <div>
+          <div class="ty">
+            <div class="br-none business-menu-dropdown" [ngClass]="{'subactive':commondata.menu==='follower'}">
+              <div class="panel-tools" *ngIf="commondata.adminviewnavigation">
+                <a (click)="followerRequestFlag = !followerRequestFlag" [attr.aria-expanded]="!followerRequestFlag">
+                  <i *ngIf="followerRequestFlag" class="fa fa-chevron-down"></i>
+                  <i *ngIf="!followerRequestFlag" class="fa fa-chevron-up"></i>
+                </a>
+              </div>
+              <div class="cursor-ponit" (click)="menuclick('follower')" routerLinkActive="active"
+                [attr.aria-expanded]="!followerRequestFlag"> Followers
+                <span class="join-req"
+                  *ngIf="followerRequestFlag && commondata.adminviewnavigation && visitorsCnt>0">{{visitorsCnt}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="custom-panel" *ngIf="commondata.adminviewnavigation" [collapse]="followerRequestFlag"
+            [isAnimated]="true">
+            <ul id="grouplist" class="list-group cursor-ponit ">
+              <ng-container>
+                <li class="list-group-item active br-none cursor-ponit"
+                  [ngClass]="{'subactive':commondata.menu==='followerRequestsSent'}"
+                  (click)="menuclick('followerRequestsSent')" routerLinkActive="router-link-active"
+                  class="common-font-12"> Invites Sent
+                  <span class="join-req"
+                    *ngIf="visitorsCnt>0 && commondata.adminviewnavigation && !followerRequestFlag">{{visitorsCnt}}</span>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+
+        <li class="list-group-item br-none cursor-ponit" [ngClass]="{'active':commondata.menu==='community'}"
+          (click)="menuclick('community')" routerLinkActive="router-link-active">
+          <span class="nav-label"> Communities</span>
+        </li>
+        <li class="list-group-item br-none cursor-ponit" disabled [ngClass]="{'active':commondata.menu==='Jobs'}"
+          (click)="menuclick('Jobs')" routerLinkActive="router-link-active">
+          <span class="nav-label">Jobs </span>
+        </li>
+
+        <li class="list-group-item br-none cursor-ponit" disabled [ngClass]="{'active':commondata.menu==='anayltics'}"
+          *ngIf="this.commondata.adminviewnavigation" (click)="menuclick('anayltics')"
+          routerLinkActive="router-link-active">
+          <span class="nav-label">Analytics </span>
+        </li>
+        <div>
+          <div class="ty">
+            <div class="br-none business-menu-dropdown " *ngIf="commondata.adminviewnavigation"
+              (click)="managePageFlag = !managePageFlag">
+              <div class="panel-tools" *ngIf="commondata.adminviewnavigation">
+                <a [attr.aria-expanded]="!managePageFlag">
+                  <i (click)="!managePageFlag" *ngIf="managePageFlag" class="fa fa-chevron-down"></i>
+                  <i (click)="managePageFlag" *ngIf="!managePageFlag" class="fa fa-chevron-up"></i>
+                </a>
+              </div>
+              <div class="cursor-ponit" routerLinkActive="active" [attr.aria-expanded]="!managePageFlag">
+                Manage Page
+              </div>
+            </div>
+          </div>
+          <div class="custom-panel" *ngIf="commondata.adminviewnavigation" [collapse]="managePageFlag"
+            [isAnimated]="true">
+            <ul id="grouplist" class="list-group cursor-ponit ">
+              <ng-container>
+                <li class="list-group-item active cursor-ponit br-none"
+                  [ngClass]="{'subactive':commondata.menu==='pageadmin'}" (click)="menuclick('pageadmin')"
+                  routerLinkActive="router-link-active" class="common-font-12"> Page Admin
+                </li>
+                <li class="list-group-item active cursor-ponit br-none" *ngIf="isSuperAdmin === 'true'"
+                  [ngClass]="{'subactive':commondata.menu==='securitySettings'}" (click)="menuclick('securitySettings')"
+                  routerLinkActive="router-link-active" class="common-font-12"> Security Settings
+                </li>
+                <li class="list-group-item active cursor-ponit br-none" *ngIf="isSuperAdmin === 'true'"
+                  [ngClass]="{'subactive':commondata.menu==='deactivate'}" (click)="menuclick('deactivate')"
+                  routerLinkActive="router-link-active" class="common-font-12"> Deactivate Page
+                </li>
+
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+
+      </ng-container>
+    </ul>
+  </div>
+</div>

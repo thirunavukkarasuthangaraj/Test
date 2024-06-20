@@ -1,0 +1,119 @@
+<div class="hpanel margin-bottom-5"  *ngIf="userType!='JOB_SEEKER' &&  userType!='student'">
+  <div class="panel-heading hbuilt wig-c">{{headerTitle}} </div>
+  <div class="panel-body" style="padding: 0">
+    <a (click)="routeToReferal()" class="referImgSec">
+      <img src="assets/images/referfriend.png" style="width: 100%" />
+      <div class="refCreditCount">
+        <h2>Get 5 - Give 5</h2>
+        <p>Sumo credits</p>
+      </div>
+      <h1></h1>
+    </a>
+  </div>
+</div>
+
+
+<ng-template #inviteUser>
+  <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
+  <!-- <div class="modal-dialog"> -->
+  <div class="modal-content modalHeight">
+
+    <div class="modal-header padheader" style="border-radius: 5px;" >
+      <button
+        type="button"
+        class="close pull-right mt"
+        aria-label="Close"
+        (click)="closeInviteModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div style="margin: 1rem;">
+        <label> Invite coworkers  to be part of your Network </label>
+      </div>
+    </div>
+    <div class="modal-body  paddd">
+      <div class="row">
+        <div class="col-md-7 bder">
+          <form [formGroup]="connectionRequest" class="mrgtop">
+            <!-- <input type="text" placeholder="email@mail.com" formControlName="email" class="form-control"> -->
+            <label for="message">Email</label>
+            <tag-input
+              class="tag-align"
+              [formControlName]="'email'"
+              name="email"
+              id="email"
+              [addOnPaste]="true"
+              [editable]="true"
+              [placeholder]="'Enter Email Address'"
+              [secondaryPlaceholder]="'Enter Email Address'"
+              [pasteSplitPattern]="splitPattern"
+              [modelAsStrings]="true"
+              [errorMessages]="errorMessages"
+              [validators]="validators"
+               [separatorKeyCodes]="[32, 188, 9, 186]"
+            >
+            </tag-input>
+            <small>For multiple invites, enter the email and hit enter.</small>
+            <div
+              *ngIf="connectionRequest.controls.email.touched &&
+                connectionRequest.controls.email.dirty ">
+              <div class="error" style="color: #c3002f" *ngIf="connectionRequest.controls.email.errors?.required">
+                This field is required
+              </div>
+
+              <!-- <button type="button" class="btn btn-primary"  type="submit">Invite</button> -->
+            </div>
+            <!-- <div class="mr">
+              <a> <i class="fa fa-plus"></i> <span class="ml-10">import contacts</span></a>
+            </div> -->
+            <div class="mt40">
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control wd" formControlName="msg" id="message" rows="6"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-5">
+          <div class="mrgtop">
+            <label for="">How it works?</label>
+          </div>
+          <div>
+            <p>GigSumo will email the invitees to join your network.</p>
+            <p>They will be able to connect, share and colloborate with you</p>
+          </div>
+          <div>
+            <img src="assets/icon/inviteImg.png" alt="" srcset="" class="hun">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer" style="border-radius: 5px;">
+
+      <button class="btn primary-btn btn-xs" (click)="closeInviteModal()" >Cancel</button>
+
+      <button
+        type="button"
+        class="btn primary-btn btn-xs"
+        type="submit"
+        [disabled]="connectionRequest.invalid || inviteDisable"
+        (click)="invitation()"
+      >
+        <!-- <button type="button" class="btn primary-btn btn-xs" type="submit"
+       (click)="invitation()"> -->
+        <i
+          class="fa fa-spinner fa-spin fa-fw"
+          aria-hidden="true"
+          *ngIf="inviteDisable"
+        ></i>
+        Invite
+      </button>
+    </div>
+  </div>
+  <!-- </div> -->
+  <!-- </div> -->
+</ng-template>
+
+
+

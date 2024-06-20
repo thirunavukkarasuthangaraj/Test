@@ -1,0 +1,219 @@
+<aside *ngIf="localUser" class="hpanel">
+  <div class="panel-body border-radius-bottom-left-right-6 pad-0">
+    <ul class="nav" id="side-menu">
+      <ng-container>
+        <div class="ty" id="profile">
+          <div class="list-item" [ngClass]="{'active':pageName == 'personalProfile'}">
+            <div class="cursor-ponit" [routerLink]="['/personalProfile']" [queryParams]="{userId: data.userId}"
+              (click)="menuClick('personalProfile')" routerLinkActive="active">
+              <span style="margin-right: 1.3rem;">
+                <svg width="15px" height="15px" viewBox="0 0 20 20" version="1.1"
+                  xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -2159.000000)" fill="#000000">
+                      <g id="icons" transform="translate(56.000000, 160.000000)">
+                        <path
+                          d="M100.562548,2016.99998 L87.4381713,2016.99998 C86.7317804,2016.99998 86.2101535,2016.30298 86.4765813,2015.66198 C87.7127655,2012.69798 90.6169306,2010.99998 93.9998492,2010.99998 C97.3837885,2010.99998 100.287954,2012.69798 101.524138,2015.66198 C101.790566,2016.30298 101.268939,2016.99998 100.562548,2016.99998 M89.9166645,2004.99998 C89.9166645,2002.79398 91.7489936,2000.99998 93.9998492,2000.99998 C96.2517256,2000.99998 98.0830339,2002.79398 98.0830339,2004.99998 C98.0830339,2007.20598 96.2517256,2008.99998 93.9998492,2008.99998 C91.7489936,2008.99998 89.9166645,2007.20598 89.9166645,2004.99998 M103.955674,2016.63598 C103.213556,2013.27698 100.892265,2010.79798 97.837022,2009.67298 C99.4560048,2008.39598 100.400241,2006.33098 100.053171,2004.06998 C99.6509769,2001.44698 97.4235996,1999.34798 94.7348224,1999.04198 C91.0232075,1998.61898 87.8750721,2001.44898 87.8750721,2004.99998 C87.8750721,2006.88998 88.7692896,2008.57398 90.1636971,2009.67298 C87.1074334,2010.79798 84.7871636,2013.27698 84.044024,2016.63598 C83.7745338,2017.85698 84.7789973,2018.99998 86.0539717,2018.99998 L101.945727,2018.99998 C103.221722,2018.99998 104.226185,2017.85698 103.955674,2016.63598"
+                          id="profile_round-[#1342]">
+                        </path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              <span class="elps"> Profile</span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="custom-panel" [collapse]="!dropFlag" [isAnimated]="true">
+              <ul id="grouplist" class="list-group  ">
+                <ng-container>
+                  <li class="list-group-item cursor-point br-none" (click)="menuClick('workExperience')"
+                    [ngClass]="{'active' : pageName === 'workExperience'}" routerLinkActive="router-link-active"> <span
+                      class="elps" style="margin-left: 4.6rem;">Work Experience</span>
+                  </li>
+                  <li class="list-group-item cursor-point br-none" [ngClass]="{'active' : pageName === 'education'}"
+                    (click)="menuClick('education')" routerLinkActive="router-link-active"> <span class="elps"
+                      style="margin-left: 4.6rem;">Education</span>
+                  </li>
+                  <li class="list-group-item cursor-point br-none" [ngClass]="{'active' : pageName === 'certification'}"
+                    (click)="menuClick('certification')" routerLinkActive="router-link-active"> <span class="elps"
+                      style="margin-left: 4.6rem;">Certification</span>
+                  </li>
+                  <li class="list-group-item cursor-point br-none" (click)="menuClick('socialInfluence')"
+                    [ngClass]="{'active' : pageName === 'socialInfluence'}" routerLinkActive="router-link-active"> <span
+                      class="elps" style="margin-left: 4.6rem;">Social Influence</span>
+                  </li>
+                </ng-container>
+              </ul>
+            </div> -->
+
+
+        <li class="list-item" [ngClass]="{'active' : pageName === 'settings'}" (click)="menuClick('settings')" style="cursor: pointer;
+       border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+          <span style="margin-right: 1.2rem;">
+            <!-- <i class="fas fa-cog fa-lg"></i> -->
+            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="#1C274C" stroke-width="1.5" />
+              <path
+                d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
+                stroke="#1C274C" stroke-width="1.5" />
+            </svg>
+          </span>
+          <span class="elps"> Security Settings</span>
+        </li>
+
+        <ng-container *ngIf="showmenu">
+          <li class="list-item" [ngClass]="{'active' : pageName === 'Membership'}" (click)="menuClick('Membership')"
+            style="cursor: pointer;
+          border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.2rem;">
+              <!-- <i class="fas fa-users fa-lg"></i> -->
+              <svg width="20px" height="20px" viewBox="0 0 16 16" version="1.1"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path fill="#444" d="M15 3v10h-14v-10h14zM16 2h-16v12h16v-12z"></path>
+                <path fill="#444" d="M8 5h6v1h-6v-1z"></path>
+                <path fill="#444" d="M8 7h6v1h-6v-1z"></path>
+                <path fill="#444" d="M8 9h3v1h-3v-1z"></path>
+                <path fill="#444"
+                  d="M5.4 7h-0.4v-0.1c0.6-0.2 1-0.8 1-1.4 0-0.8-0.7-1.5-1.5-1.5s-1.5 0.7-1.5 1.5c0 0.7 0.4 1.2 1 1.4v0.1h-0.4c-0.9 0-1.6 0.7-1.6 1.6v2.4h5v-2.4c0-0.9-0.7-1.6-1.6-1.6z">
+                </path>
+              </svg>
+            </span>
+            <span class="elps"> Membership </span>
+          </li>
+
+          <li class="list-item" [ngClass]="{'active' : pageName === 'referrals'}" (click)="menuClick('referrals')"
+            style="cursor: pointer;
+             border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.2rem;">
+              <!-- <i class="fas fa-share fa-lg"></i> -->
+              <svg width="20px" height="20px" viewBox="0 -0.5 25 25" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M14.734 15.8974L19.22 12.1374C19.3971 11.9927 19.4998 11.7761 19.4998 11.5474C19.4998 11.3187 19.3971 11.1022 19.22 10.9574L14.734 7.19743C14.4947 6.9929 14.1598 6.94275 13.8711 7.06826C13.5824 7.19377 13.3906 7.47295 13.377 7.78743V9.27043C7.079 8.17943 5.5 13.8154 5.5 16.9974C6.961 14.5734 10.747 10.1794 13.377 13.8154V15.3024C13.3888 15.6178 13.5799 15.8987 13.8689 16.0254C14.158 16.1521 14.494 16.1024 14.734 15.8974Z"
+                  stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="elps">Referrals </span>
+          </li>
+          <li class="list-item" [ngClass]="{'active' : pageName === 'credits'}" (click)="menuClick('credits')" style="cursor: pointer;
+             border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.9rem;"><i class="fa fa-credit-card"></i></span>
+            <span class="elps"> Credits </span>
+          </li>
+        </ng-container>
+        <!-- <li class="list-item" (click)="menuClick('Plans_and_Features')"
+            [ngClass]="{'active' : pageName === 'Plans_and_Features'}" style="cursor: pointer;
+        border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.2rem;"><i class="fa fa-file-invoice fa-lg"></i></span>
+            <span class="elps">Plans and Features</span>
+          </li> -->
+
+        <li class="list-item" [ngClass]="{'active' : pageName === 'appAccess'}" (click)="menuClick('appAccess')" style="cursor: pointer;
+      border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+          <span style="margin-right: 1.7rem;"><i class="far fa-check-circle fa-lg"></i></span>
+          <span class="elps">Application Access</span>
+        </li>
+        <!-- <li class="list-item" [ngClass]="{'active' : pageName === 'social'}" (click)="menuClick('social')" style="cursor: pointer;
+      border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.6rem;"><i class="fas fa-project-diagram"></i></span>
+            <span class="elps">Social Media Access</span>
+          </li> -->
+        <li class="list-item" (click)="menuClick('communities')" [ngClass]="{'active' : pageName === 'communities'}"
+          style="cursor: pointer;
+                          border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+          <span style="margin-right: 1.2rem;">
+            <!-- <i class="fas fa-users fa-lg"></i> -->
+            <svg version="1.1" id="Layer_1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 100 100" fill="#000000" width="20px" height="20px" style="enable-background:new 0 0 100 100;"
+              xml:space="preserve">
+              <g>
+                <path class="st0" d="M35.3,12.2L50,33.3l14.8-21.4c2.4-3.5-4.1-5.5-7,0C54.6,18,46,18.2,42.4,12.4C38.5,6.1,33,9,35.3,12.2
+                  L35.3,12.2z" />
+                <path class="st0"
+                  d="M84.7,84.6c2.6-2.6,2.6-6.7,0-9.2c-2.6-2.6-6.7-2.6-9.2,0c-2.6,2.6-2.6,6.7,0,9.2C77.9,87,82.1,87,84.7,84.6z" />
+                <path class="st0" d="M66.3,13l-4.6,25.4l25.7-4.6c4.3-0.8,1.2-6.9-4.9-5c-6.6,2-12.8-4-11.1-10.7C72.9,11.1,67.1,9,66.3,13L66.3,13
+                  z" />
+                <path class="st0" d="M88.2,57.9c-6.1-3.2-6.3-11.9-0.5-15.4c6.1-3.7,3.2-9.3,0-7L66.6,50.1L88,64.9C91.7,67.3,93.7,60.8,88.2,57.9
+                  L88.2,57.9z" />
+                <path class="st0"
+                  d="M50.2,66.7L35.3,88.1c-2.4,3.7,4,5.7,7,0.2c3.2-6.1,11.9-6.3,15.4-0.5c3.7,6.1,9.3,3.2,7,0L50.2,66.7z" />
+                <path class="st0" d="M87.1,66.4l-25.4-4.6l4.6,25.7c0.8,4.3,6.9,1.2,5-4.9c-2-6.6,4-12.8,10.7-11.1C89.1,73.1,90.9,67,87.1,66.4
+                  L87.1,66.4z" />
+                <path class="st0"
+                  d="M56.6,92.4c0-3.7-2.9-6.6-6.6-6.6s-6.6,2.9-6.6,6.6c0,3.7,2.9,6.6,6.6,6.6S56.6,96,56.6,92.4z" />
+                <path class="st0" d="M98.9,49.9c0,3.6-2.9,6.6-6.6,6.6c-3.6,0-6.6-2.9-6.6-6.6c0-3.6,2.9-6.6,6.6-6.6
+                  C95.9,43.4,98.9,46.3,98.9,49.9" />
+                <path class="st0" d="M24.6,84.7c2.6-2.6,2.6-6.7,0-9.2c-2.6-2.6-6.7-2.6-9.2,0c-2.6,2.6-2.6,6.7,0,9.2
+                  C18.1,87.2,22.2,87.2,24.6,84.7z" />
+                <path class="st0" d="M24.6,24.7c2.6-2.6,2.6-6.7,0-9.2c-2.6-2.6-6.7-2.6-9.2,0c-2.6,2.6-2.6,6.7,0,9.2
+                  C17.9,27.3,22.1,27.3,24.6,24.7z" />
+                <path class="st0"
+                  d="M7.7,56.6c3.7,0,6.6-2.9,6.6-6.6s-2.9-6.6-6.6-6.6c-3.5,0-6.6,2.9-6.6,6.6S4,56.6,7.7,56.6z" />
+                <path class="st0" d="M12.3,57.7c-6.1,3.7-3.2,9.3,0,7l21.1-14.7L12,35.3c-3.7-2.4-5.7,4.1-0.2,7C17.9,45.6,18.1,54.2,12.3,57.7
+                  L12.3,57.7z" />
+                <path class="st0" d="M17.5,71.6c6.6-2,12.8,4,11.1,10.7c-1.7,7,4.3,8.9,4.9,5L38.1,62l-25.7,4.6C8.3,67.3,11.5,73.4,17.5,71.6
+                  L17.5,71.6z" />
+                <path class="st0" d="M12.9,33.7l25.4,4.6l-4.6-25.7c-0.8-4.3-6.9-1.2-5,4.9c2,6.6-4,12.8-10.7,11.1C10.9,27,9.1,33.1,12.9,33.7
+                  L12.9,33.7z" />
+                <path class="st0" d="M84.5,24.7c2.6-2.6,2.6-6.7,0-9.2c-2.6-2.6-6.7-2.6-9.2,0c-2.6,2.6-2.6,6.7,0,9.2
+                  C77.8,27.2,81.9,27.2,84.5,24.7z" />
+                <path class="st0"
+                  d="M49.8,14.2c3.7,0,6.6-2.9,6.6-6.6s-2.9-6.6-6.6-6.6S43.3,4,43.3,7.6C43.4,11.3,46.3,14.2,49.8,14.2z" />
+              </g>
+            </svg>
+          </span>
+          <span class="elps">Communities</span>
+        </li>
+
+
+        <li  *ngIf="userType!='JOB_SEEKER'" c class="list-item panel-body border-radius-bottom-left-right-6" (click)="menuClick('billing')" [ngClass]="{'active' : pageName === 'billing'}"
+          routerLinkActive="router-link-active">
+          <span style="margin-right: 1.5rem;">
+            <svg width="20px" height="20px" viewBox="0 0 32 32" id="svg5" version="1.1"
+              xmlns:svg="http://www.w3.org/2000/svg">
+              <defs id="defs2" />
+              <g id="layer1" transform="translate(36,-148)">
+                <path
+                  d="m -28,150 c -2.749574,0 -5,2.25042 -5,5 v 22 a 1.0001,1.0001 0 0 0 1.832031,0.55469 L -30,175.80273 l 1.167969,1.75196 a 1.0001,1.0001 0 0 0 1.664062,0 L -26,175.80273 l 1.167969,1.75196 a 1.0001,1.0001 0 0 0 1.664062,0 L -22,175.80273 l 1.167969,1.75196 a 1.0001,1.0001 0 0 0 1.664062,0 L -18,175.80273 l 1.167969,1.75196 A 1.0001,1.0001 0 0 0 -15,177 v -12 h 7 a 1.0001,1.0001 0 0 0 1,-1 v -9 c 0,-2.74958 -2.2504259,-5 -5,-5 z m 0,2 h 12.007812 C -16.624083,152.83731 -17,153.87659 -17,155 v 1 8 9.69727 l -0.167969,-0.25196 a 1.0001,1.0001 0 0 0 -1.664062,0 L -20,175.19727 l -1.167969,-1.75196 a 1.0001,1.0001 0 0 0 -1.664062,0 L -24,175.19727 l -1.167969,-1.75196 a 1.0001,1.0001 0 0 0 -1.664062,0 L -28,175.19727 l -1.167969,-1.75196 a 1.0001,1.0001 0 0 0 -1.664062,0 L -31,173.69727 V 155 c 0,-1.6687 1.331303,-3 3,-3 z m 16,0 c 1.668697,0 3,1.3313 3,3 v 8 h -6 v -7 -1 c 0,-1.6687 1.331303,-3 3,-3 z"
+                  id="rect1587"
+                  style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none" />
+                <path d="m -28,162 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 4 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 z" id="path6019"
+                  style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none" />
+                <path d="m -28,165 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 8 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 z" id="path6021"
+                  style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none" />
+                <path d="m -28,168 a 1,1 0 0 0 -1,1 1,1 0 0 0 1,1 h 8 a 1,1 0 0 0 1,-1 1,1 0 0 0 -1,-1 z" id="path6023"
+                  style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none" />
+                <path
+                  d="m -28,155 a 1.0001,1.0001 0 0 0 -1,1 v 4 a 1.0001,1.0001 0 0 0 1,1 h 4 a 1.0001,1.0001 0 0 0 1,-1 v -4 a 1.0001,1.0001 0 0 0 -1,-1 z m 1,2 h 2 v 2 h -2 z"
+                  id="rect6025"
+                  style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.1;-inkscape-stroke:none" />
+              </g>
+            </svg>
+          </span>
+          <span class="elps">Billing</span>
+        </li>
+        <!-- <li *ngIf="userType!='JOB_SEEKER'" class="list-item" (click)="menuClick('pricing_summary')"
+            [ngClass]="{'active' : pageName === 'pricing_summary'}" style="cursor: pointer;
+                    border-radius: 0px; border: 0px;" routerLinkActive="router-link-active">
+            <span style="margin-right: 1.5rem;">
+              <i class="fa fa-file-invoice fa-lg" style="margin-left: 7px;"></i>
+              <svg width="20px" height="20px" viewBox="0 0 512 512" version="1.1"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>report-text</title>
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
+                    <path
+                      d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M149.333333,234.666667 L149.333333,266.666667 L85.3333333,266.666667 L85.3333333,234.666667 L149.333333,234.666667 Z M341.333333,234.666667 L341.333333,266.666667 L192,266.666667 L192,234.666667 L341.333333,234.666667 Z M149.333333,170.666667 L149.333333,202.666667 L85.3333333,202.666667 L85.3333333,170.666667 L149.333333,170.666667 Z M341.333333,170.666667 L341.333333,202.666667 L192,202.666667 L192,170.666667 L341.333333,170.666667 Z M149.333333,106.666667 L149.333333,138.666667 L85.3333333,138.666667 L85.3333333,106.666667 L149.333333,106.666667 Z M341.333333,106.666667 L341.333333,138.666667 L192,138.666667 L192,106.666667 L341.333333,106.666667 Z"
+                      id="Combined-Shape">
+                    </path>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="elps">Pricing Summary</span>
+          </li> -->
+      </ng-container>
+    </ul>
+  </div>
+</aside>

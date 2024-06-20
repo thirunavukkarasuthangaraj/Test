@@ -1,0 +1,447 @@
+<ng-container>
+  <form [formGroup]="candidateFilterForm">
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Candidate Source</b></span>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="source">
+      <div *ngFor="let jobs of jobSourcesFormarray.controls; let i=index">
+        <div [formGroupName]="i" class="row">
+          <div class="custom-checkbox col-sm-6" title="Search All filters">
+            <label class="checkbox-label font-normal">
+              <input type="checkbox" formControlName="allPlatFormCandidates"
+                (change)="jobSoucecheck($event,'allPlatFormCandidates')" />
+              <span class="checkmark" style="top: -5px"></span>
+              <p class="label-ppp"> Platform Candidates</p>
+            </label>
+          </div>
+          <div class="custom-checkbox col-sm-6" title="Search All filters"
+            *ngIf="userType!='JOB_SEEKER' && userType!='student'">
+            <label class="checkbox-label font-normal">
+              <input type="checkbox" formControlName="all" (change)="jobSoucecheck($event,'all')" />
+              <span class="checkmark" style="top: -5px"></span>
+              <p class="label-ppp"> All</p>
+            </label>
+          </div>
+          <div class="col-sm-6" *ngIf="owner">
+            <div class="custom-checkbox" title="Search My Candidates">
+              <label class="checkbox-label font-normal">
+
+                <input type="checkbox" formControlName="myCandidates" (change)="jobSoucecheck($event,'myCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <div>
+                  <p class="label-ppp"> {{(userType!='JOB_SEEKER' && userType !='student') ? 'My
+                    Candidates' : 'My Profile'}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!filterApplied && userType !='student'">
+            <div class="custom-checkbox" title="Search Bench Candidates">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="benchNetworkCandidates"
+                  (change)="jobSoucecheck($event,'benchNetworkCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Bench Sales Network</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!filterApplied && userType !='student'">
+            <div class="custom-checkbox" title="Search Freelancer Network">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="freeLancerNetworkCandidates"
+                  (change)="jobSoucecheck($event,'freeLancerNetworkCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Freelancer Network</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!filterApplied && userType !='student'">
+            <div class="custom-checkbox" title="Search MTA Network">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="mtaNetworkCandidates"
+                  (change)="jobSoucecheck($event,'mtaNetworkCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> MTA Network</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!filterApplied && userType !='student'">
+            <div class="custom-checkbox" title="Search Job seeker Network">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="jobSeekerNetworkCandidates"
+                  (change)="jobSoucecheck($event,'jobSeekerNetworkCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Job Seeker Network</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!filterApplied && userType !='student'">
+            <div class="custom-checkbox" title="Search Team Candidates">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="teamCandidates"
+                  (change)="jobSoucecheck($event,'teamCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Team Candidates</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!FeaSugg && !filterApplied">
+            <div class="custom-checkbox" title="Search Featured Candidates">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="featured" (change)="jobSoucecheck($event,'featured')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Featured Candidates</p>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="!FeaSugg && !filterApplied">
+            <div class="custom-checkbox" title="Search Suggested Candidates">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="suggestedCandidates"
+                  (change)="jobSoucecheck($event,'suggestedCandidates')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Suggested Candidates</p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Availability</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="custom-checkbox  col-sm-6" title="{{checkbox.label}}"
+        *ngFor="let checkbox of availablecheckbox;let i = index; let lastItem = last">
+        <label class="checkbox-label font-normal">
+          <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+            (change)="availabletype($event,checkbox.label)" />
+          <span class="checkmark" style="top: -5px"></span>
+          <p class="label-ppp"> {{ checkbox.label }}</p>
+        </label>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Engagement Type</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="custom-checkbox  col-sm-6" title="{{checkbox.label}}"
+        *ngFor="let checkbox of availableForCheckboxes;let i = index; let lastItem = last">
+        <label class="checkbox-label font-normal">
+          <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+            (change)="availableCheckboxChange($event,checkbox.label)" />
+          <span class="checkmark" style="top: -5px"></span>
+          <p class="label-ppp"> {{ checkbox.label }}</p>
+        </label>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Status</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="custom-checkbox  col-sm-6" title="{{checkbox.label |titlecase}}"
+        *ngFor="let checkbox of statusCheckboxes;let i = index; let lastItem = last">
+        <label class="checkbox-label font-normal">
+          <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+            (change)="statuscheck($event,checkbox.label)" />
+          <span class="checkmark" style="top: -5px"></span>
+          <p class="label-ppp"> {{ checkbox.label |titlecase}}</p>
+        </label>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Submission Status</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="custom-checkbox  col-sm-6" title="{{checkbox.value}}"
+        *ngFor="let checkbox of submissionFilter;let i = index; let lastItem = last">
+        <label class="checkbox-label font-normal ">
+          <input type="checkbox" [disabled]="jobfilter==true" name="trades" [checked]="checkbox.selected"
+            (change)="candidate_status_check($event,checkbox.itemId)" />
+          <span class="checkmark" style="top: -5px"></span>
+          <p class="label-ppp"> {{ checkbox.value | titlecase}}</p>
+        </label>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Location</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group app-form" [ngClass]="{'disabled': jobfilter==true}">
+      <div class="col-sm-6" style="padding-bottom: 7px">
+        <select class="form-control input-sm" formControlName="country" type="text"
+          (change)="onChangeCountry($event.target.value)">
+          <option value="null" selected>
+            Country
+          </option>
+          <option *ngFor="let country of countryList" [value]="country.countryCode">
+            {{ country.countryName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'US'">
+        <input type="text" placeholder="Zip Code" formControlName="zipCode" class="form-control input-sm"
+          (keyup)="onKeyZip($event)" />
+      </div>
+
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'CA'">
+        <select class="form-control input-sm" formControlName="state" type="text"
+          (change)="onChangestate($event.target.value)">
+          <option value="null" selected="true">
+            State
+          </option>
+          <option *ngFor="let state of stateListCA" [value]="state.stateName">
+            {{ state.stateName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'IN'">
+        <select class="form-control input-sm" formControlName="state" type="text"
+          (change)="onChangestate($event.target.value)">
+          <option value="null" selected="true">
+            State
+          </option>
+          <option *ngFor="let state of stateListIN" [value]="state.stateName">
+            {{ state.stateName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'AU'">
+        <select class="form-control input-sm" formControlName="state" type="text"
+          (change)="onChangestate($event.target.value)">
+          <option value="null" selected="true">
+            State
+          </option>
+          <option *ngFor="let state of stateListAU" [value]="state.stateName">
+            {{ state.stateName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-6" *ngIf="
+                          candidateFilterForm.value.country != 'AU' &&
+                          candidateFilterForm.value.country != 'IN' &&
+                          candidateFilterForm.value.country != 'CA' &&
+                          candidateFilterForm.value.country != 'US'
+                        ">
+        <input type="text" placeholder="State" formControlName="state" (change)="onChangestate($event.target.value)"
+          class="form-control input-sm" />
+      </div>
+    </div>
+    <div class="row form-group app-form">
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'US'">
+        <input type="text" placeholder="City" formControlName="city" (change)="onChangecity($event.target.value)"
+          class="form-control input-sm" />
+      </div>
+
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country != 'US'">
+        <input type="text" placeholder="City" formControlName="city" class="form-control input-sm"
+          (change)="onChangecity($event.target.value)">
+      </div>
+
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country != 'US'">
+        <input type="text" placeholder="zipcode" formControlName="zipCode"
+          (change)="onChangezipcode($event.target.value)" class="form-control input-sm" />
+      </div>
+      <div class="col-sm-6" *ngIf="candidateFilterForm.value.country == 'US'">
+        <input type="text" placeholder="State" formControlName="state" (change)="onChangestate($event.target.value)"
+          class="form-control input-sm" />
+      </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="showWorkAuthorization">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Work Authorization</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="showWorkAuthorization">
+      <div class="custom-checkbox  col-sm-6" title="{{checkbox.label}}"
+        *ngFor="let checkbox of WACheckboxes;let i = index; let lastItem = last">
+        <label class="checkbox-label font-normal">
+          <input type="checkbox" [disabled]="checkbox.disable" name="trades" [checked]="checkbox.selected"
+            (change)="workAuthcheckbox($event,checkbox.label)" />
+          <span class="checkmark" style="top: -5px"></span>
+          <p class="label-ppp"> {{ checkbox.label }}</p>
+        </label>
+      </div>
+    </div>
+    <hr *ngIf="showWorkAuthorization">
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <div class="filter-title">
+          <span><b> Work Type</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div formArrayName="workType">
+        <div *ngFor="let jobs of workTypeFormarray.controls; let i=index">
+          <div [formGroupName]="i">
+            <div class="custom-checkbox col-sm-6">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="all" (change)="workTypecheckbox($event,'all')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> All</p>
+              </label>
+            </div>
+            <div class="custom-checkbox col-sm-6">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="remoteWork" (change)="workTypecheckbox($event,'remoteWork')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Remote Work</p>
+              </label>
+            </div>
+            <div class="custom-checkbox col-sm-6">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="relocationRequired"
+                  (change)="workTypecheckbox($event,'relocationRequired')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Relocation Required</p>
+              </label>
+            </div>
+            <div class="custom-checkbox col-sm-6">
+              <label class="checkbox-label font-normal">
+                <input type="checkbox" formControlName="workFromHome"
+                  (change)="workTypecheckbox($event,'workFromHome')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> Work From Home</p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12" [ngClass]="{'disabled': jobfilter==true}">
+        <div class="filter-title form-group">
+          <span class="card-header- tab-title" for=""><b>Total Experience (Years)</b></span>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="experienceType" (change)="onExperienceValueChange()"
+            [value]="EXPERIENCE_ANY" style="display: none;" type="radio" id="exampleRadio0">
+          <label class="form-check-label custom-radio-label" for="exampleRadio0">
+            {{EXPERIENCE_ANY}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="experienceType" (change)="onExperienceValueChange()"
+            [value]="EXPERIENCE_JUNIOR" style="display: none;" type="radio" id="exampleRadio1">
+          <label class="form-check-label custom-radio-label" for="exampleRadio1">
+            {{EXPERIENCE_JUNIOR}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="experienceType" (change)="onExperienceValueChange()"
+            [value]="EXPERIENCE_MID_LEVEL" style="display: none;" type="radio" id="exampleRadio12">
+          <label class="form-check-label custom-radio-label" for="exampleRadio12">
+            {{EXPERIENCE_MID_LEVEL}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="experienceType" (change)="onExperienceValueChange()"
+            [value]="EXPERIENCE_SENIOR" style="display: none;" type="radio" id="exampleRadio3">
+          <label class="form-check-label custom-radio-label" for="exampleRadio3">
+            {{EXPERIENCE_SENIOR}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="experienceType" (change)="onExperienceValueChange()"
+            [value]="EXPERIENCE_ARCHITECT" style="display: none;" type="radio" id="exampleRadio4">
+          <label class="form-check-label custom-radio-label" for="exampleRadio4">
+            {{EXPERIENCE_ARCHITECT}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12" [ngClass]="{'disabled': jobfilter==true}">
+        <div class="filter-title form-group">
+          <span class="card-header- tab-title"><b>Posted (Days)</b></span>
+        </div>
+        <!-- <p>Days</p>
+        <div class="custom-slider">
+          <ngx-slider [(value)]="value1" (userChangeEnd)="onChangepostday($event)" [(highValue)]="highValue1"
+            [options]="options1"></ngx-slider>
+        </div> -->
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="postedDayRange" (change)="onPostedDaysChange()"
+            [value]="POSTED_ANY" style="display: none;" type="radio" id="exampleRadio00">
+          <label class="form-check-label custom-radio-label" for="exampleRadio00">
+            {{POSTED_ANY}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="postedDayRange" (change)="onPostedDaysChange()"
+            [value]="POSTED_TODAY" style="display: none;" type="radio" id="exampleRadio11">
+          <label class="form-check-label custom-radio-label" for="exampleRadio11">
+            {{POSTED_TODAY}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="postedDayRange" (change)="onPostedDaysChange()"
+            [value]="POSTED_LAST_7_DAYS" style="display: none;" type="radio" id="exampleRadio44">
+          <label class="form-check-label custom-radio-label" for="exampleRadio44">
+            {{POSTED_LAST_7_DAYS}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="postedDayRange" (change)="onPostedDaysChange()"
+            [value]="POSTED_LAST_14_DAYS" style="display: none;" type="radio" id="exampleRadio22">
+          <label class="form-check-label custom-radio-label" for="exampleRadio22">
+            {{POSTED_LAST_14_DAYS}}
+          </label>
+        </div>
+
+        <div class="custom-form-check">
+          <input class="form-check-input" formControlName="postedDayRange" (change)="onPostedDaysChange()"
+            [value]="POSTED_LAST_30_DAYS" style="display: none;" type="radio" id="exampleRadio33">
+          <label class="form-check-label custom-radio-label" for="exampleRadio33">
+            {{POSTED_LAST_30_DAYS}}
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

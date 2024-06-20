@@ -1,0 +1,53 @@
+<div class="container " style="margin-top: 100px;">
+  <div class="panel-body  ">
+    <a class="small-header-action">
+      <div class="clip-header">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="hpanel row white">
+    <div class="col-sm-6 ">
+      <div class="m-t-120">
+        <div class="text-center" *ngIf="!sessionExpired">
+          <i class="succes-btn fa fa-check fa-5x text-muted"></i>
+          <h2 class="m-b-xs succes-pay-text">Payment Successful</h2>
+
+          <!-- <h6 class="transaction"> Transaction Id : {{sess_response?.id }} </h6> -->
+
+          <!-- <hr> -->
+
+          <!-- <div class="flex">
+            <p class="font-bold">Amount Paid : </p>
+            <p class="font-bold m-l-12" > $ {{sess_response?.amount_total/100}}</p>
+          </div> -->
+
+          <!-- <button type="button" class="btn btn-primary m-t-30"  style="display: none;" (click)="back()"> Go Back  </button> -->
+
+        </div>
+
+
+        <div class="text-center" *ngIf="sessionExpired">
+          <i class="succes-btn fa fa-check fa-5x text-muted"></i>
+          <h2 class="m-b-xs succes-pay-text">Session Failed </h2>
+
+
+          <button type="button" class="btn btn-primary m-t-30" [routerLink]="['/plan-quota']">Try again </button>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+    <div class="col-sm-6 white">
+      <img width="100%" src="assets/icon/transfer_success.png">
+
+    </div>
+
+  </div>
+
+</div>

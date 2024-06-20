@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+    variables:
+        S3_BUCKET: "gigsumo-prod-ui-ohio"
+        BUILD_ENV: "prod"
+phases:
+ install:
+    runtime-versions:
+        nodejs: 12
+    commands:
+    - echo $CODEBUILD_SRC_DIR
+    - npm install -y npm@latest
+    - npm cache clean --force
+    - npm install -g @angular/cli@11.2.14
+    - rm package-lock.json
+ pre_build:
+    commands:
+    - npm install
+    - npm i -D typescript@4.0.3
+ build:
+    on-failure: ABORT
+    commands:
+    - echo build started on `date`
+    - ./node_modules/@angular/cli/bin/ng build -c=production
+    - ls -l -F
+ post_build:
+    commands:
+            # Clear S3 bucket.
+            - aws s3 rm s3://${S3_BUCKET} --recursive
+            - echo S3 bucket is cleared.
+            - aws s3 cp dist/Gigsumo s3://${S3_BUCKET} --recursive
+            - echo Build completed on `date`
+artifacts:
+    files:
+        - '**/*'
+    discard-paths: yes
+    base-directory: 'dist*'
+cache:
+  paths:
+    - node_modules/

@@ -1,0 +1,241 @@
+<div class="container helpContainer" style="width: 100%;">
+  <app-langding-page-nav-bar></app-langding-page-nav-bar>
+  <div id="wrappers">
+
+
+    <div class="normalheader">
+
+      <div class="hpanel">
+
+        <div class="panel-body mat-changes-for-tab">
+          <button class="btn primary-btn" (click)="goBack()"> <i class="fa fa-chevron-left" aria-hidden="true"></i> Go Help </button>
+          <h2 class="font-light m-b-xs font-for-help"> Welcome! How can we help? </h2>
+
+          <div class="search-container" style="display: flex; align-items: center;">
+            <mat-form-field appearance="fill">
+              <span class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+              <input class="search-box" matInput [formControl]="searchControl"
+                (input)="searchFilter()" placeholder="Search..." [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of temphelpDetails" (click)="viewPage(option)" [value]="option.question">
+                  {{option.question}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <button class="btn primary-btn searh-btn" (click)="searchFilter()"> Search  </button>
+            <button class="btn primary-btn searh-btn" (click)="clearfilter()"> Clear </button>
+
+
+          </div>
+
+
+          <ng-container *ngFor="let item of 5 | times; let i = index">
+            <app-common-skeleton *ngIf="loadAPIcall" [NameOftheScreen]="'helpModule'"></app-common-skeleton>
+          </ng-container>
+
+
+          <div class="col-sm-12" *ngIf="!loadAPIcall">
+           <h4 *ngIf="jobVideos?.length!=0" class="header-for-title_Module" >Jobs </h4>
+            <carousel  draggableCarousel [itemsPerSlide]="4" [singleSlideOffset]="true" [noWrap]="true" [interval]="0" id="valuesget">
+              <slide *ngFor="let video of jobVideos; let i = index" style="background: #fff !important; margin-top: -25px;" class="slide-page">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex; flex-wrap: nowrap;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+            <h4 *ngIf="candidateVideos?.length>0" class="header-for-title_Module" > Candidates   </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of candidateVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+            <h4 *ngIf="teamVideos?.length>0" class="header-for-title_Module" > Team </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of teamVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)" >
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+
+
+            <h4 *ngIf="networkVideos?.length>0" class="header-for-title_Module" > Network </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of networkVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+
+
+            <h4 *ngIf="connectionVideos?.length>0" class="header-for-title_Module" > Connections </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of connectionVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+
+            <h4 *ngIf="messageVideos?.length>0" class="header-for-title_Module" > Message </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of messageVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card" (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+
+            <h4 *ngIf="businessVideos?.length>0" class="header-for-title_Module" > Business </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of businessVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card"  (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+            <h4 *ngIf="generalVideos?.length>0" class="header-for-title_Module" > General </h4>
+            <carousel [itemsPerSlide]="4" draggableCarousel [singleSlideOffset]="true" [noWrap]="true"  [interval]="0">
+              <slide *ngFor="let video of generalVideos;  let i = index" style="background: #fff !important; margin-top: -25px;">
+                <div class="custom-slide video-gallery col-sm-3" style="display: flex;  flex-wrap: nowrap !important;">
+                  <div class="video-card"  (click)="openVideo(video, templateVideo)">
+                    <div class="video-thumbnail">
+                      <video #videoElements style="width: 100%; height: 130px;">
+                        <source [src]="video?.answer" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                      <button class="play-btn"></button>
+                    </div>
+                    <div class="video-info">
+                      <p class="videotimeing">{{video?.duration}}</p>
+                      <p class="video-title">{{video?.question}}</p>
+                    </div>
+                  </div>
+                 </div>
+              </slide>
+            </carousel>
+
+           </div>
+
+          <div class="cantactus">
+            <h4 class="font-light m-b-xs"> Can't find what you are looking for? </h4>
+            <p class="font-light m-b-xs"> Reach out with question or feedback anytime! </p>
+            <button class="btn primary-btn " (click)="ContactAdmin()"> Contact US </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="video-container" *ngIf="isVideoPaused">
+  <div class="row">
+    <h3 class="title-videoheader">{{seletedVideo?.question}}</h3>
+    <video autoplay #videoPlayernew controls id="videofile">
+      <source [src]="seletedVideo?.answer" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button class="close-btn" (click)="closeModel()">X</button>
+  </div>
+</div>
+
+
+
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)" style="z-index: -1;"
+  [messageDataPass]="messageData"> </app-message-widget>

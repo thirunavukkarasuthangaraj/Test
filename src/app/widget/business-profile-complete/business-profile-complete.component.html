@@ -1,0 +1,40 @@
+<div class="hpanel margin-bottom-5" >
+  <div class="panel-body border-radius-top-left-right-6 pad-5">
+    <div class="profile-first">
+      <div class="profile-img">
+        <circle-progress
+          [percent]="businessComplteData.completePercentage>100?100:businessComplteData.completePercentage"
+          [radius]="100" [outerStrokeWidth]="7" [outerStrokeColor]="'#34495e'" [animation]="true"
+          [animationDuration]="300" [showImage]="true" [showBackground]="true"
+          [imageSrc]="businessComplteData.businessLogo" [responsive]="true" [space]="3" data-toggle="tooltip"
+          data-placement="top"
+          title="{{businessComplteData.completePercentage>100?100:businessComplteData.completePercentage }}"
+          class="user-profile">
+        </circle-progress>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h4 class="profile-name ellipse" data-toggle="tooltip" data-placement="top"
+        title="{{businessComplteData.businessName }}">
+        {{businessComplteData.businessName }}
+      </h4>
+
+      <div class="profile-name ellipse" data-toggle="tooltip" data-placement="top"
+        title="{{businessComplteData.IndustryClassifications }} {{businessComplteData.facilityPracticeType}}">
+        {{businessComplteData.IndustryClassifications}} {{businessComplteData.facilityPracticeType}}
+      </div>
+
+    </div>
+    <hr>
+    <div class="profile-completion" data-toggle="tooltip" data-placement="top"
+      title="{{businessComplteData.completePercentage>100?100:businessComplteData.completePercentage}} %">
+      {{businessComplteData.completePercentage>100?100:businessComplteData.completePercentage}}%</div>
+    <!-- <div class="profile-com-text" data-toggle="tooltip" data-placement="top" title=" Complete Profile">Complete Profile
+    </div> -->
+    <div class="profile-com-btn" *ngIf="businessComplteData.completePercentage<100">
+      <button class="btn btn-primary btn-sm"
+        *ngIf="show && businessComplteData.businessAdmin || show && businessComplteData.superAdmin"
+        (click)="route(businessComplteData)">Complete Profile</button>
+    </div>
+  </div>
+</div>

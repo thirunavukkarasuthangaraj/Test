@@ -1,0 +1,277 @@
+<div class="outer-padding"
+  [class.landing-side1]="landingsidesticky1" #landingside1 >
+  <div class="inner-pad userbadge-body">
+    <div class="row">
+      <div class="col-lg-12" *ngIf="!loadAPIcall">
+        <div class="profile-first">
+          <div *ngIf="ProfileComplete?.photo !== null" class="profile-img">
+            <circle-progress [percent]="ProfileComplete?.completePercentage" [radius]="100" [outerStrokeWidth]="8"
+              [outerStrokeColor]="'#34495e'" [innerStrokeColor]="'#ffffff'" [animation]="true" [animationDuration]="300"
+              [showImage]="true" [showBackground]="true" [imageSrc]="ProfileComplete?.photo" [responsive]="true"
+              [space]="3" data-toggle="tooltip" data-placement="top" title="{{ ProfileComplete?.completePercentage }}"
+              (click)="route(ProfileComplete?.userId)" class="user-profile">
+            </circle-progress>
+          </div>
+          <div *ngIf="ProfileComplete?.photo === null" class="profile-img">
+            <circle-progress [percent]="ProfileComplete?.completePercentage" [radius]="100" [outerStrokeWidth]="8"
+              [outerStrokeColor]="getColor(ProfileComplete?.firstName, ProfileComplete?.lastName)"
+              [innerStrokeColor]="'#ffffff'" [animation]="true" [animationDuration]="300" [showImage]="true"
+              [showBackground]="true"
+              [imageSrc]="generateInitialsImageSrc(ProfileComplete?.firstName, ProfileComplete?.lastName)"
+              [responsive]="true" [space]="3" data-toggle="tooltip" data-placement="top"
+              title="{{ ProfileComplete?.completePercentage }}" (click)="route(ProfileComplete?.userId)"
+              class="user-profile">
+            </circle-progress>
+
+          </div>
+        </div>
+    
+        <div class="profile-info" >
+          <div class="profile-name text-ellipses-1 curpoint" (click)="route(ProfileComplete?.userId)"
+            data-toggle="tooltip" data-placement="top"
+            title="{{ ProfileComplete?.firstName }} {{ ProfileComplete?.lastName }}">
+            {{ ProfileComplete?.firstName }} {{ ProfileComplete?.lastName }}
+          </div>
+          <div class="profile-title text-ellipses-1" data-toggle="tooltip" data-placement="top"
+            title="{{ ProfileComplete?.title }} @{{ organizationname}}">
+            {{ title }} <span *ngIf="organizationname">@</span> {{
+              organizationname }}
+          </div>
+
+
+          <div class=" profile-title text-ellipses-1" data-toggle="tooltip" data-placement="top"
+            title="{{ ProfileComplete?.city }}{{ProfileComplete?.state}}">
+            {{ ProfileComplete?.city }}<span *ngIf="ProfileComplete?.city">{{ ", "}}</span>{{ ProfileComplete?.state }}
+          </div>
+        </div>
+        <div [ngbCollapse]="collapseProfileCompletion">
+
+          <!-- <div style="
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center; ">
+            <div class="profile-com-text" data-toggle="tooltip" data-placement="top"
+              title=" Profile Completion : {{ ProfileComplete?.completePercentage }}%">
+              Profile Completion : {{ ProfileComplete?.completePercentage }}%
+            </div>
+
+          </div> -->
+
+          <div class="profile-com-btn" *ngIf="userType == 'JOB_SEEKER'">
+            <button class="btn btn-primary btn-xs" *ngIf="show" (click)="route(ProfileComplete.userId)">
+              Complete Your Profile
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <hr class="ms-10-me-10"  *ngIf="!loadAPIcall">
+ 
+    <!-- <joyrideStep
+    *ngIf="shouldShowStep('start.tour')"
+    joyrideStep="start.tour"
+    title="Navigation Step2"
+    target="twoo"
+    text="This is the first step in the navigation bar."
+    (completed)="markStepCompleted('start.tour')"  >
+  </joyrideStep>  -->
+
+    <div id="twoo"  *ngIf="!loadAPIcall && userType === 'JOB_SEEKER'" class="panel-footer contact-footer ppd bt mt-6">
+      <div class="row ffllxx">
+
+        <div [routerLink]="['connection']" class="col-md-4 col-sm-12 padding-left-0 padding-right-0 border-right">
+          <div class="contact-stat">
+            <strong>{{ProfileComplete?.connectionCnt}}</strong>
+            <span style="font-size: 8px;">
+              CONTACTS
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="userType == 'JOB_SEEKER'" class="col-md-4 col-sm-12 padding-left-0 padding-right-0 border-right">
+          <div class="contact-stat">
+            <strong>{{ProfileComplete?.postCnt}}</strong>
+            <span style="font-size: 8px;">Post</span>
+          </div>
+        </div>
+
+        <div (click)="selectMenu('newcandidates')" [routerLink]="['/newcandidates']"
+          *ngIf="userType == 'JOB_SEEKER'  || userType == 'student'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 border-right">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.candidatesCount}}
+            </strong>
+            <span style="font-size: 8px;">Candidates</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel-footer contact-footer ppd bt mt-6 " *ngIf="!loadAPIcall && userType != 'JOB_SEEKER' ">
+      <div class="row ffllxx">
+
+        <div [routerLink]="['/planUsageTracking', 'Contacts']"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0">
+          <div class="contact-stat">
+            <div class="count-font-style">{{ planCount?.includedContactsCount }}</div>
+            <span style="font-size: 8px; margin-top: 5px;">
+              CONTACTS
+            </span>
+          </div>
+        </div>
+
+
+        <div *ngIf="userType === 'RECRUITER' || userType === 'BENCH_RECRUITER'"
+          [routerLink]="['/planUsageTracking' , userType === 'RECRUITER' ? 'Jobs' : 'Candidates' ]"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <div class="count-font-style">{{(userType === 'RECRUITER') ? activejobcount : activeCandidatesCount}}</div>
+            <span style="font-size: 8px; margin-top: 5px;">
+              {{ userType === 'RECRUITER' ? 'JOBS' : 'CANDIDATES'}}
+            </span>
+          </div>
+        </div>
+
+        <div [routerLink]="['/planUsageTracking' , 'Jobs & Candidates' ]"
+          *ngIf="userType === 'FREELANCE_RECRUITER' || userType === 'MANAGEMENT_TALENT_ACQUISITION'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <div *ngIf="gigsumoService?.jobCandidateCountUpdatedTo == null; else countChangedTo"
+              class="count-font-style">{{totalCount}}</div>
+            <span style="font-size: 8px; margin-top: 5px;">
+              Jobs & Candidates
+            </span>
+          </div>
+        </div>
+
+
+        <!-- <div  [routerLink]="['/planUsageTracking' , 'Resume Views' ]"  class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <div class="count-font-style" > {{planCount?.benefitsUsages[1].utilized}}</div>
+            <span style="font-size: 8px; margin-top: 5px;">
+              RESUME VIEW
+            </span>
+          </div>
+        </div> -->
+
+        <div [routerLink]="['/planUsageTracking', 'Active Interactions']" routerLinkActive="router-link-active"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0">
+          <div class="contact-stat">
+            <div class="count-font-style">{{ planCount?.interactionCount }}</div>
+            <span style="font-size: 8px; margin-top: 5px;">INTERACTIONS</span>
+          </div>
+        </div>
+
+
+
+        <!-- <div *ngIf="userType == 'student' ||  userType == 'JOB_SEEKER' || userType == 'other'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <strong>{{ProfileComplete?.postCnt}}</strong>
+            <span style="font-size: 8px;">Post</span>
+          </div>
+        </div>
+        <div *ngIf="userType == 'other'" class="col-md-4 col-sm-12 padding-left-0 padding-right-0">
+          <div class="contact-stat">
+            <strong>0</strong>
+            <span style="font-size: 8px;">
+              Likes
+            </span>
+          </div>
+        </div>
+
+        <div  (click)="addEntities('credits')" *ngIf="userType != 'student' &&  userType != 'JOB_SEEKER' &&  userType != 'other'" class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat" style="cursor: pointer;"  >
+            <strong>
+              {{ProfileComplete?.creditPoints}}
+            </strong>
+            <span style="font-size: 8px;">Credits </span>
+          </div>
+        </div>
+        <div (click)="selectMenu('newcandidates')" [routerLink]="['/newcandidates']" *ngIf="userType == 'JOB_SEEKER'  || userType == 'student'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.candidatesCount}}
+            </strong>
+            <span style="font-size: 8px;">Candidates</span>
+          </div>
+        </div>
+        <div (click)="selectMenu('newjobs')" [routerLink]="['/newjobs']" *ngIf="ownerType == 'JOB_OWNER'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.jobsCount}}
+            </strong>
+            <span style="font-size: 8px;">Jobs
+            </span>
+          </div>
+        </div>
+        <div (click)="selectMenu('newcandidates')" [routerLink]="['/newcandidates']" *ngIf="ownerType == 'CANDIDATE_OWNER'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.candidatesCount}}
+            </strong>
+            <span style="font-size: 8px;">Candidates </span>
+          </div>
+        </div>
+        <div (click)="selectMenu('newjobs')" [routerLink]="['/newjobs']" *ngIf="ownerType == 'JOB_AND_CANDIDATE_OWNER'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 ">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.jobsCount}}
+            </strong>
+            <span style="font-size: 8px;">Jobs
+            </span>
+          </div>
+        </div>
+        <div (click)="selectMenu('newcandidates')" [routerLink]="['/newcandidates']" *ngIf="ownerType == 'JOB_AND_CANDIDATE_OWNER'"
+          class="col-md-4 col-sm-12 padding-left-0 padding-right-0 border-left">
+          <div class="contact-stat">
+            <strong>
+              {{ProfileComplete?.candidatesCount}}
+            </strong>
+            <span style="font-size: 8px;">Candidates </span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+
+    <!-- <p *ngIf="userType != 'JOB_SEEKER' "class="more-label pointer"  (click)="viewMore()">More...</p> -->
+    <hr *ngIf="!loadAPIcall && userType != 'JOB_SEEKER'" class="ms-10-me-10">
+    <p *ngIf="!loadAPIcall && userType != 'JOB_SEEKER'" style="text-align: center;">You're on the
+      <span *ngIf="gigsumoService?.planUpdatedTo == null; else planChangedTo">
+        {{ PlanName }}
+      </span> Plan
+    </p>
+    <div *ngIf="!loadAPIcall && (userType != 'JOB_SEEKER' && planType != 'Team') || gigsumoService?.planUpdatedTo == 'Free'" class="profile-com-btn">
+      <button class="btn btn-primary btn-xs upgradebtn" (click)="upgrade()" [routerLink]="['/plan-quota']"> ✨
+        UPGRADE</button>
+    </div>
+
+    <app-common-skeleton *ngIf="loadAPIcall" [NameOftheScreen]="'userBadge'"></app-common-skeleton>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<ng-template #planChangedTo>
+  {{gigsumoService.planUpdatedTo}}
+</ng-template>
+
+<ng-template #countChangedTo>
+  <div class="count-font-style">
+    {{gigsumoService.jobCandidateCountUpdatedTo}}
+  </div>
+</ng-template>

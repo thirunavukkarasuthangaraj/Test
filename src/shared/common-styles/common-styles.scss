@@ -1,0 +1,37 @@
+// css styles written in this files is used repititively across modules.
+
+// legend
+// .shared-class = .s-c
+
+.s-c-tags {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.s-c-tag {
+    padding: 4px 8px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    width: max-content;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.s-c-tag-blue {
+    background-color: #3498db;
+    color: white;
+}
+
+.s-c-tag-green {
+    background-color: #27ae60;
+    color: white;
+}
+
+.s-c-tag-orange {
+    background-color: #e67e22;
+    color: white;
+}

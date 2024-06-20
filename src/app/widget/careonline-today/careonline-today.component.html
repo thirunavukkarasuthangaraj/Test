@@ -1,0 +1,27 @@
+<div class="hpanel margin-bottom-5">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="mt2 list-style-none mb1">
+          <li class="news-module__storyline" *ngFor="let item of user | slice: 0:3; let i = index">
+            <a  id="ember1695"
+              class="news-module__link link-without-hover-state block ember-view">
+              <div class="news-module__headline t-14 t-bold t-black truncate mt1 pr4 card-title-font">
+                Title Business/ Individual Name
+              </div>
+              <span class="news-module__subtext t-12 t-black--light t-normal inline-block full-width truncate pr3 card-subtitle-font">
+                4d ago • 4,678 readers
+              </span>
+            </a>
+          </li>
+        </ol>
+        <p style="float: right" *ngIf="user.length > 3">
+          <u><a  (click)="modelopen(user)">...More</a></u>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

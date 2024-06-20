@@ -1,0 +1,122 @@
+<div>
+  <div class="bg-head-card">
+    <h2 class="font-light m-b-xs f-w-800 ">
+      <p class="text-center"> Supersize your reach!! </p>
+    </h2>
+    <p class="tc">Customize and enhance your plan with additional features and limits.</p>
+    <div class="jcentre tc">
+
+      <div class="toggle-button-cover">
+        <span class="label label-warning mr-m-30"> Save up to 25% </span>
+        <div class="button r" id="button-1">
+          <input type="checkbox" class="checkbox" (click)="toggleclick($event)" />
+          <div class="knobs" id="val"></div>
+          <div class="layer"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-8 flex">
+    <div class="col-sm-3">
+      <p class="text-center"> </p>
+      <h3 class="pricing-card-header mb-40">Contacts</h3>
+      <ng-container *ngFor="let item of contactsJson; let i = index">
+        <div class="pricing-card" [ngClass]="{'borderbox': item.checked}" (click)="clickitem('contacts',i)">
+          <span class="label label-info mr-m-30" *ngIf="item.mostPopular"> Most Popular </span>
+          <i *ngIf="item.checked" class="fa fa-check-circle app-theme fs-20  checkbox-selected-add"></i>
+          <h3 class=" price"> {{item.contacts}} </h3>
+          <div class="price">
+            <span *ngIf="!Plan">${{item.price}} </span><span *ngIf="item.price>0 && !Plan">/MO</span>
+            <span *ngIf="Plan">${{item.price*12}} </span> <span *ngIf="item.price>0 && Plan">/YR</span>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+
+
+    <div class="col-sm-3">
+      <p class="text-center"> </p>
+      <h3 class="pricing-card-header">Active conversations</h3>
+      <ng-container *ngFor="let item of ActiveConversation; let i = index">
+        <div class="pricing-card" [ngClass]="{'borderbox': item.checked}" (click)="clickitem('conversation',i)">
+          <span class="label label-info mr-m-30" *ngIf="item.mostPopular"> Most Popular </span>
+          <i *ngIf="item.checked" class="fa fa-check-circle app-theme fs-20  checkbox-selected-add"></i>
+          <h3 class=" price"> {{item.contacts}}
+           </h3>
+          <div class="price">
+            <span *ngIf="!Plan">${{item.price}} </span><span *ngIf="item.price>0 && !Plan">/MO</span>
+            <span *ngIf="Plan">${{item.price*12}} </span> <span *ngIf="item.price>0 && Plan">/YR</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <!-- <div class="col-sm-3">
+      <p class="text-center"> </p>
+      <h3 class="pricing-card-header">Resume Views </h3>
+      <ng-container *ngFor="let item of resumeViews; let i = index">
+        <div class="pricing-card " [ngClass]="{'borderbox': item.checked}" (click)="clickitem('resume',i)">
+          <span class="label label-info mr-m-30" *ngIf="item.mostPopular"> Most Popular </span>
+          <i *ngIf="item.checked" class="fa fa-check-circle app-theme fs-20  checkbox-selected-add"></i>
+          <h3 class=" price"> {{item.contacts}}
+           </h3>
+          <div class="price">
+            <span *ngIf="!Plan">${{item.price}} </span><span *ngIf="item.price>0 && !Plan">/MO</span>
+            <span *ngIf="Plan">${{item.price*12}} </span> <span *ngIf="item.price>0 && Plan">/YR</span>
+          </div>
+        </div>
+      </ng-container>
+    </div> -->
+
+
+    <div class="col-sm-3">
+      <p class="text-center"> </p>
+      <h3 class="pricing-card-header"> Jobs/Candidate postings </h3>
+      <ng-container *ngFor="let item of jobCandidate; let i = index" >
+        <div class="pricing-card " (click)="clickitem('job',i)" [ngClass]="{'borderbox': item.checked}">
+          <span class="label label-info mr-m-30" *ngIf="item.mostPopular"> Most Popular </span>
+          <i *ngIf="item.checked" class="fa fa-check-circle app-theme fs-20  checkbox-selected-add"></i>
+          <h3 class=" price"> {{item.contacts}}   </h3>
+          <div class="price">
+            <span *ngIf="!Plan">${{item.price}} </span><span *ngIf="item.price>0 && !Plan">/MO</span>
+            <span *ngIf="Plan">${{item.price*12}} </span> <span *ngIf="item.price>0 && Plan">/YR</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+
+  <div  class="col-sm-4   ">
+
+     <h4 class="col-sm-12">Order Summary</h4>
+      <div class="summary_card  ">
+        <div class="card_item">
+          <p>Pro Plan Annual </p>
+          <p>Pro Plan Annual </p>
+
+
+        </div>
+
+        <hr>
+                  <!-- <div class="order_price">
+                    <p>Order summary</p>
+                    <h4>$400</h4>
+                  </div>
+                  <div class="order_service">
+                    <p>Additional Service</p>
+                    <h4>$10</h4>
+                  </div>
+                  <div class="order_total">
+                    <p>Total Amount</p>
+                    <h4>$370</h4>
+                  </div> -->
+      </div>
+
+
+  </div>
+</div>

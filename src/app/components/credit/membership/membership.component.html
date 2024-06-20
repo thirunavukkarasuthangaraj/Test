@@ -1,0 +1,225 @@
+<div class="hpanel" style="background: #fff;">
+  <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs">
+      <li><a [ngClass]="{'active': id=='1'}"
+          [ngStyle]="id=='1'&& {'background-color': '#cbe2ff', 'color':'block'} || id!='1' && {'background-color': 'white' ,'color':'#111'}"
+          data-toggle="tab" (click)="activeTab('1')">Membership </a></li>
+    </ul>
+  </ul>
+</div>
+<div>
+  <div class="tab-pane" [ngClass]="{'active': id=='1'}" id={{id}}>
+    <app-common-skeleton *ngIf="loadAPIcall" [countforView]="1"
+      [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+  </div>
+</div>
+
+    <div  *ngIf="!loadAPIcall"class="tab-pane" [ngClass]="{'active': id=='1'}" id={{id}}>
+      <div>
+        <div class="hpanel" style="padding: 0px 0px 0px 2px;">
+          <div class="panel-heading hbuilt" style="color: black;">Membership</div>
+          <div class="panel-body boxShadowGrey">
+            <div class="row card-view-members">
+              <div class="col-lg-8">
+                <div class="row marG-bot-10">
+                  <div class="col-lg-6 border-right">
+                    <p> GigSumo User ID </p>
+                  </div>
+                  <div class="col-lg-6 ">
+                    <p> {{points?.userData?.gigsumoNo}} </p>
+                  </div>
+                </div>
+                <div class="row marG-bot-10">
+                  <div class="col-lg-6 border-right">
+                    <p> Membership Type </p>
+                  </div>
+                  <div class="col-lg-6 ">
+                    <p> {{MemberShipType}} </p>
+                  </div>
+                </div>
+                <div class="row marG-bot-10">
+                  <div class="col-lg-6 border-right">
+                    <p> Membership Since </p>
+                  </div>
+                  <div class="col-lg-6 ">
+                    <p> {{points?.userData?.createdOn | date: 'MM/dd/yyyy'}} </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 text-right">
+
+                <button *ngIf="MemberShipType=='Free'" type="button" class="btn btn-primary btn-sm btn-plan-style"
+                  [routerLink]="['/plan-quota']">
+                  Upgrade Plan
+                  <app-svg-templates class="svg-position" [svgType]="'UP_CIRCLE'"></app-svg-templates>
+                </button>
+
+                <button *ngIf="MemberShipType=='Team'&& !downgradeRequested" type="button" (click)="requestDowngrade()"
+                  class="btn btn-danger btn-sm btn-plan-style">
+                  Downgrade plan
+                  <app-svg-templates class="svg-position" [svgType]="'DOWN_CIRCLE'"></app-svg-templates>
+                </button>
+
+                <button *ngIf="downgradeRequested" type="button" (click)="apiCancelDowngrade()"
+                  class="btn btn-warning btn-sm btn-plan-style">
+                  Cancel Downgrade
+                  <app-svg-templates class="svg-position" [svgType]="'CROSS_CIRCLE'"></app-svg-templates>
+                </button>
+
+                <div class="alert alert-info plan-info-text" *ngIf="downgradeRequested">
+                  <p> <i class="fa fa-exclamation-circle" aria-hidden="true"></i> info</p>
+                  <p>
+                    Your request for plan downgrade is received. You can still enjoy the benefits of the current plan
+                    until.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+    <ng-template #downgrade>
+
+      <div class="common-header-flex">
+        <div> Plan Downgrade (Team to Free plan) </div>
+        <button>
+          <span (click)="modalRef.hide()" class="common-close">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body dongrade-model customAccordion1">
+
+        <h6 *ngIf="getMessage()">
+          <span class="red">**</span> {{ getMessage() }}
+        </h6>
+
+        <h6 *ngIf="findteamList?.length>=2"> <span class="red">**</span> Please pick <b>1 Team</b> in Team Listing </h6>
+        <div *ngIf="totalCount > 5" class="col-sm-12">
+          <ngb-accordion [closeOthers]="true">
+
+            <!-- Display Jobs List if activeJobsCount > 5 and totalCount > 5 -->
+            <ngb-panel *ngIf="activejobcount > 5 && totalCount > 5">
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <div>
+                  <span class="card-header- tab-title "> Jobs List </span>
+                  <i class="fa fa-chevron-down pull-right text-muted down-arrow" style="padding: 5px;"></i>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="candidate-list-scroll">
+                  <ng-container *ngFor="let item of findActiveJobs">
+                    <app-job-card [viewSize]="'medium'" [JobData]="item"
+                      [selectedjobCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+                      (jobemit)="getseletedjobs($event)" [showCheckBox]="showcheckboxbtn"
+                      [jobstatus]="statuskey"></app-job-card>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </ngb-panel>
+
+            <!-- Display Candidate List if activeCandidatesCount > 5 and totalCount > 5 -->
+            <ngb-panel *ngIf="activeCandidatesCount > 5 && totalCount > 5">
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <div>
+                  <span class="card-header- tab-title "> Candidate List </span>
+                  <i class="fa fa-chevron-down pull-right text-muted down-arrow" style="padding: 5px;"></i>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="candidate-list-scroll">
+                  <ng-container *ngFor="let item of findActiveCandidates">
+                    <app-candidate-card [viewSize]="'medium'" [candidateval]="item"
+                      [selectedcandiCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+                      (candidateEmitter)="getseletedCandidate($event)"
+                      [showCheckBox]="showcheckboxbtn"></app-candidate-card>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </ngb-panel>
+
+            <!-- Display Both Lists if totalCount > 5 and other conditions are not met -->
+            <ngb-panel *ngIf="!(activejobcount > 5) && !(activeCandidatesCount > 5)">
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <div>
+                  <span class="card-header- tab-title "> Jobs and Candidates List </span>
+                  <i class="fa fa-chevron-down pull-right text-muted down-arrow" style="padding: 5px;"></i>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+
+                <!-- Display Both Lists in a Combined Scrollable Section -->
+                <div class="candidate-job-list-scroll">
+                  <!-- Display Candidate List -->
+                  <ng-container *ngFor="let item of findActiveCandidates">
+                    <app-candidate-card [viewSize]="'medium'" [candidateval]="item"
+                      [selectedcandiCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+                      (candidateEmitter)="getseletedCandidate($event)"
+                      [showCheckBox]="showcheckboxbtn"></app-candidate-card>
+                  </ng-container>
+
+                  <!-- Display Job List -->
+                  <ng-container *ngFor="let item of findActiveJobs">
+                    <app-job-card [viewSize]="'medium'" [JobData]="item"
+                      [selectedjobCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+                      (jobemit)="getseletedjobs($event)" [showCheckBox]="showcheckboxbtn"
+                      [jobstatus]="statuskey"></app-job-card>
+                  </ng-container>
+                </div>
+
+              </ng-template>
+            </ngb-panel>
+
+
+          </ngb-accordion>
+        </div>
+
+
+        <div *ngIf="findteamList?.length>=2" class="col-sm-12">
+          <!-- <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-1" [closeOthers]="false"> -->
+          <ngb-accordion activeIds="ngb-panel-1" [closeOthers]="true">
+            <ngb-panel>
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <div>
+                  <span class="card-header- tab-title ">Team List </span>
+                  <i class="fa fa-chevron-down pull-right text-muted down-arrow" style="padding: 5px;"></i>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="col-sm-6" *ngFor="let item of findteamList">
+                  <app-teamcard [userDataInput]="item" [stopcheckbox]="true" (teamsEmitter)="getseletedTeams($event)"
+                    [showCheckBox]="seletedTeamCount?.length"></app-teamcard>
+                </div>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
+
+      </div>
+
+      <div class="custom-panel-footer">
+        <div class="panel-footer">
+          <div class="footer-flex">
+            <button class="btn btn-default" (click)="modalRef.hide()"> Cancel </button>
+
+            <ng-container *ngIf="findteamList?.length == 0">
+              <button class="btn btn-primary" [disabled]="!(count >= 5)" (click)="submit()"> ok </button>
+            </ng-container>
+
+
+            <ng-container *ngIf="findteamList?.length != 0">
+              <button class="btn btn-primary" [disabled]="count <= 4 && seletedTeamCount?.length<=1" (click)="submit()">
+                ok </button>
+            </ng-container>
+
+          </div>
+        </div>
+      </div>
+
+    </ng-template>

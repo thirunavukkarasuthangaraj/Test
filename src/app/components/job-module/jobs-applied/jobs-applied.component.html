@@ -1,0 +1,67 @@
+<div class="sub-entities-scroll-container" id="entity-container" infiniteScroll [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="1000" [scrollWindow]="false" (scrolled)="onScrollDown()">
+  <div class="hpanel">
+    <div class="panel-body pad-10">
+      <div class="row">
+        <div class="col-sm-8">
+          <!-- <div class="filters">
+            <div class="filters-list" (click)="removeEntity(item.itemId , i)"
+              *ngFor="let item of jobAppliedStatusList; let i=index;">
+              <span class="filter-list-item"><span><i [ngClass]="colorLists[i]"></i></span> {{item.value | titlecase}}</span>
+              <span class="filter-tag-close-icon-style">
+                <app-svg-templates [svgType]="'CROSS'"></app-svg-templates>
+              </span>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-sm-4 all-filters-container">
+          <div class="all-filters-small" (click)="openFilterSlider()">
+            <app-svg-templates [svgType]="'FILTER'"></app-svg-templates>
+            <span>
+              All Filters
+            </span>
+            <span class="counter">
+              {{jobAppliedStatusList.length}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-12" *ngIf="loadAPIcall && passValues?.length==0">
+    <app-common-skeleton [countforView]="10" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+  </div>
+
+
+  <ng-container *ngIf="passValues.length > 0; else noResult">
+    <div *ngFor="let item of passValues; let i = index;">
+      <app-job-card [viewSize]="'medium'" [indexInput]="i" [showCheckBox]="'true'" (jobemit)="getjobId($event)"  [From]="'JOBS_FROM_PLATFORM'"
+        [filterApplicantData]="filterApplicantData" [JobData]="item" [JobDataUser]="item.user" [candidateData]="candidateDetails"   (jobapp_to_newjob_to_atvity)="pushtoparentcomponent($event)"></app-job-card>
+        <app-common-skeleton   *ngIf="loadAPIcall && passValues?.length>0" [countforView]="10" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+
+      </div>
+    <div *ngIf="stopscrollFlag  && passValues.length > 0" class="caught_up">
+      <div class="col-md-12">
+        <app-svg-templates [svgType]="'CHECKMARK_CIRCLE'"></app-svg-templates>
+      </div>
+      <div class="col-md-12">
+        <p class="biase">You've reached the bottom of the page</p>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <ng-template #noResult>
+    <div class="wert">
+      <div class="col-md-12 mg-bt-9">
+        <app-svg-templates *ngIf="responseReceived" [svgType]="'SEARCH_CROSS'"></app-svg-templates>
+        <app-svg-templates *ngIf="!responseReceived" [svgType]="'SEARCH_PERSON'"></app-svg-templates>
+      </div>
+      <div class="col-md-12 fig">{{jobsAppliedFoundStatus}} </div>
+    </div>
+  </ng-template>
+
+</div>

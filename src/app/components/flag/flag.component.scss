@@ -1,0 +1,31 @@
+// @media (min-width: 768px)
+.modal-dialog {
+    width: 330px !important;
+    margin: 30px auto;
+}
+.modal-header {
+  padding: 15px 15px 4px 15px !important;
+  background: #63cfbe !important;
+  color:#fff;
+  border-radius: 3px;
+}
+.modal-body {
+  padding: 0px 15px !important;
+ }
+
+.modal-footer {
+  background: #f7f9fa;
+  border-radius: 3px !important;
+  padding: 4px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 19px;
+  font-weight: 300;
+}
+input[type="radio"], input[type="checkbox"] {
+  margin: 3px 6px 0;
+  float: left;
+  line-height: normal;
+}

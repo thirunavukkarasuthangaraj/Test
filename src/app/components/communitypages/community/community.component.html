@@ -1,0 +1,175 @@
+<div class="container">
+  <div class="business-banner-top post-box-shadow">
+    <div class="business-banner">
+      <div class="banner-shadow"></div>
+      <app-community-banner (onAddcommunity)="addTodo($event)" (updateFunction)="updateFunction($event)">
+      </app-community-banner>
+    </div>
+  </div>
+  <div class="hpanel scroll-header business-banner-top">
+    <div class="panel-body">
+      <div class="col-md-8" style="word-wrap: break-word">
+        <div class="col-sm-4 p-0" style="font-size: 18px;width: 18rem;">
+          <strong class="bus-hov business-name" [routerLink]="['/landingPage/communityList']">Community Page :</strong>
+        </div>
+        <div class="col-sm-8 p-0">
+          <p style="font-size: 18px;" *ngIf="businesBannerData?.communityName!=undefined"
+            class="business-name break-word ellipse1" data-toggle="tooltip" data-placement="top"
+            title="{{businesBannerData?.communityName}}">
+            {{businesBannerData?.communityName }}
+          </p>
+          <span class="fn-18 ergm"
+            *ngIf="businesBannerData?.communityTypes && businesBannerData?.communityName!=undefined && businesBannerData?.communityName.length>28">(Private)</span>
+          <span class="fn-18 ergm"
+            *ngIf="!businesBannerData?.communityTypes && businesBannerData?.communityName!=undefined && businesBannerData?.communityName.length>28">(Public)</span>
+        </div>
+        <div class="col-sm-12 p-0 business-tag ">
+          <div class="row row-cols-lg-2 row-cols-2" data-toggle="tooltip"
+            style="display: flex;justify-content: flex-start;margin-left: -6px;gap: 7px;">
+            <p *ngIf="businesBannerData?.communitytag!=undefined && businesBannerData?.communitytag!=''"
+              data-placement="top" title="{{ businesBannerData?.communitytag }}">{{ businesBannerData?.communitytag |
+              truncate: 30 }} |</p>
+
+            <p *ngIf="!businesBannerData?.communityTypes">
+              <a (click)="businesBannerData?.members()">
+                {{ businesBannerData?.getcount }} Members
+              </a>
+            </p>
+
+            <p
+              *ngIf="businesBannerData?.ommunityTypes && (businesBannerData?.isJoined === 'true' || businesBannerData?.isAdmin === 'true' || businesBannerData?.isSuperAdmin === 'true')">
+              <a (click)="businesBannerData?.members()">
+                {{ businesBannerData?.getcount }} Members
+              </a>
+            </p>
+
+            <p
+              *ngIf="businesBannerData?.communityTypes && businesBannerData?.isJoined === 'false' && businesBannerData?.isAdmin === 'false' && businesBannerData?.isSuperAdmin === 'false'">
+              {{ businesBannerData?.getcount }} Members
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <button type="button" *ngIf="businesBannerData?.CisAdmin" class="btn primary-btn btn-sm"
+          (click)="businesBannerData?.adminview(true)">
+          View as Admin
+        </button>
+        <button style="float:right;" type="button" *ngIf="businesBannerData?.viewasmembers"
+          class="btn primary-btn btn-sm" (click)="businesBannerData?.viewasmember(false)">
+          View as Member
+        </button>
+        <div *ngIf="!businesBannerData?.Status">
+          <button type="button" (click)="businesBannerData?.addJoin()" class="btn primary-btn btn-sm">
+            Join
+          </button>
+        </div>
+        <button type="button" *ngIf="
+                  !businesBannerData?.CisAdmin &&
+                  !businesBannerData?.CisSuperAdmin &&
+                  !businesBannerData?.cisJoined &&
+                  businesBannerData?.joinStatus == 'REQUEST PENDING'
+                " (click)="businesBannerData?.cancelrequest()" class="btn primary-btn btn-sm">
+          Cancel Request
+        </button>
+        <button type="button" *ngIf="
+                  !businesBannerData?.CisAdmin &&
+                  !businesBannerData?.CisSuperAdmin &&
+                  !businesBannerData?.cisJoined &&
+                  businesBannerData?.joinStatus == 'INVITE_REQUEST_RECEVIED'
+                " (click)="businesBannerData?.acceptInvite()" class="btn primary-btn btn-sm ">
+          Accept Invite
+        </button>
+        <button type="button" *ngIf="
+                  !businesBannerData?.CisAdmin &&
+                  !businesBannerData?.CisSuperAdmin &&
+                  !businesBannerData?.cisJoined &&
+                  businesBannerData?.joinStatus == 'INVITE_REQUEST_RECEVIED'
+                " (click)="businesBannerData?.cancelinvite()" class="btn primary-btn btn-sm">
+          Cancel Invite
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="header" style="position:sticky !important; top: 16rem !important;">
+    <div class="business-page-layout">
+      <div class="business-menu">
+        <app-navheadercommunity></app-navheadercommunity>
+      </div>
+      <div class="business-feed">
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'communityhome'">
+          <app-bussiness-post [commonemit]="passdata" [postView]="'COMMUNITY'"></app-bussiness-post>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0  " *ngIf="menu == 'communityabout'">
+          <app-community-profile [commonemit]="passdata"></app-community-profile>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'communitypageadmin'">
+          <app-community-pageadmin [commonemit]="passdata"></app-community-pageadmin>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'employee'">
+          <app-business-employee [commonemit]="passdata"></app-business-employee>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'managepages'">
+          <app-managepage [commonemit]="passdata"></app-managepage>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0 " *ngIf="menu == 'memberspage'">
+          <app-members [commonemit]="passdata"></app-members>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'request'">
+          <app-request [commonemit]="passdata"></app-request>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0 " *ngIf="menu == 'Invite'">
+          <app-invitesend [commonemit]="passdata"></app-invitesend>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'anayltics'">
+          <app-business-analytics [commonemit]="passdata"></app-business-analytics>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="menu == 'deactivate'">
+          <app-deactivate-community></app-deactivate-community>
+        </div>
+
+
+      </div>
+      <div class="business-widget">
+
+        <ng-container *ngIf="menu == 'communityhome' || menu == 'communityabout'">
+          <app-common-widget [page]="'COMMUNITY_HOME_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+
+        <ng-container *ngIf="menu == 'Invite'">
+          <app-common-widget [page]="'COMMUNITY_INVITE_SENT_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+        <ng-container *ngIf="menu == 'request'">
+          <app-common-widget [page]="'COMMUNITY_REQUEST_RECEIVED_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+        <ng-container *ngIf="menu == 'communitypageadmin'">
+          <app-common-widget [page]="'COMMUNITY_ADMIN_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+        <ng-container *ngIf="menu == 'memberspage'">
+          <app-common-widget [page]="'COMMUNITY_MEMBER_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+        <ng-container *ngIf="menu == 'deactivate'">
+          <app-common-widget [page]="'COMMUNITY_DEACTIVATE_PAGE'" [inputData]="'COMMUNITY'" [userType]=userType
+            [viewByMember]=adminWidgets>
+          </app-common-widget>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>

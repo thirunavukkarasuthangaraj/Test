@@ -1,0 +1,616 @@
+<ng-template #WorkExperience>
+
+  <div *ngIf="!showBusinessModal && !showSucessMessage">
+    <div class="common-header-flex">
+      <div>{{ header }}</div>
+      <!-- <div class="f-basis" *ngIf="(
+        (userType!='FREELANCE_RECRUITER' && workExperienceControl.currentOrganization.value
+       && ButtonName ==='Submit' && isGenericMailValid && !hasCurrentOrganization)
+       || isUserTryingToCreateCurentOrganziation && emailLinkedToBusiness) && !isAdmin">
+      <div>(Step {{stepCount}} of 2)</div>
+    </div> -->
+      <div class="f-basis" *ngIf="(
+          (workExperienceControl.currentOrganization.value && ButtonName ==='Submit' && isGenericMailValid && !hasCurrentOrganization)
+         || isUserTryingToCreateCurentOrganziation
+         || (emailLinkedToBusiness && !emailMatchingBusiness && workExperienceControl.currentOrganization.value && !workExperienceDetails?.currentOrganization ) )
+         && !isAdmin">
+        <div>(Step {{stepCount}} of 2)</div>
+      </div>
+
+      <div>
+        <button>
+          <span class="common-close" (click)="closeModal()">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-body custom-modal-body">
+      <div class="col-sm-12" *ngIf="content==='JOBS' || content==='CANDIDATE' || content==='BUSINESS' ">
+        <div class="row alrt-dngr">
+          <div class="alert alert-danger center" role="alert">
+            <span *ngIf="content==='CANDIDATE'" class="redish center">To create your first candidate, please update your
+              current organization details and business email ID as your primary ID. </span>
+            <span *ngIf="content==='JOBS'" class="redish center">To create your first job, please update your current
+              organization details and business email ID as your primary ID. </span>
+            <span *ngIf="content==='BUSINESS'" class="redish center"> Please, fill in the missing details below to
+              create a Business Page</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12" *ngIf="content != 'PROFILE'">
+        <div class="row alrt-dngr">
+          <div class="alert alert-info addd-dngr" role="alert">
+            <div class="actions-completed justify-center">
+              <div class="pre-requisite-checks">
+                <span>
+                  <app-svg-templates [svgType]="'CHECKMARK_FILLED'"></app-svg-templates>
+                </span>
+                <span>
+                  Business Email
+                </span>
+              </div>
+              <div class="pre-requisite-checks">
+                <span>
+                  <app-svg-templates [svgType]="'CROSS_FILLED'"></app-svg-templates>
+                </span>
+                <span>
+                  Organization Details
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="app-form" [formGroup]="WorkExperienceForm">
+        <div class="row form-group">
+          <label class="col-sm-3 control-label required-field text-right font-light">Organization
+            Name</label>
+          <div class="col-sm-9">
+            <input type="text" placeholder="Organization Name" matInput  class="form-control"
+              formControlName="organisationName" [matAutocomplete]="auto"
+              (keyup)="manageOrgList($event.target.value)" />
+            <div
+              *ngIf="workExperienceControl.organisationName.invalid && (workExperienceControl.organisationName.dirty || workExperienceControl.organisationName.touched)">
+              <div class="red" *ngIf="workExperienceControl.organisationName.errors?.required">
+                Organization is Required
+              </div>
+            </div>
+            <div>
+              <ng-container>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-optgroup *ngIf="searchBarShow1 && uniqueOrgList?.length > 0" class="mat-workExp-group">
+                    <mat-option *ngFor="let option of uniqueOrgList" [value]="option.organizationName"
+                      (onSelectionChange)="onChngOrg1(option, 0)">
+                      <div class="workExp">
+                        <div style="display:none" id="mat-optgroup-label-1"></div>
+
+                        <div>
+                          <strong class="ellipse orgName">
+                            {{option.organizationName}}
+                          </strong>
+                        </div>
+
+                        <div class="address">
+                          <i>
+                            <div class="address-font">
+                              {{option.address1 }}<span *ngIf="option.address1 && option.address2">{{", "}}</span>
+                              {{option.address2}}
+                            </div>
+                          </i>
+                        </div>
+
+                        <div class="location">
+                          <i>
+                            <div class="location-details">
+                              {{option.street }}<span *ngIf="option.street">{{", "}}</span>
+                              {{option.city}}<span *ngIf="option.city">{{", "}}</span>
+                              {{option.state}}<span *ngIf="option.state">{{", "}}</span>
+                              {{option.countryName}}
+                            </div>
+                          </i>
+                        </div>
+
+                      </div>
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-autocomplete>
+              </ng-container>
+            </div>
+            <div *ngIf="isEntityExisting">
+              <div class="alert alert-info mar-10-0">
+                <small>You cannot change the name and location of this work experience as you either have job or
+                  candidate for this work experience.</small>
+              </div>
+            </div>
+            <div class="disFlaxs">
+              <div>
+                <div class="custom-checkbox" title="Check if this is your current workplace">
+                  <label class="checkbox-label font-bold center">Current
+                    Organization
+                    <input type="checkbox" formControlName="currentOrganization"
+                      (change)="curOrg($event.target.checked)" name="currentOrganization">
+                    <div
+                      *ngIf="workExperienceControl.currentOrganization.invalid && (workExperienceControl.currentOrganization.dirty || workExperienceControl.currentOrganization.touched)">
+                      <div class="red" *ngIf="workExperienceControl.currentOrganization.errors?.required">
+                        Current Organization is Required
+                      </div>
+                    </div>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+
+
+              </div>
+
+              <div class="custom-checkbox" *ngIf="workExperienceControl.currentOrganization.value">
+                <label class="checkbox-label font-bold"> Show this workplace in
+                  Profile
+                  <input type="checkbox" formControlName="badge" name="badge">
+                  <div
+                    *ngIf="workExperienceControl.badge.invalid && (workExperienceControl.badge.dirty || workExperienceControl.badge.touched)">
+                    <div class="red" *ngIf="workExperienceControl.badge.errors?.required">
+                      Show this Profile is Required
+                    </div>
+                  </div>
+                  <span class="checkmark" title="Only when this is checked, this workplace is shown in Profile"></span>
+                </label>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="organizationExist && workExperienceControl.currentOrganization.value && !isSuperAdmin">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9">
+            <div class="alert alert-info">
+              <small> Your email domain is already registered, please <a style="text-decoration-line: underline;color: blue;"
+                (click)="openSupport()"> Click here </a> to contact support for further queries
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 control-label required-field text-right font-light">Organization
+            Type</label>
+          <div class="col-sm-9">
+            <select class="form-control input-sm" type="text" formControlName="clientType">
+              <option value="null" disabled selected>Organization Type</option>
+              <option *ngFor="let clientType of clientTypeList" [value]="clientType">
+                {{clientType}}
+              </option>
+            </select>
+            <div
+              *ngIf="workExperienceControl.clientType.invalid && (workExperienceControl.clientType.dirty || workExperienceControl.clientType.touched)">
+              <div class="red" *ngIf="workExperienceControl.clientType.errors?.required">
+                Organization Type is Required
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row form-group">
+          <label class="col-sm-3 control-label required-field text-right font-light">Title</label>
+          <div class="col-sm-9">
+
+            <div class="custom-ng-select">
+              <ng-select [addTag]="false" [hideSelected]="true" dropdownPosition="bottom" [multiple]="false"
+                placeholder="Title" formControlName="title" [items]="titleLists">
+              </ng-select>
+            </div>
+            <div
+              *ngIf="workExperienceControl.title.invalid && (workExperienceControl.title.dirty || workExperienceControl.title.touched)">
+              <div class="red" *ngIf="workExperienceControl.title.errors?.required">
+                Title is Required
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row form-group">
+          <label class="control-label col-sm-3 required-field text-right font-light">Location</label>
+
+          <div class="col-sm-9">
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <select class="form-control input-sm" formControlName="country"
+                  (change)="onChangeCountrypatchvalue($event.target.value)">
+                  <option value="null" disabled selected>Country</option>
+                  <option *ngFor="let country of countryList" [value]="country.countryCode">{{country.countryName}}
+                  </option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.country.invalid && (workExperienceControl.country.dirty || workExperienceControl.country.touched)">
+                  <div class="red" *ngIf="workExperienceControl.country.errors?.required">
+                    Country is Required
+                  </div>
+                </div>
+              </div>
+
+              <!-- state dropdown -->
+
+              <!-- <div class="col-sm-6" >
+                      <select class="form-control input-sm"  id="ca" type="text"
+                      >
+                        <option value="null" selected >State</option>
+                        <option >
+                        </option>
+                      </select>
+
+                    </div> -->
+              <div class="col-sm-6" *ngIf="workExperienceControl.country.value !='US' && stateList.length === 0">
+                <input type="text" placeholder="State" id="other" formControlName="state" class="form-control input-sm"
+                  maxlength="51">
+                <div class="red"
+                  *ngIf="workExperienceControl.state.invalid && (workExperienceControl.state.dirty || workExperienceControl.state.touched)">
+                  <div *ngIf="workExperienceControl.state.errors?.required">
+                    State is Required
+                  </div>
+                  <div *ngIf="workExperienceControl.state.errors?.maxword">
+                    {{FORMERROR.STATE_MAX}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="workExperienceControl.country.value !='US' && stateList.length > 0">
+                <select class="form-control input-sm" formControlName="state">
+                  <option value="null" disabled selected>State</option>
+                  <option *ngFor="let state of stateList" [value]="state.stateName">{{state.stateName}}
+                  </option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.state.invalid && (workExperienceControl.state.dirty || workExperienceControl.state.touched)">
+                  <div class="red" *ngIf="workExperienceControl.state.errors?.required">
+                    State is Required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="workExperienceControl.country.value ==='US'">
+                <input type="text" maxlength="12" placeholder="Zipcode" formControlName="zipcode"
+                  class="form-control input-sm" (keyup)="getCities($event.target.value)">
+                <div class="red"
+                  *ngIf="workExperienceControl.zipcode.invalid && (workExperienceControl.zipcode.dirty || workExperienceControl.zipcode.touched)">
+                  <div *ngIf="workExperienceControl.zipcode.errors?.required">
+                    Zipcode is Required
+                  </div>
+                  <div class="w-wrap" *ngIf="workExperienceControl.zipcode.errors.minword">
+                    {{FORMERROR.ZIPCODE_MIN}}
+                  </div>
+                  <div class="w-wrap" *ngIf="workExperienceControl.zipcode.errors.maxword">
+                    {{FORMERROR.ZIPCODE_MAX}}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row ">
+              <div class="col-sm-6">
+                <input type="text" placeholder="City" formControlName="city" class="form-control input-sm"
+                  maxlength="51">
+                <div
+                  *ngIf="workExperienceControl.city.invalid && (workExperienceControl.city.dirty || workExperienceControl.city.touched)">
+                  <div class="red" *ngIf="workExperienceControl.city.errors?.required">
+                    City is Required
+                  </div>
+                  <div class="red" *ngIf="workExperienceControl.city.errors?.maxword">
+                    {{FORMERROR.CITY_MAX}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" *ngIf="workExperienceControl.country.value ==='US'">
+                <input type="text" placeholder="State" id="other" formControlName="state" class="form-control input-sm"
+                  maxlength="51">
+                <div class="red"
+                  *ngIf="workExperienceControl.state.invalid && (workExperienceControl.state.dirty || workExperienceControl.state.touched)">
+                  <div *ngIf="workExperienceControl.state.errors?.required">
+                    State is Required
+                  </div>
+                  <div *ngIf="workExperienceControl.state.errors?.maxword">
+                    {{FORMERROR.STATE_MAX}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="workExperienceControl.country.value !='US'">
+                <input type="text" maxlength="12" placeholder="Zipcode" formControlName="zipcode"
+                  class="form-control input-sm">
+                <div class="red"
+                  *ngIf="workExperienceControl.zipcode.invalid && (workExperienceControl.zipcode.dirty || workExperienceControl.zipcode.touched)">
+                  <div *ngIf="workExperienceControl.zipcode.errors?.required">
+                    Zipcode is Required
+                  </div>
+                  <div class="w-wrap" *ngIf="workExperienceControl.zipcode.errors.minword">
+                    {{FORMERROR.ZIPCODE_MIN}}
+                  </div>
+                  <div class="w-wrap" *ngIf="workExperienceControl.zipcode.errors.maxword">
+                    {{FORMERROR.ZIPCODE_MAX}}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row" *ngIf="isSuperAdmin">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9">
+            <div class="alert alert-info">
+              <small>
+                You may not change the location of this
+                work experience
+                unless you transfer your super-admin rights to someone in the respective
+                business page.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isEmployee">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9">
+            <div class="alert alert-info">
+              <small>
+                You may not change the location of this
+                work experience as it beongs to respective business page.
+              </small>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="!isJobSeeker && workExperienceControl.currentOrganization.value" class="form-group row">
+          <!-- might be used in FUTURE -->
+          <!-- <p  class="redish center">This time zone used for credit consumption</p> -->
+          <label class="col-sm-3 control-label required-field text-right font-light">TimeZones </label>
+          <div class="col-sm-9">
+            <select class="form-control input-sm" type="text" formControlName="timeZone">
+              <option value="null" selected disabled>Select Time Zones</option>
+              <option *ngFor="let timeZone of timezoneslist" [value]="timeZone">{{timeZone}}</option>
+            </select>
+            <div
+              *ngIf="workExperienceControl.timeZone.invalid && (workExperienceControl.timeZone.dirty || workExperienceControl.timeZone.touched)">
+              <div class="red" *ngIf="workExperienceControl.timeZone.errors?.required">
+                Time Zone is Required
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 control-label  required-field text-right font-light">From Date</label>
+          <div class="col-sm-9">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <select type="text" class="form-control input-sm" formControlName="startMonth"
+                  (change)="validateMonths()">
+                  <option value="null" selected disabled>Month</option>
+                  <option *ngFor="let month of months" [value]="month.name"
+                    [disabled]="disableMonth(month.code,'START')">{{month.name}}</option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.startMonth.invalid && (workExperienceControl.startMonth.dirty || workExperienceControl.startMonth.touched)">
+                  <div class="red" *ngIf="workExperienceControl.startMonth.errors?.required">
+                    Start Month is Required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <select type="text" formControlName="startYear" class="form-control input-sm"
+                  (change)="checkYear($event)">
+                  <option value="null" disabled selected>Year</option>
+                  <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.startYear.invalid && (workExperienceControl.startYear.dirty || workExperienceControl.startYear.touched)">
+                  <div class="red" *ngIf="workExperienceControl.startYear.errors?.required">
+                    Start Year is Required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!workExperienceControl.currentOrganization.value">
+          <label class="col-sm-3 control-label  required-field text-right font-light">To Date</label>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-6">
+                <select type="text" formControlName="endMonth" class="form-control input-sm">
+                  <option value="null" selected disabled>Month</option>
+                  <option *ngFor="let month of months" [value]="month.name" [disabled]="checkMonth(month.code)">
+                    {{month.name}}</option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.endMonth.invalid && (workExperienceControl.endMonth.dirty || workExperienceControl.endMonth.touched)">
+                  <div class="red" *ngIf="workExperienceControl.endMonth.errors?.required">
+                    End Month is Required
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <select type="text" formControlName="endYear" class="form-control input-sm"
+                  (change)="onChangeEndYear()">
+                  <option value="null" disabled selected>Year</option>
+                  <option *ngFor="let year of years" [value]="year" [disabled]="validateYear(year)">{{year}}</option>
+                </select>
+                <div
+                  *ngIf="workExperienceControl.endYear.invalid && (workExperienceControl.endYear.dirty || workExperienceControl.endYear.touched)">
+                  <div class="red" *ngIf="workExperienceControl.endYear.errors?.required">
+                    End Year is Required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-sm btn-default " (click)="closeModal()">Cancel</button>
+          <button class="btn btn-sm btn-primary " (click)="prerequisiteWorkExperience(ButtonName)"
+            type="submit">{{ButtonName}}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="showBusinessModal && !showSucessMessage">
+    <!-- Email Domain Validation -->
+    <div class="common-header-flex">
+      <div>{{businessModalTitle}}</div>
+      <div class="f-basis">
+        <div>(Step {{stepCount}} of 2)</div>
+      </div>
+      <div>
+        <button>
+          <span class="common-close" (click)="businessModalClose()">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="app-form">
+        <form [formGroup]="businessEmailForm">
+          <div class="form-group row">
+
+            <div class="col-sm-12">
+              <div class="alert alert-info">
+                It looks like you are adding a new current organisation, please authenticate the business email.
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="control-label f-w700">Existing Primary Email</label>
+              <div>
+                <p>{{primaryEmail}}</p>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="control-label f-w700">Existing Secondary Email</label>
+              <div>
+                <p>{{secondaryEmail}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <div class="d-flex">
+                <label class="control-label required-field font-bold">Business Email Address</label>
+                <label *ngIf="otpEmailSent">{{businessControl.swapEmail.value}}</label>
+              </div>
+              <input class="form-control" type="text" *ngIf="!otpEmailSent" formControlName="swapEmail"
+                placeholder="Please enter a valid Business email" class="form-control input-sm" />
+              <div class="red"
+                *ngIf="businessControl.swapEmail.invalid && !otpEmailSent && (businessControl.swapEmail.dirty || businessControl.swapEmail.touched )">
+                <div class="error-msg" *ngIf="businessControl.swapEmail.errors?.required">
+                  Business Email is Required
+                </div>
+                <div class="error-msg" *ngIf="businessControl.swapEmail.errors?.genericDomain">
+                  Please, enter a business email domain
+                </div>
+                <div class="error-msg" *ngIf="businessControl.swapEmail.errors?.pattern">
+                  Enter a vaild email address
+                </div>
+                <div class="error-msg" *ngIf="businessControl.swapEmail.errors?.emailExistsAlready">
+                  That email is taken already. Please, enter a different one.
+                </div>
+              </div>
+              <div *ngIf="otpEmailSent" class="col-sm-12 pl-0 pt-10">
+                <div class="alert alert-info addd-dngr" role="alert">
+                  An authentication code has been sent to your business email.
+                  Please, enter it below.
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="otpEmailSent" class="col-sm-12">
+              <label class="control-label required-field font-bold">Enter OTP</label>
+              <input type="text" formControlName="domainValidationOtp" placeholder="Enter OTP Code"
+                class="form-control input-sm" />
+              <div class="red"
+                *ngIf="businessControl.domainValidationOtp.invalid &&  (businessControl.domainValidationOtp.dirty || businessControl.domainValidationOtp.touched )">
+                <div class="error-msg" *ngIf="businessControl.domainValidationOtp.errors?.required">
+                  Please Enter OTP
+                </div>
+                <div class="error-msg" *ngIf="businessControl.domainValidationOtp.errors?.pattern">
+                  Enter Only Numbers
+                </div>
+                <div class="error-msg" *ngIf="businessControl.domainValidationOtp.errors?.wrongDomainValidationOtp">
+                  Incorrect OTP. Enter the right one.
+                </div>
+              </div>
+              <div>
+                <p class="mr-tp-10" *ngIf="(resentOTPCode | async) ">Resend OTP in <countdown
+                    [config]="{ leftTime: 30, format: 'ss' }"></countdown> seconds</p>
+                <p class="OtpDesign" *ngIf="!(resentOTPCode | async) "
+                  (click)="processOTPresponse(userInfoForOtpGenrate, true)"> Resend OTP</p>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer footer-flex">
+      <button class="btn btn-sm btn-default float-right" (click)="businessModalClose()"> Cancel </button>
+      <button *ngIf="!otpEmailSent"
+        [ngClass]="{'disabled-domain-validation': businessControl.swapEmail.errors?.emailExistsAlready}"
+        class="btn btn-sm btn-primary float-right " (click)="handlePrerequisitesForEmailValidation()">Send
+        OTP</button>
+      <!-- <button  *ngIf="!emailMatchesWithBusiness" class="btn btn-sm btn-primary float-right " [ngClass]="{'disabled-domain-validation':!businessEmailForm.valid}" (click)="businessEmailValidatedAgainstBusinessOrganisation()">
+         Validate Business Email</button> -->
+
+      <button *ngIf="otpEmailSent" class="btn btn-sm btn-primary float-right" type="submit"
+        (click)="validateOtp(content)"> Submit </button>
+    </div>
+
+
+  </div>
+
+  <div *ngIf="showSucessMessage">
+    <div class="panel-body">
+      <div class="sucessimage">
+        <!-- <img src="../../../../assets/images/sucessMessage.png" alt=""> -->
+        <app-svg-templates [svgType]="'PARTY'"></app-svg-templates>
+      </div>
+      <div class="success-modal" *ngFor="let data of SucessModalContent">
+        <h4>{{data.first}}</h4>
+        <h4 *ngIf="data.email!=''">{{data.email}}</h4>
+        <p> {{data.second}} </p>
+        <p> {{data.third}} </p>
+        <p> {{data.fourth}} </p>
+      </div>
+      <div class="modal-button">
+        <button class="btn btn-sm btn-primary" (click)="OpenModal()">Ok</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+

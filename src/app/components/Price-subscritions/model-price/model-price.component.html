@@ -1,0 +1,174 @@
+<ng-template #modalTemplate>
+  <div class="common-header-flex">
+    <div> {{ModelContent.headerName}} Exhausted </div>
+    <button>
+      <span (click)="close()" class="common-close">×</span>
+    </button>
+  </div>
+
+  <div class="expiration-modal-container">
+    <div class="content-body">
+      <div class="current-plan-snippet">{{ModelContent.body}} <p class="plan-texture">{{MemberShipType}}
+          plan</p>
+      </div>
+      <!-- <p class="app-theme pinfo mb-2" *ngIf="isPayAsYouGo(content)"
+        style="  margin-bottom: 30px; font-size: 14px;"> Upgrade to a higher plan or continue to use and pay as you go
+      </p> -->
+      <div class="plan-detail">
+        {{ModelContent.planDetail}}
+      </div>
+      <div class="plan-version-container">
+        <div class="plan-max">
+          <div>{{ModelContent.planMax}}</div>
+          <div class="plan-value">{{actualcredits}}</div>
+        </div>
+        <div class="promotional">
+          <div>{{ModelContent.promotional}}</div>
+          <div class="plan-value">{{promotional}}</div>
+        </div>
+        <div class="slots-used">
+          <div>{{ModelContent.slotsUsed}}</div>
+          <div class="plan-value">{{utilizedcredits}}</div>
+        </div>
+        <div class="available-provision">
+          <div>{{ModelContent.availableProvision}}</div>
+          <div class="plan-value">{{availablecredits}}</div>
+        </div>
+      </div>
+      <div class="plan-procedure-container">
+        <div *ngIf="ModelContent.planExtensionSnippet" class="plan-extension-snippet">
+          {{ModelContent.planExtensionSnippet}}</div>
+        <div *ngIf="ModelContent.planExtensionDetail1" class="plan-extension-detail-1">
+          {{ModelContent.planExtensionDetail1}}</div>
+        <div *ngIf="ModelContent.planExtensionDetail2" class="plan-extension-detail-2">
+          {{ModelContent.planExtensionDetail2}}</div>
+        <div *ngIf="ModelContent.planExtensionDetail3" class="plan-extension-detail-3">
+          {{ModelContent.planExtensionDetail3}}</div>
+      </div>
+
+      <div *ngIf="ModelContent.psNote" class="ps-note">{{ModelContent.psNote}}</div>
+    </div>
+  </div>
+
+  <div class="expiration-modal-footer">
+    <button type="button" class="btn btn-sm btn-default" (click)="close()"> Cancel </button>
+    <button type="button" class="btn btn-sm btn-primary" *ngIf="MemberShipType!='Team'" (click)="upgradePlan()"> Upgrade
+    </button>
+    <!-- to
+      Team ${{PlanConsumePoints}}/month  -->
+    <button type="button" class="btn btn-sm btn-primary" *ngIf="isPayAsYouGo(content)"> Pay as you go
+      ${{CreditConsumePoints}}/view </button>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #upgradejob>
+  <div class="common-header-flex">
+    <div>{{ModelContent.headerName}} </div>
+    <button>
+      <span (click)="close()" class="common-close">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="upgradeForm" (ngSubmit)="redeemthecredits(upgradeDetails)">
+      <div class="row">
+        <div class="custom-checkbox col-sm-6" style="padding-bottom: 28px;">
+          <label style="margin-top:5px;">
+            <b>Redeem Sumo Credits</b> </label>
+          <input type="radio" value="redeemsumocredits" #redeemsumocredits
+            [checked]="redeemsumocredits.value === selectedValue" (change)="onItemChange($event.target.value)"
+            formControlName="redeemsumocredits">
+        </div>
+        <!-- <div class="custom-checkbox col-sm-6 ">
+          <label style="margin-top:5px;"> <b> Pay as you go</b></label>
+          <input type="radio" [(ngModel)]="clearSelectedValues" value="payasyogo" #payasyogo
+            [checked]="payasyogo.value === selectedValue" (change)="onItemChange($event.target.value)"
+            formControlName="payasyogo">
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6" style="padding-bottom: 9px;">
+          <label class="control-label required-field font-bold" for="upgradefor">For</label>
+          <input disabled type="text" placeholder="Upgrade Job" class="form-control" formControlName="upgradefor" />
+
+        </div>
+        <div class="col-sm-6" *ngIf="selectedValue=='redeemsumocredits'">
+          <label class="control-label required-field font-bold" for="dropdownSelection">Days</label>
+          <ng-select [(ngModel)]="selectedDay"
+            [ngClass]="{ 'is-invalid': submitted && upgradeForm.controls.limit.errors }" formControlName="limit"
+            placeholder="Selected No of Days">
+            <ng-option *ngFor="let day of days" [value]="day">{{ day }}</ng-option>
+          </ng-select>
+          <div *ngIf="submitted && upgradeForm.controls.limit.errors" class="error-msg ps-init">
+            <div *ngIf="upgradeForm.controls.limit.errors.required">No of days is required</div>
+          </div>
+        </div>
+        <div class="col-sm-6" *ngIf="selectedValue=='payasyogo'">
+          <label class="control-label required-field font-bold" for="dropdownSelection">Days</label>
+          <ng-select [(ngModel)]="selectedDay"
+            [ngClass]="{ 'is-invalid': submitted && upgradeForm.controls.paylimit.errors }" formControlName="paylimit"
+            placeholder="Selected No of Days">
+            <ng-option *ngFor="let day of days" [value]="day">{{ day }}</ng-option>
+          </ng-select>
+          <div *ngIf="submitted && upgradeForm.controls.paylimit.errors" class="error-msg ps-init">
+            <div *ngIf="upgradeForm.controls.paylimit.errors.required">No of days is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="selectedValue=='redeemsumocredits'">
+        <div class="form-group col-sm-6">
+          <label class="control-label required-field font-bold" for="upgradefor">Available Sumo Credits </label>
+          <input type="text" disabled placeholder="Available Sumo Credits" class="form-control"
+            formControlName="availablesumocredits" />
+        </div>
+        <div class="form-group col-sm-6">
+          <label class="control-label required-field font-bold" for="days">Redeem </label>
+          <input id="points" disabled type="text" placeholder="0" class="form-control" formControlName="points" />
+        </div>
+      </div>
+      <div *ngIf="selectedValue=='payasyogo'" class="row">
+        <div class="form-group col-sm-6">
+          <label class="control-label required-field font-bold" for="upgradefor">Rate per day </label>
+          <input disabled type="text" placeholder="Rate per day" class="form-control" formControlName="rateperday" />
+        </div>
+        <div class="form-group col-sm-6">
+          <label class="control-label required-field font-bold" for="days">Total cost </label>
+          <input id="days" disabled type="text" placeholder="0" class="form-control" formControlName="price" />
+        </div>
+      </div>
+      <div class="pricing-table">
+        <div class="bg-head-card info-foot-price" style="width: 1110px;  margin-top: 4px;">
+          <p *ngIf="selectedValue=='redeemsumocredits'"> {{ModelContent.body}}</p>
+          <p> *Becomes effective today.</p>
+          <p *ngIf="selectedValue=='redeemsumocredits'"> *Check availability of GigSumo Credits for redeeming.</p>
+          <p *ngIf="selectedValue=='redeemsumocredits'">*All credit redemptions are final.</p>
+          <p *ngIf="selectedValue=='payasyogo'">*All purchases are final.</p>
+        </div>
+      </div>
+
+      <div class="form-group form-check">
+        <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="form-check-input"
+          [ngClass]="{ 'is-invalid': submitted && upgradeForm.controls.acceptTerms.errors }" />
+        <label for="acceptTerms" class="form-check-label">I accept the <a target="_blank"
+            href="https://gigsumo.com/terms-conditions.html"
+            style="text-decoration:underline; color: rgb(87, 154, 242);"> terms and conditions</a></label>
+        <div *ngIf="submitted && upgradeForm.controls.acceptTerms.errors" class="error-msg ps-init">Please accept the
+          terms and conditions</div>
+      </div>
+
+      <div class="button-container">
+        <button class="btn btn-sm btn-primary outline" style="margin-right: 23px;" (click)="close()">Cancel</button>
+        <button [ngClass]="{'disabled': showdays ==0}" *ngIf="selectedValue=='redeemsumocredits'"
+          class="btn btn-sm btn-primary" type="submit">
+          Redeem
+        </button>
+        <button *ngIf="selectedValue=='payasyogo'" class="btn btn-sm btn-primary" type="submit">
+          Continue
+        </button>
+      </div>
+
+    </form>
+  </div>
+</ng-template>

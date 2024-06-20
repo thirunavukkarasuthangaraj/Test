@@ -1,0 +1,12 @@
+<div class="notifier" [ngClass]="{'visible': isVisible}">
+    <div class="notifier-title">
+        {{title}}
+    </div>
+    <div class="notifier-content">
+        {{ message }}
+    </div>
+    <button *ngIf="buttonName != null" class="btn btn-sm btn-primary" style="margin-top: 10px;float: right;" (click)="routeTo()">
+        {{ buttonName }}
+    </button>
+    <app-svg-templates (click)="hide()" class="svg-position close-button" [svgType]="'CROSS'"></app-svg-templates>
+</div>

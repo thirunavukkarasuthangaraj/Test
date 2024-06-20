@@ -1,0 +1,150 @@
+.btn {
+  cursor: pointer;
+
+  i {
+    font-size: 12px;
+  }
+
+  //  min-width: 85px !important;
+  span {
+    // padding: 6px 20px;
+    // border-radius: 0 !important;
+    font-size: $font-size;
+    font-family: $font-family;
+  }
+}
+
+.default-btn {
+  border-radius: 3px !important;
+}
+
+.primary-btn {
+  background-color: $primary-bg !important;
+  color: $primary-fg !important;
+  border-color: $primary-bg !important;
+  //border-radius: 0 !important;
+
+  &:hover {
+    background-color: darken($primary-bg, 5%) !important;
+    border-color: darken($primary-bg, 5%) !important;
+  }
+}
+
+.secondary-btn {
+  background-color: $secondary-bg !important;
+  color: $black-color !important;
+  border-color: $secondary-bg !important;
+  border-radius: 3px !important;
+
+  &:hover {
+    background-color: darken($secondary-bg, 5%) !important;
+    border-color: darken($secondary-bg, 5%) !important;
+  }
+}
+
+.btn-icon {
+  span {
+    .material-icons {
+      font-size: $font-size;
+      vertical-align: text-bottom;
+      line-height: 1.5;
+      padding-right: 5px;
+    }
+  }
+}
+
+
+.btn:focus {
+  box-shadow: none;
+  outline: none !important;
+}
+
+button:focus {
+  outline: none
+}
+
+.btn-danger {
+  border-radius: 3 !important;
+}
+
+.danger-btn {
+  border-radius: 15 !important;
+  background-color: red;
+  color: white;
+  font-size: 8px
+}
+
+.backtotop-btn {
+  background-color: $primary-bg !important;
+  color: $primary-fg !important;
+
+  &:hover {
+    background-color: darken($primary-bg, 5%) !important;
+    border-color: darken($primary-bg, 5%) !important;
+  }
+}
+
+
+/* Custom CSS */
+/* Custom radio button CSS */
+
+.custom-form-check {
+  margin-bottom: 10px !important;
+}
+
+.custom-radio-label {
+  padding-top: 0.6rem;
+  font-weight: 400;
+  position: relative;
+  padding-left: 2.5em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-radio-label::before {
+  content: '';
+  position: absolute;
+  top: 0.25em;
+  left: 0;
+  width: 2em;
+  height: 2em;
+  border: 2.5px solid #eaeaea;
+  border-radius: 50%;
+  transition: border-color 0.2s;
+}
+
+.custom-radio-label::after {
+  content: "";
+  position: absolute;
+  top: 0.8em;
+  left: 0.567em;
+  width: 0.9em;
+  height: 0.9em;
+  background-color: #71b0e2;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+
+.custom-radio-label:hover::before {
+  border-color: #9ecaed;
+  /* Change color as needed */
+}
+
+.form-check-input:checked+.custom-radio-label::after {
+  opacity: 1;
+}
+
+/* Optional styles for disabled radio buttons */
+.form-check-input:disabled+.custom-radio-label::before {
+  border-color: #ced4da;
+  /* Change color as needed */
+  background-color: #e9ecef;
+  /* Change color as needed */
+}
+
+.form-check-input:disabled+.custom-radio-label {
+  color: #6c757d;
+  /* Change color as needed */
+}

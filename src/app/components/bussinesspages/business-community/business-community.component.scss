@@ -1,0 +1,39 @@
+.img-circle {
+  height: 56px !important;
+  width: 56px !important;
+}
+
+.com-ellipse {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aa {
+  display: grid;
+  padding: 100px;
+  justify-items: center;
+}
+
+.business-community-header-container {
+  display: flex;
+  align-items: center;
+
+  .business-community-name {
+    flex: 0 0 30% !important;
+  }
+
+  .business-community-search-bar {
+    flex: 0 0 50% !important;
+  }
+
+  .business-community-search-btn {
+    flex: 0 0 10% !important;
+    display: flex;
+  }
+}
+
+.business-community-header-container>:nth-child(3) {
+  margin-left: auto!important;
+}

@@ -1,0 +1,435 @@
+<div class="col-lg-12" style="padding: 0px 0px 0px 2px;width:100%;">
+  <div class="hpanel" style="background: #fff;">
+    <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs">
+        <li><a [ngClass]="{'active': id=='1'}"
+            [ngStyle]="id=='1'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='1' && {'background-color': 'white' ,'color':'#111'}"
+            data-toggle="tab" (click)="activeTab('1')">Referrals </a></li>
+        <li><a [ngClass]="{'active': id=='2'}"
+            [ngStyle]="id=='2'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='2' && {'background-color': 'white' ,'color':'#111'}"
+            data-toggle="tab" (click)="activeTab('2')">Invited Users</a></li>
+        <li><a [ngClass]="{'active': id=='3'}"
+            [ngStyle]="id=='3'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='3' && {'background-color': 'white' ,'color':'#111'}"
+             data-toggle="tab" (click)="activeTab('3')">FAQ-Referral </a></li>
+
+      </ul>
+    </ul>
+
+
+    <div class="panel-body">
+      <div class="tab-content" *ngIf="loadAPIcall">
+        <div class="tab-pane" title="REFER A FRIEND" [ngClass]="{'active': id=='1'}" id={{id}}>
+          <app-common-skeleton *ngIf="loadAPIcall" [countforView]="2"
+            [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+        </div>
+        <div class="tab-pane" [ngClass]="{'active': id=='2'}" id={{id}}>
+          <app-common-skeleton *ngIf="loadAPIcall" [countforView]="5"
+            [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+        </div>
+        <div class="tab-pane" class="tab-pane customAccordion" [ngClass]="{'active': id=='3'}" id={{id}}>
+          <app-common-skeleton *ngIf="loadAPIcall" [countforView]="5" [NameOftheScreen]="'faq'"></app-common-skeleton>
+        </div>
+      </div>
+      <div class="tab-content"  *ngIf="!loadAPIcall">
+        <div class="tab-pane" title="REFER A FRIEND" [ngClass]="{'active': id=='1'}" id={{id}}>
+
+
+          <div class="griddoi">
+            <div style="margin-bottom: 15px;">
+              <b>REFER A FRIEND </b>
+            </div>
+
+
+            <div class="paddddd" style="margin-bottom: 10px;">
+              <b>Get 5 referral credits, for every qualified person you invite signs up for GigSumo</b>
+            </div>
+
+            <div class="paddddd">
+              <p style="font-weight:400;color:#63cfbe;">* Only invites sent to business Email ID's will be considered for
+                referal credits . </p>
+            </div>
+            <div class="paddddd">
+              <p style="font-weight:400;color:#63cfbe;">* You will receive the credit once the person you invite, signs up
+                and verifies his business email.</p>
+            </div>
+            <div class="paddddd">
+              <p style="font-weight:400;color:#63cfbe;"> * You can redeem referral credits to upgrade jobs or candidates,
+                buy interaction and resume view credits. </p>
+            </div>
+            <div class="paddddd">
+              <p>To make the most of the platform and to be successful, invite and connect with the right people and
+                companies.</p>
+            </div>
+
+            <div class="paddddd">
+              <h5 style="font-weight:400;color:#63cfbe;"> *** Recruiters need to invite Bench sales recruiters &
+                Candidates </h5>
+            </div>
+
+            <div class="paddddd">
+              <h5 style="font-weight:400;color:#63cfbe;"> *** Bench sales recruiters need to invite recruiters </h5>
+            </div>
+
+            <div class="paddddd">
+              <h5 style="font-weight:400;color:#63cfbe;"> ** Candidates need to invite recruiters or candidates </h5>
+            </div>
+          </div>
+
+
+          <div class="modal-body  paddd">
+            <div class="row">
+              <div class="col-md-12 bder">
+                <form [formGroup]="connectionRequest" class="mrgtop">
+
+                  <label for="message">Email</label>
+
+                  <div class="flex">
+
+
+                    <tag-input class="tag-align mr-100-px" [formControlName]="'email'" name="email" id="email"
+                      [addOnPaste]="true" [editable]="true" [placeholder]="'Enter Email Address'"
+                      [secondaryPlaceholder]="'Enter Email Address'" [pasteSplitPattern]="splitPattern"
+                      [modelAsStrings]="true" [errorMessages]="errorMessages" [validators]="validators"
+                      [separatorKeyCodes]="[32, 188, 9, 186]" (onAdd)="referalLimit()" (onRemove)="referalLimit()">
+                    </tag-input>
+
+                    <button type="button" class="btn btn-primary btn-sm h-30" (click)="SendInvite(ValidEmail)">Send
+                      Invitation(s)</button>
+
+                  </div>
+
+                  <small>For multiple invites, enter the email and hit enter.</small>
+                  <div *ngIf="connectionRequest.controls.email.touched &&
+                          connectionRequest.controls.email.dirty ">
+                    <div class="errorMsg" *ngIf="connectionRequest.controls.email.errors?.required">
+                      This field is required
+                    </div>
+
+                  </div>
+                  <div *ngIf="connectionRequest.controls.email.errors?.invalid" class="errorMsg">
+                    Number of invites exceeded the limit(500)
+                  </div>
+
+
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+
+        </div>
+
+        <div class="tab-pane" [ngClass]="{'active': id=='2'}" id={{id}}>
+
+
+
+          <div class="panel-body" *ngIf="inviteRes?.userInvites!=null &&inviteRes?.userInvites.length>0;else noData">
+
+
+            <!-- <ng-container > -->
+            <!-- <div class="table-responsive"> -->
+            <!-- <table class="table table-striped valignMiddle"> -->
+
+            <!-- <tbody> -->
+
+            <div class="table-responsive project-list" style="overflow: hidden;">
+
+              <div class="row" style="margin-bottom: 3rem;">
+                <div class="col-md-6">
+                  <div class="input-group" Style="position:relative;top:2px;">
+                    <input class="form-control" (input)="onSearch($event)" (keyup)="onSearch($event)"
+                      placeholder="Search">
+                    <div class="input-group-btn">
+                      <button class="btn btn-default"><i class="fa fa-search"></i> </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="margin-top: 6px;text-align: end;">
+
+                  <div class="navIteam">
+                    <div class="btn-group" dropdown>
+                       <button type="button" class="col-sm-6"
+                        (click)="filterApi('All')" class="btn btn-primary  btn-sm">{{selectedFilterName}}</button>
+
+                      <button type="button "
+                        class="btn btn-primary  btn-sm  dropdown-toggle" dropdownToggle data-toggle="dropdown">
+                        <span><i class="pe-7s-filter"></i></span>
+                      </button>
+                      <ul class="dropdown-menu dropmenu" *dropdownMenu role="menu" style="left: unset;right: 0;">
+                        <li role="menuitem" (click)="filterApi('All')"><a class="dropdown-item">All </a>
+                        </li>
+                        <li role="menuitem" (click)="filterApi('PENDING')"><a class="dropdown-item">Pending Acceptance
+                          </a>
+                        </li>
+                        <li role="menuitem" (click)="filterApi('CANCELLED')"><a class="dropdown-item">Invitation
+                            Cancelled</a>
+                        </li>
+                        <li role="menuitem" (click)="filterApi('COMPLETED')"><a class="dropdown-item">Invite Accepted</a>
+                        </li>
+                        <li role="menuitem" (click)="filterApi('USERCANCELLED')"><a class="dropdown-item">User
+                            Cancelled</a>
+                        </li>
+
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of inviteRes?.userInvites">
+                    <td>
+                      <div class="" style="position: relative;">
+                        <img *ngIf="data?.inviteeUser?.photo" style="width: 43px; border-radius: 50%;"
+                          src="{{url+data?.inviteeUser?.photo}}">
+                      </div>
+                      <div style="position: relative;">
+                        <img *ngIf="!data?.inviteeUser?.photo && data.status!='COMPLETED'"
+                          style="width: 43px; border-radius: 50%;" [src]="'assets/images/userAvatar.png'" />
+                      </div>
+
+                      <div *ngIf="!data?.inviteeUser?.photo&&data.status=='COMPLETED'">
+                        <div class="circles mr-rt-10" [style.background-color]="getColor(data?.inviteeUser?.fullName)">
+                          <div class="circle-text">{{ getInitials(data?.inviteeUser?.fullName) }}</div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <p title="{{data?.inviteeUser?.firstName}}{{data?.inviteeUser?.lastName}}" class="text-wrap-text"
+                        style="margin-bottom:-34px; " *ngIf="data.status=='COMPLETED'">{{data?.inviteeUser?.firstName}}
+                        {{data?.inviteeUser?.lastName}} </p>
+                      <br>
+                      <p *ngIf="data.status=='PENDING' || data.status=='CANCELLED' || data.status=='USERCANCELLED'">
+                        {{data.inviteeEmail}} </p>
+                      <br>
+
+                    </td>
+
+
+                    <td class="xyz">
+                      <strong class="label label-warning" *ngIf="data.status=='PENDING'"> Pending Acceptance</strong>
+                      <strong class="label label-warning" *ngIf="data.status=='USERCANCELLED'"> User Cancelled</strong>
+
+                      <strong class="label label-danger" *ngIf="data.status=='CANCELLED'"> Invitation Cancelled</strong>
+                      <strong class="label label-success" *ngIf="data.status=='COMPLETED'"> Signed up for
+                        Gigsumo</strong>
+
+
+
+                    </td>
+                    <td style="width:50% ; padding-inline: inherit;text-align: center;"> {{ data.createdOn| date:
+                      'MM/dd/yyyy h:mm:ss a' }}</td>
+                    <td class="justify-content-center">
+                      <div>
+
+                        <span style="width:166%" *ngIf="data.status=='COMPLETED'"
+                          class="text text-info text-right pull-right"><b>5 Credits awarded</b></span>
+                        <br>
+                        <div *ngIf="data.status=='PENDING'" class="btn-group three_icon_cmon1 hovers pull-right" dropdown>
+
+                          <div class="more-opt-btn-orien ssu" dropdownToggle>
+                            <button class="more-opt-btn">
+                              <img src="assets/icon/icons8-more-96.png" alt="" srcset="">
+                            </button>
+                          </div>
+
+                          <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu">
+                            <ng-container>
+                              <li role="menuitem">
+                                <a (click)="cancelInvite(data.inviteeEmail)"> Cancel </a>
+                              </li>
+                            </ng-container>
+                          </ul>
+
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary btn-sm pull-right "
+                          *ngIf="data.status=='COMPLETED' && data?.inviteeUser?.connectionStatus=='NOT_CONNECTED'"
+                          (click)="Connect(data.inviteeUser.userId)">Connect </button>
+
+                        <button type="button" class="btn btn-danger btn-sm pull-right"
+                          *ngIf="data.status!='CANCELLED' && data?.inviteeUser?.connectionStatus=='REQUEST_SENT'"
+                          (click)="cancel(data.inviteeUser.userId)">Cancel Request</button>
+                        <button type="button" class="btn btn-primary btn-sm pull-right "
+                          *ngIf="data.status=='COMPLETED' && data?.inviteeUser?.connectionStatus=='CONNECTED'"
+                          (click)="sendMessage(data?.inviteeUser?.userId)">Send Message </button>
+
+
+                      </div>
+                    </td>
+                  </tr>
+
+
+                </tbody>
+              </table>
+            </div>
+
+            <!-- <div *ngFor="let data of inviteRes?.userInvites"  class="felexx">
+                            <div>
+                              <img style="width: 43px;" src="{{url+data?.inviteeUser?.photo}}" onerror="this.src='assets/images/userAvatar.png';" alt="profile-picture">
+                            </div>
+                            <div class="width100" *ngIf="data.status=='COMPLETED'" >{{data?.inviteeUser?.firstName}} {{data?.inviteeUser?.lastName}} </div>
+
+                            <div class="width100" *ngIf="data.status=='PENDING'|| data.status=='CANCELLED'">{{data.inviteeEmail}} </div>
+
+
+                            <div>
+                              <h3 class="label label-warning " *ngIf="data.status=='PENDING'">Pending Acceptance</h3>
+                              <h3 class="label label-danger " *ngIf="data.status=='CANCELLED'"> Invitation Cancelled </h3>
+                              <h3 class="label label-success " *ngIf="data.status=='COMPLETED'">Signed up for Gigsumo </h3>
+                            </div>
+                            <div class="width50">{{ data.createdOn| date: 'MM/dd/yyyy h:mm:ss a' }}</div>
+                            <div>
+
+                            </div>
+                            <div>
+
+                              <span  *ngIf="data.status=='COMPLETED'" class="text text-warning  pull-right"><b>10 Credits  awarded</b></span>
+                              <br>
+                              <div   *ngIf="data.status=='PENDING'" class="btn-group three_icon_cmon1 hovers pull-right" dropdown >
+
+                                <div class="more-opt-btn-orien" dropdownToggle>
+                                  <button class="more-opt-btn">
+                                    <img src="assets/icon/icons8-more-96.png" alt="" srcset="">
+                                  </button>
+                                </div>
+
+
+
+
+
+                                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu"
+
+                                  aria-labelledby="button-animated">
+
+                                  <ng-container>
+                                    <li role="menuitem">
+                                      <a (click)="cancelInvite(data.inviteeEmail)"> Cancel </a>
+                                    </li>
+                                  </ng-container>
+
+                                </ul>
+
+                              </div>
+                              <br>
+                              <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="data?.inviteeUser?.connectionStatus=='NOT_CONNECTED'"
+                              (click)="Connect(data.inviteeUser.userId)">Connect </button>
+
+                              <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="data?.inviteeUser?.connectionStatus=='REQUEST_SENT'"
+                              (click)="cancel(data.inviteeUser.userId)">Cancel Request</button>
+
+
+                            </div>
+                        </div>
+      -->
+
+
+          </div>
+
+          <app-nodata-found [title]="noDatafound" *ngIf="showNoDatafound"></app-nodata-found>
+
+        </div>
+
+        <div class="tab-pane customAccordion" [ngClass]="{'active': id=='3'}" id={{id}}>
+          <div class="panel-body" style="height: 85vh; overflow: auto;">
+            <h4>FAQ's Referal </h4>
+
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+              <ng-container *ngFor="let data of faqresponse?.faqList">
+                <ngb-panel>
+                  <ng-template ngbPanelTitle style="padding-left: 0;">
+                    <span style="font-size: 13px;"> <b> {{data.question}}</b> </span>
+                    <i class="fa fa-chevron-down pull-right text-muted"></i>
+                    <!-- <i class="fa fa-chevron-down pull-right text-muted"></i> -->
+                  </ng-template>
+
+                  <ng-template ngbPanelContent>
+                    <!-- {{data.answer}} -->
+                    <span [innerHTML]="data?.answer"> </span>
+                  </ng-template>
+
+                </ngb-panel>
+              </ng-container>
+
+
+            </ngb-accordion>
+          </div>
+
+
+
+        </div>
+
+      </div>
+      <ng-template #ValidEmail>
+
+        <div class="common-header-flex">
+          <div>User To Be Removed</div>
+        </div>
+
+        <div class="panel-body custom-modal-body">
+          <div class="form-group row">
+            <table>
+              <thead>
+                <label class="abc" *ngIf="existUser.length>0">Already Existing User(s) </label><label
+                  *ngIf="existUser.length>1">s</label><br>
+              </thead>
+              <div class="poslef">
+                <tbody>
+                  <div class="input-group input-sm" *ngFor="let itemexist of existUser">
+                    <span class="text-danger">{{itemexist}} </span>
+
+                  </div>
+                </tbody>
+              </div>
+              <thead>
+                <label class="abc" *ngIf="inviteUser.length>0">Already Invited User(s)</label><label
+                  *ngIf="inviteUser.length>1">s</label><br>
+              </thead>
+              <div class="poslef">
+                <tbody>
+                  <div class="input-group f-l input-sm" *ngFor="let item of inviteUser">
+                    <span class="text-danger ">{{item}} </span>
+                  </div>
+                </tbody>
+              </div>
+
+            </table>
+
+
+          </div>
+        </div>
+
+
+
+        <div class="custom-panel-footer">
+          <div class="panel-footer">
+            <div>
+              <button class="btn btn-sm btn-primary " style="margin:0px 0px 0px 27rem;" type="button" ngbAutofocus
+                (click)="closemodel()">Ok</button>
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </ng-template>
+    </div>
+  </div>
+</div>
+<ng-template #noData>
+  <div *ngIf="!showNoDatafound">loading...</div>
+</ng-template>

@@ -1,0 +1,81 @@
+<div class="hpanel margin-bottom-5">
+  <div class="panel-heading hbuilt wig-c"> {{ headerTitle }} </div>
+  <div class="panel-body padding-top-0 padding-bottom-0 height-212">
+        <ul class="h-list m-t" >
+              <li class="active" style="margin-top: 11px;width:108%;margin-left: -14px;"  (click)="modelopen('JOB')"><a><i class="fa fa-tasks text-info"></i><span class="label-color">How to create your first job</span></a></li>
+              <li class="active" style="margin-top: 11px;width:108%;margin-left: -14px;" (click)="modelopen('CANDIDATE')"><a><i class="fa fa-user text-info"></i> <span class="label-color">How to create your first Candidate</span> </a></li>
+        </ul>
+   </div>
+</div>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">  {{titleforModel}} </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true" style="font-weight: 400; font-size: 26px;">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+   <ng-container *ngIf="modelType==='job'">
+    <div class="row form-group padrtt1">
+      Before you can start, it is mandatory that you need to have a business domain email address to get
+      going. Once you have it, you will have to click on the Job Icon (Briefcase Icon) on the header or in
+      the
+      post dialog box. A Job form will open now.
+    </div>
+
+    <div class="row form-group padrtt1">
+      Fill the form shown to you with necessary fields.
+    </div>
+
+    <div class="row form-group padrtt1">
+      Click on "Save". That's all. Your job will be shown to people in your connections.
+    </div>
+
+    <div class="row padrtt1">
+      FYI, if you need your job to be shown to people beyond your connections, you may consider upgrading
+      your
+      job which will list it under featured ones whereby it increases the odds of getting it applied sooner!
+      Sumo!
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="modelType==='candidate'">
+    <div class="row form-group padrtt1">
+      Before you can start, it is mandatory that you need to have a business domain email address to get
+      going, unless you are either a student or a job seeker. Once you have it, you will have to click on
+      the Candidate Icon on the header or in the post
+      dialog box. A Candidate form will open now.
+    </div>
+
+    <div class="row form-group padrtt1">
+      Fill the form shown to you with necessary fields.
+    </div>
+
+    <div class="row form-group padrtt1">
+      Click on "Save". That's all. Your candidate will be shown to people in your connections.
+    </div>
+
+    <div class="row padrtt1">
+      FYI, if you need your candidate to be shown to people beyond your connections, you may consider
+      upgrading your job which will list it under featured ones whereby it increases the odds of getting it
+      applied sooner! Sumo!
+    </div>
+
+  </ng-container>
+
+
+
+  </div>
+  <div class="modal-footer">
+     <button type="button" class="btn btn-primary"  (click)="modalRef.hide()"> Close </button>
+
+  </div>
+</ng-template>
+
+
+
+
+

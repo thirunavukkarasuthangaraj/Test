@@ -1,0 +1,27 @@
+<div class="landing-page-combo-layout">
+  <div class="all-page-feed">
+    <app-bussiness-post [postView]="'GIG_HOME_PAGE'"></app-bussiness-post>
+  </div>
+  <!-- [ngClass]="{'sticky-widget-landing': landingsidesticky3}" #landingside3 -->
+  <!-- [class.sticky-widget-landing]="landingsidesticky3"  -->
+  <!-- #landingside3 -->
+  <div class="all-page-widget" [class.sticky-widget-freelancer]="freelancer" [ngClass]="{'sticky-widget-other-users': otherusertypes}" >
+    <app-common-widget [page]="'GIG_HOME_PAGE'" [inputData]="'HOME'"  [userType]="'ALL'"></app-common-widget>
+    <!-- <app-common-widget [page]="'GIG_JOB_LIST'"  *ngIf=" userType!='FREELANCE_RECRUITER' && userType!='MANAGEMENT_TALENT_ACQUISITION'"   [showflag]="filterApplied" [showsuggJobsData]="showSuggJobsDataServer"
+    [inputData]="'GIG_JOB_LIST'"></app-common-widget>
+
+    <app-common-widget [page]="'GIG_JOB_LIST_BOTH'" *ngIf=" userType=='FREELANCE_RECRUITER' || userType=='MANAGEMENT_TALENT_ACQUISITION'"  [showflag]="filterApplied" [showsuggJobsData]="showSuggJobsDataServer"
+    [inputData]="'GIG_JOB_LIST_BOTH'"></app-common-widget>
+
+    <app-common-widget *ngIf="userType!='FREELANCE_RECRUITER' && userType!='MANAGEMENT_TALENT_ACQUISITION'"
+    [page]="'GIG_CANDIDTAE_LIST'" [showflag]="jobfilter" [showsuggJobsData]="showsuggJobsData"
+    [inputData]="'GIG_CANDIDTAE_LIST'"></app-common-widget>
+  <app-common-widget *ngIf="userType=='FREELANCE_RECRUITER'|| userType=='MANAGEMENT_TALENT_ACQUISITION'"
+    [page]="'GIG_CANDIDTAE_LIST_BOTH'" [showflag]="jobfilter" [showsuggJobsData]="showsuggJobsData"
+    [inputData]="'GIG_CANDIDTAE_LIST_BOTH'"></app-common-widget> -->
+
+
+  </div>
+</div>
+
+

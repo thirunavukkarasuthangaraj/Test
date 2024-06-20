@@ -1,0 +1,28 @@
+<div class="hpanel">
+  <div  *ngIf="loadAPIcall" class="panel-body border-radius-top-left-right-6">
+    <app-common-skeleton *ngIf="loadAPIcall"  [countforView]="1" [NameOftheScreen]="'notification'"></app-common-skeleton>
+  </div>
+  <div *ngIf="!loadAPIcall" class="panel-body border-radius-top-left-right-6">
+      <div class="row form-group">
+        <div class="col-sm-6">
+          Business ID
+        </div>
+        <div class="col-sm-6">
+          {{values?.platformBusinesId}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          Subscription Type
+        </div>
+        <div class="col-sm-6">
+          <div *ngIf="values?.subscriptionType==null">
+            Standard
+          </div>
+          <div *ngIf="values?.subscriptionType!=null">
+            Free
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

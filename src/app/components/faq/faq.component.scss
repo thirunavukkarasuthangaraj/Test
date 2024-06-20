@@ -1,0 +1,130 @@
+.faq-menu-item{
+  margin-top: 6px;
+  text-align: initial;
+  margin-bottom: 15px;
+  font-size: 19px;
+}
+.card.ng-star-inserted{
+  background-color: #ebebeb !important;
+}
+
+// .card .card-header .btn .btn-link{
+//   background-color: #ebebeb;
+//   color: #333;
+//   font-size: 17px;
+// }
+
+button.btn.btn-link.ng-star-inserted.collapsed{
+  background-color: #ebebeb;
+  color: #333;
+  font-size: 17px;
+}
+
+.card-header-{
+  // background-color: #ebebeb;
+  // color: #333;
+  font-size: 17px;
+ }
+
+.accordion .card .card-header{
+   background: #ebebe8 !important;
+
+}
+
+
+
+.faqheader{
+  background-color: #fff;
+  margin-bottom: 16px;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-family: "Lexend Deca","LexendDeca","Helvetica Neue";
+}
+.white{
+  background-color: #fff;
+}
+.page-headeer{
+    font-weight: 800;
+    color: #111;
+    font-size: 20px;
+    font-family: "Lexend Deca","LexendDeca","Helvetica Neue";
+  }
+
+.f-w-800{
+  font-weight: 800;
+}
+
+.expand-item{
+  font-family: "Lexend Deca","LexendDeca","Helvetica Neue";
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.cat-list-item-{
+  margin-top: 6px;
+  text-align: initial;
+  margin-bottom: 15px;
+  font-size: 16px;
+  margin: -9px 0px 0px -16px;
+
+
+
+ }
+ .mailbox-list ul li a.active{
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  }
+
+  .active{
+    background: #a9cfff;
+   }
+
+    ::ng-deep  {
+      .ngb-accordion .card-header  {
+        font-family: "Lexend Deca","LexendDeca","Helvetica Neue";
+        margin-top: 10px;
+          padding: 6px;
+          color: #111;
+          font-size: 19px;
+          background-color: #ebebeb;
+           button.btn.btn-link.ng-star-inserted i {
+            transform: rotate(180deg) !important;
+          }
+
+           button.btn.btn-link.ng-star-inserted.collapsed i {
+            transform: rotate(0deg) !important;;
+          }
+
+           button.btn.btn-link.ng-star-inserted {
+            padding-left: 0;
+            width: 100%;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+          }
+
+          //  .collapse .card-body {
+          //   padding: 15px 0;
+          // }
+      }
+
+
+}
+
+
+.faq-table-align{
+    width: 160px;
+    text-align: center !important;
+}
+.faq-table-align-value{
+  width: 160px;
+  text-align: left !important;
+}
+
+.faq-tableheader{
+  background: #eee;
+  vertical-align: middle;
+
+}
+
+

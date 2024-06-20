@@ -1,0 +1,42 @@
+<div *ngIf="userType!='JOB_SEEKER'"style="background: #fff;">
+  <div class="table-responsive" style="margin-bottom: 10px; background: #fff; " >
+    <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped" style="background: #fff; text-align: center;">
+      <thead>
+        <tr style="font-size: 10px; color: #111;  ">
+          <th style="text-align: center;cursor: pointer;" title="Refresh"><i class="fa fa-refresh" (click)="refresh()"style="color: #111;"></i></th>
+          <th style="font-size: 10px; ">Jobs/ Candidates</th>
+          <!-- <th style="font-size: 10px; ">Resume Views</th> -->
+          <th style="font-size: 10px; ">Interactions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="page-design-tabel">
+          <td>
+            <span *ngIf="getelement(getName.JOB_CANDIDATE_POSTINGS)?.actual==5"  style="font-weight: 800; color: #111;">FreePlan</span>
+            <span *ngIf="getelement(getName.JOB_CANDIDATE_POSTINGS)?.actual==10" style="font-weight: 800; color: #111;">TeamPlan</span>
+            <span *ngIf="getelement(getName.JOB_CANDIDATE_POSTINGS)?.actual==25" style="font-weight: 800; color: #111;">BusinessPlan</span>
+            <span *ngIf="getelement(getName.JOB_CANDIDATE_POSTINGS)?.actual==50" style="font-weight: 800; color: #111;">EnterprisePlan</span>
+
+          </td>
+          <td > {{getelement(getName.JOB_CANDIDATE_POSTINGS)?.actual}}</td>
+          <!-- <td> {{getelement(getName.RESUME_VIEWS)?.actual}}</td> -->
+          <td> {{getelement(getName.ACTIVE_INTERACTIONS)?.actual}}</td>
+        </tr>
+        <tr  class="page-design-tabel">
+          <td  style="font-weight: 800; color: #111;">Untilized </td>
+          <td> {{getelement(getName.JOB_CANDIDATE_POSTINGS)?.utilized}}</td>
+          <!-- <td> {{getelement(getName.RESUME_VIEWS)?.utilized}}</td> -->
+          <td> {{getelement(getName.ACTIVE_INTERACTIONS)?.utilized}}</td>
+        </tr>
+        <tr  class="page-design-tabel">
+          <td  style="font-weight: 800; color: #111;">Available </td>
+          <td> {{getelement(getName.JOB_CANDIDATE_POSTINGS)?.available}}</td>
+          <!-- <td> {{getelement(getName.RESUME_VIEWS)?.available}}</td> -->
+          <td> {{getelement(getName.ACTIVE_INTERACTIONS)?.available}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

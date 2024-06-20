@@ -1,0 +1,153 @@
+
+<!-- new design -->
+<div class="hpanel contact-panel" [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+  <div class="panel-body border-radius-top-left-right-6 custom-paddin-001" [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+    <!-- <ng-container *ngIf="userDataInput.isDefaultNetwork">
+      <div
+        *ngFor="let n of [1, 2, 3, 4, 5]">
+        <app-common-skeleton [NameOftheScreen]="'networkcard'"></app-common-skeleton>
+      </div>
+    </ng-container> -->
+    <div class="network-card-container"
+      [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+      <div class="network-card-line-one">
+        <div class="network-card-header couers">
+          <div (click)="networkdata(userDataInput)">
+            <div
+              *ngIf="userDataInput?.networkName!='MANAGEMENT TALENT ACQUISITION NETWORK'&& userDataInput?.networkName!='Management Talent Acquisition Network'"
+              class="network-name" title="{{userDataInput.networkName |  titlecase }}">
+              <b>{{userDataInput.networkName |titlecase}}</b>
+            </div>
+            <div
+              *ngIf="userDataInput?.networkName=='MANAGEMENT TALENT ACQUISITION NETWORK'||userDataInput?.networkName=='Management Talent Acquisition Network'"
+              class="network-name font-bold" title="{{userDataInput.networkName |  titlecase }}">
+              <b>TA Managers Network</b>
+            </div>
+          </div>
+        </div>
+        <div class="network-card-crown" *ngIf="userDataInput.memberType=='OWNER'">
+          <div *ngIf="userDataInput.networkOwnerId==userId && !userDataInput.isDefaultNetwork">
+            <img class="crown" title="Owner" src="assets/icon/crown_.PNG" alt="">
+          </div>
+        </div>
+        <div class="network-card-action"
+          *ngIf="userDataInput.memberStatus=='REQUEST_SENT' && userDataInput.status=='ACTIVE'">
+          <div>
+            <button type="button" class="btn btn-primary sm-listing-btn"
+              (click)="accept(userDataInput);$event.stopPropagation();">Accept</button>
+
+          </div>
+        </div>
+        <div class="network-card-options">
+          <div *ngIf="userDataInput.memberStatus=='REQUEST_SENT' && userDataInput.status=='ACTIVE'" class="btn-group"
+            dropdown>
+
+            <app-svg-templates dropdownToggle class="svg-position cursor-pointer"
+              [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu leavenet" role="menu"
+              aria-labelledby="button-animated">
+              <li role="menuitem">
+                <a class="dropdown-item common-font-12 padd"
+                  (click)="reject(userDataInput);$event.stopPropagation()">Reject</a>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            *ngIf="userDataInput.memberType=='MEMBER' && userDataInput.memberStatus=='ACTIVE' && userDataInput?.status=='ACTIVE'">
+
+            <div class="btn-group" dropdown>
+
+              <app-svg-templates dropdownToggle class="svg-position cursor-pointer"
+                [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+              <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu leavenet" role="menu"
+                aria-labelledby="button-animated">
+                <!-- <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item"
+                    (click)="mgsBtn(userDataInput)"> Message</a></li> -->
+                <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item"
+                    (click)="deletenet(userDataInput, 'leave')"> Leave Network</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div *ngIf="userDataInput.memberType=='OWNER'" class="btn-group" dropdown>
+
+            <app-svg-templates dropdownToggle class="svg-position cursor-pointer"
+              [svgType]="'MORE_VERTICAL'"></app-svg-templates>
+            <ng-container *ngIf="userDataInput.networkOwnerId==userId && !userDataInput.isDefaultNetwork">
+              <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu card-dropdown" role="menu"
+                aria-labelledby="button-animated">
+                <!-- <li *ngIf="userDataInput?.status!='INACTIVE'" role="menuitem"><a class="dropdown-item"
+                    (click)="mgsBtn(userDataInput)"> Message</a></li> -->
+                <li *ngIf="userDataInput?.status=='INACTIVE'" role="menuitem"><a class="dropdown-item"
+                    (click)="activate(userDataInput)"> Activate Network</a></li>
+                <li *ngIf="userDataInput?.status=='ACTIVE'" role="menuitem"><a class="dropdown-item"
+                    (click)="deletenet(userDataInput, 'delete')"> Deactivate Network</a></li>
+              </ul>
+            </ng-container>
+          </div>
+
+        </div>
+
+      </div>
+      <div (click)="networkdata(userDataInput)" *ngIf="!textContent" class="network-card-line-two-0 couers">
+        <p class="card-subtitle-font" style="text-transform: capitalize;"
+          title="{{userDataInput.name}}" *ngIf="userDataInput.networkOwnerId!=userId"> <span
+            *ngIf="userDataInput.networkOwnerId!=null"> By </span> {{userDataInput.name}}</p>
+      </div>
+      <div (click)="networkdata(userDataInput)" *ngIf="textContent" class="network-card-line-two-1 couers">
+        <p class="inside_content">{{textContent}}</p>
+      </div>
+      <div  (click)="networkdata(userDataInput)" class="network-card-line-three">
+        <ng-container *ngFor="let member of userDataInput.members; let i = index;">
+          <div class="image-wrapper" *ngIf="i < 5 && !userDataInput.isDefaultNetwork">
+            <img *ngIf="member?.image != null" alt="logo"
+              [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}"
+              class="img-circle mt72 mt05 mt-5 netCard" [src]="member?.image" />
+            <div *ngIf="member?.image == undefined" class="initial-img-position"
+              [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}">
+              <div class="network-circles img-circle mt72 mt05 mt-5 netCard "
+                [style.background-color]="getColorName(member?.firstName, member?.lastName)">
+                <div class="circle-text">{{ getInitialName(member?.firstName, member?.lastName) }}</div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+      <div class="network-card-line-four">
+        <div class="qwpoi1" [ngClass]="{'qwpoi': userDataInput.memberType!='OWNER'}">
+          <img *ngIf="userDataInput?.status=='INACTIVE'" height="25px" src="assets/icon/Blocked-PNG-File.png" alt="">
+          <p *ngIf="userDataInput?.status=='INACTIVE'">Deactivated</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer contact-footer footPadding">
+    <div class="row" [class.justify]="flag">
+      <div class="col-md-4 common-font-12 couers border-right" (click)="redirectPage(userDataInput)">
+        <div class="contact-stat ">
+          <span>Member: </span>
+          <strong>{{userDataInput.memberCnt}}</strong>
+        </div>
+      </div>
+      <div class="col-md-4 common-font-12 couers" [class.border-right]="!flag"
+        *ngIf="userDataInput.networkNameLowerCase!='bench sales network'&&userDataInput.networkNameLowerCase!='job seeker network'"
+        (click)="routepage('JOBS',userDataInput)">
+        <div class="contact-stat">
+          <span>Jobs: </span>
+          <strong>{{userDataInput.jobsCount}}</strong>
+        </div>
+      </div>
+
+      <div class="col-md-4 couers" [class.border-right]="!flag"
+        *ngIf="userDataInput.networkNameLowerCase!='recruiter network'" (click)="routepage('CANDIDATES',userDataInput)">
+        <div class="contact-stat">
+          <span style="position: relative;right: 10px;">Candidate: </span>
+          <strong>{{userDataInput.candidatesCount}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,172 @@
+<!-- <div class="row">
+  <div class="col-lg-12">
+      <div class="">
+          <div class="" style="height: 5rem;">
+            <div class="row" style="margin-top: 0rem;">
+              <div class="col-md-2">
+                <div style="margin-top: 5px;">
+                  <!-- <p>{{title}}    {{Arraylength}} </p> --
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <input class="form-control" [formControl]="clearInput"
+                   style="width: 38rem; margin-top:0px ;margin-bottom:3px; margin-left: -5px;" type="text"  #filterData>
+                  <div class="input-group-btn">
+                      <button class="btn btn-default " style="margin-top:0px;margin-bottom:3px ">
+                        <i class="fa fa-search"></i>
+                      </button>
+                      <button class="btn btn-default " style="margin-top:0px;margin-bottom:3px " (click)="clearData()">
+                        <i class="pe-7s-close"></i>
+                      </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <button class="btn secondary-btn btn-sm">Filter</button>
+                <button class="btn primary-btn btn-sm" style="margin-left: 5px;">Advance Search</button>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+
+<div class="row wrapper bgcolor seachTopNav">
+  <div class="col-lg-12">
+    <div class="mainNav">
+      <div class="navIteam">
+        <!-- <span> new 2</span> -->
+      </div>
+      <div class="navIteam">
+        <div class="input-group f-l">
+          <input
+            type="text"
+            class="form-control input-sm"
+            [formControl]="clearInput"
+            name="searchadmin"
+            id="searchadmin"
+          />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon" (click)="clearData()"
+            ><i class="pe-7s-close"></i
+          ></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button
+            id="button-animated"
+            dropdownToggle
+            type="button"
+            class="btn btn-sm dropdown-toggle fbtn"
+            aria-controls="dropdown-animated"
+          >
+            <span class="mr-5"
+              ><img
+                src="assets/icon/icons8-mail-filter-96.png"
+                alt=""
+                srcset=""
+                class="filimg" /></span
+            >Filter
+          </button>
+          <!-- <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="apicall('CONNECTED')">All Connection</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Received')">Request Received</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Sent')">Invitations Sent </a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div class="navIteam">
+        <!-- <button class="btn btn-default btn-sm displayflex dropdown-toggle">
+          <span class="mr-5">
+            <img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" />
+          </span>
+          Filter
+        </button> -->
+        <button class="btn primary-btn btn-sm"  class="btn btn-primary" (click)="openPostSearch(searchModal)">Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div></div>
+
+<div>
+  <!--*ngIf="userData"-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row pcard">
+        <div class="col-sm-70 col-lg-70 col-md-70" style="padding: 0rem 1.6rem !important;">
+          <div class="col-md-4 sCard" style="padding: 0.2rem 0.2rem 0.2rem 0.2rem !important;" *ngFor="let post of posts">
+            <div class="hpanel blog-box">
+              <div class="panel-heading">
+                <div class="media clearfix">
+                  <a class="pull-left">
+                    <img src="assets/images/a3.jpg" alt="profile-picture" />
+                  </a>
+                  <div class="media-body">
+                    <small
+                      >Created by:
+                      <span class="font-bold">Mike Smith {{ post }}</span>
+                    </small>
+                    <br />
+                    <small class="text-muted">21.03.2015, 06:45 pm</small>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <a href="blog_details.html">
+                  <h4>Article about new design</h4></a
+                >
+                <p>
+                  There are many variations of passages of Lorem Ipsum
+                  available, but the majority have suffered alteration in some
+                  form, by injected humour, or randomised words which don't look
+                  even slightly believable. If you are going to use a passage of
+                  Lorem Ipsum...
+                </p>
+                <p>
+                  Praesent eget euismod nibh. Fusce ac tellus eu nisl lobortis
+                  maximus ac eget sapien. Nulla malesuada mauris non nulla
+                  imperdiet ullamcorper.
+                </p>
+              </div>
+              <div class="panel-footer">
+                <span class="pull-right">
+                  <i class="fa fa-comments-o"> </i> 22 comments
+                </span>
+                <i class="fa fa-eye"> </i> 142 views
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-30 col-md-30 col-lg-30 sCard ml-9 sticky-widdgget">
+          <div>
+            <app-common-widget
+              [page]="'NETWORK_PAGE'"
+              [inputData]="'NETWORK'"
+            ></app-common-widget>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchModal>
+  <div class="modal-header padding-0">
+    <h4 class="modal-title pull-left">Filter Search by</h4>
+    <button type="button" class="close pull-right mt-5" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul >
+      <li >tii</li>
+    </ul>
+  </div>
+  <div class="modal-footer padding-8 ">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()"> Close</button>
+  </div>
+</ng-template>

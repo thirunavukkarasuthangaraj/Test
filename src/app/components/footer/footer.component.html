@@ -1,0 +1,249 @@
+
+
+<!-- <div class="app-footer">
+  <div class="directory-footer">
+    <div class="container">
+      <div class="row">
+      <h4><a [routerLink]="['/memberDirectory']" routerLinkActive="router-link-active" >Member Directory</a></h4>
+        <h4>
+          <span>GigSumo Member Directory :</span>
+          <ul>
+            <li (click)="getvalue(l)" *ngFor="let l of letterArray">{{ l }}</li>
+          </ul>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div class="main-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-1">
+            <h5>GigSumo</h5>
+            <div class="footer-logo">
+                <img src="assets/images/mylogo.png" />
+              <img _ngcontent-serverapp-c4="" src="assets/icon/careOnline_icon.jpg" style="width: 165px;">
+            </div>
+            <div class="footer-address">
+              <address>
+                <strong>GigSumo, Inc.</strong><br />
+                2591 Dallas Parkway Suite 300,<br />
+                Dallas, TX 75034<br />
+                <abbr title="Phone">P:</abbr> (123) 456-7890
+              </address>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-2">
+            <h5>Company</h5>
+            <div class="footer-menu">
+              <ul>
+                <li><a>Help</a></li>
+                <li><a>About Us</a></li>
+                <li><a>News</a></li>
+                <li><a>Blog</a></li>
+                <li><a>Careers</a></li>
+                <li><a>Policies</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-3">
+            <h5>Directories</h5>
+            <div class="footer-menu">
+              <ul>
+                <li>
+                   href="{{profDirectoryUrl}}"
+                  <a>Healthcare Professionals</a
+                  >
+                </li>
+                <li>
+                   href="{{orgDirectoryUrl}}"
+                  <a >Healthcare Organization</a
+                  >
+                </li>
+                <li><a>Communities</a></li>
+                <li><a>Jobs</a></li>
+                <li><a>Pulse</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="footer-4">
+            <h5>NewsLetter</h5>
+            <p>Email address:</p>
+            <form class="form-inline app-form margin-bottom-30">
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Your email address"
+                />
+              </div>
+              <button type="submit" class="btn footer-subscribe-btn">
+                Subscribe
+              </button>
+            </form>
+            <h5>Social Media</h5>
+            <div class="footer-social-icon">
+              <ul>
+                <li>
+                  <a><i class="fa fa-facebook"></i></a>
+                </li>
+                <li>
+                  <a><i class="fa fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a><i class="fa fa-linkedin"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <span>Copyright © 2019 GigSumo, Inc. All rights reserved</span>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="sub-footer-menu">
+            <ul>
+              <li>
+                <a>Privacy Policy</a>
+              </li>
+              <li>
+                <a>Terms & Conditions</a>
+              </li>
+              <li>
+                <a>Notice Of Privacy Practices</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+        <div class="row">
+          <div class="col-sm-3">
+            <UL>
+              <li><h5>COMPORATE HEADQUARTERS</h5></li>
+              <li><img src="../../../assets/images/c1.JPG" alt=""></li>
+              <li><i class="fas fa-map-marker-alt"></i><span>
+                GigSumo , lnc<br>
+                 2591 Dallas Parkway Suite 300 <br>
+                 Dallas, TX75034
+              </span>
+                </li>
+              <li><i class="fas fa-phone"></i> +1 877 454 6500</li>
+              <li><i class="far fa-envelope"></i> Sales@CareOnline.com</li>
+            </UL>
+          </div>
+          <div class="col-sm-3">
+              <ul>
+              <li><h5>SOLUTION</h5></li>
+              <li><a href="">health</a></li>
+              <li><a href="">Physican</a></li>
+              <li><a href="">Personal</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <ul>
+              <li><h5>COMPANY</h5></li>
+              <li><a href="">About As</a></li>
+              <li><a href="">Partners</a></li>
+              <li><a href="">Associates</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <ul>
+              <li><h5>NEWS LETTERS</h5></li>
+              <li>
+                <div class="input-group" >
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-info" type="button">Subscription</button>
+                  </span>
+                </div>
+              </li>
+              <li>
+                <ul style="margin-top: 1rem;">
+                  <li>Social Media</li>
+                </ul>
+                <ul class="l">
+                  <li><i class="fab fa-facebook"></i></li>
+                  <li><i class="fab fa-linkedin-in"></i></li>
+                  <li><i class="fab fa-twitter"></i></li>
+                </ul>
+               </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+              <strong>CareOnline</strong><br/>Copyright © 2015 GigSumo Inc. All Rights Reserved
+          </div>
+      </div>
+      </div> -->
+<!-- </div>   -->
+
+<!-- <link rel="stylesheet" type="text/css" href="src/assets/newassets/bootstrap/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="src/assets/newassets/custom.css"> -->
+ <section class="footer py-4 cm-b-bottom app-font-family"  style=" position: relative; padding-top: 1.5rem!important; padding-bottom: 1.5rem!important;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 col-12 py-3">
+        <a href="https://gigsumo.com/" >
+          <img src="assets/icon/gigsumologo_bigface.png"  style="width: 200px;" class="img-fluid logo">
+        </a>
+      </div>
+      <div class="col-md-3 ft-nav py-3 col-6">
+        <h3 class="ft-nav app-font-family">Gigsumo For</h3>
+        <a href="https://gigsumo.com/recruiters.html">Recruiters</a>
+        <a href="https://gigsumo.com/bench-sales.html">Bench recruiters</a>
+        <a href="https://gigsumo.com/job-seekers.html">Job Seekers</a>
+
+
+      </div>
+
+      <div class="col-md-2 ft-nav py-3 col-6">
+        <h3  class="ft-nav app-font-family ">Company</h3>
+        <a href="https://gigsumo.com/about-us.html">About us</a>
+        <a href="https://gigsumo.com/benefits.html">Benefits</a>
+        <!-- <a href="https://gigsumo.com/careers.html">Careers</a> -->
+        <a href="https://gigsumo.com/contact-sale.html">Contact Sales</a>
+        <a href="https://gigsumo.com/book-a-demo.html">Book a demo</a>
+
+      </div>
+    </div>
+    <img  class="upArrow" id="upArrow" (click)="scrollTop()" src="../../../assets/Uparrow.png" alt="" width="40" height="40">
+  </div>
+</section>
+
+
+<section class="footer-copywrite py-4" style="background-color: #fff;  text-align: center;  padding-top: 1.5rem!important;    padding-bottom: 1.5rem!important;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-12 py-1 fc-nav1 font new-align app-font-family">
+        <a >© 2023 Gigsumo. All right reserved.   <span *ngIf="envName!='prod'"> Env: {{envName}} - </span><span> V({{versions}})</span> </a>
+        <a href="https://gigsumo.com/privacy-policy.html">Privacy Policy</a>
+        <a href="https://gigsumo.com/terms-conditions.html">Terms & Conditions</a>
+        <a href="https://gigsumo.com/dmca-policy.html">DMCA Policy</a>
+        <a href="https://gigsumo.com/trademark-policy.html">Trademark Policy</a>
+        <a href="https://gigsumo.com/acceptable-use-policy.html">Acceptable Use Policy</a>
+        <a ><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a ><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        <a ><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a ><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+</section>

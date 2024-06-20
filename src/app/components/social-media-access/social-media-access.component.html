@@ -1,0 +1,181 @@
+<app-langding-page-nav-bar></app-langding-page-nav-bar>
+<!-- <app-navbar></app-navbar> -->
+<!-- <div id="wrapper" > -->
+    
+<!-- <div class="content"> -->
+        <div >
+            <!-- <div class="col-sm-2" style="padding: 0px;">
+                <aside>
+                    <div class="slimScrollDiv"
+                        style="position: relative; overflow: hidden; width: 180px; height: 100%;">
+                        <div id="navigation"
+                            style="overflow: hidden; width: 107%; height: 100%; padding-top: 15px;">
+                            <ul class="nav" id="side-menu">
+                                <li>
+    
+                                    <a [routerLink]="['/personalProfile']"
+                                        routerLinkActive="router-link-active">
+                                        <span class="pull-right"><i class="fa fa-fw fa-user fa-lg"></i></span>
+                                        <span style="text-transform: capitalize;">Profile</span>
+                                    </a>
+                                </li>
+    
+                                <li >
+    
+                                    <a [routerLink]="['/securitySettings']"
+                                        routerLinkActive="router-link-active">
+                                        <span class="pull-right"><i class="fas fa-cog fa-lg"></i></span>
+                                        <span style="text-transform: capitalize;">Security Settings</span>
+                                    </a>
+                                </li>
+    
+                                <li >
+    
+                                    <a [routerLink]="['/appAccess']" routerLinkActive="router-link-active">
+                                        <span class="pull-right"><i
+                                                class="far fa-check-circle fa-lg"></i></span>
+                                        <span style="text-transform: capitalize;">Application Access</span>
+                                    </a>
+                                </li>
+    
+                                <li class="active">
+    
+                                    <a [routerLink]="['/socialAccess']" routerLinkActive="router-link-active">
+                                        <span class="pull-right"><i
+                                                class="fas fa-project-diagram fa-lg"></i></span>
+                                        <span style="text-transform: capitalize;">Social Media Access</span>
+                                    </a>
+                                </li>
+    
+    
+                            </ul>
+    
+                        </div>
+                    </div>
+                </aside>
+    
+        </div> -->
+    
+            <div class="col-sm-12 padding-right-0 padding-left-0">
+
+                <div class="small-header ">
+                </div>
+                <div class="hpanel margin-bottom-5" >
+                    <div class="panel-heading hbuilt" style="border-bottom: 1 important;">
+                        <label class="control-label padding-top-0 margin-bottom-5 margin-top-5">Social Media Access</label>
+                    </div>
+                </div>
+
+
+                <div class="hpanel margin-bottom-5">
+                    <div class="panel-body">
+                            <div class="row border-bottom" style="padding-bottom: 20px;">
+                                <div class="col-sm-3">
+                                    <img   class="img" height= "51px" width= "51px" src="assets/images/gallery/twitter.JPG"  alt="">
+                                </div>
+                                <div class="col-sm-6">
+                                   <div class="row col-sm-12">
+                                        <p>Twitter ID</p>
+                                   </div>
+                                    <div class="row col-sm-12">
+                                        <!-- <a role="button" *ngIf="!twitterConnectedFlag" (click)="connectTwitter()"><small>Connect</small></a> -->
+                                        <!-- <a role="button" *ngIf="twitterConnectedFlag" (click)="disconnectTwitter()"><small>Disconnect</small></a> -->
+
+                                        <a class="wbst" *ngIf="!twitterConnectedFlag"
+                                        [attr.href]="'https://twitter.com/careonline'"
+                                        target="_blank">
+                                        <small>Connect</small>
+                                      </a>
+
+                                      <a class="wbst" *ngIf="twitterConnectedFlag"
+                                      [attr.href]="'https://twitter.com/careonline'"
+                                      target="_blank">
+                                      <small>Disconnect</small>
+                                    </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                   <p *ngIf="twitterConnectedFlag">Connected</p>
+                                   <p *ngIf="!twitterConnectedFlag">Not connected</p>
+                                </div>
+                            </div>
+    
+    
+                            <div class="row border-bottom" style="padding-top: 20px; padding-bottom: 20px;">
+                                <div class="col-sm-3">
+                                    <img   class="img" height="50px" width="50px" src="assets/images/gallery/facebook.png"  alt="">
+                                </div>
+                                <div class="col-sm-6">
+                                   <div class="row col-sm-12">
+                                        <p>Facebook ID</p>
+                                   </div>
+                                    <div class="row col-sm-12">
+                                        <!-- <a role="button" *ngIf="!fbConnectedFlag" (click)="connectFacebook()"><small>Connect</small></a>
+                                        <a role="button" *ngIf="fbConnectedFlag" (click)="disconnectFacebook()"><small>Disconnect</small></a> -->
+
+
+                                        <a class="wbst" *ngIf="!fbConnectedFlag"
+                                        [attr.href]="'https://facebook.com/careonline'"
+                                        target="_blank">
+                                        <small>Connect</small>
+                                      </a>
+
+                                      <a class="wbst" *ngIf="fbConnectedFlag"
+                                      [attr.href]="'https://facebook.com/careonline'"
+                                      target="_blank">
+                                      <small>Disconnect</small>
+                                    </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                   <p *ngIf="fbConnectedFlag">Connected</p>
+                                   <p *ngIf="!fbConnectedFlag">Not connected</p>
+                                </div>
+                            </div>
+    
+                            <div class="row" style="padding-top: 20px;">
+                                <div class="col-sm-3">
+                                    <img   class="img" height="51px" width="51px" src="assets/images/gallery/linkedin.jpg"  alt="">
+                                </div>
+                                <div class="col-sm-6">
+                                   <div class="row col-sm-12">
+                                        <p>Linked In ID</p>
+                                   </div>
+                                    <div class="row col-sm-12">
+                                        <!-- <a role="button" *ngIf="!linkedinConnectedFlag" (click)="connectLinkedin()"><small>Connect</small></a>
+                                        <a role="button" *ngIf="linkedinConnectedFlag" (click)="disconnectLinkedin()"><small>Disconnect</small></a> -->
+
+                                        <a class="wbst" *ngIf="!linkedinConnectedFlag"
+                                        [attr.href]="'https://linkedin.com/careonline'"
+                                        target="_blank">
+                                        <small>Connect</small>
+                                      </a>
+
+                                      <a class="wbst" *ngIf="linkedinConnectedFlag"
+                                      [attr.href]="'https://linkedin.com/careonline'"
+                                      target="_blank">
+                                      <small>Disconnect</small>
+                                    </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                   <p *ngIf="linkedinConnectedFlag">Connected</p>
+                                   <p *ngIf="!linkedinConnectedFlag">Not connected</p>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-sm-4">
+    
+            </div>
+        </div>
+<!-- </div> -->
+
+<!-- </div> -->
+<!-- <app-menu></app-menu> -->
+

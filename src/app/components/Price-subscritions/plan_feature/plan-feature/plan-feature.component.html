@@ -1,0 +1,59 @@
+<div class="col-sm-12 padding-right-0 padding-left-0">
+  <div class="hpanel margin-bottom-5">
+    <div class="panel-heading hbuilt m-10" style="border-bottom: 1 important; ">
+      <div class="p-15">
+        <!-- <label class="feau-header">Complete Features List </label> -->
+
+
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" [closeOthers]="true">
+
+          <ngb-panel>
+            <ng-template ngbPanelTitle style="padding-left: 0;">
+
+              <span class="card-header- tab-title "> Complete Features List </span>
+              <i class="fa fa-chevron-down pull-right text-muted down-arrow" style="padding: 5px;"></i>
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+              <div class="table-responsive white m-10" *ngFor="let items of featurelists; let i = index">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="th-center" *ngFor="let headitem of items.titles; let sub = index">{{headitem}}</th>
+                    </tr>
+                    <tr *ngFor="let tableData of items.featureKeyValues">
+
+                      <ng-container *ngFor="let itemss of tableData  ">
+
+                        <td class="td-center">
+                          {{itemss.key}}
+                          <span *ngIf="itemss.key=='item'"> {{tableData.item}} <i
+                              class="fa fa-exclamation-circle gray-c"> </i></span>
+
+                          <img class="img-size" *ngIf="itemss.key!='item'"
+                            [src]="itemss.value == 'true' ? 'assets/icon/completed.PNG'  : 'assets/icon/block.jpg'">
+                        </td>
+                      </ng-container>
+
+
+                    </tr>
+                  </thead>
+
+                </table>
+
+              </div>
+            </ng-template>
+
+          </ngb-panel>
+
+
+
+        </ngb-accordion>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

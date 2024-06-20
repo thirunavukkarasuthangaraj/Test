@@ -1,0 +1,25 @@
+<div class="hpanel margin-bottom-5"  [class.business-menu-sticky]="businessmenustick" #businessmenusticky>
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="profile-list">
+          <ng-container *ngFor="let item of user | slice:0:3; let i=index">
+            <app-common-profile-info [type]="'COMMUNITY'">
+              <ng-container headline1>Mavens-i softech solution pvt ltd</ng-container>
+              <ng-container headline2>1 hour ago: 11,000 Views</ng-container>
+              <ng-container btn>
+                <button class="btn btn-primary btn-xs"><i class="fas fa-plus" aria-hidden="true"></i> Join</button>
+              </ng-container>
+            </app-common-profile-info>
+          </ng-container>
+        </ul>
+        <p style="float: right;" *ngIf="user.length > 3">
+          <u><a >...More</a></u>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

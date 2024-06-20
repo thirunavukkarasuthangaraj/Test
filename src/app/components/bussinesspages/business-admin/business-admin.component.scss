@@ -1,0 +1,211 @@
+// button{
+//     width: 140px;
+//     height: 36px;
+//     font-size: 14px
+// }
+
+#close {
+  margin-top: -5px;
+  margin-right: -4px;
+}
+
+::ng-deep .autocomplete-container .input-container .x i {
+  color: rgba(0, 0, 0, .54);
+  font-size: 22px;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.search-results {
+  height: 20rem;
+  overflow: scroll;
+}
+
+.font-12s {
+  font-size: 14px;
+  font-style: bold;
+}
+
+.curse-pointer {
+  cursor: pointer;
+}
+
+.r-0-l-auto {
+  right: 0;
+  left: auto;
+}
+
+.admin-circle-text {
+  color: #fff;
+
+}
+
+.ieoslf {
+  position: relative;
+  border-radius: 2px !important;
+  bottom: 1px;
+  left: 9px;
+}
+
+.Vthree-dote {
+  max-height: 3rem;
+  position: relative;
+  bottom: 0.5rem;
+  left: 1rem;
+}
+
+.common-team-card {
+  position: relative;
+  top: 6px;
+  padding-inline-end: 0px;
+  padding-inline-start: 8px;
+}
+
+.team-card {
+  padding-left: 8px;
+  padding-top: 22px;
+  // margin-top: 3px;
+}
+
+.team-text {
+  margin-top: -26px;
+  margin-left: -8px;
+}
+
+.team-img {
+  position: relative;
+  top: -30px;
+}
+
+.fnt-12 {
+  font-size: 12px;
+}
+
+.img-circle {
+  height: 56px !important;
+  width: 56px !important;
+}
+
+.ellipse {
+  text-overflow: ellipsis;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.m-t-10 {
+  margin-top: 10px;
+}
+
+.Bnav {
+  display: flex;
+}
+
+.Bnav-item-1 {
+  flex-grow: 2;
+}
+
+.Bnav-item-2 {
+  flex-grow: 2;
+}
+
+.Bnav-item-3 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.Bnav-item-4 {}
+
+.md-scroll-mask {
+  position: initial
+}
+
+.name-diff {
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  // line-height: 45px;
+  // height: 45px;
+  padding: 0 16px;
+  text-align: left;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.font-bold-14 {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.admin-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.kljs {
+  position: relative;
+  left: 4.6rem;
+  top: 0.5rem;
+}
+
+.card {
+  margin-bottom: 5px;
+}
+
+.right {
+  float: right !important;
+}
+
+.item {
+  flex-wrap: wrap;
+  margin-left: -13px;
+}
+
+.admin-footer {
+  background-color: #f1f3f6;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2px;
+}
+
+.bus-admin-card-design {
+  display: flex;
+  flex-direction: column;
+  height: 15.7rem !important;
+  padding: 10px;
+}
+
+.iou {
+  display: grid;
+  grid-gap: 0.5rem;
+  text-align: right;
+  position: relative;
+  left: 6px;
+}
+
+.crown {
+  height: 3rem;
+  position: relative;
+  right: 1rem;
+  width: auto;
+  top: 0rem;
+  left: 2rem;
+}
+
+.crv {
+  border-radius: 3px !important;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,126 @@
+.counterparts-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+    padding: 10px;
+    margin: 20px 0 0 0;
+    align-items: center;
+    border: 1px solid #f1f3f6;
+    border-radius: 6px;
+
+    .counterpart-image {
+        img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+        }
+    }
+
+    .counterparts-details {
+        padding: 5px;
+
+        .designation-workplace {
+            display: flex;
+            flex-direction: row;
+            column-gap: 5px;
+        }
+    }
+
+    .connection-actions {
+        padding: 5px;
+    }
+}
+
+.connection-graphics {
+    display: flex;
+    justify-content: center;
+    padding: 0 10px 10px 10px;
+
+    img {
+        height: auto;
+        width: 200px;
+    }
+}
+
+.br-bt-none {
+    border-bottom: none;
+}
+
+.ellipsces {
+    text-overflow: ellipsis;
+    max-width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.accept{
+  background-color: #35ac31;
+  color:white;
+}
+.btn .caret {
+  font-size: 1rem; /* Adjust the size as needed */
+}
+::ng-deep .mat-menu-panel {
+  min-height: 46px !important;
+  min-width: 141px;
+}
+
+
+.xs-counterparts-container {
+    display: grid;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 10px;
+    align-items: center;
+    row-gap: 4px;
+
+    .xs-conterparts-flex {
+        display: flex;
+        column-gap: 10px;
+        justify-items: center;
+
+        .xs-counterpart-image {
+            display: -webkit-box;
+            display: grid;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            justify-items: center;
+
+            img {
+                height: 45px;
+                width: 45px;
+                border-radius: 50%;
+            }
+        }
+
+        .xs-counterparts-details {
+            .xs-designation-workplace {
+                display: flex;
+                flex-direction: row;
+                column-gap: 5px;
+            }
+        }
+
+        .xs-counter-part-connection {
+            .xs-connection-actions {
+                padding: 5px;
+            }
+        }
+    }
+
+}
+
+
+.xs-br-bt-none {
+    border-bottom: none;
+}
+
+.xs-ellipsces {
+    text-overflow: ellipsis;
+    max-width: 212px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+

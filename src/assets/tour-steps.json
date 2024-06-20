@@ -1,0 +1,45 @@
+[
+    {
+        "stepId": "start.tour",
+        "title": "Create Job",
+        "text": "Quickly start creating a Job to showcase to your network on the platform and more.",
+        "route": "landingPage",
+        "userType": "RECRUITER",
+        "target": "tourOne"
+    },
+
+    {
+        "stepId": "step.one",
+        "title": "Manage Jobs",
+        "text": "Easily manage all jobs you have posted and more. All in one place.",
+        "route": "newjobs",
+        "userType": "RECRUITER",
+        "target": "tourThree"
+    },
+
+    {
+        "stepId": "step.two",
+        "title": "View Job activity",
+        "text": "Quickly view job applicants, Suggested and featured candidates matching your jobs, .. and more.",
+        "route": "newjobs",
+        "userType": "RECRUITER",
+         "target": "tourTwo"
+    },
+
+    {
+        "stepId": "step.three",
+        "title": "Discover Candidates",
+        "text": "Easily find matching candidates available with your connections and others on the platfom. ",
+        "route": "newcandidates",
+        "userType": "RECRUITER",
+         "target": "four"
+    },
+    {
+        "stepId": "step.four",
+        "title": "Manage Jobs",
+        "text": "Quickly lets you know the number people your are connected with, active jobs, interactions ….and more.",
+        "route": "landingPage",
+        "userType": "RECRUITER",
+        "target": "five"
+    }
+]

@@ -1,0 +1,50 @@
+<p style="margin-right:8px;"(click)="openmodel(template)">Report</p>
+
+<!--
+<div class="btn-group three_icon_cmon1 hovers" dropdown>
+  <a id="button-animated" style="font-size: 12px;" dropdownToggle>Report</a>
+  <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" style="right: 0; left: auto"
+    aria-labelledby="button-animated">
+    <ng-container>
+      <li role="menuitem" *ngFor="let flag of flags">
+        <a  (click)="onClick(flag)">{{flag}}</a>
+      </li>
+
+    </ng-container>
+
+  </ul>
+</div> -->
+
+
+<ng-template #template>
+  <div class="common-header-flex">
+    <div>Report</div>
+    <button >
+      <span (click)="modalRef.hide()" class="common-close">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <ng-container>
+      <div class="list-group">
+        <li class="list-group-item" *ngFor="let flag of flags">
+          <input type="radio" name="list_name" value="{{flag}}" (change)="onchange(flag)" />
+          {{flag}}
+        </li>
+
+        <li class="list-group-item">
+          <input type="radio" name="list_name" value="Other" (change)="other()" />
+          Other report
+        </li>
+
+        <textarea class="form-control" *ngIf="showother" [(ngModel)]="otherdata" rows="5"
+          placeholder="Please enter your report here"></textarea>
+      </div>
+    </ng-container>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="modalRef.hide()"> Cancel </button>
+    <button type="button" class="btn btn-primary" (click)="submit()"> Submit </button>
+  </div>
+</ng-template>

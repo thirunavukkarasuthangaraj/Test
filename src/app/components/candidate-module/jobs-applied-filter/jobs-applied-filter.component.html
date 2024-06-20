@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="custom-checkbox" title="Search All filters">
+            <label class="checkbox-label font-normal">
+                <input type="checkbox" [(ngModel)]="all" (change)="jobsAppliedStatusFilter($event,'all')" />
+                <span class="checkmark" style="top: -5px"></span>
+                <p class="label-ppp"> All</p>
+            </label>
+        </div>
+    </div>
+
+    <div *ngIf="jobAppliedStatusList?.length > 0 ">
+      <form [formGroup]="jobsAppliedFilterForm">
+          <div *ngFor="let item of jobAppliedStatusList;">
+              <div class="col-sm-6">
+                  <div class="custom-checkbox" title="Search {{item.value | titlecase}} filters">
+                      <label class="checkbox-label font-normal">
+                          <input type="checkbox" formControlName="{{item.itemId}}"
+                              (change)="jobsAppliedStatusFilter($event,item.itemId)" />
+                          <span class="checkmark" style="top: -5px"></span>
+                          <p class="label-ppp"> {{item.value | titlecase}}</p>
+                      </label>
+                  </div>
+              </div>
+          </div>
+      </form>
+    </div>
+</div>

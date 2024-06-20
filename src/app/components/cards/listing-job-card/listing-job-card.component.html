@@ -1,0 +1,473 @@
+<!-- <div class="selectAll">
+  <label for="" class="select">Select All</label>
+  <input id="selectAll" type="checkbox" (click)="selectAll($event.target.checked)">
+</div> -->
+
+
+
+
+<!-- <form [formGroup]="deactivateEffectiveForm">
+  <div *ngFor="let data of deactivatedList; let dataIndex = index">
+
+    <div class="hpanel" *ngIf="ListingContent==='JOB'">
+      <div>
+
+
+
+        <div class="panel-body pad-cus p-mb-6  hover-borders"
+          [ngStyle]="(data.isFeatured==true && data.jobPostedBy==userId) && {'background-color': '#fffcf0' }">
+
+          <div class="row">
+            <ng-container>
+              <div class="col-md-3">
+
+                <div class="media pt-24 social-profile social-profileCustom clearfix">
+
+                  <a class="pull-left  card-profImg">
+                    <img src={{url+data?.user?.photo}} onerror="this.src='assets/images/userAvatar.png';"
+                      alt="profile-picture">
+                  </a>
+
+                  <div class="media-body">
+
+                    <div class="col-sm-9 w-wrap" *ngIf="data?.user?.fullname!=null">
+                      <h5 title="{{data?.user?.fullname}}" class="me-5">{{
+                        (data?.user?.fullname?.length > 10) ?
+                        (data?.user?.fullname | slice:0:10) + ".." :
+                        data.user?.fullname }}</h5>
+                    </div>
+
+                    <div>
+                      <small class="text-muted" *ngIf="data?.updatedOn"> {{data?.updatedOn | date:'MM/dd/yyyy
+                        HH:mm:ss'}}
+                      </small>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-9 pr-0">
+                <div class="col-sm-6 pl-0">
+
+                  <div class="list-body">
+
+                    <div class="row m-31">
+                      <h6 class="f-title">{{data.jobTitle}}</h6>
+
+                      <span> Experience : {{ data.experienceFrom}} to {{data.experienceTo }} Years </span>
+
+                    </div>
+
+                    <div>
+                      <div class="row " title=" {{data.clientType}}, {{data.city}}, {{data.state}} ">
+                        <div class="row pt-27">
+                          <div class="col-sm-6 pr-0 pl-0 w-pre" title="{{data.clientName}}" *ngIf="data.showClientName">
+                            <i class="fa fa-building-o w-pre"> </i>
+                            {{data.clientName | truncate:20}}
+                          </div>
+                          <div class="col-sm-6  pl-0 w-pre" *ngIf="data.showClientType">
+                            <i class="fa fa-briefcase "> </i>
+                            {{data.clientType}}
+                          </div>
+                          <div class="col-sm-6 pl-0 w-pre">
+                            <i class="fa fa-briefcase " title="{{data.jobClassification}}"> </i>
+                            {{data.jobClassification}}
+                          </div>
+                        </div>
+                        <div class="row pt-27">
+                          <div class="col-sm-6 pl-0">
+                            <i *ngIf="data.city || data.state" class="fa fa-map-marker"> </i>
+                            {{data.city}}
+                            <span *ngIf="data.state">,</span> {{data.state}}
+                          </div>
+                          <div class="col-sm-6 pl-0">
+                            <div *ngIf="data.remoteWork" class="mb-5">
+                              <i class="fa fa-map-marker"> </i>
+                              Remote
+                            </div>
+
+                            <span *ngIf="data?.country == 'US'"> USD /
+                              <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                              <span *ngIf="data?.payType == 'Daily'">Day</span>
+                              <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                              <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                              <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                            </span>
+                            <span *ngIf="data?.country == 'IN'"> INR /
+                              <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                              <span *ngIf="data?.payType == 'Daily'">Day</span>
+                              <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                              <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                              <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                            </span>
+                            <span *ngIf="data?.country == 'CA'"> CAD /
+                              <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                              <span *ngIf="data?.payType == 'Daily'">Day</span>
+                              <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                              <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                              <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                            </span>
+                            <span *ngIf="data?.country == 'AU'"> AUD /
+                              <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                              <span *ngIf="data?.payType == 'Daily'">Day</span>
+                              <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                              <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                              <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                            </span>
+                            <span
+                              *ngIf="data?.country != 'AU' && data?.country != 'US' && data?.country != 'CA' && data?.country != 'IN'">
+                              CUR /
+                              <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                              <span *ngIf="data?.payType == 'Daily'">Day</span>
+                              <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                              <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                              <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                            </span>
+                            {{data.targetRate}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="col-sm-12">
+                    <div class=" flex pull-right actItemList divspace">
+                      <span *ngIf="data.status=='DEACTIVATED' && data.status!='ACTIVE'"
+                        style="color:red;margin-right:5px;"><b> {{data.effectiveFor}}
+                          {{"day posting expired"}} </b></span>
+                      <span *ngIf="data.status=='INACTIVE_DUE_TO_LOW_CREDITS' && data.status!='ACTIVE'"
+                        style="color:red;margin-right:5px;"><b>
+                          {{"Insufficient Credits"}} </b></span>
+                      <input type="checkbox" id="jobCheckBox" #jobCheck
+                        (click)="onChangeJobs(data,$event.target.checked,jobCheck )">
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <div formArrayName="effectiveArray">
+                      <ng-container *ngFor="let item of effectiveArray.controls; let empIndex =index ">
+                        <div class="row" [formGroupName]="empIndex" *ngIf="empIndex === dataIndex">
+
+                          <div class="col-sm-12">
+                            <div class="row">
+                              <div class="col-sm-5 pt-7">
+                                <label class="control-label required-field font-bold">Effective Date</label>
+                              </div>
+                              <div class="col-sm-6 pl-0">
+                                <input type="text" class="form-control" formControlName="effectiveDate"
+                                  [minDate]="effectiveFromminDate[empIndex]" placeholder="Effective Date"
+                                  (ngModelChange)="changeEffectiveDate( $event ,  empIndex , 'Select Date')"
+                                  [bsConfig]="{adaptivePosition: true, dateInputFormat: 'MM-DD-YYYY' }"
+                                  #dp="bsDatepicker" bsDatepicker>
+                                <div *ngIf="item.get('effectiveDate').invalid || item.get('effectiveDate').touched">
+                                  <p class="error-msg" *ngIf="item.get('effectiveDate').errors?.required">
+                                    Effective Date is Required
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="col-sm-12 pt-7">
+                            <div class="row">
+                              <div class="col-sm-5 pt-7">
+                                <label class="control-label required-field font-bold">Effective For</label>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="col-sm-12 pl-0">
+                                  <div class="row">
+                                    <input type="radio" (click)="changeEffectiveFor('7' ,empIndex )" value="7" id="7"
+                                      [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                    <label class="radio-in pl-11 pr-30"> 7 </label>
+                                    <input type="radio" (click)="changeEffectiveFor('15' ,empIndex )" value="15"
+                                      [(ngModel)]="unit[empIndex].duration" id="15" formControlName="effectiveFor">
+                                    <label class="radio-in pl-11 "> 15 </label>
+                                  </div>
+                                  <div class="row">
+                                    <input type="radio" (click)="changeEffectiveFor('30' ,empIndex )" value="30"
+                                      [(ngModel)]="unit[empIndex].duration" id="30" formControlName="effectiveFor">
+                                    <label class="radio-in pl-11 pr-24"> 30 </label>
+                                    <input type="radio" (click)="changeEffectiveFor('0' ,empIndex )" value="0" id="0"
+                                      [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                    <label class="radio-in pl-11"> Custom </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="row">
+                              <div class="col-sm-5 pt-7">
+                                <label class="control-label required-field font-bold">Effective Until</label>
+                              </div>
+                              <div class="col-sm-6 pl-0">
+                                <input type="text"
+                                  (ngModelChange)="changeEffectiveUntil($event , empIndex ,'Select Date')"
+                                  placeholder="Effective Until" class="form-control" formControlName="effectiveUntil"
+                                  [minDate]="effectiveUntilmaxDate[empIndex]"
+                                  [bsConfig]="{adaptivePosition: true, dateInputFormat: 'MM-DD-YYYY' }"
+                                  #dp="bsDatepicker" bsDatepicker>
+                                <div *ngIf="item.get('effectiveUntil').invalid || item.get('effectiveUntil').touched">
+                                  <p class="error-msg" *ngIf="item.get('effectiveUntil').errors?.required">
+                                    Effective Until is Required
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </ng-container>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="ListingContent=='CANDIDATE'">
+
+      <div class="panel-body pad-cus p-mb-6  hover-borders"
+        [ngStyle]="(data.isFeatured==true && data.createdBy==userId) && {'background-color': '#fffcf0' }">
+
+        <div class="row">
+
+          <div class="col-md-3">
+            <div class="media pt-24 social-profile social-profileCustom clearfix">
+
+              <a class="pull-left  card-profImg">
+                <span class="label label-success ui-align-role" *ngIf="data?.user?.userType == 'FREELANCE_RECRUITER'"
+                  title="Freelance Recruiter">FR </span>
+                <span class="label label-success ui-align-role" *ngIf="data?.user?.userType == 'student'"
+                  title="Student">ST </span>
+                <span class="label label-success ui-align-role" *ngIf="data?.user?.userType == 'JOB_SEEKER'"
+                  title="Job Seeker">JS </span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Vendor'"
+                  title="Vendor">V</span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == GigsumoConstant.DIRECT_HIRE"
+                  title="Direct Hire">DH</span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Systems Integrator'"
+                  title="Systems Integrator">SI</span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Prime Vendor'"
+                  title="Prime Vendor">PV </span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Staffing Agency'"
+                  title="Staffing Agency">SA </span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Direct Client'"
+                  title="Direct Client">DC </span>
+                <span class="label label-success ui-align-role"
+                  *ngIf="data?.user?.userType!= 'FREELANCE_RECRUITER' && data?.user?.userType!= 'student' && data?.user?.userType!= 'JOB_SEEKER' && data?.user?.workExperience?.clientType == 'Supplier'"
+                  title="Supplier">SP </span>
+
+                <img *ngIf="data?.user?.photo!=null" src={{url+data?.photo}}
+                  onerror="this.src='assets/images/userAvatar.png';" alt="profile-picture">
+                <img *ngIf="data?.user?.photo==null" src="assets/images/userAvatar.png" alt="profile-picture">
+
+
+              </a>
+              <div class="media-body">
+                <div class="col-sm-9">
+
+                  <h5 title="{{data?.user?.fullname}}" class="me-5">{{
+                    (data?.user?.fullname?.length > 10) ? (data?.user?.fullname | slice:0:10) + "..":
+                    (data?.user?.fullname)}}</h5>
+                </div>
+
+                <small class="text-muted" *ngIf="data.postedOn"> {{data?.postedOn | date:'MM/dd/yyyy HH:mm:ss a'}}
+                </small>
+                <small class="text-muted" *ngIf="data.updatedOn"> {{data?.updatedOn | date:'MM/dd/yyyy HH:mm:ss a'}}
+                </small>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-9 pr-0">
+            <div class="col-sm-6 pl-0">
+
+              <div class="primary-card-show pb-2">
+                <h6 class="text-wrapsfilter pr-4" style="font-weight: bold; text-transform: capitalize;"
+                  *ngIf="data?.firstName!=null" title="{{data.firstName + ' ' + data.lastName }}">
+                  {{data.firstName + " " + data.lastName }} </h6>
+                <div class="ioxlp-1-ele">
+                  {{data?.primarySkills[0]}}
+                </div>
+              </div>
+
+              <div class="pointer"> Experience : {{data.totalExperience}} Years</div>
+
+              <div>
+                <div class="row pl-0" title=" {{data.clientType}}, {{data.city}}, {{data.state}} ">
+                  <div class="col-sm-12 pt-26">
+                    <div class="col-sm-6 pl-0 w-pre">
+                      <i *ngIf="data.city || data.state" class="fa fa-map-marker"> </i>
+                      {{data.city}}
+                      <span *ngIf="data.state">, {{data.state}}</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 pt-33">
+                    <div class="col-sm-6 pl-0 w-pre">
+                      {{data.targetRate}}
+                      <span *ngIf="data?.country == 'US'"> USD /
+                        <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                        <span *ngIf="data?.payType == 'Daily'">Day</span>
+                        <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                        <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                        <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                      </span>
+                      <span *ngIf="data?.country == 'IN'"> INR /
+                        <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                        <span *ngIf="data?.payType == 'Daily'">Day</span>
+                        <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                        <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                        <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                      </span>
+                      <span *ngIf="data?.country == 'CA'"> CAD /
+                        <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                        <span *ngIf="data?.payType == 'Daily'">Day</span>
+                        <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                        <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                        <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                      </span>
+                      <span *ngIf="data?.country == 'AU'"> AUD /
+                        <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                        <span *ngIf="data?.payType == 'Daily'">Day</span>
+                        <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                        <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                        <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                      </span>
+                      <span
+                        *ngIf="data?.country != 'AU' && data?.country != 'US' && data?.country != 'CA' && data?.country != 'IN'">
+                        CUR /
+                        <span *ngIf="data?.payType == 'Hourly'">Hr</span>
+                        <span *ngIf="data?.payType == 'Daily'">Day</span>
+                        <span *ngIf="data?.payType == 'Weekly'">Week</span>
+                        <span *ngIf="data?.payType == 'Monthly'">Month</span>
+                        <span *ngIf="data?.payType == 'Yearly'">Year</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="data.resumeAttached && data.createdBy==userId"> <i class="fa fa-address-card"> </i>
+                    Attached </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="col-sm-12">
+                <div class=" flex pull-right actItemList divspace">
+                  <span *ngIf="data.status=='DEACTIVATED'&& data.status!='ACTIVE'" style="color:red;margin-right:5px;">
+                    <b>{{data.effectiveFor}}
+                      {{"day posting expired"}} </b></span>
+                  <span *ngIf="data.status=='INACTIVE_DUE_TO_LOW_CREDITS' && data.status!='ACTIVE'"
+                    style="color:red;margin-right:5px;"><b>
+                      {{"Insufficient Credits"}} </b></span>
+                  <input #candCheck type="checkbox" id="candCheckBox"
+                    (click)="onChangeCandidates(data,$event.target.checked , candCheck  )">
+
+                </div>
+              </div>
+              <div class="row">
+                <div formArrayName="effectiveArray">
+                  <ng-container *ngFor="let item of effectiveArray.controls; let empIndex = index ">
+                    <div class="row" [formGroupName]="empIndex" *ngIf="empIndex === dataIndex">
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row">
+                            <div class="col-sm-5 pt-7">
+                              <label for="Effective From" class="control-label required-field font-bold">Effective
+                                Date</label>
+                            </div>
+                            <div class="col-sm-6 pl-0">
+                              <input type="text" class="form-control" formControlName="effectiveDate"
+                                [minDate]="effectiveFromminDate[empIndex]"
+                                (ngModelChange)="changeEffectiveDate( $event  ,  empIndex , 'Select Date')"
+                                placeholder="Effective Date"
+                                [bsConfig]="{adaptivePosition: true, dateInputFormat: 'MM-DD-YYYY'}" #dp="bsDatepicker"
+                                bsDatepicker>
+                              <div *ngIf="item.get('effectiveDate').invalid || item.get('effectiveDate').touched">
+                                <p class="error-msg" *ngIf="item.get('effectiveDate').errors?.required">
+                                  Effective Date is Required
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-sm-12 pt-7">
+                        <div class="row">
+                          <div class="col-sm-5 pl-0 pt-7">
+                            <label class="control-label required-field font-bold">Effective For</label>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="col-sm-12 pl-0">
+                              <div class="row">
+                                <input type="radio" (click)="changeEffectiveFor('7' ,empIndex )" value="7" id="7"
+                                  [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                <label for="7" class="radio-in pl-11 pr-30"> 7 </label>
+                                <input type="radio" (click)="changeEffectiveFor('15' ,empIndex )" value="15" id="15"
+                                  [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                <label for="15" class="radio-in pl-11 "> 15 </label>
+                              </div>
+                              <div class="row">
+                                <input type="radio" (click)="changeEffectiveFor('30' ,empIndex )" value="30" id="30"
+                                  [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                <label for="30" class="radio-in pl-11 pr-24"> 30 </label>
+                                <input type="radio" value="0" (click)="changeEffectiveFor('0' ,empIndex  )" id="0"
+                                  [(ngModel)]="unit[empIndex].duration" formControlName="effectiveFor">
+                                <label for="0" class="radio-in pl-11"> Custom </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 pl-0 pr-0">
+                        <div class="row">
+                          <div class="col-sm-5 pt-7">
+                            <label class="control-label required-field font-bold">Effective Until</label>
+                          </div>
+                          <div class="col-sm-6 pl-0">
+                            <input type="text" (ngModelChange)="changeEffectiveUntil($event , empIndex ,'Select Date')"
+                              placeholder="Effective Until" class="form-control" formControlName="effectiveUntil"
+                              [minDate]="effectiveUntilmaxDate[empIndex]"
+                              [bsConfig]="{adaptivePosition: true, dateInputFormat: 'MM-DD-YYYY'}" #dp="bsDatepicker"
+                              bsDatepicker>
+                            <div *ngIf="item.get('effectiveUntil').invalid || item.get('effectiveUntil').touched">
+                              <p class="error-msg" *ngIf="item.get('effectiveUntil').errors?.required">
+                                Effective Until is Required
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</form> -->

@@ -1,0 +1,172 @@
+<div class="card ">
+  <div class="downgrade-header">
+    <div> {{data?.modalTitle}} </div>
+    <div *ngIf="data.showClosButton" (click)="closeModel()" class="downgrade-close-icon">
+      <app-svg-templates class="svg-position" [svgType]="'CROSS_20'"></app-svg-templates>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="alertTitle" class="alert alert-danger">
+      <h5>{{alertTitle}} </h5>
+    </div>
+    <h5 *ngIf="getMessage() != ''">
+      <span class="red">**</span> {{ getMessage() }}
+    </h5>
+    <h5 *ngIf="(findteamList?.length > data?.allowedWorkspaceCount )&& data?.allowedWorkspaceCount > 0"> <span
+        class="red">**</span> Please pick
+      {{data?.allowedWorkspaceCount}} team(s) from the team listing </h5>
+    <h5 *ngIf="(networklist?.length > data?.allowedNetworksCount) && data?.allowedNetworksCount > 0"> <span
+        class="red">**</span> Please pick
+      {{data?.allowedNetworksCount}} network(s) from the network listing </h5>
+    <mat-accordion
+      *ngIf="!isJobAndCandidateBothAvailable && data?.allowedJobsCandidatesCount != 0 && activejobcount > data?.allowedJobsCandidatesCount ">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Jobs List
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let item of findActiveJobs">
+          <app-job-card [viewSize]="'medium'" [JobData]="item" [isRoutingDisabled]="isRoutingDisabled"
+            [isDowngraded]="true" [selectedjobCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+            (jobemit)="getseletedjobs($event)" [showCheckBox]="showcheckboxbtn" [jobstatus]="statuskey"
+            [JobDataUser]="item.user" [allowedJobCandidateCounts]="data?.allowedJobsCandidatesCount"></app-job-card>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion
+      *ngIf="data?.allowedJobsCandidatesCount != 0 && isJobAndCandidateBothAvailable && (activejobcount + activeCandidatesCount) > data?.allowedJobsCandidatesCount">
+      <mat-expansion-panel (opened)="panelOpenState1 = true" (closed)="panelOpenState1 = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Jobs and Candidates List
+          </mat-panel-title>
+          <mat-panel-description>
+
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let item of findActiveCandidates">
+          <app-candidate-card [viewSize]="'medium'" [candidateval]="item" [isRoutingDisabled]="isRoutingDisabled"
+            [selectedcandiCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+            (candidateEmitter)="getseletedCandidate($event)" [showCheckBox]="showcheckboxbtn" [isDowngraded]="true"
+            [allowedJobCandidateCounts]="data.allowedJobsCandidatesCount"></app-candidate-card>
+        </div>
+        <div *ngFor="let item of findActiveJobs">
+          <app-job-card [viewSize]="'medium'" [JobData]="item" [JobDataUser]="item.user" [isDowngraded]="true"
+            [isRoutingDisabled]="isRoutingDisabled" [allowedJobCandidateCounts]="data?.allowedJobsCandidatesCount"
+            [selectedjobCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+            (jobemit)="getseletedjobs($event)" [showCheckBox]="showcheckboxbtn" [jobstatus]="statuskey"></app-job-card>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion
+      *ngIf="data?.allowedJobsCandidatesCount != 0 && !isJobAndCandidateBothAvailable && activeCandidatesCount > data?.allowedJobsCandidatesCount">
+      <mat-expansion-panel (opened)="panelOpenState2 = true" (closed)="panelOpenState2 = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Candidate List
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let item of findActiveCandidates">
+          <app-candidate-card [viewSize]="'medium'" [candidateval]="item" [isRoutingDisabled]="isRoutingDisabled"
+            [selectedcandiCount]="seletedCandidateCount?.length + selectedjobscount?.length"
+            (candidateEmitter)="getseletedCandidate($event)" [showCheckBox]="showcheckboxbtn" [isDowngraded]="true"
+            [allowedJobCandidateCounts]="data.allowedJobsCandidatesCount"></app-candidate-card>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion *ngIf="data?.allowedWorkspaceCount != 0 && findteamList?.length > data?.allowedWorkspaceCount">
+      <mat-expansion-panel (opened)="panelOpenState3 = true" (closed)="panelOpenState3 = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Team List
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="col-sm-12 pad-0" *ngFor="let item of findteamList">
+          <div class="Teamclass" [ngClass]="{'selected': item.isSelected === true}">
+            <ul class="initials-list">
+              <li>
+                <label class="checkbox-label font-normal">
+                  <input type="checkbox" (click)="teamSelectedItem($event.target.checked,item)"
+                    [(ngModel)]="item.isSelected"
+                    [disabled]="(seletedTeamCount.length >= data.allowedWorkspaceCount &&  item.isSelected!=true)"
+                    name="list_name" />
+                  <span class="checkmark" style="top: -5px"></span>
+                </label>
+                <div class="circle tt"> {{userInfo?.firstName?.charAt(0)}}{{userInfo?.lastName?.charAt(0)}}</div>
+                <div class="name-info">
+                  <div class="name">{{item.teamName}}</div>
+                  <div class="company">
+                    <span *ngIf="item.memberCnt>0">Team members count: {{item.memberCnt}}</span>
+                    <span *ngIf="item.memberCnt==0">No members in this Team</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion *ngIf="data?.allowedNetworksCount != 0 && networklist?.length > data?.allowedNetworksCount">
+      <mat-expansion-panel (opened)="panelOpenState4 = true" (closed)="panelOpenState4 = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Network List
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="col-sm-12 pad-0" *ngFor="let item of networklist">
+          <div class="Teamclass" [ngClass]="{'selected': item.isSelected === true}">
+            <ul class="initials-list">
+              <li>
+                <label class="checkbox-label font-normal">
+                  <input type="checkbox" (click)="selectNetwork($event.target.checked,item)"
+                    [(ngModel)]="item.isSelected"
+                    [disabled]="(selectedNetworkCount.length>=data.allowedNetworksCount &&  item.isSelected!=true)"
+                    name="list_name" />
+                  <span class="checkmark" style="top: -5px"></span>
+                </label>
+                <div class="circle tt"> {{userInfo?.firstName?.charAt(0)}}{{userInfo?.lastName?.charAt(0)}}</div>
+                <div class="name-info">
+                  <div class="name">{{item.networkName}}</div>
+                  <div class="company">
+                    <span *ngIf="item.memberCnt>0">Network members count: {{item.memberCnt}}</span>
+                    <span *ngIf="item.memberCnt==0">No members in this Network</span>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+
+        <button class="btn btn-sm btn-secondary" (click)="closeModel()"> Cancel </button>
+        <button class="btn btn-sm btn-primary" (click)="submit()"> Submit </button>
+
+
+        <!-- <ng-container  *ngIf="findteamList?.length == 0">
+          <button class="btn btn-sm btn-primary"  [disabled]="!(count >= 5)" (click)="submit()">   Submit  </button>
+        </ng-container>
+
+
+        <ng-container *ngIf="findteamList?.length != 0">
+          <button class="btn btn-sm btn-primary" [disabled]="count <= 4 && seletedTeamCount?.length<=1"  (click)="submit()"> Submit </button>
+        </ng-container> -->
+
+      </div>
+    </div>
+  </div>
+</div>

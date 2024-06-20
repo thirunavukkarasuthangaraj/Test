@@ -1,0 +1,160 @@
+<div class="hpanel" *ngIf="jeas?.length > 0
+  && TabName != 'job-details'
+  && TabName != 'resume-requests'
+  && TabName != 'jobs-viewed'
+  && TabName != 'jobs-liked'">
+  <div class="panel-heading hbuilt flexx bor-bot">
+    <h5> Activity </h5>
+    <div *ngIf="TabName=='job-details' && userId==jobDetails?.jobPostedBy" id="removeopen"
+      class="btn-group dropdown-filter" dropdown>
+      <button type="button" class="btn btn-sm btn-default dropdown-toggle" dropdownToggle>
+        Filter by <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu open-model-drop left-size" (click)="$event.stopPropagation();" appendTo="body">
+        <li class="dropdown-header">Days </li>
+        <li>
+          <label>
+            <div class="custom-ng-select mar-btm-10">
+              <ng-select [items]="GigsumoConstant?.Daya_LABEL" [clearSearchOnAdd]="true" [addTag]="false"
+                [hideSelected]="false" dropdownPosition="bottom" [multiple]="false" [closeOnSelect]="true"
+                [(ngModel)]="dayfilter" placeholder="Select Day">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                    [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                    style="margin-right:5px; margin-top: 9px;">
+                  <label id="primary" class="form-radio-label m-t-5 custom-control-label">{{item}}</label>
+                </ng-template>
+              </ng-select>
+              <p class="text-danger" *ngIf="dayfilter==undefined"> {{this.filtermessage[0]}} </p>
+            </div>
+          </label>
+        </li>
+        <li class="dropdown-header"> Filter Type</li>
+        <li (click)="$event.stopPropagation();">
+          <label>
+            <div class="custom-ng-select mar-btm-10">
+              <ng-select [items]="GigsumoConstant?.FILTER_TYPE_LABEL" [clearSearchOnAdd]="true" [addTag]="false"
+                [hideSelected]="false" dropdownPosition="bottom" [multiple]="false" [closeOnSelect]="true"
+                [(ngModel)]="FILTER_TYPE" placeholder="Select Filter Type" (change)="filterType($event)">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                    [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                    style="margin-right:5px; margin-top: 9px;">
+                  <label id="primary" class="form-radio-label m-t-5 custom-control-label">{{item}}</label>
+                </ng-template>
+              </ng-select>
+              <p class="text-danger" *ngIf="FILTER_TYPE==undefined"> {{this.filtermessage[1]}} </p>
+            </div>
+          </label>
+        </li>
+        <li class="dropdown-header" *ngIf="FILTER_TYPE =='Job Applicants' || FILTER_TYPE =='Candidates Invited'">
+          Status </li>
+        <li (click)="$event.stopPropagation();"
+          *ngIf="FILTER_TYPE =='Job Applicants' || FILTER_TYPE =='Candidates Invited'">
+          <label>
+            <div class="custom-ng-select mar-btm-10">
+              <ng-select *ngIf="FILTER_TYPE=='Job Applicants'" [clearSearchOnAdd]="true"
+                [items]="GigsumoConstant?.JOB_LIST_STATUS" [addTag]="false" [hideSelected]="false"
+                dropdownPosition="bottom" [multiple]="true" [closeOnSelect]="false" [(ngModel)]="subFilter"
+                placeholder="Select Status">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="flexSelect">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected" >
+                    <label id="primary" class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+
+
+              <ng-select *ngIf="FILTER_TYPE=='Candidates Invited'"
+                [items]="GigsumoConstant?.CANDIDATE_SATATUS_FOR_FILTER" [addTag]="false" [clearSearchOnAdd]="true"
+                [hideSelected]="false" dropdownPosition="bottom" [multiple]="true" [closeOnSelect]="false"
+                [(ngModel)]="subFilter" placeholder="Select Status">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="flexSelect">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected">
+                    <label id="primary" class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+
+              <p class="text-danger" *ngIf="subFilter==undefined"> {{ filtermessage[2]}} </p>
+
+            </div>
+          </label>
+        </li>
+        <li class="f-flex" (click)="$event.stopPropagation();">
+          <button type="button" class="btn btn-xs primary-btn btn" (click)="clearFilter()">Clear</button>
+          <button type="button" class="btn btn-xs primary-btn btn" (click)="Submitbyfilter($event)">Submit</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="panel-body scroll-activity" id="style-1" infiniteScroll [infiniteScrollDistance]="5"
+    [infiniteScrollThrottle]="1500" (scrolled)="onScrollDown()" [scrollWindow]="false">
+
+
+    <div >
+      <!-- <div class="row " style="display: grid;">
+        <div *ngFor="let obj of jeas" class="activity-lists">
+          <div class="activity-objects">
+            <b><small title="Applied for Job #{{obj?.entityId}}" *ngIf="obj?.activityType=='JOB_APPLIED'">Applied for Job
+                #{{obj?.entityId}}</small></b>
+            <b><small  title="{{getFilterValue(obj?.activityType)}}">{{ getFilterValue(obj?.activityType)}}</small></b>
+            <small> - {{obj?.createdOn}}  </small>
+            <small *ngIf=" obj?.activityType!='JOB_CREATED' &&  getReferenceId(obj) !='undefined' ">  {{getReferenceId(obj)}} </small>
+
+            <small *ngIf="obj?.candidateData?.firstName != null"
+              title="{{(obj?.candidateData?.firstName| titlecase)+' '+ (obj?.candidateData?.lastName| titlecase) }}">-
+              {{ (obj?.candidateData?.firstName | titlecase)
+                + " " + (obj?.candidateData?.lastName | titlecase) | truncate: 18 }}</small>
+            <small
+              *ngIf="obj?.parentActivity === 'Job Applicants' || obj?.parentActivity === 'Candidates Invited' && obj?.activityType === 'ACCEPTED'">-
+              {{obj?.activityDataMap.targetRate + " " + obj?.activityDataMap.payType}}</small>
+          </div>
+          <img src="assets/icon/checkmark-slim.png" alt="">
+        </div>
+      </div> -->
+      <app-common-skeleton *ngIf="isLoading && jeas?.length == 0" [countforView]="5"
+        [NameOftheScreen]="'timelinedesign'"></app-common-skeleton>
+      <app-timeline *ngIf="jeas?.length > 0" [events]="jeas"></app-timeline>
+      <app-common-skeleton *ngIf="isLoading && jeas?.length >= 0" [countforView]="jeas?.length"
+        [NameOftheScreen]="'timelinedesign'"></app-common-skeleton>
+
+
+    </div>
+
+    <!-- <div *ngIf="stopscrollFlag &&jeas?.length > 0">
+      <div class="wert">
+        <div class="col-md-12 mg-bt-9">
+          <app-svg-templates [svgType]="'CHECKMARK_CIRCLE_SMALL'"></app-svg-templates>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<div class="hpanel" *ngIf="jeas?.length==0
+  && TabName != 'job-details'
+  &&  TabName != 'resume-requests'
+  && TabName != 'jobs-viewed'
+  && TabName != 'jobs-liked'">
+  <div class="panel-heading hbuilt flexx bor-bot">
+    <h5> Activity </h5>
+  </div>
+
+  <div class="panel-body scroll-activity">
+       <app-common-skeleton *ngIf="isLoading" [countforView]="9"
+        [NameOftheScreen]="'timelinedesign'"></app-common-skeleton>
+
+
+    <div class="row" style="display: grid;">
+      <p *ngIf="!isLoading" class="Nodata-found"> No Activity Found</p>
+    </div>
+
+  </div>
+</div>

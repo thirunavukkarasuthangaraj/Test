@@ -1,0 +1,40 @@
+export class User{
+    userId: String;
+    jobsCount : number | string;
+    userType : string;
+    candidatesCount : number | string;
+    ignoredUser:boolean;
+    deniedUser:boolean;
+    username: String;
+    firstName: String;
+    showAccept : boolean = false;
+    lastName: String;
+    fullName: String;
+    photo: String;
+    email: String;
+    phoneNo: String;
+    city: String;
+    state: String;
+    pitch: String;
+    country: String;
+    title: String;
+    organisation: String;
+    connected: boolean;
+    isAdmin: boolean;
+    requestSentOrganization: String;
+    requestSentTitle: String;
+    connection: number;
+    connectionStatus: String;
+    connectionCnt: number;
+    postCnt: number;
+    type:string;
+    businessUserType:string;
+    label_Id:string;
+    page: string;
+    networkId: string;
+    teamId: string;
+    businessId: string;
+    communityId: string;
+    menu:string;
+
+}

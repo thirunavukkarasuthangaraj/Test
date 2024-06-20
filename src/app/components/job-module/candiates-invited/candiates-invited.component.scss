@@ -1,0 +1,301 @@
+.uy-oi {
+  display: flex;
+  align-items: center;
+  margin-right: 0px !important;
+  margin-left: 0pc !important;
+}
+
+.icon-size {
+  width: 15px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.m-t-10 {
+  margin-top: 10px;
+}
+
+.skeleton {
+  position: relative;
+  width: max-content;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #ddd !important;
+  color: transparent !important;
+  border-color: #1e2226 !important;
+  user-select: none;
+  cursor: default;
+}
+
+.lzx {
+  margin-top: 20px !important;
+}
+
+.idid {
+  display: flex;
+  // align-items: center;
+}
+
+.isop {
+  display: -webkit-box;
+  display: flex;
+  position: relative;
+  float: right;
+}
+.w-20{
+  width: 85px !important;
+}
+
+.report{
+  height: 19px;
+  width: 59px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.skeleton img {
+  opacity: 0;
+}
+
+.jk-op {
+  display: grid;
+  // column-gap: 5px;
+  row-gap: 5px;
+  margin-top: 10px;
+}
+
+.img-width-dot-icon {
+  height: 25px;
+  position: relative;
+  bottom: 3px;
+}
+
+
+
+.sm-sz11 {
+  height: 20px;
+}
+
+.ssm {
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+}
+
+.bj-io {
+  display: flex;
+  column-gap: 3px;
+  width: max-content;
+}
+
+.ioxlp > div{
+  padding: 2px 4px 2px 4px;
+  border-radius: 2px;
+  background-color: #e5e7ea;
+  overflow: hidden;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.jsdhgf > div{
+  padding: 2px 4px 2px 4px;
+  border-radius: 2px;
+  text-overflow: ellipsis;
+  background-color: #e5e7ea;
+  overflow: hidden;
+  width: 10rem;
+  white-space: nowrap;
+}
+
+.wert {
+  position: relative;
+  text-align: center;
+  top: 5rem;
+}
+
+
+.fig {
+  font-weight: 500;
+  position: relative;
+  top: 12px;
+}
+
+.fig1 {
+  font-weight: 500;
+  position: relative;
+  top: 20px;
+}
+
+.pddin-10 {
+  padding: 10px;
+}
+
+.uixx {
+  padding: 0px!important;
+  display: grid;
+  row-gap: 3px;
+}
+
+.lqp {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.pd-top-tn {
+  padding-top: 10px;
+  padding-left: 0px !important;
+}
+
+
+
+.rcrtr-lbl {
+  font-weight: 500;
+  background-color: green;
+  color: white;
+  border-radius: 3px;
+  padding: 0px 4px 2px 4px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  line-height: 15px;
+  font-size: 12px;
+  cursor: context-menu;
+}
+
+
+.uy-tr {
+  display: -webkit-box;
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+  margin-left: -6px;
+}
+
+.skeleton::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0));
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.m-lm18 {
+  margin-left: -18px !important;
+}
+
+.f-w-b {
+  font-weight: bold;
+  width: max-content;
+}
+
+.bg-tags {
+  background: #eee;
+}
+
+.bg-heart {
+  color: red;
+}
+
+.img-circle {
+  width: 38px !important;
+  height: 38px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.skeleton {
+  position: relative;
+  width: max-content;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #ddd !important;
+  color: transparent !important;
+  border-color: #1e2226 !important;
+  user-select: none;
+  cursor: default;
+}
+
+.sa-as {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.font-10z {
+  font-size: 8px;
+}
+
+
+
+// tags
+
+
+.possible-tag-list {
+  list-style-type: none;
+  display: grid;
+  width: 500px;
+  grid-gap: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-around;
+  border: 1px solid green;
+  padding: 15px;
+  max-height: 150px;
+  overflow: scroll;
+}
+
+li {
+  display: block;
+  width: 100%;
+}
+
+.no-mg {
+  margin: 0px !important;
+}
+
+.sectionate {
+  margin-bottom: 5px;
+  padding: 0px !important;
+}
+
+.openop {
+  color: green;
+  font-weight: 600;
+  font-size: 13px;
+  position: relative;
+  top: 3px;
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+}
+
+
+.flow-data{
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 8px;
+}
+
+.stickthere-job-applicants {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 14rem;
+  z-index: 1;
+  box-shadow: 0px 3px 5px #81889387;
+}

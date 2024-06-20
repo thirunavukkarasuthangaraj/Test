@@ -1,0 +1,29 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+  <div class="panel-heading hbuilt wig-c">
+    {{ headerTitle }}
+  </div>
+
+  <div *ngIf="loadAPIcall"  class="panel-body">
+    <app-common-skeleton *ngIf="loadAPIcall" [countforView]="7" [NameOftheScreen]="'widgets'"></app-common-skeleton>
+   </div>
+  <div *ngIf="!loadAPIcall" class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="community-admin">
+          <a class="pd-3" *ngFor="let item of admin | slice:0:10">
+            <img *ngIf="item['photo']" title="{{item.fullName}}" [src]="imgUrl + item['photo']" (click)="route(item)"
+              >
+              <div  *ngIf="!item['photo']" (click)="route(item)" class="circles mr-rt-10" [style.background-color]="getColor(item?.fullName)">
+                <div class="circle-text">{{ getInitials(item?.fullName) }}</div>
+              </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <!-- <button class="btn btn-primary btn-xs" style="float: right;" *ngIf="admin.length!=0" >Invite</button> -->
+      </div>
+    </div>
+  </div>
+</div>

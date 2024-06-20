@@ -1,0 +1,13 @@
+<div class="row noDatafound">
+  <div class="no-items">
+    <div *ngFor="let item of title" style="padding-left:5px;">
+      <div for="" *ngIf="setBold(item)"><b>{{removeB(item)}}</b></div>
+      <div class="wordbreak" for="" *ngIf="!setBold(item)">{{item}}</div>
+    </div>
+    <div class="col-sm-4" *ngIf="buttonName">
+      <button [disabled]="isButtonDisabled" class="btn btn-primary btn-sm" *ngIf="buttonShow" (click)="open()">
+        <span class="mr-5"> </span> {{buttonName}}
+      </button>
+    </div>
+  </div>
+</div>

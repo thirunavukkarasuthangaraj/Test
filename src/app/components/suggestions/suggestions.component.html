@@ -1,0 +1,13 @@
+<div class="hpanel sticky-nav">
+  <!-- <div class="col-md-12"> -->
+  <div class="panel-body border-radius-top-left-right-6">
+    <div class="navIteam">
+      <div class="title-wrap">
+        <h5> {{selectedMenu.menu}}
+        </h5>
+        <div class="sqrt">{{provider.getCount()}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<ndc-dynamic [ndcDynamicComponent]="widget[selectedMenu.widgetName]" [ndcDynamicInputs]="sendWidgetInfo"></ndc-dynamic>

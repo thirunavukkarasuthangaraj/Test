@@ -1,0 +1,167 @@
+.white{
+  background: #fff;
+}
+.width-200{
+  width: 200px;
+}
+.select-box{
+  float: right;
+    margin-top: -4px;
+}
+.long-text {
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust the max-width as needed */
+}
+
+.p-15{
+  padding: 15px;
+}
+.b-bottom{
+  border-bottom-style:hidden; border-bottom-width:0px; border-bottom-color:white; border-bottom: 0;
+}
+.b-top{
+  border-top-style:hidden; border-top-width:0px; border-top-color:white; border-top:0;
+}
+.text-center{
+text-align:left;
+}
+/* Add this CSS to your component's CSS file */
+
+.no-data-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Adjust this as needed, e.g., if you want it to be 100% of the parent container */
+  text-align: center;
+}
+
+.no-data {
+  font-size: 1.5em; /* Adjust the font size as needed */
+  color: #555; /* Adjust the text color as needed */
+}
+
+
+.td-center{
+  text-align: center;
+  cursor: pointer;
+ }
+
+ .fa-fa-excel-dowload{
+  font-size: 23px;
+  margin-inline-start: 10px;
+  /* padding-block-start: 1px; */
+  color: green;
+ }
+
+.f-w-800{
+  font-weight: 800;
+}
+.b-color{
+  color: black;
+}
+.f-r{
+  float: right;
+}
+
+hr.new1 {
+  border-top: 1px solid black;
+  margin-top: -4px;
+}
+
+.f-w-100{
+  font-weight: 100;
+}
+
+.m-r-10{
+  margin-right: 10px;
+}
+//table
+.custom-table {
+  border: 1px solid black;
+  &.table>thead>tr>th {
+    vertical-align: middle;
+  }
+  &.table>tbody>tr>td {
+    vertical-align: middle;
+  }
+}
+.custom-table thead {
+  background: #ebedf0;;
+}
+.custom-table thead th {
+  border: 1px solid black;
+
+}
+.custom-table > tbody tr:hover {
+  background: #fafafa;
+}
+.custom-table > tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+.custom-table > tbody td {
+  border: 1px solid black;
+}
+.custom-table > tbody p {
+  text-align: right;
+}
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+.border-hide-lr{
+  border-bottom: 1pt solid white !important;
+  border-left: 1pt solid white !important;
+
+}
+.h-d{
+  height: 186px;
+  padding-top: 82px;
+}
+ //from and to
+ .header-invoice-container {
+   padding: 40px 59px 0px 25px !important;
+   border-bottom: 0px !important;
+  }
+
+ .body-invoice-container {
+  padding:10px 40px!important;
+  border-top: 0px !important;
+ }
+ .text-right{
+padding-left:62px;
+ }
+ .text-left{
+  float:left;
+ }
+ .align-left{
+  text-align: left;
+ }
+ .tableone {
+  border: none;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    max-width: 100%;
+  .th,td{
+    padding: 10px;
+  }
+}
+
+
+.link-for-invoice {
+   color: blue;
+   text-decoration: underline;
+}
+
+
+.Refesh-data{
+  float: right;
+    cursor: pointer;
+    margin-left: 12px;
+    margin-right: 14px;
+    font-size: 19px;
+    color: #878787;
+}

@@ -1,0 +1,51 @@
+
+<!-- <div class="modal-header">
+  <h4 class="modal-title pull-left">Buy Credit point  </h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modelhide()">
+    <span aria-hidden="true" style="font-weight: 400; font-size: 26px;">×</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>You don't have credit point please buy point  </strong></p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="purchesCredit()"> Purchase Credit </button>
+</div> -->
+
+
+
+<!-- credits availability checking -->
+<div>
+  <!-- [@slide-in]="animState" -->
+
+  <div class="common-header-flex">
+    <div>Insufficient Credits</div>
+    <button >
+      <span (click)="creditModelHide()" class="common-close">&times;</span>
+    </button>
+  </div>
+
+  <div class="panel-body custom-modal-body">
+    <div class="form-group row header-text">
+      <div class="row alrt-dngr">
+        <div class="alert alert-danger addd-dngr " role="alert">
+          You do not have enough credits. Please, purchase credits to proceed.
+        </div>
+      </div>
+
+      <div class="row form-group text-center">
+        <img src="assets/icon/not-enough-credits.jpg" alt="" srcset="" class="nocredits" />
+      </div>
+    </div>
+  </div>
+  <div class="custom-panel-footer">
+    <div class="panel-footer footer-btn">
+      <div class="shifu">
+        <button class="btn btn-sm btn-primary" type="submit" (click)="purchesCredit()">Purchase Credits</button>
+        <button class="btn btn-sm btn-default" (click)="creditModelHide()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>

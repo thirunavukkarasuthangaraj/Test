@@ -1,0 +1,896 @@
+<div class="col-sm-12 padding-right-0 padding-left-0" *ngIf="loadAPIcall">
+    <app-common-skeleton [countforView]="5" [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+
+</div>
+
+
+<div *ngIf="!loadAPIcall" class="col-sm-12 padding-right-0 padding-left-0">
+  <div class="hpanel margin-bottom-5">
+    <div class="panel-heading hbuilt" style="border-bottom: 1 important">
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5">Security Settings</label>
+    </div>
+  </div>
+  <div class="hpanel margin-bottom-5">
+    <div class="panel-body" style="padding-bottom: 37px">
+      <form [formGroup]="securityForm">
+        <h5>Account Details</h5>
+        <hr style="margin-top: 2px" />
+        <div class="row" style="margin-top: 20px">
+          <div class="col-sm-2">
+            <label class="control-label">Name</label>
+          </div>
+          <div class="col-sm-4" data-toggle="tooltip" data-placement="top"
+            title="{{ infoData?.firstName }} {{ infoData?.lastName }}">
+            <p>
+              {{ infoData?.firstName | truncate: 15 }}
+              {{ infoData?.lastName | truncate: 10 }}
+            </p>
+          </div>
+          <div class="col-sm-2" style="padding-right: 0px; padding-left: 0px">
+            <label class="control-label">GigSumo User ID</label>
+          </div>
+          <div class="col-sm-4">
+            <p>{{ infoData?.gigsumoNo }}</p>
+          </div>
+        </div>
+        <!-- <div class="row"> -->
+        <!-- <div class="col-sm-2" style="padding-right: 0px">
+              <label class="control-label">Profile Type</label>
+            </div> -->
+        <!-- <div class="col-sm-4">
+              <p *ngIf="userType == 'HEALTHCARE'">
+                Medical / Healthcare Professional
+              </p>
+              <p *ngIf="userType == 'adminPersonnel'">
+                Administrative Healthcare Personnel
+              </p>
+              <p *ngIf="userType == 'student'">Student (Medical/ Healthcare)</p>
+              <p *ngIf="userType == 'Other'">Other</p>
+            </div> -->
+        <!-- <div class="col-sm-2" style="padding-right: 0px; padding-left: 0px">
+              <label class="control-label">Account Type</label>
+            </div> -->
+
+        <!-- <div class="col-sm-4" style="padding-left: 7px">
+              <div class="radio-inline custom-radiobox" Style="padding-left: 4px;">
+                <label class="containerR" style="padding-left: 19px">
+                  Standard
+                  <input type="radio" disabled name="accountType" formControlName="accountType" id="inlineRadio1"
+                    value="standard" />
+                  <span class="checkmarkR radio_c"></span>
+                </label>
+              </div>
+              <div class="radio-inline custom-radiobox" style="margin-left: -5px">
+                <label class="containerR" style="padding-left: 19px">
+                  Premium
+                  <input type="radio" disabled name="accountType" formControlName="accountType" id="inlineRadio1"
+                    value="premium" />
+                  <span class="checkmarkR radio_c"></span>
+                </label>
+              </div> -->
+
+        <!-- <label class="radio-inline">
+                                        <input type="radio"   name="accountType" [attr.disabled]="true" formControlName="accountType" checked id="inlineRadio1" value="standard"> Standard
+                                      </label>
+
+                                      <label class="radio-inline">
+                                        <input type="radio"   name="accountType" [attr.disabled]="true" formControlName="accountType" id="inlineRadio2" value="premium"> Premium
+                                      </label> -->
+
+        <!-- <div class="row" style="padding-top: 1px">
+                                        <div class="col-sm-6">
+                                          <div class="custom-checkbox" >
+                                            <label class="checkbox-label font-normal" style="font-size: 13px;padding-left: 22px; "> Standard
+                                                <input disabled type="radio" value="standard" checked formControlName="accountType" name="accountType" >
+                                                <span  class="checkmark"></span>
+                                            </label>
+                                      </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                          <div class="custom-checkbox"  >
+                                            <label class="checkbox-label font-normal" style="font-size: 13px;padding-left: 22px; "> Premium
+                                                <input disabled  type="radio" value="premium"  formControlName="accountType" name="accountType" >
+                                                <span  class="checkmark"></span>
+                                            </label>
+                                      </div>
+                                        </div>
+                                      </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
+
+        <div class="row">
+          <div class="col-sm-2">
+            <label class="control-label">Phone</label>
+          </div>
+          <div class="col-sm-4">
+            <p>{{ receivedData.phoneNo }}</p>
+          </div>
+        </div>
+
+        <h5 style="padding-top: 15px">Security</h5>
+        <hr style="margin-top: 2px" />
+        <div class="row" style="margin-top: 20px">
+          <div class="col-sm-6">
+            <div class="row col-sm-12">
+              <label class="control-label">Password</label>
+            </div>
+            <div class="row col-sm-12">
+              <!-- <p role="button" (click)="changePasswordPopup()"><small>Change Password</small></p> -->
+              <p role="button" (click)="changePasswordPopup()" style="color: rgb(55, 182, 214)">
+                Change Password
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-6" style="padding-left: 0px">
+            <div class="row col-sm-12">
+              <label class="control-label">Security Questions</label>
+            </div>
+            <div class="row col-sm-12" style="padding-right: 0px">
+              <div *ngIf="securityFlag">
+                <p (click)="changeQuestionsPopup()" role="button">
+                  <small style="color: rgb(55, 182, 214)">Change Questions</small>
+                </p>
+              </div>
+
+              <p *ngIf="!securityFlag">
+                You haven't set any Security Questions yet!
+              </p>
+            </div>
+
+            <div *ngIf="isModalShown" [config]="backdropConfig" (onHidden)="onHidden()" bsModal
+              #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+              aria-labelledby="dialog-auto-name">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <button type="button" style="font-size: 27px; margin: 0px 17px 0px 0px" class="close pull-right"
+                    aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h5 style="padding: 10px 10px 6px 10px">
+                    Select new Security Questions
+                  </h5>
+                  <hr style="margin-top: 0px" />
+
+                  <div class="modal-body" style="padding: 0px">
+                    <p style="padding: 0px 66px 0px 61px">
+                      At GigSumo we are committed to protecting the
+                      security of your account. The Security questions and
+                      answers will help us verify your identity when you need
+                      to access or reset the password for your account
+                    </p>
+
+                    <form [formGroup]="secQuestionForm" class="app-form">
+                      <div style="margin-left: 7rem">
+                        <div class="row">
+                          <div class="col-sm-10">
+                            <div class="row form-group">
+                              <select formControlName="question1" class="form-control input-sm">
+                                <option value="null" disabled>
+                                  Answer any one question
+                                </option>
+                                <option *ngFor="let question of receivedQuestions">
+                                  {{ question.question }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="row form-group">
+                              <input type="text" class="form-control input-sm" placeholder="Your answer"
+                                formControlName="answer1" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row form-group">
+                          <!-- <label  style="font-size: 16px;" class="col-sm-3 control-label">Question 2</label> -->
+                          <div class="col-sm-10">
+                            <div class="row form-group">
+                              <select formControlName="question2" class="form-control input-sm">
+                                <option value="null" disabled>
+                                  Answer any one question
+                                </option>
+                                <option *ngFor="let quest of receivedQuestions">
+                                  {{ quest.question }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="row">
+                              <input type="text" class="form-control input-sm" placeholder="Your answer"
+                                formControlName="answer2" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row form-group">
+                          <!-- <label  style="font-size: 16px;" class="col-sm-3 control-label">Question 3</label> -->
+                          <div class="col-sm-10">
+                            <div class="row form-group">
+                              <select formControlName="question3" class="form-control input-sm">
+                                <option value="null" disabled>
+                                  Answer any one question
+                                </option>
+                                <option *ngFor="let q of receivedQuestions">
+                                  {{ q.question }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="row form-group">
+                              <input type="text" class="form-control input-sm" placeholder="Your answer"
+                                formControlName="answer3" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <div class="row form-group">
+                              <label class="col-sm-3 control-label">GigSumo PIN </label>
+                              <div class="col-sm-9">
+                                  <input type="text" class="form-control input-sm" formControlName="pin">
+                              </div>
+                          </div> -->
+                    </form>
+                    <div style="padding-left: 405px; padding-bottom: 16px">
+                      <button class="btn default-btn btn-sm" (click)="hideModal()">
+                        Cancel
+                      </button>
+                      <button class="btn primary-btn btn-sm" style="margin-left: 5%" (click)="updateSecurityQuestion()">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <!-- <div class="modal-footer">
+                        <div style="margin-right: 7rem;">
+                          <button  class="btn default-btn btn-sm" (click)="hideModal()" >Cancel</button>
+                          <button  class="btn primary-btn btn-sm"  (click)="updateSecurityQuestion()" >Save</button>
+
+                        </div>
+
+                        </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isPasswordShown" [config]="backdropConfig" (onHidden)="onHidden1()" bsModal
+              #passwordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+              aria-labelledby="dialog-auto-name">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <button type="button" class="close pull-right cls-icoon" aria-label="Close" (click)="hideModal1()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="mdl-hdn">Change Password</div>
+                  <hr style="margin-top: 0px" />
+                  <div class="modal-body" style="padding-top: 0px">
+                    <p>
+                      At GigSumo we are committed to protecting the
+                      security of your account. Do not use a previously used
+                      password.
+                    </p>
+                    <div *ngIf="errorMsg">
+                      <h5 style="color: red" [innerHTML]="errorMsgTxt"></h5>
+                    </div>
+                    <div>
+                      <form [formGroup]="chngPsswrdForm" class="app-form">
+                        <div class="row">
+                          <div class="form-group col-lg-6">
+                            <div class="row">
+                              <div class="form-group col-lg-12">
+                                <!-- <label class="control-label">Old Password</label>
+                                              <input type="password" formControlName="oldPassword" placeholder="Old Password" class="form-control input-sm" > -->
+
+                                <label class="control-label">Old Password</label>
+                                <div class="input-group">
+                                  <input type="password" [readonly]="ValidatePassword" style="border-radius: 0"
+                                    [type]="oldPassword ? 'password' : 'text'" class="form-control input-sm m-l-2"
+                                    formControlName="oldPassword" placeholder="Enter Old Password"
+                                    aria-describedby="basic-addon1" appBlockCopyPaste />
+                                  <span class="input-group-btn">
+                                    <button class="btn default-btn btn-sm" style="border-radius: 0" type="button">
+                                      <i class="fa" [ngClass]="{
+                                            'fa-eye': oldPassword,
+                                            'fa-eye-slash': !oldPassword
+                                          }" (click)="oldPassword = !oldPassword">
+                                      </i>
+                                    </button>
+                                  </span>
+                                </div>
+                                <div *ngIf="worngPwd" style="margin-top: 5px">
+                                  <span style="color: red">Sorry! Your old password was
+                                    incorrect!</span>
+                                </div>
+                              </div>
+                              <div class="form-group col-lg-12">
+                                <label class="control-label">New Password</label>
+                                <div class="input-group">
+                                  <input type="password" style="border-radius: 0"
+                                    [type]="newPassword ? 'password' : 'text'" class="form-control input-sm m-l-2"
+                                    formControlName="pwd" placeholder="Enter New Password"
+                                    aria-describedby="basic-addon1" (keyup)="changepass($event.target.value)"
+                                    appBlockCopyPaste />
+                                  <span class="input-group-btn">
+                                    <button class="btn default-btn btn-sm" style="border-radius: 0" type="button">
+                                      <i class="fa" [ngClass]="{
+                                            'fa-eye': newPassword,
+                                            'fa-eye-slash': !newPassword
+                                          }" (click)="newPassword = !newPassword">
+                                      </i>
+                                    </button>
+                                  </span>
+                                </div>
+
+                                <!-- <div *ngIf="updatePwd.pwd.invalid && (updatePwd.pwd.dirty || updatePwd.pwd.touched)" > -->
+                                <div *ngIf="
+                                      chngPsswrdForm.value.oldPassword ===
+                                        chngPsswrdForm.value.pwd &&
+                                      (updatePwd.pwd.dirty ||
+                                        updatePwd.pwd.touched)
+                                    " class="text-danger">
+                                  The new password must be different from the
+                                  old password
+                                </div>
+                                <!-- </div> -->
+                                <!-- </div> -->
+                              </div>
+                              <div class="form-group col-lg-12">
+                                <label class="control-label">Verify Password</label>
+                                <!-- <input type="password" formControlName="cpwd" placeholder="Verify Password" class="form-control input-sm" > -->
+                                <div class="input-group">
+                                  <input type="password" style="border-radius: 0" [type]="
+                                        CnewPassword ? 'password' : 'text'
+                                      " class="form-control input-sm m-l-2" formControlName="cpwd"
+                                    placeholder="Re-Enter New Password" aria-describedby="basic-addon1"
+                                    appBlockCopyPaste />
+                                  <span class="input-group-btn">
+                                    <button class="btn default-btn btn-sm" style="border-radius: 0" type="button">
+                                      <i class="fa" [ngClass]="{
+                                            'fa-eye': CnewPassword,
+                                            'fa-eye-slash': !CnewPassword
+                                          }" (click)="CnewPassword = !CnewPassword">
+                                      </i>
+                                    </button>
+                                  </span>
+                                </div>
+                                <div *ngIf="
+                                      updatePwd.cpwd.invalid &&
+                                      (updatePwd.cpwd.dirty ||
+                                        updatePwd.cpwd.touched)
+                                    ">
+                                  <div *ngIf="updatePwd.cpwd.errors" class="text-danger">
+                                    <div *ngIf="updatePwd.cpwd.errors.mustMatch">
+                                      Password do not match
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group col-lg-6">
+                            <div class="">
+                              <div class="margin-top-25">
+                                <!-- <label
+                                    class="col"
+                                    style="display: inline-flex"
+                                    [ngClass]="
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'required'
+                                      ) ||
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'minlength'
+                                      )
+                                        ? 'textColor'
+                                        : 'text-success'
+                                    "
+                                  >
+                                    <!-- <span class="iwt" > --
+                                    <i class="material-icons">
+                                      {{
+                                        chngPsswrdForm.controls["pwd"].hasError(
+                                          "required"
+                                        ) ||
+                                        chngPsswrdForm.controls["pwd"].hasError(
+                                          "minlength"
+                                        )
+                                          ? "cancel"
+                                          : "check_circle"
+                                      }} </i
+                                    ><span class="aligement"
+                                      >8 or more alphanumeric characters</span
+                                    >
+                                    <!-- </span> --
+                                  </label> -->
+
+                                <label [ngClass]="chngPsswrdForm.controls['pwd'].hasError('required') ||
+                                  chngPsswrdForm.controls['pwd'].hasError('minlength') ||
+                                  chngPsswrdForm.controls['pwd'].hasError('maxlength') ? 'textColor' : 'text-success'">
+                                  <span class="iwt display-flex">
+                                    <i class=" pull-left material-icons">
+                                      {{ chngPsswrdForm.controls['pwd'].hasError('required') ||
+                                      chngPsswrdForm.controls['pwd'].hasError('minlength') ||
+                                      chngPsswrdForm.controls['pwd'].hasError('maxlength') ? 'cancel' :
+                                      'check_circle' }}
+                                    </i><span class="aligement"> 8 - 15 alphanumeric characters </span>
+                                  </span>
+
+                                  <!-- 8 or more alphanumeric characters -->
+                                </label>
+
+                                <label class="col" style="display: inline-flex"
+                                  [ngClass]="
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'required'
+                                      ) ||
+                                      chngPsswrdForm.controls['pwd'].hasError(  'hasNumber' ) ? 'textColor'  : 'text-success' ">
+                                  <i class="material-icons">
+                                    {{
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "required"
+                                    ) ||
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "hasNumber"
+                                    )
+                                    ? "cancel"
+                                    : "check_circle"
+                                    }}
+                                  </i>
+                                  <span class="aligement">
+                                    At least one number</span>
+                                </label>
+                                <br />
+                                <label class="col" style="display: inline-flex" [ngClass]="
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'required'
+                                      ) ||
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'hasCapitalCase'
+                                      )
+                                        ? 'textColor'
+                                        : 'text-success'
+                                    ">
+                                  <i class="material-icons">
+                                    {{
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "required"
+                                    ) ||
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "hasCapitalCase"
+                                    )
+                                    ? "cancel"
+                                    : "check_circle"
+                                    }} </i><span class="aligement">At least one uppercase letter</span>
+                                </label>
+
+                                <label class="col" style="display: inline-flex" [ngClass]="
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'required'
+                                      ) ||
+                                      chngPsswrdForm.controls['pwd'].hasError(
+                                        'hasSmallCase'
+                                      )
+                                        ? 'textColor'
+                                        : 'text-success'
+                                    ">
+                                  <i class="material-icons">
+                                    {{
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "required"
+                                    ) ||
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "hasSmallCase"
+                                    )
+                                    ? "cancel"
+                                    : "check_circle"
+                                    }} </i><span class="aligement">
+                                    At least one lowercase letter</span>
+                                </label>
+
+                                <label class="col" style="display: inline-flex"
+                                  [ngClass]="  chngPsswrdForm.controls['pwd'].hasError(  'required' ) ||
+
+                                      chngPsswrdForm.controls['pwd'].hasError( 'hasSpecialCharacters' ) ? 'textColor' : 'text-success'">
+
+                                  <i class="material-icons">
+                                    {{
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "required"
+                                    ) ||
+                                    chngPsswrdForm.controls["pwd"].hasError(
+                                    "hasSpecialCharacters" )
+                                    ? "cancel"
+                                    : "check_circle"
+                                    }}
+                                  </i>
+                                  <span class="aligement">
+                                    At least one special character</span>
+                                </label>
+
+
+                                <!-- <div *ngIf="updatePwd.cpwd.errors" class="text-danger">
+                                    <div *ngIf="updatePwd.cpwd.errors.mustMatch">
+                                      Password do not match
+                                    </div>
+                                  </div> -->
+
+
+
+                                <label class="col" style="display: inline-flex"
+                                  [ngClass]="chngPsswrdForm.controls['cpwd'].hasError(  'required' ) ||
+
+                                   (chngPsswrdForm.controls['cpwd'].hasError(  'mustMatch' )) ? 'textColor' : 'text-success'">
+
+                                  <i class="material-icons">
+                                    {{chngPsswrdForm.controls["cpwd"].hasError( "required" ) ||
+                                    chngPsswrdForm.controls["cpwd"].hasError( "MustMatch" ) &&
+                                    chngPsswrdForm.controls["pwd"].hasError( "MustMatch" ) ? "cancel" : "check_circle"
+                                    }}
+                                  </i>
+                                  <span class="aligement">
+                                    Password do not match </span>
+                                </label>
+                              </div>
+                              <div>
+                                <!-- <label for="file" >Verifying Details:</label>
+                                <progress id="perogressbar" value={{point_all}} max="100">  </progress> -->
+
+                              </div>
+
+                              <!-- <div class="strengthBar1" style="margin-inline-start: 21px;">
+                                  <li *ngFor="let item of setpass"
+                                   [ngClass]="chngPsswrdForm.controls['pwd'].hasError('required') ||
+                                  chngPsswrdForm.controls['pwd'].hasError(item) ? 'barcolour' : 'barcolour1'"></li>
+
+                                <li
+                                  [ngClass]="chngPsswrdForm.controls['pwd'].hasError('required') ||
+                                 chngPsswrdForm.controls['pwd'].hasError('minlength') ||
+                                 chngPsswrdForm.controls['pwd'].hasError('maxlength') ? 'barcolour' : 'barcolour1'"></li>
+                                  <li  [ngClass]="chngPsswrdForm.controls['pwd'].hasError(  'required' ) || chngPsswrdForm.controls['pwd'].hasError(  'hasNumber' ) ? 'barcolour': 'barcolour1'"  ></li>
+                                  <li  [ngClass]="chngPsswrdForm.controls['pwd'].hasError(  'required' ) ||chngPsswrdForm.controls['pwd'].hasError(  'hasCapitalCase' ) ? 'barcolour': 'barcolour1'"  ></li>
+                                  <li  [ngClass]="chngPsswrdForm.controls['pwd'].hasError(  'required' ) ||chngPsswrdForm.controls['pwd'].hasError(  'hasSmallCase' ) ? 'barcolour': 'barcolour1'"  ></li>
+                                  <li  [ngClass]="chngPsswrdForm.controls['pwd'].hasError(  'required' ) || chngPsswrdForm.controls['pwd'].hasError(  'hasSpecialCharacters' ) ? 'barcolour': 'barcolour1'"  ></li>
+                                 </div> -->
+
+                              <br>
+
+                              <app-password-strength
+                                [passwordToVerify]="chngPsswrdForm.value.pwd"></app-password-strength>
+
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div>
+                      <div class="pedfooter">
+                        <button class="btn default-btn btn-sm" (click)="hideModal1()"
+                          style="margin-right: 5px; border-radius: 0px">
+                          Cancel
+                        </button>
+                        <button class="btn primary-btn btn-sm" style="margin-right: 1rem" (click)="updatePassword()"
+                          [disabled]="!chngPsswrdForm.valid">
+                          Change Password
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="padding-top: 15px">
+          <div class="col-sm-6">
+            <div class="row col-sm-12">
+              <label class="control-label">Pin</label>
+            </div>
+            <div class="row col-sm-12">
+              <div>
+                <p *ngIf="securityFlag" role="button" (click)="changePin()">
+                  <small style="color: rgb(55, 182, 214)">Change Pin</small>
+                </p>
+              </div>
+
+              <p *ngIf="!securityFlag">You haven't set GigSumo PIN yet!</p>
+            </div>
+          </div>
+          <div class="col-sm-6" style="padding-left: 0px">
+            <div class="row col-sm-12">
+              <label class="control-label">Primary Email ID</label>
+            </div>
+            <div class="row col-sm-12">
+              <p>{{ infoData.email }}</p>
+            </div>
+          </div>
+        </div>
+
+        <h5 style="padding-top: 15px">Location / Language</h5>
+        <hr style="margin-top: 2px" />
+        <div class="row" style="margin-top: 20px">
+          <div class="col-sm-6">
+            <div class="row col-sm-12">
+              <label class="control-label">Country</label>
+            </div>
+            <div class="row col-sm-12">
+              {{ receivedData.country }}
+            </div>
+          </div>
+          <!-- <div class="col-sm-6">
+                                    <div class="row col-sm-12">
+                                        <label class="control-label">Language</label>
+                                     </div>
+                                    <div class="row col-sm-12">
+                                       {{receivedData.language}}
+                                    </div>
+                                </div> -->
+        </div>
+
+        <form [formGroup]="timezoneForm">
+          <div class="row col-sm-12" *ngIf="userType!='JOB_SEEKER'">
+            <label class="control-label">Location Settings</label>
+          </div>
+          <div class="row " *ngIf="userType!='JOB_SEEKER'">
+
+            <div class="col-sm-4">
+              <label for="title"><b>Locale</b>
+              </label>
+              <select class="form-control input-sm" formControlName="timeZoneCountry" type="text"
+                (change)="onChangeCountry($event.target.value)">
+                <option value="null" selected disabled>Country</option>
+                <option *ngFor="let country of countryList" [value]="country.countryCode">
+                  {{country.countryName}}</option>
+              </select>
+
+            </div>
+            <div class="col-sm-4">
+              <label for="title">Time Zone
+              </label>
+              <select class="form-control input-sm" [(ngModel)]="infoData.timeZone" formControlName="timeZone"
+                type="text">
+                <option value="null" selected disabled>Select Time Zones</option>
+                <option *ngFor="let timezone of timezoneslist" [value]="timezone">
+                  {{timezone}}</option>
+              </select>
+
+            </div>
+            <div class="col-sm-4" style="margin-top:22px;">
+              <button (click)="saveusertimezone()" class="btn primary-btn btn-sm ">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+
+
+
+        <h5 style="padding-top: 15px">Two - Factor Authentication</h5>
+        <hr style="margin-top: 2px" />
+        <div class="row" style="margin-top: 20px">
+          <div class="col-sm-6">
+            <div class="row col-sm-12">
+              <label class="control-label">Two - Factor Authentication</label>
+            </div>
+            <div class="row col-sm-12">
+              <a role="button" *ngIf="!twoFactorFlag" (click)="twoFactorAuthGenerate()"><small>Enable</small></a>
+              <a role="button" *ngIf="twoFactorFlag" (click)="twoFactorAuthRevoke()"><small>Disable</small></a>
+            </div>
+          </div>
+          <div class="col-sm-6" style="padding-left: 0px">
+            <!-- <label class="radio-inline">
+                                     <input type="radio" name="twoFactorAuth"  formControlName="twoFactorAuth" id="twoFacOn" value="on"> On
+                                   </label>
+
+
+                                   <label class="radio-inline">
+                                     <input type="radio" name="twoFactorAuth"  formControlName="twoFactorAuth" id="twoFacOff" value="off"> Off
+                                   </label> -->
+            <div class="radio-inline custom-radiobox" Style="padding-left: 4px;">
+              <label class="containerR" style="padding-left: 19px">
+                On
+                <input type="radio" disabled name="twoFactorAuth" formControlName="twoFactorAuth" id="twoFacOn"
+                  value="on" />
+                <span class="checkmarkR radio_c"></span>
+              </label>
+            </div>
+            <div class="radio-inline custom-radiobox" style="margin-left: -5px">
+              <label class="containerR" style="padding-left: 19px">
+                Off
+                <input type="radio" disabled name="twoFactorAuth" formControlName="twoFactorAuth" id="twoFacOff"
+                  value="off" />
+                <span class="checkmarkR radio_c"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="isPinShown" [config]="backdropConfig" (onHidden)="onHidden2()" bsModal #pinModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <button type="button" style="font-size: 27px; padding-right: 17px" class="close" aria-label="Close"
+        (click)="hideModal2()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 style="padding: 10px 10px 10px 10px; margin-bottom: 0px">
+        Change PIN
+      </h5>
+      <hr style="margin-top: 0px" />
+      <div class="modal-body" style="padding-top: 0px">
+        <p class="text-center">
+          At GigSumo we are committed to protecting the security of your
+          account.
+        </p>
+        <div>
+          <form [formGroup]="pinForm" class="app-form">
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <div class="row">
+                  <div class="form-group col-lg-12">
+                    <label class="control-label">Current Pin</label>
+                    <input type="password" formControlName="oldPin" placeholder="Current Pin"
+                      class="form-control input-sm" />
+                  </div>
+                  <div class="form-group col-lg-12">
+                    <label class="control-label">Enter New Pin</label>
+                    <!-- <input type="password"  (keypress)="chagetext($event)" formControlName="newPin" placeholder="Enter New Pin" class="form-control input-sm" > -->
+                    <!-- <input type="password" formControlName="newPin" placeholder="Enter New Pin" class="form-control input-sm"> -->
+                    <div class="input-group">
+                      <input type="password" style="border-radius: 0" [type]="newPin ? 'password' : 'text'"
+                        class="form-control input-sm" formControlName="newPin" placeholder="Enter new Pin"
+                        aria-describedby="basic-addon1" />
+                      <span class="input-group-btn">
+                        <button class="btn default-btn btn-sm" style="border-radius: 0" type="button">
+                          <i class="fa" [ngClass]="{
+                              'fa-eye-slash': newPin,
+                              'fa-eye': !newPin
+                            }" (click)="newPin = !newPin">
+                          </i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-12">
+                    <label class="control-label">Verify Pin</label>
+                    <!-- <input type="password" formControlName="verifyPin" placeholder="Verify Pin" class="form-control input-sm" > -->
+                    <div class="input-group">
+                      <input type="password" style="border-radius: 0" [type]="verifyPin ? 'password' : 'text'"
+                        class="form-control input-sm" formControlName="verifyPin" placeholder="Verify Pin"
+                        aria-describedby="basic-addon1" />
+                      <span class="input-group-btn">
+                        <button class="btn default-btn btn-sm" style="border-radius: 0" type="button">
+                          <i class="fa" [ngClass]="{
+                              'fa-eye-slash': verifyPin,
+                              'fa-eye': !verifyPin
+                            }" (click)="verifyPin = !verifyPin">
+                          </i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-lg-6">
+                <div class="">
+                  <div class="panel-body">
+                    <label class="col" style="display: inline-flex" [ngClass]="
+                        pinForm.controls['newPin'].hasError('required') ||
+                        pinForm.controls['newPin'].hasError('minlength')
+                          ? 'text-danger'
+                          : 'text-success'
+                      ">
+                      <i class="material-icons">
+                        {{
+                        pinForm.controls["newPin"].hasError("required") ||
+                        pinForm.controls["newPin"].hasError("minlength")
+                        ? "cancel"
+                        : "check_circle"
+                        }}
+                      </i>
+                      4 or more numbers
+                    </label>
+
+                    <label class="col" style="display: inline-flex" [ngClass]="
+                        chngPsswrdForm.controls['pwd'].hasError('required') ||
+                        chngPsswrdForm.controls['pwd'].hasError('hasNumber')
+                          ? 'text-danger'
+                          : 'text-success'
+                      ">
+                      <i class="material-icons">
+                        {{
+                        chngPsswrdForm.controls["pwd"].hasError("required") ||
+                        chngPsswrdForm.controls["pwd"].hasError("hasNumber")
+                        ? "cancel"
+                        : "check_circle"
+                        }}
+                      </i>
+                      no ascending numbers
+                    </label>
+                    <br />
+                    <label class="col" style="display: inline-flex" [ngClass]="
+                        chngPsswrdForm.controls['pwd'].hasError('required') ||
+                        chngPsswrdForm.controls['pwd'].hasError(
+                          'hasCapitalCase'
+                        )
+                          ? 'text-danger'
+                          : 'text-success'
+                      ">
+                      <i class="material-icons">
+                        {{
+                        chngPsswrdForm.controls["pwd"].hasError("required") ||
+                        chngPsswrdForm.controls["pwd"].hasError(
+                        "hasCapitalCase"
+                        )
+                        ? "cancel"
+                        : "check_circle"
+                        }}
+                      </i>
+                      no descending numbers
+                    </label>
+
+                    <label class="col" style="display: inline-flex" [ngClass]="
+                        chngPsswrdForm.controls['pwd'].hasError('required') ||
+                        chngPsswrdForm.controls['pwd'].hasError('hasSmallCase')
+                          ? 'text-danger'
+                          : 'text-success'
+                      ">
+                      <i class="material-icons">
+                        {{
+                        chngPsswrdForm.controls["pwd"].hasError("required") ||
+                        chngPsswrdForm.controls["pwd"].hasError(
+                        "hasSmallCase"
+                        )
+                        ? "cancel"
+                        : "check_circle"
+                        }}
+                      </i>
+                      no repeated numbers
+                    </label>
+
+                    <label class="col" style="display: inline-flex" [ngClass]="
+                        chngPsswrdForm.controls['pwd'].hasError('required') ||
+                        chngPsswrdForm.controls['pwd'].hasError(
+                          'hasSpecialCharacters'
+                        )
+                          ? 'text-danger'
+                          : 'text-success'
+                      ">
+                      <i class="material-icons">
+                        {{
+                        chngPsswrdForm.controls["pwd"].hasError("required") ||
+                        chngPsswrdForm.controls["pwd"].hasError(
+                        "hasSpecialCharacters"
+                        )
+                        ? "cancel"
+                        : "check_circle"
+                        }}
+                      </i>
+                      New and verify PIN match
+                    </label>
+                  </div>
+                  <app-pin-strength [pinToCheck]="pinForm.value.newPin"></app-pin-strength>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row" style="padding-left: 395px">
+          <button type="button" class="btn default-btn btn-sm" style="margin-right: 2rem" (click)="hideModal2()">
+            Cancel
+          </button>
+          <button type="button" class="btn primary-btn btn-sm" (click)="updatePIN()">
+            Reset Pin
+          </button>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- </div> -->
+
+<!-- </div> -->

@@ -1,0 +1,41 @@
+<li class="profile-memeber-container margin-bottom-5">
+  <a class="profile-view" (click)="route(userinfo,false)">
+    <div *ngIf="userinfo?.photo !== null && userinfo?.photo !== undefined">
+        <!-- Show image -->
+      <img title="{{userinfo.firstName}} {{userinfo.lastName}}" [src]="img" width="56" height="56" class="profile-photo"
+        (click)="route(userinfo, true)"
+        [ngClass]="{ business: type === 'BUSINESS' || type === 'COMMUNTIY' || type === 'POST' || type === 'HASHTAG' || type === 'JOBS' || type === 'CANDIDATES' || type==='SUGGJOBS' || type==='CANDIDATES_MIGHT'}" />
+    </div>
+
+    <div *ngIf="(userinfo?.photo === null || userinfo?.photo === undefined) && type !== 'COMMUNTIY'" (click)="route(userinfo, true)"
+      [ngClass]="{ business: type === 'BUSINESS' || type === 'POST' || type === 'HASHTAG' || type === 'JOBS' || type === 'CANDIDATES' || type==='SUGGJOBS' || type==='CANDIDATES_MIGHT'}">
+      <!-- Show circles with initials -->
+      <div class="circles" [style.background-color]="getColortwo(userinfo?.firstName, userinfo?.lastName)">
+        <div class="circle-text">{{ getInitialstwo(userinfo?.firstName, userinfo?.lastName) }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="(userinfo?.photo === null || userinfo?.photo === undefined) && type === 'COMMUNTIY'" (click)="route(userinfo, true)">
+      <div  class="svg-background-community">
+        <app-svg-templates class="svg-position" [svgType]="'COMMUNITY'"></app-svg-templates>
+      </div>
+    </div>
+
+    <div class="profile-detail">
+      <h3 class="profile-section-detail ">
+        <span class="profile-name card-title-font" style="color: green  !important;">
+          <ng-content select="[headline1]"></ng-content>
+        </span>
+      </h3>
+      <div class="profile-headline">
+        <span class="profile-inline card-subtitle-font" style="color: #49a7a9 !important;">
+          <ng-content select="[headline2]"></ng-content>
+        </span>
+      </div>
+    </div>
+  </a>
+
+  <div class="profile-btn">
+    <ng-content select="[btn]" (click)="datapass(userinfo.userId)"></ng-content>
+  </div>
+</li>

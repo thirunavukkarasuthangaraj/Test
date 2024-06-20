@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="business-banner-top post-box-shadow">
+    <div class="business-banner">
+      <div class="banner-shadow"></div>
+      <img class="banner-img" *ngIf="response?.bannerImage==null && response?.bannerImage==undefined"
+        [ngStyle]="{ 'background-image': 'url(assets/images/networkbanner.png)' }" />
+      <img class="banner-img" *ngIf="response?.bannerImage!=null && response?.bannerImage!=undefined"
+        [ngStyle]="{ 'background-image': 'url( '+url+response?.bannerImage+')' }" />
+      <div class="banner-overlay">
+        <div class="banner-edit" *ngIf="ownerFlag">
+          <input type="file" accept=".jpg, .jpeg, .png" #myFileInput (change)="fileChangeEvent($event, template)"
+            (click)="myFileInput.value = null" />
+          <div class="image-upload"></div>
+          <i class="fa fa-camera" aria-hidden="true"></i>
+        </div>
+        <div class="banner-profile-image">
+          <img *ngIf="response?.logo==null && response?.logo==undefined" src="assets/icon/icons8-share-400.png" alt=""
+            srcset="" />
+          <img *ngIf="response?.logo!=null && response?.logo!=undefined" src="{{url+response?.logo}}" alt=""
+            srcset="" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hpanel scroll-header business-banner-top">
+    <div class="panel-body">
+      <div class="col-md-8">
+        <div class="col-md-2 p-0" style="font-size: 18px;width: 10rem;text-align: center;">
+          <strong class="bus-hov business-name" [routerLink]="['/landingPage/network']">Network</strong>
+        </div>
+        <div class="col-md-10 p-0">
+          <p style="font-size: 18px;" class="business-name break-word ellipse1" data-toggle="tooltip"
+            data-placement="top" title="{{response?.networkName | titlecase}}">
+            <strong>: </strong>
+            {{response?.networkName | titlecase }}
+            <span *ngIf="response?.memberCnt!=0 && response?.networkName" class="opi">|</span>
+            <span class="lkio" (click)="menuclick('members')"><span title="{{response?.memberCnt}}"
+                *ngIf="response?.memberCnt">
+                {{response?.memberCnt}} Member</span> <span *ngIf="response?.memberCnt>1">s </span></span>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row" style="float: right;">
+          <div class="col-md-12">
+            <button type="button" class="btn primary-btn btn-sm margin-right-20"
+              *ngIf="ownerFlag && pathdata.isDefaultNetwork=='false'" (click)="deletenet('delete')"> Deactivate
+              Network</button>
+            <button type="button" class="btn primary-btn btn-sm margin-right-20"
+              *ngIf="memberflag && pathdata.isDefaultNetwork=='false'" (click)="deletenet('leave')"> Leave
+              Network</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="network-page-layout">
+    <div class="network-menu">
+      <app-net-navbarpage [userDataInput]="pathdata.menu"></app-net-navbarpage>
+    </div>
+    <div class="feed-widget-combo">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #template>
+
+  <!-- <button type="button" style="font-size: 31px; padding-right: 17px; padding-top: 7px" class="close pull-right"
+    aria-label="Close" (click)="closePhoto()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h5 style="margin: 10px 10px 10px 10px; padding-top: 10px">Banner Image</h5>
+  <hr /> -->
+  <div class="common-header-flex">
+    <div>Network Banner Image</div>
+    <button>
+      <span class="common-close" (click)="closePhoto()">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4.5 / 1"
+      format="jpeg" (imageCropped)="imageCropped($event)"></image-cropper>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm" (click)="closePhoto()">Cancel</button>
+        <button class="btn btn-primary btn-sm" (click)="imageLoaded()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

@@ -1,0 +1,488 @@
+<div class="mlrt-10" *ngIf="!screendata"  >
+  <app-common-skeleton [NameOftheScreen]="'pricing'"></app-common-skeleton>
+</div>
+<div class="mlrt-10" *ngIf="screendata">
+  <div class="bg-head-card" *ngFor="let item of SubsciptionLists;  let i = index">
+    <h2 class="font-light m-b-xs f-w-800 ">
+      <p *ngIf="item.subcriptionType=='Free'" class="text-center" style="color: #111;">Start<span class="c-b"> free
+        </span> and try all features,<br> upgrade when you are ready.
+      </p>
+      <p *ngIf="item.subcriptionType=='Business'" class="text-center" style="color: #111;">Supercharge your recruitment
+        team</p>
+      <p *ngIf="item.subcriptionType=='Business'" class="text-center">Start <span class="c-b">free</span>.</p>
+    </h2>
+  </div>
+  <div class="bg-head-card">
+    <p class="fs-21 tc" style="margin-top: 20px;">Unlimited time on Free plan. No credit card required.</p>
+    <div class="jcentre tc">
+      <div class="toggle-button-cover zi1">
+        <ul class="planNav nav navbar-nav no-borders menu-scroll-view" id="style-1">
+          <li id="induvidual" class="nav-link active"
+            style="margin-right: 15px;  font-weight: 500;  background: linear-gradient(180deg, #fff, #fff) !important;"
+            routerLinkActive="router-link-active" (click)="selectMenu('Individualplan')"
+            title=" For individuals and small teams">
+            <a style="background: #fff;">
+              For individuals & small teams
+            </a>
+          </li>
+          <li routerLinkActive="router-link-active" class="nav-link "
+            style=" font-weight: 500;  background: linear-gradient(180deg, #fff, #fff) !important;"
+            (click)="selectMenu('Businessplan')" title="For Businesses & enterprises" id="business">
+            <a style="background: #fff;">
+              For Businesses & enterprises
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-table">
+    <div class="pricing-card">
+      <div class="fixed-hights-">
+        <img style="width: 100%;" src="assets/icon/price-screen-fly.png">
+        <div class="p-info-container">
+          <p class="pinfo ">GigSumo subscription will enable you to connect and network with technical recruiters
+            and suppliers on
+            our platform to discover the best IT talent and opportunities. </p>
+          <p class=" pinfo fs-12">
+            <!-- <i class="fa fa-check-circle fa-lg app-theme" aria-hidden="true"></i> -->
+            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1">
+              <path
+                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                fill="#63cfbe" />
+            </svg>
+            <span>
+              Exclusive Professional Community
+            </span>
+          </p>
+          <p class=" pinfo fs-12">
+            <!-- <i class="fa fa-check-circle fa-lg app-theme" aria-hidden="true"></i>  -->
+            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1">
+              <path
+                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                fill="#63cfbe" />
+            </svg>
+            <span>
+              Enhanced Placement Opportunities
+            </span>
+          </p>
+          <p class=" pinfo fs-12">
+            <!-- <i class="fa fa-check-circle fa-lg app-theme" aria-hidden="true"></i> -->
+            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1">
+              <path
+                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                fill="#63cfbe" />
+            </svg>
+            <span>
+              Cutting-Edge Networking Tools
+            </span>
+          </p>
+          <p class=" pinfo fs-12">
+            <!-- <i class="fa fa-check-circle fa-lg app-theme" aria-hidden="true"></i> -->
+            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1">
+              <path
+                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                fill="#63cfbe" />
+            </svg>
+            <span>
+              Profile Enhancement Features
+            </span>
+          </p>
+        </div>
+      </div>
+      <div>
+        <ul class="benifit-title">
+          <ng-container class="plan-benefits-container" *ngFor="let item of catagories;  let i = index">
+            <li class="plan-benefits-li" *ngIf="item.type=='GENERAL'">
+              {{item.benefitDescription}}<i class="fa fa-exclamation-circle gray-c" title="{{item.benefitDescription}}"
+                aria-hidden="true"> </i>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+    <ng-container *ngFor="let item of SubsciptionLists;  let i = index">
+      <div class="pricing-card" *ngIf="item.planBenefits[i].type=='GENERAL'">
+        <div class="p-info-container">
+          <div class="h-150">
+            <h3 class="plan-titlels-name font-planname"> {{item.subcriptionType}} <span
+                *ngIf="item.subcriptionType=='Team'" class="label label-info pull-right"
+                style="font-size: 12px; background-color: #673ab7">Most Popular</span> </h3>
+            <p class="sub-plan-title"> {{item.description}}</p>
+          </div>
+        </div>
+        <div class="h-300 pos-relative">
+          <p *ngIf="item.subcriptionType!='Free'" class="f-w-600 left-align-item startt-at"> Starts at </p>
+          <p *ngIf="item.subcriptionType=='Free'" class="visibility left-align-item"> Starts at </p>
+          <div class="price" *ngIf="item.subcriptionType!='Free'">
+            <span *ngIf="!item.selected" class="font-planname">${{item.monthlySubscriptionAmount}}/mo</span>
+            <span *ngIf="item.selected" class="font-planname">${{item.monthlysubscriptionForAnnual}}/mo </span>
+            <p *ngIf="!item.selected && item.subcriptionType=='Team'"> user/ billed monthly</p>
+            <p *ngIf="!item.selected && item.subcriptionType=='Business'"> unlimited users/ billed monthly</p>
+            <p *ngIf="!item.selected && item.subcriptionType=='Enterprise'"> unlimited users/ billed monthly</p>
+            <p *ngIf="item.selected && item.subcriptionType=='Team'"> billed at <span
+                class="discount-original-price">${{item.monthlySubscriptionAmount*12}} </span>
+              ${{item.annualSubscriptionAmount}}/yr. <br>
+              user/ billed annually</p>
+            <p *ngIf="item.selected && item.subcriptionType=='Business'"> billed at <span
+                class="discount-original-price"> ${{item.monthlySubscriptionAmount*12}}</span>
+              ${{item.annualSubscriptionAmount}}/yr <br>
+              Unlimited Users/ billed annually</p>
+            <p *ngIf="item.selected && item.subcriptionType=='Enterprise'"> billed at <span
+                class="discount-original-price"> ${{item.monthlySubscriptionAmount*12}} </span>
+              ${{item.annualSubscriptionAmount}}/yr
+              <br>
+              Unlimited Users/ billed annually
+            </p>
+            <div class="dLMfTZ p-top-4 griddd">
+              <div class="lfchiJ">
+                <div class=" fVwWHy">
+                  <div class="ioacDe" (click)="toggleclick(false,item)">
+                    <div class="iZzgEd"> Pay Monthly</div>
+                    <div class="jfLUdg"> Commit annually</div>
+                  </div>
+                  <div style="width: 20px;"></div>
+                  <div class="ioacDe" (click)="toggleclick(true,item)">
+                    <div class="gwWMsg"><span class="fs-11 paylab">Pay Upfront</span>
+                    </div>
+                    <div class="jfLUdgjfLUdg"> Save {{item.annualDiscountRate}}%</div>
+                    <div class="jfLUdg"> Commit annually</div>
+                  </div>
+                  <div *ngIf="!item.selected" class="euOKbF"></div>
+                  <div *ngIf="item.selected" class="euOKbF-new"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="price" *ngIf="item.subcriptionType=='Free'">
+            <span class="font-planname">${{item.monthlySubscriptionAmount}}</span>
+            <p class="fs-20"> Free </p>
+            <p class="fs-20-m--16"> Forever </p>
+          </div>
+          <!--<p class="app-theme planInst fs-10">*Pay as you go price applicable beyond quota </p>-->
+          <!--<p class="app-theme planInst fs-10" *ngIf="item.subcriptionType=='Free'"> *Pay as you go price applicable-->
+          <!--  beyond quota </p>-->
+          <button type="button" class="planCompBtn btn w-100 background-text-free"
+          [ngClass]="(item.subcriptionType == 'Free' && MemberShipType == 'Free') ? 'btn-dark' : 'btn-dark2'" >
+           <!-- (click)="handleButtonClick($event,item)" -->
+            <span *ngIf="item.subcriptionType =='Free' && MemberShipType == 'Free'">Current Plan</span>
+            <span *ngIf="item.subcriptionType =='Free' && MemberShipType != 'Free'">Free Plan</span>
+            <span *ngIf="item.subcriptionType =='Team' && MemberShipType == 'Team'">Current Plan</span>
+            <span *ngIf="item.subcriptionType =='Team' && MemberShipType != 'Team'">
+              <a class="a-href"  (click)="upgrade(TeamPlan)">Upgrade To Team</a>
+              <!-- href="{{TeamPlan}}" -->
+            </span>
+          </button>
+          <button type="button" class="planCompBtn btn btn-dark w-100 background-text-free" (click)="pay(item,template)"
+            *ngIf="item.subcriptionType=='Business'"> Talk to Sales </button>
+          <button type="button" class="planCompBtn btn btn-dark w-100 background-text-free" (click)="pay(item,template)"
+            *ngIf="item.subcriptionType=='Enterprise'"> Talk to Sales </button>
+        </div>
+        <ul>
+          <ng-container class="plan-benefits-container" *ngFor="let sub_item of item?.planBenefits">
+            <li class="plan-benefits-li" *ngIf="sub_item.type=='GENERAL'">
+              <span>{{sub_item.quantity}}</span>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
+  <!-- <div class="pricing-table">
+    <div class="hpanel mr-6-0">
+      <div class="panel-body plan-detail-cover">
+        <p class="app-theme pinfo mb-2"> * Offer available for new GigSumo customers only.</p>
+        <p class="app-theme pinfo mb-2"> * All features are limited by transaction number based on plan type.</p>
+        <p class="app-theme pinfo mb-2"> * Transaction limits mentioned above are Monthly limits.</p>
+        <p class="app-theme pinfo mb-2"> * Talk to Sales to increase transaction limits on any plan.</p>
+      </div>
+    </div>
+  </div> -->
+  <div class="pricing-table">
+    <div class="bg-head-card info-foot-price" style="width: 1110px;  margin-top: 4px;">
+      <p class="app-theme pinfo mb-2"> * Offer available for new GigSumo customers only.</p>
+      <p class="app-theme pinfo mb-2"> * All features are limited by transaction number based on plan type.</p>
+      <p class="app-theme pinfo mb-2"> * Transaction limits mentioned above are Monthly limits.</p>
+      <p class="app-theme pinfo mb-2"> * Talk to Sales to increase transaction limits on any plan.</p>
+    </div>
+  </div>
+  <!-- <div class="pricing-table">
+    <div class="pricing-card">
+      <ul class="m-t-m-11 ta-s mt-23 p-4">
+        <li class="card-payas-go">
+          <span> Pay as you go price* </span>
+        </li>
+        <ng-container class="plan-benefits-container" *ngFor="let item of catagories;  let i = index">
+          <li *ngIf="item.type=='ADDITIONAL'" class="plan-benefits-li">
+            {{item.benefitDescription}}
+            <i class="fa fa-exclamation-circle gray-c"> </i>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div class="pricing-card" *ngFor="let item of SubsciptionLists;  let i = index">
+      <ul class="m-t-m-11  mt-23 p-4">
+        <li class="card-payas-go">
+          <span>{{item.subcriptionType}}</span>
+        </li>
+        <ng-container class="plan-benefits-container" *ngFor="let additional_price of item.payAsYouGoList">
+          <li class="plan-benefits-li">
+            <span>{{additional_price.price}}</span>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+  <div class="pricing-table">
+    <div class="bg-head-card info-foot-price" style="width: 1110px;  margin-top: 4px;">
+      <p class="app-theme pinfo mb-2"> * Pay as you go price will triger once the base limits per plan are consumed
+      </p>
+      <p class="app-theme pinfo mb-2"> * Interactions priced by unique conversation.</p>
+      <p class="app-theme pinfo mb-2"> * Upgrade job priced per day. </p>
+      <p class="app-theme pinfo mb-2"> * Upgrade candidate priced per day. </p>
+    </div>
+  </div> -->
+  <!-- <div class="pricing-table">
+  <div class="hpanel mr-6-0">
+    <div class="panel-body plan-detail-cover">
+      <p class="app-theme pinfo mb-2"> * Pay as you go price will triger once the base limits per plan are consumed
+      </p>
+      <p class="app-theme pinfo mb-2"> * Interactions priced by unique conversation.</p>
+      <p class="app-theme pinfo mb-2"> * Resume view priced per unique view. </p>
+      <p class="app-theme pinfo mb-2"> * Upgrade job priced per day. </p>
+      <p class="app-theme pinfo mb-2"> * Upgrade candidate priced per day. </p>
+    </div>
+  </div>
+</div> -->
+  <!-- <br> -->
+  <div class="pricing-table">
+    <div class="price-summary-content">
+      <div class="hpanel" style="margin: 16px 2px 11px 2px;">
+        <div class="panel-heading m-10" style="background-color: #fff!important;">
+          <div class="p-15">
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" [closeOthers]="true">
+              <ngb-panel>
+                <ng-template ngbPanelTitle style="padding-left: 0;">
+                  <span class="card-header- tab-title " (click)="getclickevent()" style=" color: #111; "> Complete
+                    Features List </span>
+                  <i class="fa fa-chevron-up pull-right text-muted up-arrow" (click)="getclickevent()" *ngIf="openitems"
+                    style="padding: 5px;"></i>
+                  <i class="fa fa-chevron-down pull-right text-muted down-arrow" (click)="getclickevent()"
+                    *ngIf="!openitems" style="padding: 5px;"></i>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="openitems">
+        <div class="hpanel" style="margin: 16px 2px 11px 2px;">
+          <div class="panel-body">
+            <div class="table-responsive  m-10" *ngFor="let items of featurelists; let i = index">
+              <table class="table table-bordered">
+                <thead style=" background: #fff">
+                  <tr>
+                    <th class="th-center" *ngFor="let headitem of items.titles; let sub = index">
+                      <span style="color: #111; font-size: 26px;  text-align: left;">{{headitem}} </span>
+                    </th>
+                  </tr>
+                  <tr *ngFor="let tableData of items.featureKeyValues">
+                    <ng-container *ngFor="let itemss of tableData | keyvalue : returnZero">
+                      <td *ngIf="itemss.key=='item'"> {{itemss.value}} </td>
+                      <td class="td-center" *ngIf="itemss.key!='item'">
+                        <i *ngIf="itemss.value =='true'">
+                          <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1">
+                            <path
+                              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                              fill="#63cfbe" />
+                          </svg>
+                        </i>
+                        <i *ngIf="itemss.value =='false'"> - </i>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="common-header-flex">
+    <div>Contact us</div>
+    <button>
+      <span (click)="closeModel()" class="common-close">&times;</span>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="contactUs">
+      <div class="hpanel">
+        <div class="panel-body">
+          <div class="app-form">
+            <div class="form-group">
+              <div class="row">
+                <label for="firstName" class="control-label required-field col-sm-4 text-right">First Name</label>
+                <div class="col-sm-8">
+                  <input maxlength="21" type="text" id="firstName" formControlName="firstName" placeholder="First Name" class="form-control input-sm" required>
+                  <div *ngIf="f.firstName.invalid && ( isSubmitted || f.firstName.dirty || f.firstName.touched )"
+                    class="error-msg">
+                    <div *ngIf="f.firstName.hasError('required') && f.firstName.touched">First name is required.</div>
+                    <!-- <div *ngIf="f.firstName.hasError('minlength') && f.firstName.dirty">First name must be at least 3
+                      characters
+                      long.</div> -->
+                      <div class="error-msg w-wrap " *ngIf="f.firstName.hasError('maxword')">
+                        {{FORMERROR.FIRSTNAME_MAX}}
+                      </div>
+                      <div *ngIf="f.firstName.hasError('pattern')&& !f.firstName.hasError('maxword')"
+                      class="error-msg w-wrap ">
+                        Enter valid first Name
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="lastName" class="control-label required-field col-sm-4 text-right">Last Name</label>
+                <div class="col-sm-8">
+                  <input maxlength="41" type="text" id="lastName" formControlName="lastName" placeholder="Last Name" class="form-control input-sm" required>
+                  <div *ngIf="contactUs.get('lastName').hasError('required') && contactUs.get('lastName').touched"
+                    class="error-msg">
+                    Last name is required.
+                  </div>
+                  <!-- <div *ngIf="contactUs.get('lastName').hasError('minlength') && contactUs.get('lastName').touched"
+                    class="error-msg">
+                    Last name must be at least 2 characters long.
+                  </div> -->
+                  <div class="error-msg w-wrap " *ngIf="f.lastName.hasError('maxword')">
+                    {{FORMERROR.LASTNAME_MAX}}
+                  </div>
+                  <div *ngIf="f.lastName.hasError('pattern') && !f.lastName.hasError('maxword')"
+                      class="error-msg w-wrap ">
+                      {{FORMERROR.FIRSTNAME_VALID}}
+                      </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="workEmail" class="control-label required-field col-sm-4 text-right">Work Mail</label>
+                <div class="col-sm-8">
+                  <input maxlength="51" type="email" id="workEmail" formControlName="workEmail" placeholder="Work Email" class="form-control input-sm" required>
+                  <div *ngIf="contactUs.get('workEmail').hasError('required') && contactUs.get('workEmail').touched"
+                    class="error-msg">
+                    Work mail is required.
+                  </div>
+                  <!-- <div *ngIf="contactUs.get('workEmail').hasError('email') && contactUs.get('workEmail').touched"
+                    class="error-msg">
+                    Please enter a valid email address.
+                  </div> -->
+                  <div class="error-msg"
+                  *ngIf=" contactUs.get('workEmail').hasError('pattern') && !contactUs.get('workEmail').hasError('maxword')">
+                  {{FORMERROR.EMAIL_VALID}}
+                </div>
+                <div class="error-msg" *ngIf="contactUs.get('workEmail').hasError('maxword')">
+                  {{FORMERROR.EMAIL_MAX}}
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="phone" class="control-label required-field col-sm-4 text-right">Phone No</label>
+                <div class="col-sm-8">
+                  <input maxlength="16" type="tel" id="phone" formControlName="phone" placeholder="Phone Number" class="form-control input-sm" required>
+                  <div *ngIf="contactUs.get('phone').hasError('required') && contactUs.get('phone').touched"
+                    class="error-msg">
+                    Phone number is required.
+                  </div>
+                  <div class="error-msg" *ngIf="contactUs.get('phone').hasError('maxword')">
+                    {{FORMERROR.PHONE_MAX}}
+                  </div>
+                  <div class="error-msg"
+                    *ngIf="contactUs.get('phone').hasError('minword') && !contactUs.get('phone').hasError('pattern')">
+                    {{FORMERROR.PHONE_MIN}}
+                  </div>
+                  <div class="error-msg"
+                    *ngIf="contactUs.get('phone').hasError('pattern') && !contactUs.get('phone').hasError('maxword')">
+                    {{FORMERROR.NUMBER_PATTERN}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="companyName" class="control-label required-field col-sm-4 text-right">Company Name</label>
+                <div class="col-sm-8">
+                  <input type="text" id="companyName" formControlName="companyName" placeholder="Company Name" class="form-control input-sm"
+                    required>
+                  <div *ngIf="contactUs.get('companyName').hasError('required') && contactUs.get('companyName').touched"
+                    class="error-msg">
+                    Company Name is required.
+                  </div>
+                  <div
+                    *ngIf="contactUs.get('companyName').hasError('minlength') && contactUs.get('companyName').touched"
+                    class="error-msg">
+                    Company Name must be at least 5 characters long.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="companySize" class="control-label required-field col-sm-4 text-right">Company Size</label>
+                <div class="col-sm-8">
+                  <select id="companySize" formControlName="companySize" placeholder="Company Name" class="form-control input-sm" required>
+                    <option value="null" selected disabled>Select Company Size</option>
+                    <option value="0-10">0-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-250">51-250</option>
+                    <option value="251-500">251-500</option>
+                    <option value="501-1000">501-1000</option>
+                    <option value="1,001-5,000">1,001-5,000</option>
+                    <option value="5,001-10,000">5,001-10,000</option>
+                    <option value="10,001-25,000">10,001-25,000</option>
+                    <option value="25,001-50,000">25,001-50,000</option>
+                  </select>
+                  <div *ngIf="contactUs.get('companySize').hasError('required') && contactUs.get('companySize').touched"
+                    class="error-msg">
+                    Please select a company size.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label for="country" class="control-label required-field col-sm-4 text-right">Country</label>
+                <div class="col-sm-8">
+                  <select id="country" formControlName="country" class="form-control input-sm" required>
+                   <option value="null" selected disabled>Select Country</option>
+                    <option *ngFor="let country of countries" [value]="country.countryName">
+                      {{country.countryName}}</option>
+                  </select>
+                  <div *ngIf="contactUs.get('country').hasError('required') && contactUs.get('country').touched"
+                    class="error-msg">
+                    Please select a country.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="custom-panel-footer">
+          <div class="panel-footer">
+            <div class="footer-flex">
+              <button type="button" class="btn btn-default" (click)="closeModel()"> Cancel </button>
+              <button type="button" [disabled]="duplicatedata" class="btn btn-primary" (click)="onSubmit()"> submit </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

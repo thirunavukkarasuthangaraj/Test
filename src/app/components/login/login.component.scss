@@ -1,0 +1,93 @@
+
+
+
+.p{
+  font-size: 16px;
+  font-style: inherit;
+  //text-align: justify;
+  font-weight: bold;
+}
+
+.flex-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.upArrow{
+  display: none;
+  float: right;
+  margin-right: 25px;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.background{
+  margin-top: 0px;
+  background-color: white;
+}
+
+.m-t-5-8-rem {
+  margin-top: 7.5rem;
+}
+
+.login-logo1 {
+  text-align: center;
+  img {
+    width: 56%;
+  }
+}
+
+.fa.fa-eye, .fa.fa-eye-slash{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+}
+
+.login-font-text{
+  font-size: 43px !important;
+  font-weight: 700!important;
+
+}
+
+section.login-form[_ngcontent-serverApp-c2] {
+  height: 450px !important;
+  margin-top: 90px;
+  margin-bottom: 82px !important;
+}
+
+
+.font-fmaily{
+  font-family: "Lexend Deca", Helvetica, Arial, sans-serif !important;
+}
+
+.carouselclass{
+  .carousel-control .icon-prev:before {
+    content: '\2039';
+    color: black !important;
+  }
+  .carousel-control.left {
+
+    .a{
+      background-image: #fff !important;
+    }
+    background-image: #fff !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background-repeat: repeat-x;
+  }
+
+  .carousel-control.right {
+    .a{
+      background-image: #fff !important;
+    }
+    background-image: #fff !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background-repeat: repeat-x;
+  }
+
+}

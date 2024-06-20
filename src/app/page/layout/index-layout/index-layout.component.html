@@ -1,0 +1,37 @@
+<div class="app-content">
+  <div class="container ">
+    <div class="landing-page-flex">
+      <div class="padding-left-0">
+        <ng-container>
+          <div class="landing-side1">
+            <div class="hpanel contact-panel">
+              <div class="panel-body border-radius-top-left-right-6" style="padding: 0px !important;">
+                <app-user-badge></app-user-badge>
+              </div>
+            </div>
+            <div class="hpanel">
+              <div class="panel-body border-radius-top-left-right-6" style="padding: 0px; ">
+                <app-new-nav-bar *ngIf="!loadAPIcall" > </app-new-nav-bar>
+                <app-common-skeleton *ngIf="loadAPIcall" [NameOftheScreen]="'landingPagesidenavbar'"></app-common-skeleton>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="padding-left-0 padding-right-0 width-100per">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="chatPopup">
+  <button (click)="chatbottom()" class="btn btn-info btn-circle" type="button"> <i class="pe-7s-comment"></i> Chat <span
+      class="badge noti-badge noti-chat-icon" *ngIf="totalmsgcounts>0"> {{totalmsgcounts}}</span></button>
+  <app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)"
+    [messageDataPass]="messageData"> </app-message-widget>
+</div>
+
+
+<app-notifier [title]="notificationTitle" [message]="notificationContent" [buttonName]="'OK'"
+  [executeShow]="showSecondaryAlert"></app-notifier>

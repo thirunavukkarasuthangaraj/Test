@@ -1,0 +1,41 @@
+<div class="container">
+<nav style="height: 65px; " class="navbar navbar-expand-xl   stick-atop bg-white app-font-family"  >
+
+    <a class="navbar-brand" href="https://gigsumo.com/" >
+      <img src="assets/icon/gigsumologo_bigface.png" style=" margin-left: -43px;  width: 140px;" class="img-fluid logo app-icon-new-log"  >
+    </a>
+       <span class="navbar-toggler-icon"></span>
+     <div class="collapse navbar-collapse nav-first-off" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-5" style="margin-left: -49px; list-style-type: none; ">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page"  href="https://gigsumo.com/recruiters.html" >Recruiters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="margin-left: -10px;" href="https://gigsumo.com/bench-sales.html" >Bench Sales</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://gigsumo.com/job-seekers.html" >Job Seekers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"style="margin-left: -10px;" href="https://gigsumo.com/benefits.html" >Benefits</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mb-2 mb-lg-0 text-end me-5" style="  list-style-type: none;   ">
+        <li class="nav-item">
+          <a class="nav-link"  href="https://gigsumo.com/book-a-demo.html" >Book a Demo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="margin-left: -10px;" href="https://gigsumo.com/contact-sale.html" >Contact Sales</a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="nav-link ">Log in</a>
+        </li>
+      </ul>
+      <div class="nav-button-wrapper" role="search">
+        <a id="signupFree" [routerLink]="['/signUp']" routerLinkActive="router-link-active"   [routerLinkActiveOptions]="{exact: true}" id="signupFree"
+         class="button-2 nav-button sigin-btn-header" >Sign up for free</a>
+      </div>
+    </div>
+
+</nav>
+</div>

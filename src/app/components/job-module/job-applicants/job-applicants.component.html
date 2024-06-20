@@ -1,0 +1,78 @@
+<!-- <app-jobs-candidates-slide-filter  [valuesSentForFilters]="entitySent"
+  (valuesRetainedForFilters)="onFilterToggle($event)">
+  <ng-container *ngIf="panel == 'job-applicants'" [ngTemplateOutlet]="jobApplicantFilterTemplate"></ng-container>
+</app-jobs-candidates-slide-filter>
+
+<ng-template #jobApplicantFilterTemplate>
+  <app-job-applicant-filter></app-job-applicant-filter>
+</ng-template> -->
+<!-- [class.stickthere-job-applicants]="widgetstick" -->
+<div class="sub-entities-scroll-container" infiniteScroll [infiniteScrollDistance]="5" [scrollWindow]="false"
+  [infiniteScrollThrottle]="1500" (scrolled)="onScrollDown()" id="entity-container">
+  <div class="hpanel">
+    <div class="panel-body pad-10">
+      <div class="row">
+        <div class="col-sm-8">
+          <!-- <div class="filters">
+            <div class="filters-list" (click)="removeEntity(item.itemId, i)"
+              *ngFor="let item of jobApplicantStatusList; let i=index;">
+              <span class="filter-list-item"><span><i [ngClass]="colorLists[i]"></i></span> {{item.value | titlecase}}</span>
+              <span class="filter-tag-close-icon-style">
+                <app-svg-templates [svgType]="'CROSS'"></app-svg-templates>
+              </span>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-sm-4 all-filters-container">
+          <div class="all-filters-small" (click)="openFilterSlider()">
+            <app-svg-templates [svgType]="'FILTER'"></app-svg-templates>
+            <span>
+              All Filters
+            </span>
+            <span class="counter">
+              {{jobApplicantStatusList?.length}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12" *ngIf="loadAPIcall && response?.length==0">
+    <app-common-skeleton [countforView]="10" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+  </div>
+
+
+  <ng-container *ngIf="response.length > 0; else noResult">
+    <div class="col-md-12 pad-0" *ngFor="let item of response;">
+      <app-candidate-card [viewSize]="'medium'" (candidateEmitter)="passCandidateId($event)"
+        (jobapp_to_newjob_to_atvity)="pushtoparentcomponent($event)" [filterApplicantData]="filterApplicantData"
+        [showCheckBox]="true" [inviteapplyhide]="true" [showStatus]="true" [pageName]="pagelist" [datas]="response"
+        [appliedJobDetails]="appliedJob" [candidateval]="item"></app-candidate-card> 
+       <app-common-skeleton   *ngIf="loadAPIcall && response?.length>0" [countforView]="10" [NameOftheScreen]="'jobcardlarge'"></app-common-skeleton>
+
+    </div>
+
+
+
+    <div *ngIf="stopscrollFlag  && response.length > 0" class="caught_up">
+      <div class="col-md-12">
+        <app-svg-templates [svgType]="'CHECKMARK_CIRCLE_SMALL'"></app-svg-templates>
+      </div>
+      <div class="col-md-12">
+        <p class="biase"> You've reached the bottom of the page </p>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-template #noResult>
+    <div class="wert">
+      <div class="col-md-12 mg-bt-9">
+        <app-svg-templates *ngIf="responseReceived" [svgType]="'SEARCH_CROSS'"></app-svg-templates>
+        <app-svg-templates *ngIf="!responseReceived" [svgType]="'SEARCH_PERSON'"></app-svg-templates>
+      </div>
+      <div class="col-md-12 fig">{{applicantsFoundStatus}} </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,177 @@
+<div class="modal-content">
+
+  <div class="common-header-flex">
+    <div>Create Team</div>
+    <button>
+      <span class="common-close" (click)="modelhide()">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body padding-rl">
+    <div [formGroup]="teamForm">
+      <div class="app-form">
+        <div class="row ">
+          <div class="col-md-8 discol">
+            <div class="form-group mt-10">
+              <label for="teamName" class="required">Team Name</label>
+              <div>
+                <input maxlength="31" type="text" class="form-control input-sm" formControlName="teamName"
+                  placeholder="Please Enter a Team Name" trim="blur" />
+                <div *ngIf="(submit && f.teamName.invalid) || (f.teamName.invalid && (f.teamName.dirty || f.teamName.touched))" class="error-msg">
+                  <div class="red" *ngIf="f.teamName.errors?.pattern">{{ FORMERROR.TEAMNAME_PATTERN }}</div>
+                  <div class="red" *ngIf="f.teamName.errors?.required">Team name is required</div>
+                  <div class="red" *ngIf="f.teamName.errors?.minLetters">{{FORMERROR.TEAMNAME_MIN}}</div>
+                  <div class="red" *ngIf="f.teamName.errors?.maxLetters">{{FORMERROR.TEAMNAME_MAX}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="mt-10">
+                <label for="">Team Logo</label>
+              </div>
+              <div>
+                <input type="file" class="form-control input-sm" accept=".jpg, .jpeg, .png" #myFileInput
+                  (change)="fileChangeEvent($event, template)" (click)="myFileInput.value = null" />
+
+              </div>
+            </div>
+
+            <div class="mt-10">
+              <label for="Current Organization" class="required">Current Organization</label>
+              <input class="form-control input-sm" type="text" formControlName="organizationId">
+              <div>
+
+                <div class="mt-10">
+                  <label class="required" for="">Add Connection</label>
+                </div>
+                <div>
+
+                  <ng-select [multiple]="true" [items]="conditionList" [hideSelected]="false" [closeOnSelect]="false"
+                    [(ngModel)]="conditionSelectedItems" name="licenseAuthorityId" bindValue="userId" bindLabel="userName"
+                    [hideSelected]="true" formControlName="addconnection" placeholder="Add Connection">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div class="custom-control custom-radio flex">
+                        <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                          [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                          style="margin-right:5px; margin-top: 9px;">
+                        <img *ngIf="item.photo!=null && item.photo!=undefined" class="img-show-hide"
+                          src="{{url+item.photo}}">
+                        <!-- <img *ngIf="item.photo==null" class="img-show-hide" src="assets/images/userAvatar.png"> -->
+
+
+                        <!-- <img [ngClass]="{'deactivated': userDataInput?.status=='INACTIVE' && userDataInput?.memberType!='OWNER'}"
+                          *ngIf="i<5 && member.image != null && member.image != undefined" alt="logo" class="img-circle mt-5 netCard"
+                          src="{{member.image}}" /> -->
+
+                        <div class="mt-5 m-r-8 netCard" *ngIf="item.photo==null || item.photo == undefined">
+                          <div class="circles h-w-35"
+                            [style.background-color]="getColortwo(item?.firstName, item?.lastName)">
+                            <div class="circle-text ft-16 ">{{ getInitialstwo(item?.firstName,
+                              item?.lastName) }}
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <label style="margin-top:7px;"
+                          class="form-radio-label ml-2 custom-control-label">{{item.userName}}</label>
+                      </div>
+                    </ng-template>
+
+                  </ng-select>
+                </div>
+                <div *ngIf="(submit && f.addconnection.invalid) ||
+                (f.addconnection.invalid &&
+                  (f.addconnection.dirty ||
+                    f.addconnection.touched))">
+
+                  <div *ngIf="f.addconnection.errors" style="color:#c3002f;float: right;">
+                    At least one connection is required
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="mt-10">
+                  <label for="">Description</label>
+                </div>
+                <div>
+                  <div class="form-group">
+                    <textarea class="form-control input-sm" placeholder="Description" [ngxSummernote]="config"
+                      formControlName="description" name="" id="" rows="3"></textarea>
+                    <div *ngIf="f.description.invalid">
+                      <div *ngIf="f.description.errors.maxword" style="color: #c3002f;float: right;">
+                        Maximum 100 words allowed
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-4">
+            <div>
+              <label for="">How it works?</label>
+            </div>
+            <div>
+              <p>
+                You can create personal Networks and add your Connections to
+                specific Networks.
+              </p>
+              <p>
+                You can connect, share and collaborate with your connections in
+                specific Network as a group.
+              </p>
+            </div>
+            <!-- <div style="text-align: center;">
+              <img src="assets/icon/img.png" alt="" srcset="" />
+            </div> -->
+            <app-svg-templates [svgType]="'TEAM_COLOR'" class="top-12"></app-svg-templates>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button type="button" class="btn btn-default btn-sm m-r-6" (click)="modelhide()">
+            Cancel
+          </button>
+          <button type="button" class="btn primary-btn btn-sm  btn-pri m-r-20" (click)="save()">
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #template>
+
+
+  <div class="common-header-flex">
+    <div>Team Logo</div>
+    <button>
+      <span class="common-close" (click)="closePhoto()">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" format="jpeg"
+      (imageCropped)="imageCropped($event)"></image-cropper>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm" (click)="closePhoto()">Cancel</button>
+        <button class="btn btn-primary btn-sm" (click)="imageLoaded()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

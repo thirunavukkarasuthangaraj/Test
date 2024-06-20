@@ -1,0 +1,62 @@
+<div class="hpanel search-page-navbar-stickyyy">
+  <div class="panel-body border-radius-top-left-right-6">
+    <div class="mainNav">
+      <div class="navIteam">
+        <div class="col-sm-2 entity-summary">
+          <div><i class="fa fa-briefcase fa-lg"></i></div>
+          <div class="entity-name">
+            <h5> Jobs </h5>
+          </div>
+          <div *ngIf="totalJobsCount != null && totalJobsCount!= undefined && totalJobsCount != ''" class="entitycount">
+            <span>{{totalJobsCount}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="navIteam">
+        <div class="input-group f-l input-sm">
+          <input class="form-control" (keyup)="jobDataSearch($event)" [formControl]="clearInput" type="text" />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon" (click)="clearData()"><i class="pe-7s-close"></i></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button id="button-animated" dropdownToggle type="button" class="btn btn-sm dropdown-toggle fbtn"
+            aria-controls="dropdown-animated">
+            <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset=""
+                class="filimg" /></span>Filter
+          </button>
+          <!-- <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="apicall('CONNECTED')">All Connection</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Received')">Request Received</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Sent')">Invitations Sent </a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div class="navIteam">
+        <!-- <button class="btn btn-default btn-sm displayflex dropdown-toggle">
+          <span class="mr-5">
+            <img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" />
+          </span>
+          Filter
+        </button> -->
+        <button class="btn primary-btn btn-sm">Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <!--*ngIf="userData"-->
+  <div class="search-content-layout">
+    <div class="search-content-feed">
+      <div class="col-md-12 padding-left-0 padding-right-8" *ngFor="let item of alljob">
+        <app-job-card [viewSize]="'large'" [JobData]="item"></app-job-card>
+      </div>
+    </div>
+    <div class="search-content-widget search-page-mr-tp-10">
+      <app-common-widget [page]="'NETWORK_PAGE'" [inputData]="'NETWORK'"></app-common-widget>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="sub-entities-scroll-container" *ngIf="loadAPIcall && viewedList?.length==0">
+  <app-common-skeleton [countforView]="10" [NameOftheScreen]="'likeviewcard'"></app-common-skeleton>
+</div>
+
+<div class="sub-entities-scroll-container" *ngIf="viewedList.length > 0; else noResult" infiniteScroll
+  [infiniteScrollDistance]="4" [infiniteScrollThrottle]="1500" [scrollWindow]="false" (scrolled)="onScrollDown()">
+  <div class="hpanel" *ngFor="let items of viewedList">
+    <div class="panel-body border-radius-top-left-right-6"  [ngClass]="{'disabled':jobDetails?.status !='ACTIVE'}">
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="view-card">
+            <img *ngIf="items.logo" class="img-circle m-r-4" src="{{items.logo}}" (click)="profile(items.userId)">
+            <div *ngIf="!items.logo">
+              <div class="circles" [style.background-color]="getColortwo(items?.firstName, items?.lastName)">
+                <div class="circle-text">{{ getInitialstwo(items?.firstName, items?.lastName) }}</div>
+              </div>
+            </div>
+            <div class="details-grid">
+              <div class="view-name">
+                {{items.firstName}} {{items.lastName}}
+              </div>
+              <div class="view-title">
+                <span *ngIf="items.UserType === 'FREELANCE_RECRUITER'">Freelance Recruiter</span>
+                <span *ngIf="items.UserType === 'RECRUITER'">Recruiter</span>
+                <span *ngIf="items.UserType === 'JOB_SEEKER'">Job Seeker</span>
+                <span *ngIf="items.UserType === 'MANAGEMENT_TALENT_ACQUISITION'">MTA</span>
+                <span *ngIf="items.UserType === 'BENCH_RECRUITER'">Bench Recruiter</span>
+                <span *ngIf="items.organisation"> @ {{items.organisation}}</span>
+              </div>
+              <div class="view-time">
+                <i class="fas fa-eye"></i>
+                <span>{{items.activityDate | date: "MM/dd/yyyy hh:mm:ss a": "+0000"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="cursor:pointer;" *ngIf="LoginUserId!=items.userId" class="col-sm-4 chaticon"
+          title="{{items?.nonSeenMessageCount}} Messages" (click)="chatuser(items, connectionTemplate)">
+          <i class="pe-7s-comment icon-prime-color chat-icon" style="font-size: 24px; margin-right: 5px;"></i>
+          <span style="margin-left: 5px;" class="blue-color">{{items?.nonSeenMessageCount}}</span>
+          <span style="margin-left: -10px;">Chat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-common-skeleton *ngIf="loadAPIcall && viewedList?.length>0" [countforView]="5"
+    [NameOftheScreen]="'likeviewcard'"></app-common-skeleton>
+
+</div>
+
+<ng-template #noResult>
+  <div class="wert">
+    <div class="col-md-12 mg-bt-9">
+      <img style="max-height: 9rem;" src="assets/icon/nothing_found.png" alt="">
+    </div>
+    <div class="col-md-12 fig">No Views Yet.</div>
+  </div>
+</ng-template>
+
+<div *ngIf="stopscrollFlag && viewedList?.length > 0">
+  <div class="wert">
+    <div class="col-md-12 mg-bt-9">
+      <app-svg-templates [svgType]="'CHECKMARK_CIRCLE_SMALL'"></app-svg-templates>
+    </div>
+    <div class="col-md-12">
+      <p class="font-16">You've reached the bottom of the page</p>
+    </div>
+  </div>
+</div>
+<ng-template #connectionTemplate>
+  <app-connection-template [page]="'job-card-1'" [connectionStatus]="connectionStatus"
+    [counterpartsDetails]="counterpartsDetails" [values]="values"></app-connection-template>
+</ng-template>
+<app-message-widget *ngIf="messagemodelflag" (closeMessageModel)="closeMessage($event)" [messageDataPass]="messageData">
+</app-message-widget>

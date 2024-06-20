@@ -1,0 +1,119 @@
+<div class="hpanel margin-bottom-5" *ngIf="viewType=='MIN'">
+    <div class="panel-heading hbuilt wig-c">
+      Businesses To Follow
+    </div>
+    <div class="panel-body" style="padding-bottom: 3px!important;">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="profile-list">
+            <ng-container *ngFor="let item of bussinesssuggestionList | slice: 0:3; let i = index" (click)="route(item)">
+              <app-common-profile-info [type]="'BUSINESS'" [userIdInput]="item.businessId"
+                [page]="'BUSINESS'" [data]="item" >
+                <ng-container headline1 (click)="route(item)">{{item.businessName}} </ng-container>
+                <ng-container headline2  >{{item.followerCnt}} Follower(s)</ng-container>
+                <ng-container btn><button class="btn-primary btn btn-xs" (click)="follow(item.businessId)">
+                    Follow
+                  </button></ng-container>
+              </app-common-profile-info>
+            </ng-container>
+          </ul>
+
+          <p style="float: right"  *ngIf="totalCount > 3" >
+            <button class="btn btn-primary btn-xs" style="float: right;"  (click)="openModal(template)"
+            >View All</button>
+           </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #template>
+    <div class="hpanel">
+      <div class="panel-heading" >
+        <div class="row panel-tools">
+          <div class="col-sm-2">
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+              <span style="font-size: 26px" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+          style="margin-left: 8px !important">Businesses To Follow</label>
+      </div>
+      <hr style="margin: 0px !important;">
+
+        <input type="text" class="form-control" (keyup)="onSearch ($event)" class="ksjksd input-sm" name="searchName" id="xcxcv" aria-describedby="helpId" placeholder="Search business"
+        [(ngModel)]="searchName" />
+
+       <div class="ksfdh920" *ngIf="bussinesssuggestion.length>1 && !beingTyped">
+        <div>
+          <label for="">Select All</label>
+        </div>
+        <div class="custom-checkbox em">
+          <label class="checkbox-label font-bold" style="text-align: center">
+            <input type="checkbox" [(ngModel)]="theChecker"
+            (change)="checkAll($event)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+       </div>
+
+
+
+    <div class=" padding-left-0 padding-right-5" *ngFor="let item of bussinesssuggestion | filter: searchName | paginate: { itemsPerPage: 2, currentPage: page ,totalItems:totalCount }">
+
+      <div class="oi">
+
+        <div class="row poi">
+          <div class="col-sm-1">
+            <img class="sddx" [src]="imgUrl + item['businessLogo']" onerror="src='assets/images/gallery/company.png'" />
+          </div>
+          <div class="col-sm-9">
+            <label title="{{ item.businessName}} ">
+              <a class="ft-12" (click)="route(item)">{{ item.businessName}}</a>
+            </label>
+            <div class="overflow-hiden-" title="{{item.followerCnt}} Follower(s)">
+              {{item.followerCnt}} Follower(s)
+            </div>
+          </div>
+          <div class="col-sm-2 rm">
+            <div class="custom-checkbox em">
+              <label class="checkbox-label font-bold" style="text-align: center">
+                <input type="checkbox" value="{{ item.businessId }}" [(ngModel)]="item.checked"
+                (change)="onCheckboxChange(item, $event)" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="modal-footer">
+        <div class="col-sm-6">
+          <pagination-controls
+          class="left-page-align dnez12" (click)="movePage(page)" (pageChange)="page = $event">
+        </pagination-controls>
+        </div>
+       <div class="col-sm-6">
+        <div class="footerContainer" style="float: right">
+          <div class="footerIteam1">
+            <button class="btn btn-Success btn-sm mr-2"  (click)="closeModal()">
+              Close
+            </button>
+          </div>
+          <div class="footerIteam2" >
+            <button class="btn primary-btn btn-sm btn-close-gap" [disabled]="selectedEntities.length == 0" (click)="followAll()">
+              Follow  {{selectedEntities.length}}
+            </button>
+          </div>
+        </div>
+       </div>
+
+      </div>
+    </div>
+  </ng-template>
+
+

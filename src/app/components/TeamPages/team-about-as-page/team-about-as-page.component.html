@@ -1,0 +1,184 @@
+<div class="all-page-combo-layout">
+  <div class="all-page-feed">
+    <div class="hpanel">
+      <div class="panel-heading hbuilt">
+        <div class="panel-tools">
+          <div class="pull-right btn-group">
+            <div class="col-sm-2" title="Edit about company" *ngIf="ownerFlag" (click)="editBasic(basicTemplate)">
+              <button class="edit-pencil">
+                <span>
+                  <i class="fas fa-pencil-alt editBG icon-over"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="control-label padding-top-0 margin-bottom-5 margin-top-5">About</label>
+      </div>
+      <div *ngIf="loadAPIcall" class="panel-body" style="word-wrap: break-word">
+        <app-common-skeleton *ngIf="loadAPIcall" [countforView]="1" [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+      </div>
+      <div *ngIf="!loadAPIcall" class="panel-body" style="word-wrap: break-word">
+        <div class="row form-group">
+          <div class="col-sm-3">Team Name </div>
+          <div class="col-sm-9"> {{ pesponseDisplay?.teamName }}</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">Description </div>
+          <div class="col-sm-9" style="word-break: break-word;">
+            <div *ngIf="pesponseDisplay?.description;else erg" [ngxSummernoteView]="pesponseDisplay?.description">
+            </div>
+            <ng-template #erg>Not provided</ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="all-page-widget">
+    <app-common-widget [page]="'TEAM_ABOUT_PAGE'" [inputData]="'TEAM'"></app-common-widget>
+  </div>
+</div>
+<ng-template #basicTemplate>
+  <form [formGroup]="teamModalForm" class="app-form form-horizontal">
+
+    <div class="common-header-flex">
+      <div>About</div>
+      <button>
+        <span class="common-close" (click)="close()">&times;</span>
+      </button>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-group row ">
+        <div class="col-md-3" style="display: grid;">
+          <label for="teamName" class="control-label required-field font-light float-right">Team Name</label>
+        </div>
+
+        <div class="col-md-8">
+          <input type="text" maxlength="31" class="form-control input-sm" placeholder="Team Name"
+            formControlName="teamName" trim="blur" />
+          <div *ngIf="(submit && f.teamName.invalid) ||
+            (f.teamName.invalid &&
+              (f.teamName.dirty ||
+              f.teamName.touched))" class="error-msg">
+            <div class="red" *ngIf="f.teamName.errors.pattern"> {{FORMERROR.TEAMNAME_PATTERN}}</div>
+            <div class="red" *ngIf="f.teamName.errors.required">Team name is required</div>
+            <div class="red" *ngIf="f.teamName.errors.minLetters">{{FORMERROR.TEAMNAME_MIN}}</div>
+            <div class="red" *ngIf="f.teamName.errors.maxLetters">{{FORMERROR.TEAMNAME_MAX}}</div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="form-group row ">
+        <div class="col-md-3" style="display: grid;">
+          <label for="networkName" class=" control-label  font-light"> Team Logo </label>
+        </div>
+
+        <div class="col-md-8">
+          <input type="file" class="form-control input-sm" accept=".jpg, .jpeg, .png" #myFileInput id="logoUpload"
+            (change)="fileChangeEventlogo($event, template)" (click)="myFileInput.value = null" />
+
+        </div>
+      </div>
+
+      <div class="form-group row ">
+        <div class="col-md-3" style="display: grid;">
+          <label for="networkName" class=" control-label  font-light"> Team Banner Image</label>
+        </div>
+
+        <div class="col-md-8">
+          <input type="file" class="form-control input-sm" accept=".jpg, .jpeg, .png" id="bannerUpload"
+            #myFileInputbanner (change)="fileChangeEventBanner($event, templatebanner)"
+            (click)="myFileInputbanner.value = null" />
+
+        </div>
+      </div>
+
+      <div class="form-group row ">
+        <div class="col-md-3" style="display: grid;">
+          <label for="description" class=" control-label font-light float-right">Description</label>
+        </div>
+
+        <div class="col-md-8">
+          <!-- <input type="textarea" class="form-control input-sm" placeholder="Description"
+            formControlName="description"  rows="4"/> -->
+
+          <textarea class="form-control input-sm" placeholder="Description" [ngxSummernote]="config"
+            formControlName="description" name="" id="" cols="30" rows="4"></textarea>
+          <div *ngIf="f.description.invalid">
+
+            <div *ngIf="f.description.errors.maxword" style="color: red;float: right;">
+              Maximum 100 words allowed
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button type="button" class="btn btn-default btn-sm " (click)="close()">Cancel</button>
+          <button type="button" class="btn primary-btn btn-sm " (click)="submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</ng-template>
+<ng-template #template>
+
+  <div class="common-header-flex">
+    <div>Team Logo</div>
+    <button>
+      <span class="common-close" (click)="closePhoto('logo')">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" format="jpeg"
+      (imageCropped)="imageCropped($event)"></image-cropper>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm" (click)="closePhoto('logo')">Cancel</button>
+        <button class="btn btn-primary btn-sm" (click)="imageLoaded()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #templatebanner>
+
+  <div class="modal-content">
+
+    <div class="common-header-flex">
+      <div>Team Banner Image</div>
+      <button>
+        <span (click)="closePhoto('banner')" class="common-close">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4.5 / 1"
+        format="jpeg" (imageCropped)="imageCroppedBanner($event)"></image-cropper>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-default " (click)="closePhoto('banner')">Cancel</button>
+          <button class="btn btn-primary " (click)="imageLoadedBanner()">Apply</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

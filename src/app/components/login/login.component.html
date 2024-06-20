@@ -1,0 +1,148 @@
+<div class="bg-2">
+  <app-header></app-header>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+
+  <section class="login-form bg-2 py-5 mt-md-5">
+    <div class="container">
+       <div class="row ">
+        <div class="col-md-6  position-relative left-img">
+          <h3 class="f-26 join-tribe login-font-text font-fmaily">Join the tribe.</h3>
+          <img href="https://gigsumo.com/index.html" src="assets/newassets/images/login.png"
+            class="img-fluid cm-left-img">
+        </div>
+
+        <div class="col-md-5" style="position: relative; ">
+          <div class="form-box ">
+            <h3 class="f-26 mb-3 mb-md-5 form-title login-font-text font-fmaily">Login to GIGSUMO</h3>
+            <form [formGroup]="loginForm" style="margin-top: 50px;">
+              <div class="text-center" *ngIf="errorMsg" style="color: red;">
+                <p style="font-size:large;">{{errorMsgTxt}}</p>
+              </div>
+              <div class="my-4">
+                <input type="text" maxlength="50" class="form-control cm-input" placeholder="Email"
+                  formControlName="username">
+                <div class="fs-15 pt-7"
+                  *ngIf="login.username.invalid && (login.username.dirty || login.username.touched)  ">
+                  <div class="error-msg" *ngIf="login.username.errors.required">
+                    Please enter Email address
+                  </div>
+                  <div class="error-msg" *ngIf="login.username.errors.pattern">
+                    Enter vaild Email address
+                  </div>
+                </div>
+              </div>
+              <div class="my-4 position-relative" id="show_hide_password">
+                <input [type]="passwordShown ? 'password':'text'" type="password" maxlength="50"
+                  class="form-control cm-input" placeholder="Password" id="passInput" formControlName="password"
+                  (paste)="(false)">
+                <div class="fs-15 p-10" *ngIf="
+                         login.password.invalid && (login.password.dirty || login.password.touched)
+                       ">
+                  <div class="error-msg  " *ngIf="login.password.errors.required">
+                    Please enter Password
+                  </div>
+                </div>
+                <i class="fa passEye" [ngClass]="{
+                          'fa-eye': passwordShown,
+                          'fa-eye-slash': !passwordShown
+                        }" (click)="passwordShown = !passwordShown">
+                </i>
+                <a [routerLink]="['/Forgotpassword']" routerLinkActive="router-link-active"
+                  class="color-1 text-decoration-none f-12 fw-semibold font-fmaily ">Forgot Your Password?</a>
+              </div>
+              <div class="my-4">
+                <a id="login-button" (click)="loginform()" class="btn cm-btn-2 font-fmaily">Login</a>
+              </div>
+              <div class="my-3">
+                <div class="nr-box">
+                  <p class="f-14 mb-0 fw-600 font-fmaily">Don’t have an account? <a [routerLink]="['/signUp']"
+                      routerLinkActive="router-link-active" class="color-1 fw-semibold font-fmaily">Sign up for free</a>
+                    <img src="assets/newassets/images/arrow.png" class="img-fluid ms-1 mb-1" width="10">
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonial">
+    <!--
+            <carousel>
+              <slide>
+                <img src="assets/images/nature/7.jpg" alt="first slide" style="display: block; width: 100%;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h3>First slide label</h3>
+                  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                </div>
+              </slide>
+              <slide>
+                <img src="assets/images/nature/8.jpg" alt="second slide" style="display: block; width: 100%;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h3>Second slide label</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </slide>
+              <slide>
+                <img src="assets/images/nature/1.jpg" alt="third slide" style="display: block; width: 100%;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h3>Third slide label</h3>
+                  <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                </div>
+              </slide>
+            </carousel>
+             -->
+
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active text-center" data-bs-interval="10000">
+          <div class="container">
+            <div class="row text-center align-items-center">
+              <div class="col-12">
+                <p class="cm-disc font-fmaily ">“Gigsumo is very light weight and very user friendly. It gives us clarity on the job
+                  status and everything in process and in real time.”</p>
+              </div>
+              <div class="col-12">
+                <img class="shadow-1-strong carousel-img" src="assets/images/userAvatar.png" alt="avatar" />
+                <span style="margin-left: 5px;" class="carousel-title font-fmaily ">Sunny Francis, CEO @ Gigsumo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item text-center" data-bs-interval="2000">
+          <div class="container">
+            <div class="row text-center align-items-center">
+              <div class="col-12">
+                <p class="cm-disc font-fmaily">“Gigsumo is very light weight and very user friendly. It gives us clarity on the job
+                  status and everything in process and in real time.”</p>
+              </div>
+              <div class="col-12">
+                <img class="shadow-1-strong carousel-img" src="assets/images/userAvatar.png" alt="avatar" />
+                <span style="margin-left: 5px;" class="carousel-title font-fmaily">Sunny Francis, CEO @ Gigsumo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button> -->
+    </div>
+  </section>
+
+  <app-footer> </app-footer>
+</div>
+
+
+
+

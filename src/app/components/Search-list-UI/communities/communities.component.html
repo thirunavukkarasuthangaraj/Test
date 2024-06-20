@@ -1,0 +1,94 @@
+<div class="row wrapper bgcolor seachTopNav">
+  <div class="col-lg-12">
+    <div class="mainNav">
+      <div class="navIteam">
+        <div>
+          <img src="assets/icon/icons8-myspace-400.png" alt="" />
+        </div>
+        <!-- <h4>Business : <span> {{Arraylength}}</span></h4> -->
+
+        <div class="nav-margin"> <h4>Community   :  <span> {{communityDetails?.length}}</span></h4></div>
+
+      </div>
+      <div class="navIteam">
+        <div class="input-group f-l">
+          <input class="form-control" (keyup)="community($event)" [formControl]="clearInput" type="text" #filterData />
+          <span class="input-group-addon"><i class="pe-7s-search"></i></span>
+          <span class="input-group-addon" (click)="clearData()"><i class="pe-7s-close"></i></span>
+        </div>
+      </div>
+      <div class="navIteam connectionbtn">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button id="button-animated" dropdownToggle type="button" class="btn btn-sm dropdown-toggle fbtn"
+            aria-controls="dropdown-animated">
+            <span class="mr-5"><img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset=""
+                class="filimg" /></span>Filter
+          </button>
+          <!-- <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-animated">
+              <li role="menuitem"><a class="dropdown-item" (click)="apicall('CONNECTED')">All Connection</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Received')">Request Received</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="apicall('Invitation_Sent')">Invitations Sent </a></li>
+          </ul> -->
+        </div>
+      </div>
+      <div class="navIteam">
+        <!-- <button class="btn btn-default btn-sm displayflex dropdown-toggle">
+          <span class="mr-5">
+            <img src="assets/icon/icons8-mail-filter-96.png" alt="" srcset="" class="filimg" />
+          </span>
+          Filter
+        </button> -->
+        <button class="btn primary-btn btn-sm">Advance Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div> -->
+  <div class="row" >
+    <div class="col-lg-12"  style="z-index: 1;    padding: 0rem; margin-left: 1rem;">
+      <!-- <div class="row "> -->
+        <div class="col-sm-70 col-lg-70 col-md-70" style="padding: 0rem 2rem 0rem 1rem;">
+          <div class="row">
+            <div class="col-md-4" style="padding: 5px 5px 3px 3px;" *ngFor="let item of communityDetails |filterBy:term">
+               <!-- <app-community-card [data]="item"></app-community-card> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-30 col-lg-30 col-md-30 sCard sticky-widdgget">
+          <!-- <div class="row"> -->
+            <div class="w-103">
+              <app-common-widget [page]="'NETWORK_PAGE'" [inputData]="'NETWORK'"></app-common-widget>
+              <!-- <app-community-banner  [communitydata] ="item"  ></app-community-banner> -->
+            </div>
+          <!-- </div> -->
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+<!-- </div> -->
+
+<!-- <div class="row">
+  <div class="col-md-12">
+    <div class="row pcard">
+      <div class="col-md-9">
+        <div
+        class="col-md-4 sCard"
+        *ngFor="let item of commData | filter: term"
+        (click)="communityLink(item)"
+      >
+        <app-community-card [data]="item"></app-community-card>
+      </div>
+      </div>
+      <div class="col-md-3 sCard ml-9">
+        <div>
+          <app-common-widget
+            [page]="'NETWORK_PAGE'"
+            [inputData]="'NETWORK'"
+          ></app-common-widget>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

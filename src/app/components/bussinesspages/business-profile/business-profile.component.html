@@ -1,0 +1,1771 @@
+<div *ngIf="loadAPIcall" class="hpanel post-box-shadow">
+  <app-common-skeleton *ngIf="loadAPIcall" [countforView]="7"
+    [NameOftheScreen]="'candidateDetails'"></app-common-skeleton>
+</div>
+<ng-container *ngIf="!loadAPIcall">
+  <div class="hpanel post-box-shadow">
+    <div class="panel-heading hbuilt ">
+      <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+        <div class="col-sm-2" style="margin: -5px -12px 0px 0px;" title="Edit about company" (click)="aboutEdit()">
+          <button class="edit-pencil"><span>
+              <i class="fas fa-pencil-alt icon-over"
+                style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+            </span></button>
+        </div>
+      </div>
+      <p *ngIf="values.adminviewnavigation">About Us</p>
+      <p *ngIf="!values.adminviewnavigation">About</p>
+
+    </div>
+    <div class="panel-body" style="word-wrap: break-word">
+
+      <div *ngIf="values.adminviewnavigation">
+        <div
+          *ngIf="infoData?.aboutCompany==null || infoData?.aboutCompany==undefined || infoData?.aboutCompany=='' || infoData?.aboutCompany == '<p><br></p>'">
+          <p style=" margin-bottom: -2px;">Please write something of your company</p>
+        </div>
+      </div>
+      <div *ngIf="!values.adminviewnavigation">
+        <div
+          *ngIf="infoData?.aboutCompany==null || infoData?.aboutCompany==undefined || infoData?.aboutCompany=='' || infoData?.aboutCompany == '<p><br></p>'">
+          <p style=" margin-bottom: -2px;">{{businessName + " "}}hadn't provided anything here</p>
+        </div>
+      </div>
+
+      <div [ngxSummernoteView]="infoData?.aboutCompany"></div>
+
+    </div>
+  </div>
+  <div class="hpanel post-box-shadow">
+    <div class="panel-heading hbuilt">
+
+      <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+        <div class="col-sm-2" style="margin: -5px -12px 0px 0px;" title="Edit business details"
+          (click)="busDetailEdit(busDetailTemplate)">
+          <button class="edit-pencil"><span>
+              <i class="fas fa-pencil-alt icon-over"
+                style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+            </span></button>
+        </div>
+      </div>
+      Business Details
+    </div>
+    <div class="panel-body" style="word-wrap: break-word">
+      <div class="row form-group">
+        <div class="col-sm-4">Business Name</div>
+        <div class="col-sm-8">{{businessName}}</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Tagline</div>
+        <div *ngIf="tagLine!=undefined&& tagLine!=null&& tagLine!=''" else #zp class="col-sm-8">{{tagLine}}</div>
+        <div class="col-sm-8" *ngIf="tagLine==undefined|| tagLine==null|| tagLine==''">None</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Industry Classification</div>
+        <div class="col-sm-8" *ngIf="infoData?.industryClassification!='OTHER'">{{industryClass}}</div>
+        <div class="col-sm-8" *ngIf="infoData?.industryClassification=='OTHER'">{{infoData?.others}}</div>
+      </div>
+      <div class="row form-group" *ngIf="hCareFlag">
+        <div class="col-sm-4">Facility / Practice Type</div>
+        <div class="col-sm-8">{{facilityPracticeType}}</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Company Type</div>
+        <div *ngIf="companyType!=undefined&&
+                          companyType!=null&&
+                          companyType!=''" else #zp class="col-sm-8">{{companyType}}</div>
+        <div class="col-sm-8" *ngIf="companyType==undefined||
+                                          companyType==null||
+                                          companyType==''">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Organization Type</div>
+        <div *ngIf="organizationType!=undefined&&
+                          organizationType!=null&&
+                          organizationType!=''" else #zp class="col-sm-8">{{organizationType}}</div>
+        <div class="col-sm-8" *ngIf="organizationType==undefined||
+                                          organizationType==null||
+                                          organizationType==''">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Year Started</div>
+        <div *ngIf="yearStarted!=undefined&&
+                          yearStarted!=null&&
+                          yearStarted!=''" else #zp class="col-sm-8">{{yearStarted}}</div>
+        <div class="col-sm-8" *ngIf="yearStarted==undefined||
+                                          yearStarted==null||
+                                          yearStarted==''">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">Company Size</div>
+        <div *ngIf="companysize!=undefined&&
+                          companysize!=null&&
+                          companysize!=''" else #zp class="col-sm-8">{{companysize}}</div>
+        <div class="col-sm-8" *ngIf="companysize==undefined||
+                                          companysize==null||
+                                          companysize==''">
+          <p>None</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hpanel post-box-shadow">
+    <div class="panel-heading hbuilt">
+      <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+        <!-- <div class="col-sm-2" style="margin: -5px -12px 0px 0px;"title="Edit location details"
+               (click)="locationEdit(locationTemplate)">
+                  <button class="edit-pencil"><span>
+                      <i class="fas fa-pencil-alt"
+                   style="cursor: pointer; color: #60686f; !important;font-size: 15px;"></i>
+                  </span></button>
+              </div> -->
+        <div class="col-sm-2" title="Add company location" (click)="locationEdit(locationTemplate, null, 'add',false)"
+          style=" padding-left: 3px;
+              margin-top: -2px;">
+          <i class="fa fa-plus btn btn-xs btn-cirrr"></i>
+        </div>
+
+        <!-- <div class="col-sm-1">
+                  <i  (click)="removeLocation(i)"
+                      class="fas fa-trash-alt" title="Delete Location" style="cursor: pointer"></i>
+                  </div> -->
+      </div>
+      Location Details
+    </div>
+    <div class="panel-body" style="word-wrap: break-word">
+      <div *ngFor="let location of infoData?.companyLocationDetails; let lastItem = last; let i = index;">
+        <div class="row form-group">
+          <div class="col-sm-4"> Address </div>
+          <div class="col-sm-6">
+            {{location.address1}}<span *ngIf="location.street!=null&&location.street!=''&&location.street!=undefined"> ,
+            </span> <br>
+            <span>
+              {{location.street}} <span *ngIf="location.street!=null && location.street!=undefined"> , </span>
+              {{location.city}} <span *ngIf="location.city!=null&& location.city!=undefined"> , </span>
+              {{location.state}} <span *ngIf="location.state!=null&& location.state!=undefined">,
+              </span> <br>
+              <span style="display: inline-block;" *ngFor="let country of countryList">
+                <p *ngIf="country.countryCode == location.country">{{country.countryName}}</p>
+              </span>
+              <span *ngIf="location.country!=null&& location.country!=undefined"> ,
+              </span>
+              {{location.zipCode}}
+            </span>
+            <br>
+
+            {{location.address2}}
+
+          </div>
+          <!-- *ngIf="values.adminviewnavigation && !location.headquarters &&
+          infoData?.companyLocationDetails.length > 1"  -->
+          <div class="col-sm-1 btn-group" *ngIf="values.adminviewnavigation" style="margin: -5px -12px 0px 0px;"
+            title="Delete location details" (click)="removeLocation(i)">
+            <button class="edit-pencil"><span>
+                <i class="fas fa-trash icon-over"
+                  style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+              </span></button>
+          </div>
+
+          <div class="col-sm-1 btn-group" *ngIf="values.adminviewnavigation" style="margin: -5px -12px 0px 0px;"
+            title="Edit location details" (click)="locationEdit(locationTemplate,i,'edit',location.headquarters)">
+            <button class="edit-pencil"><span>
+                <i class="fas fa-pencil-alt icon-over"
+                  style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+              </span></button>
+          </div>
+
+
+
+
+        </div>
+
+        <div class="row form-group" *ngIf="location.headquarters">
+          <div class="col-sm-4">
+            Headquarter
+          </div>
+          <div class="col-sm-6" underlined>
+            Yes
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-4">
+            Phone
+          </div>
+          <div class="col-sm-6" underlined>
+            {{location.businessPhone}}
+          </div>
+        </div>
+        <div class="row form-group" *ngIf="location.website">
+          <div class="col-sm-4">
+            Website
+          </div>
+          <div class="col-sm-6">
+            <a [attr.href]="location.website.includes('http://') ? location.website : 'http://'+location.website"
+              target="_blank">{{location.website}}</a>
+          </div>
+        </div>
+        <hr *ngIf="!lastItem">
+      </div>
+    </div>
+  </div>
+
+  <div class="hpanel post-box-shadow" *ngIf="hCareFlag">
+    <div class="panel-heading hbuilt ">
+      <!-- <div class="pull-right" *ngIf="values.viewadmin">
+              <a (click)="physicianEdit(physicianTemplate,$event)">
+                  <i class="fas fa-pencil-alt"></i>
+                  Edit
+              </a>
+          </div> -->
+      <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+        <div class="col-sm-2" style="margin: -5px -12px 0px 0px;" title="Edit service options"
+          (click)="physicianEdit(physicianTemplate, $event)">
+          <button class="edit-pencil"><span>
+              <i class="fas fa-pencil-alt icon-over"
+                style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+            </span></button>
+        </div>
+      </div>
+      Service Options
+    </div>
+    <div class="panel-body">
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Accreditions</label> -->
+          Accreditions
+        </div>
+        <div *ngIf="accredition!=undefined&&
+                          accredition!=null&&
+                          accredition!=''" class="col-sm-8">
+          <p>{{accredition}}</p>
+        </div>
+        <div *ngIf="accredition==undefined||
+                          accredition==null||
+                          accredition==''" class="col-sm-8">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Type of Services</label> -->
+          Type of Services
+        </div>
+        <div class="col-sm-8" *ngIf="serviceType!=undefined&&
+                          serviceType!=null&&
+                          serviceType!=''">
+          <p>{{serviceType}}</p>
+        </div>
+        <div class="col-sm-8" *ngIf="serviceType==undefined||
+                          serviceType==null||
+                          serviceType==''">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group ">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Insurance Accepted</label> -->
+          Insurance Accepted
+        </div>
+        <div class="col-sm-8" *ngIf="insuranceAccepted!=undefined&&
+                          insuranceAccepted!=null&&
+                          insuranceAccepted!=''">
+          <p>{{insuranceAccepted}}</p>
+        </div>
+        <div class="col-sm-8" *ngIf="insuranceAccepted==undefined||
+                          insuranceAccepted==null||
+                          insuranceAccepted==''">
+          <p>None</p>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Medicare Certified</label> -->
+          Medicare Certified
+        </div>
+        <div class="col-sm-8">
+          <p>{{medicareCertified}}</p>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Accepting New Patients</label> -->
+          Accepting New Patients
+        </div>
+        <div class="col-sm-8">
+          <p>{{acceptingNewPatients}}</p>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-sm-4">
+          <!-- <label class="control-label">Private Pay Accepted</label> -->
+          Private Pay Accepted
+        </div>
+        <div class="col-sm-8">
+          <p>{{privatePayAccepted}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div class="hpanel post-box-shadow padding-right-5 margin-bottom-5">
+  <div class="panel-heading hbuilt ">
+    <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+      <div class="col-sm-2" style="margin: -5px -12px 0px 0px;" title="Edit working hours"
+        (click)="hoursEdit(hourTemplate)">
+        <button class="edit-pencil"><span>
+            <i class="fas fa-pencil-alt icon-over"
+              style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+          </span></button>
+      </div>
+    </div>
+    Working Hours
+  </div>
+  <div class="panel-body">
+    <p *ngIf="(!monWork && !tueWork && !thrWork && !wedWork && !friWork
+         && !satWork && !sunWork); else workDays"><span *ngIf="values.adminviewnavigation">You haven't provided
+        business working
+        hours yet</span>
+      <span *ngIf="!values.adminviewnavigation">{{businessName}} hadn't provided their working hours yet</span>
+    </p>
+
+    <ng-template #workDays>
+      <div class="row form-group" style="font-weight: 600;">
+        <div class="col-sm-4">
+           Working Days
+        </div>
+        <div class="col-sm-4">
+          Opens At
+        </div>
+        <div class="col-sm-4">
+          <p>Closes At</p>
+        </div>
+      </div>
+
+
+      <div *ngIf="monWork" class="row form-group">
+        <div class="col-sm-4">
+           Monday
+        </div>
+        <div class="col-sm-4">
+          <p>{{monFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{monTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="tueWork" class="row form-group">
+        <div class="col-sm-4">
+           Tuesday
+        </div>
+        <div class="col-sm-4">
+          <p>{{tueFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{tueTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="wedWork" class="row form-group">
+        <div class="col-sm-4">
+           Wednesday
+        </div>
+        <div class="col-sm-4">
+          <p>{{wedFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{wedTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="thrWork" class="row form-group">
+        <div class="col-sm-4">
+           Thursday
+        </div>
+        <div class="col-sm-4">
+          <p>{{thrFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{thrTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="friWork" class="row form-group">
+        <div class="col-sm-4">
+           Friday
+        </div>
+        <div class="col-sm-4">
+          <p>{{friFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{friTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="satWork" class="row form-group">
+        <div class="col-sm-4">
+           Saturday
+        </div>
+        <div class="col-sm-4">
+          <p>{{satFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{satTo}}</p>
+        </div>
+      </div>
+      <div *ngIf="sunWork" class="row form-group">
+        <div class="col-sm-4 ">
+           Sunday
+        </div>
+        <div class="col-sm-4">
+          <p>{{sunFrom}}</p>
+        </div>
+        <div class="col-sm-4">
+          <p>{{sunTo}}</p>
+        </div>
+      </div>
+    </ng-template>
+
+
+  </div>
+</div> -->
+
+  <form [formGroup]="userPrivacyForm" class="app-form">
+    <div class="hpanel app-form">
+      <div class="panel-heading hbuilt">
+        <div class="pull-right" *ngIf="values.adminviewnavigation">
+          <div *ngIf="values.adminviewnavigation" class="pull-right btn-group">
+            <div class="col-sm-2" style="margin: -5px -12px 0px 0px;" title="Edit social presence"
+              (click)="userSocialPresenceEdit(socialPresenceTemplate)">
+              <button class="edit-pencil"><span>
+                  <i class="fas fa-pencil-alt icon-over"
+                    style="cursor: pointer; color: #60686f!important;font-size: 15px;"></i>
+                </span></button>
+            </div>
+          </div>
+
+
+
+        </div>
+        Social Presence
+      </div>
+      <div class="panel-body" style="word-wrap: break-word">
+        <div style="padding-bottom: 30px; padding-top: 10px;">
+          <div *ngIf="(linkedin==null||linkedin==undefined||linkedin=='') && (twitter==null|| twitter==undefined||twitter=='')&&
+            (facebook==undefined|| facebook==null|| facebook=='') && (blogURL==undefined||blogURL==null||blogURL=='')&&
+            (alternamePageLink==null||alternamePageLink==null||alternamePageLink=='') && values.adminviewnavigation">
+            <p>You haven't added any of your social presence yet</p>
+          </div>
+
+          <div *ngIf="(linkedin==null||linkedin==undefined||linkedin=='') && (twitter==null|| twitter==undefined||twitter=='')&&
+            (facebook==undefined|| facebook==null|| facebook=='') && (blogURL==undefined||blogURL==null||blogURL=='')&&
+            (alternamePageLink==null||alternamePageLink==null||alternamePageLink=='') &&  !values.adminviewnavigation">
+            <p>{{businessName}} hadn't provided their social present yet</p>
+          </div>
+          <div class="col-sm-12">
+            <div class="row form-group" *ngIf="linkedin">
+              <div class="col-sm-1">
+                <i style="color:  #0e76a8;" class="fa fa-linkedin"></i>
+              </div>
+              <div class="col-sm-11">
+                {{linkedin}}
+              </div>
+            </div>
+            <div class="row form-group" *ngIf="twitter">
+              <div class="col-sm-1">
+                <i class="fa fa-twitter-square icon-over" style="color: #38A1F3;"></i>
+              </div>
+              <div class="col-sm-11">
+                {{twitter}}
+              </div>
+            </div>
+            <div class="row form-group" *ngIf="facebook">
+              <div class="col-sm-1">
+                <i class="fa fa-facebook-square icon-over" style="color:  #3b5998;"></i>
+              </div>
+              <div class="col-sm-11">
+                {{facebook}}
+              </div>
+            </div>
+            <div class="row form-group" *ngIf="blogURL">
+              <div class="col-sm-1">
+                <i class="fa fa-file-text icon-over" style="color: midnightblue;"></i>
+              </div>
+              <div class="col-sm-11">
+                {{blogURL}}
+              </div>
+            </div>
+            <div class="row form-group" *ngIf="alternamePageLink">
+              <div class="col-sm-1">
+                <i class="fa fa-th icon-over" style="color: black;"></i>
+              </div>
+              <div class="col-sm-11">
+                {{alternamePageLink}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>
+
+
+<ng-template #templateNested1>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div style="justify-content: center; display: flex; padding: 10px;">
+        <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+      </div>
+      <h5 class="text-center">Are you sure?</h5>
+      <div class="modal-body" style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+        <p>Types of service and Accreditions on Service Options depend on this, changing this would erase them.
+          Do you wish to continue?</p><br>
+      </div>
+      <div class="row" style="padding: 10px;">
+        <div class="col-sm-6">
+          <button (click)="onHidden()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button (click)="clearService()" class="btn primary-btn btn-sm btn-block">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #busDetailTemplate>
+
+  <div class="common-header-flex">
+    <div>Business Details</div>
+    <button>
+      <span class="common-close" (click)="modalRef.hide()">&times;</span>
+    </button>
+  </div>
+
+  <form [formGroup]="busDetailForm" class="app-form form-horizontal">
+    <div class="panel-body">
+      <div class="form-group row" style="margin-bottom: 0px;">
+        <div class="col-sm-3" style="padding-left: 54px;margin-bottom: -5px;"
+          *ngIf="photoId != undefined || photoId != null">
+          <img class="img-circle m-b m-t-md" height="90px" width="90px" [src]="img.src">
+        </div>
+
+        <div *ngIf="photoId == undefined || photoId == null" style="padding-left: 54px;margin-bottom: -5px;"
+          class="col-sm-3">
+          <img class="img-circle m-b m-t-md" height="90px" width="90px" src="assets/images/gallery/company.png">
+        </div>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <label for="industryClassification" class="margin-bottom-5 control-label required-field  font-light">Industry
+            Classification</label>
+          <select class="form-control input-sm" disabled formControlName="industryClassification"
+            (change)="onChangeIndustry($event.target.value)">
+            <option value="null" selected disabled>Industry Classification</option>
+            <option *ngFor="let industry of industryType" [value]="industry.item">{{industry.item}}
+            </option>
+          </select>
+          <div
+            *ngIf="detailControl.industryClassification.invalid && (detailControl.industryClassification.dirty || detailControl.industryClassification.touched)"
+            class="error-msg">
+            <div *ngIf="detailControl.industryClassification.errors.required"> This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" *ngIf="otherFlag1">
+        <label for="other" class="col-sm-3 control-label required-field font-light">Other</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <input type="text" class="form-control input-sm" placeholder="Other Industry Classification"
+            formControlName="others">
+          <div *ngIf=" detailControl.others.invalid" class="error-msg" style="padding-right: 31px;">
+            <div *ngIf="detailControl.others.errors.required"> This field is required</div>
+            <!-- <div *ngIf="detailControl.others.errors.pattern" style="color: #c3002f; float: right">Please
+                avoid unwanted spaces</div> -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-group row" *ngIf="hCareFlag1">
+        <label for="facilityPracticeType" class="col-sm-3 control-label required-field font-light">Facility
+          / Practice Type</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <select class="form-control input-sm" (change)="onChngFacility($event.target.value, templateNested1)"
+            formControlName="facilityPracticeType">
+            <!-- <option></option> -->
+            <option value="null" selected disabled>Facility / Practice Type</option>
+            <option *ngFor="let facility of facilityValue" [value]="facility">{{facility}}</option>
+          </select>
+          <div style="margin-right: 32px;" *ngIf="detailControl.facilityPracticeType.invalid" class="error-msg">
+            <div *ngIf="detailControl.facilityPracticeType.errors.required"> This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="businessName" class="col-sm-3 control-label required-field font-light">Business
+          Name</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <input type="text" class="form-control input-sm" placeholder="Business Name" formControlName="businessName">
+          <div style="margin-right: 33px;" *ngIf="detailControl.businessName.invalid &&
+                                  (detailControl.businessName.dirty || detailControl.businessName.touched)"
+            class="error-msg">
+            <div *ngIf="detailControl.businessName.errors.required"> Business Name is required</div>
+            <!-- <div *ngIf="detailControl.businessName.hasError('whitespace')">Please avoid empty space registry</div> -->
+            <div *ngIf="detailControl.businessName.errors.pattern" style="color: #c3002f;">Please avoid
+              unwanted spaces</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <label for="tagLine" class="col-sm-3 control-label font-light">Tag Line</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <input type="text" maxlength="141" class="form-control input-sm" placeholder="Tag Line" trim="blur"
+            formControlName="tagLine" (keypress)="checkSpace($event)">
+          <div class="error-msg" style="margin-right: 30px;">
+            <div *ngIf="detailControl.tagLine.errors?.pattern">
+              {{FORMERROR.TAGLINE_PATTERN}}
+            </div>
+            <div *ngIf="detailControl.tagLine.errors?.maxword">
+              {{FORMERROR.TAGLINE_MAX}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="businessLogo" class="col-sm-3 control-label font-light">Logo</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <ng-template #template>
+
+            <div class="common-header-flex">
+              <div>Logo</div>
+              <button>
+                <span class="common-close" (click)="closePhoto()">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+                format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()">
+              </image-cropper>
+            </div>
+
+            <div class="custom-panel-footer">
+              <div class="panel-footer">
+                <div class="footer-flex">
+                  <button class="btn btn-default btn-sm" (click)="closePhoto()">Cancel</button>
+                  <button class="btn btn-primary btn-sm" (click)="imageLoaded()">Apply</button>
+                </div>
+              </div>
+            </div>
+
+          </ng-template>
+          <!-- formControlName="businessLogo" -->
+          <input type="file" accept=".jpg, .jpeg, .png" id="profileimage" #myFileInput (click)="myFileInput.value=null"
+            class="form-control  " (change)="fileChangeEvent($event,template)" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="companyType" class="col-sm-3 control-label font-light">Company Type</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <select class="form-control input-sm" formControlName="companyType">
+            <option value="null" selected disabled>Company Type</option>
+            <option *ngFor="let company of companyTypeList" [value]="company">{{company}}</option>
+
+          </select>
+
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="organizationType" class="col-sm-3 control-label font-light">Organization Type</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <select class="form-control input-sm" formControlName="organizationType">
+            <option [ngValue]="null" [disabled]="true">
+              Organization Type
+            </option>
+            <option *ngFor="let organizationType of clientTypeList" [value]="organizationType">
+              {{ organizationType }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="yearStarted" class="col-sm-3 control-label  font-light">Year Started</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <select type="text" formControlName="yearStarted" class="form-control input-sm">
+            <option value="null" selected disabled>Year Started</option>
+            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="companySize" class="col-sm-3 control-label font-light">Company Size</label>
+        <div class="col-sm-9" style="padding-right: 46px;">
+          <select type="text" formControlName="companySize" class="form-control input-sm">
+            <option value="null" selected disabled>Company Size</option>
+            <option *ngFor="let size of companySize" [value]="size.code">{{size.code}}</option>
+          </select>
+
+        </div>
+      </div>
+
+      <!-- <div class="form-group row">
+          <label for="tags" class="col-sm-3 control-label font-light"> #Tags</label>
+          <div class="col-sm-9" style="padding-right: 46px;">
+            <div class="custom-ng-select">
+              <ng-select [isOpen]="false" [addTag]="true" [multiple]="true" maxSelectedItems="3" addTagText="Add #Tag:"
+                bindLabel="name" [closeOnSelect]="true" [hideSelected]="true" placeholder="Options to add 3 #tags only"
+                [(ngModel)]="tagSelectedItems" formControlName="tags">
+              </ng-select>
+            </div>
+
+          </div>
+        </div> -->
+
+    </div>
+  </form>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm " (click)="decline()">
+          Cancel
+        </button>
+        <button class="btn primary-btn btn-sm " type="button" (click)="infoSave()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<!-- <ng-template #aboutTemplate>
+  <div class="hpanel ">
+    <div class="panel-heading">
+      <div class="row panel-tools">
+        <button type="button" class="close pull-left" aria-label="Close" (click)="modalRef.hide()">
+          <span style="padding-right: 22px;font-size: 26px;line-height: 0px;" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5" style="margin-left: 8px;">About
+        Company</label>
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="aboutCompanyForm" class="custom-form">
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <div formControlName="aboutCompany" id="aboutCompany" [ngxSummernote]="config">
+              </div>
+              <div class="error-msg" *ngIf="a.aboutCompany.invalid">
+                <div *ngIf="a.aboutCompany.errors.maxlength">
+                  Maximum characters allowed is 1000
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+    <div class="row">
+      <div class="text-right" style="padding-right: 49px; padding-top: 7px; padding-bottom: 7px;">
+        <button class="btn default-btn btn-sm" (click)="decline()">
+          Cancel
+        </button>
+        <button class="btn primary-btn btn-sm " style="margin-left:2%;" type="button"
+          [disabled]="!aboutCompanyForm.valid" (click)="aboutSave()">
+          Submit
+        </button>
+
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<!-- <p>Small modal window have small width on screens only above 768px(boostrap3) and 576px(bootstrap4)</p> -->
+<!-- <button class="btn btn-primary" (click)="lgModal.show()">Large modal</button> -->
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+
+      <div class="common-header-flex">
+        <div>About Company</div>
+        <button>
+          <span (click)="lgModal.hide()" class="common-close">&times;</span>
+        </button>
+      </div>
+
+      <div class="panel-body">
+        <form [formGroup]="aboutCompanyForm" class="custom-form">
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-12">
+                <div formControlName="aboutCompany" id="aboutCompany" [ngxSummernote]="config">
+                </div>
+                <div style="color: #c3002f;" *ngIf="a.aboutCompany.invalid">
+                  <div *ngIf="a.aboutCompany.errors?.maxword">
+                    {{FORMERROR.ABOUT_COMPANY_MAX}}
+                  </div>
+                  <div *ngIf="a.aboutCompany.errors?.minword">
+                    {{FORMERROR.ABOUT_COMPANY_MIN}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- <label><small>Maximum characters allowed is 1000</small></label> -->
+              </div>
+              <div class="col-sm-6 text-right" *ngIf="!a.aboutCompany.errors?.maxword">
+                <label>
+                  <small>
+                    <span>{{remainingCharacters | async}}</span>
+                    characters remaining
+                  </small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="custom-panel-footer">
+        <div class="panel-footer">
+          <div class="footer-flex">
+            <button class="btn btn-default btn-sm" (click)="decline1()">
+              Cancel
+            </button>
+            <button [disabled]="!aboutCompanyForm.valid" class="btn primary-btn btn-sm" (click)="aboutSave()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<ng-template #physicianTemplate>
+  <div class="hpanel">
+    <div class="panel-heading">
+      <div class="row panel-tools">
+        <div class="col-sm-2" style="margin: -5px;">
+          <button type="button" class="close pull-left" aria-label="Close" (click)="closeOptions()">
+            <span style="padding-right: 8px;font-weight: 400;font-size: 26px;" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5" style="margin-left: 8px;">Service
+        Options</label>
+
+    </div>
+    <div class="panel-body" style="padding-left: 40px;">
+      <form [formGroup]="serviceForm" class="form-horizontal app-form" style="margin-top: 11px">
+        <div class="form-group row">
+          <label for="accredition" class="col-sm-4 control-label font-normal">Accredition</label>
+          <div class="col-sm-7">
+            <!-- <input [typeahead]="accreditionValue" [typeaheadMinLength]="0"
+                              class="form-control input-sm" placeholder="Accredition"  formControlName="accredition"> -->
+            <div class="custom-ng-select">
+              <ng-select [addTag]="true" [items]="accreditionValue" [multiple]="false" [closeOnSelect]="true"
+                [hideSelected]="true" dropdownPosition="bottom" placeholder="Accredition" formControlName="accredition">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="serviceType" class="col-sm-4 control-label font-normal">Type of Services</label>
+          <div class="col-sm-7">
+            <div class="custom-ng-select">
+              <ng-select [items]="serviceTypeList" [addTag]="true" [multiple]="true" [hideSelected]="true"
+                dropdownPosition="bottom" placeholder="Type of Services" [(ngModel)]="serviceSelectedItems"
+                formControlName="serviceType">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="custom-control custom-radio flexSelect">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected" >
+                    <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="insuranceAccepted" class="col-sm-4 control-label font-normal">Insurance Accepted</label>
+          <div class="col-sm-7">
+            <div class="custom-ng-select">
+              <ng-select [items]="insuranceList" [multiple]="true" [addTag]="true" [hideSelected]="true"
+                dropdownPosition="bottom" placeholder="Insurance Accepted" [(ngModel)]="insuranceSelectedItems"
+                formControlName="insuranceAccepted">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div class="custom-control custom-radio flexSelect">
+                    <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                      [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected" >
+                    <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label for="medicareCertified" class="col-sm-4 control-label font-normal">Medicare Certified</label>
+          <div class="col-sm-7">
+            <div class="row">
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> Yes
+                    <input type="radio" [value]="true" formControlName="medicareCertified" name="medicareCertified">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> No
+                    <input type="radio" [value]="false" formControlName="medicareCertified" name="medicareCertified">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group ">
+          <label for="acceptingNewPatients" class="col-sm-4 control-label font-normal">Accepting New
+            Patients</label>
+          <div class="col-sm-7">
+            <div class="row">
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> Yes
+                    <input type="radio" [value]="true" formControlName="acceptingNewPatients"
+                      name="acceptingNewPatients">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> No
+                    <input type="radio" [value]="false" formControlName="acceptingNewPatients"
+                      name="acceptingNewPatients">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="privatePayAccepted" class="col-sm-4 control-label font-normal">Private Pay Accepted</label>
+          <div class="col-sm-7">
+            <div class="row">
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> Yes
+                    <input type="radio" [value]="true" formControlName="privatePayAccepted" name="privatePayAccepted">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3" style="  padding-top: 4px;">
+                <div class="custom-checkbox" style="margin-top: 5px;">
+                  <label class="checkbox-label font-normal" style="text-align: center;"> No
+                    <input type="radio" [value]="false" formControlName="privatePayAccepted" name="privatePayAccepted">
+                    <span title="Check Working Days" class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="text-right" style="padding-right: 64px; padding-top: 7px; padding-bottom: 7px;">
+      <button class="btn default-btn btn-sm " (click)="closeOptions()">
+        Cancel
+      </button>
+      <button class="btn primary-btn btn-sm " style="margin-left:2%;" type="button" (click)="physicianSave()">
+        Submit
+      </button>
+
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #hourTemplate>
+  <div class="hpanel app">
+    <div class="panel-heading ">
+      <div class="row panel-tools">
+        <div class="col-sm-2" style="margin: -5px;">
+          <button type="button" class="close pull-left" aria-label="Close" (click)="modalRef.hide()">
+            <span style="padding-right: 9px;font-weight: 400;font-size: 26px;color: #fff;color: #fff;"
+              aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <label class="control-label padding-top-0 margin-bottom-5 margin-top-5"
+        style="margin-left: 8px;font-size:17px;color: #fff;">Working
+        Hours</label>
+
+    </div>
+
+    <div class="panel-body">
+      <form [formGroup]="hoursForm" class="form-horizontal app-form">
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Monday
+                <input type="checkbox" formControlName="monWorking" name="monWorking" (click)="doHours($event)">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="col-sm-4">
+            <select formControlName="monFromTime" class="form-control input-sm" (change)="frmHr($event)">
+              <option value="null" disabled selected>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.monFromTime.invalid">
+              <div *ngIf="hourControl.monFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <select formControlName="monToTime" class="form-control input-sm" (change)="toHr($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.monToTime.invalid">
+              <div *ngIf="hourControl.monToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row" style="margin-left: 142px;margin-top: -7px; margin-bottom: 14px;" *ngIf="worktime">
+          <!-- <div class="null"> -->
+          <div class="custom-checkbox" style="margin-top: 5px;">
+            <label class="checkbox-label font-normal" style="text-align: center;"> Apply this schedule for
+              all
+              <input type="checkbox" formControlName="applyAll" name="applyAll" (change)="changeHours($event)">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="form-group row">
+
+
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Tuesday
+                <input type="checkbox" formControlName="tueWorking" (change)="tue($event)" name="tueWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="col-sm-4">
+            <select formControlName="tueFromTime" class="form-control input-sm" placeholder="Opens"
+              (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="tuetrue&&hourControl.tueFromTime.invalid">
+              <div *ngIf="hourControl.tueFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="tueToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="tuetrue&&hourControl.tueToTime.invalid">
+              <div *ngIf="hourControl.tueToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Wednesday
+                <input type="checkbox" (change)="wed($event)" formControlName="wedWorking" name="wedWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="col-sm-4">
+            <select formControlName="wedFromTime" class="form-control input-sm" (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.wedFromTime.invalid">
+              <div *ngIf="hourControl.wedFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="wedToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.wedToTime.invalid">
+              <div *ngIf="hourControl.wedToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Thursday
+                <input type="checkbox" formControlName="thrWorking" (change)="thu($event)" name="thrWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <select formControlName="thrFromTime" class="form-control input-sm" placeholder="Opens"
+              (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.thrFromTime.invalid">
+              <div *ngIf="hourControl.thrFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="thrToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.thrToTime.invalid">
+              <div *ngIf="hourControl.thrToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Friday
+                <input type="checkbox" formControlName="friWorking" (change)="fri($event)" name="friWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <select formControlName="friFromTime" class="form-control input-sm" placeholder="Opens"
+              (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.friFromTime.invalid">
+              <div *ngIf="hourControl.friFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="friToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.friToTime.invalid">
+              <div *ngIf="hourControl.friToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Saturday
+                <input type="checkbox" formControlName="satWorking" (change)="sat($event)" name="satWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="satFromTime" class="form-control input-sm" placeholder="Opens"
+              (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.satFromTime.invalid">
+              <div *ngIf="hourControl.satFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="satToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.satToTime.invalid">
+              <div *ngIf="hourControl.satToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-checkbox" style="margin-top: 5px;">
+              <label class="checkbox-label font-normal" style="text-align: center;"> Sunday
+                <input type="checkbox" formControlName="sunWorking" (change)="sun($event)" name="sunWorking">
+                <span title="Check Working Days" class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="sunFromTime" class="form-control input-sm" placeholder="Opens"
+              (change)="fromHrOtherDay($event)">
+              <option value="null" selected disabled>Opens</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.sunFromTime.invalid">
+              <div *ngIf="hourControl.sunFromTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select formControlName="sunToTime" class="form-control input-sm" (change)="toHrOtherDay($event)">
+              <option value="null" selected disabled>Closes</option>
+              <option *ngFor="let hour of hours" [value]="hour">{{hour}}</option>
+            </select>
+            <div class="error-msg" *ngIf="hourControl.sunToTime.invalid">
+              <div *ngIf="hourControl.sunToTime.errors.required">Please fill this out</div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="text-right" style="padding-right: 46px;padding-top: 7px; padding-bottom: 7px;">
+      <button class="btn default-btn btn-sm " (click)="decline()">
+        Cancel
+      </button>
+      <button class="btn primary-btn btn-sm " style="margin-left:2%;" (click)="hourSave()">
+        Submit
+      </button>
+
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #locationTemplate>
+
+  <div class="common-header-flex">
+    <div>Location Details</div>
+    <button>
+      <span (click)="modalRef.hide()" class="common-close">&times;</span>
+    </button>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="row">
+      <form [formGroup]="locationForm" class="form-horizontal app-form">
+        <div formArrayName="companyLocationDetails">
+          <div *ngFor="let work of locationArray.controls; let i  = index; let lastItem = last;">
+            <div [formGroupName]="i" class="form-horizontal">
+              <div class="form-group row">
+                <label for="address1" class="col-sm-3 control-label required-field font-normal">Address 1</label>
+                <div class="col-sm-8">
+                  <input type="text" maxlength="100" formControlName="address1" class="form-control input-sm"
+                    placeholder="Door No, Building Name, Street Name" trim="blur"
+                    [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['address1'].hasError }">
+                  <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['address1'].hasError ||
+                                            getLocationFormgroup(i).controls['address1'].hasError &&
+                                            (getLocationFormgroup(i).controls['address1'].dirty ||
+                                            getLocationFormgroup(i).controls['address1'].touched) " class="error-msg">
+                    <div *ngIf="getLocationFormgroup(i).controls['address1'].hasError('required')">
+                      Address 1 is required</div>
+                    <div *ngIf="getLocationFormgroup(i).controls['address1'].hasError('minword')">
+                      {{FORMERROR.BUSINESS_ADDRESS_MIN}}</div>
+                    <div *ngIf="getLocationFormgroup(i).controls['address1'].hasError('maxword')">
+                      {{FORMERROR.BUSINESS_ADDRESS_MAX}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="address2" class="col-sm-3 control-label  font-normal">Address 2</label>
+                <div class="col-sm-8">
+                  <input type="text" maxlength="100" class="form-control input-sm" placeholder="" trim="blur"
+                    formControlName="address2">
+                </div>
+              </div>
+
+              <div class="form-group row" style="margin-bottom: 0px;">
+                <label class="col-sm-3 control-label required-field font-normal">Location</label>
+                <div class="col-sm-8">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <select class="form-control input-sm m-b" formControlName="country"
+                        (change)="onChangeCountry($event.target.value, i)"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['country'].hasError}">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+                      </select>
+                      <div style="margin-top: -15px;" *ngIf="ldSubmit && getLocationFormgroup(i).controls['country'].hasError ||
+                                        getLocationFormgroup(i).controls['country'].hasError &&
+                                        (getLocationFormgroup(i).controls['country'].dirty ||
+                                        getLocationFormgroup(i).controls['country'].touched)" class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['country'].hasError('required')">
+                          Country is required
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='US'">
+                      <input type="text" maxlength="12" placeholder="Zipcode" formControlName="zipCode"
+                        class="form-control input-sm" (keyup)="onKeyZip($event, i)"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['zipCode'].hasError }">
+                      <div *ngIf="companyLocationDetails.value[i].country=='US'&&
+                                (ldSubmit && getLocationFormgroup(i).controls['zipCode'].hasError ||
+                                getLocationFormgroup(i).controls['zipCode'].hasError &&
+                                (getLocationFormgroup(i).controls['zipCode'].dirty ||
+                                getLocationFormgroup(i).controls['zipCode'].touched)) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('required')">
+                          Zipcode is required</div>
+                      </div>
+                      <div class="error-msg" *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('minword')">
+                        {{FORMERROR.ZIPCODE_MIN}}
+                      </div>
+                      <div class="error-msg" *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('maxword')">
+                        {{FORMERROR.ZIPCODE_MAX}}
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['state'].hasError }">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+
+                      <div *ngIf="companyLocationDetails.value[i].country=='CA'&&
+                             (ldSubmit && getLocationFormgroup(i).controls['state'].hasError ||
+                             getLocationFormgroup(i).controls['state'].hasError &&
+                             (getLocationFormgroup(i).controls['state'].dirty ||
+                             getLocationFormgroup(i).controls['state'].touched)) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('required')">
+                          State is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['state'].hasError }">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+
+                      <div *ngIf="companyLocationDetails.value[i].country=='IN'&&
+                             (ldSubmit && getLocationFormgroup(i).controls['state'].hasError ||
+                             getLocationFormgroup(i).controls['state'].hasError &&
+                             (getLocationFormgroup(i).controls['state'].dirty ||
+                             getLocationFormgroup(i).controls['state'].touched)) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('required')">
+                          State is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['state'].hasError }">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+
+                      <div *ngIf="companyLocationDetails.value[i].country=='AU'&&
+                                (ldSubmit && getLocationFormgroup(i).controls['state'].hasError ||
+                                getLocationFormgroup(i).controls['state'].hasError &&
+                                (getLocationFormgroup(i).controls['state'].dirty ||
+                                getLocationFormgroup(i).controls['state'].touched)) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('required')">
+                          State is required</div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country!='AU'&&
+                                                        companyLocationDetails.value[i].country!='IN'&&
+                                                        companyLocationDetails.value[i].country!='CA'&&
+                                                        companyLocationDetails.value[i].country!='US'">
+                      <input type="text" maxlength="51" placeholder="State" formControlName="state"
+                        class="form-control input-sm"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['state'].hasError }">
+                      <div *ngIf=" companyLocationDetails.value[i].country!='AU'&&
+                                                    companyLocationDetails.value[i].country!='IN'&&
+                                                    companyLocationDetails.value[i].country!='CA'&&
+                                                    companyLocationDetails.value[i].country!='US'&&
+                                        (ldSubmit && getLocationFormgroup(i).controls['state'].hasError||
+                                        getLocationFormgroup(i).controls['state'].hasError &&(getLocationFormgroup(i).controls['state'].dirty ||
+                                        getLocationFormgroup(i).controls['state'].touched)) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('required')">
+                          State is required</div>
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('maxword')">
+                          {{FORMERROR.STATE_MAX}}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='US'">
+                      <input disabled type="text" placeholder="City" maxlength="51" formControlName="city"
+                        class="form-control input-sm"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['city'].hasError }">
+                      <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['city'].hasError ||
+                                getLocationFormgroup(i).controls['city'].hasError &&
+                                (getLocationFormgroup(i).controls['city'].dirty ||
+                                getLocationFormgroup(i).controls['city'].touched) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['city'].hasError('required')">
+                          City is required</div>
+                        <div *ngIf="getLocationFormgroup(i).controls['city'].hasError('maxword')">
+                          {{FORMERROR.CITY_MAX}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country!='US'">
+                      <input type="text" maxlength="51" placeholder="City" formControlName="city"
+                        class="form-control input-sm"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['city'].hasError }">
+                      <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['city'].hasError ||
+                                getLocationFormgroup(i).controls['city'].hasError &&
+                                (getLocationFormgroup(i).controls['city'].dirty ||
+                                getLocationFormgroup(i).controls['city'].touched) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['city'].hasError('required')">
+                          City is required</div>
+                        <div *ngIf="getLocationFormgroup(i).controls['city'].hasError('maxword')">
+                          {{FORMERROR.CITY_MAX}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="companyLocationDetails.value[i].country!='US'" class="col-sm-6">
+                      <input type="text" maxlength="12" placeholder="Zipcode" formControlName="zipCode"
+                        class="form-control input-sm"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['zipCode'].hasError }">
+                      <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['zipCode'].hasError ||
+                                getLocationFormgroup(i).controls['zipCode'].hasError &&
+                                (getLocationFormgroup(i).controls['zipCode'].dirty ||
+                                getLocationFormgroup(i).controls['zipCode'].touched) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('required')">
+                          Zipcode is required</div>
+                      </div>
+                      <div class="error-msg" *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('minword')">
+                        {{FORMERROR.ZIPCODE_MIN}}
+                      </div>
+                      <div class="error-msg" *ngIf="getLocationFormgroup(i).controls['zipCode'].hasError('maxword')">
+                        {{FORMERROR.ZIPCODE_MAX}}
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="companyLocationDetails.value[i].country=='US'">
+                      <input disabled type="text" maxlength="51" placeholder="State" formControlName="state"
+                        class="form-control input-sm"
+                        [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['state'].hasError }">
+                      <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['state'].hasError ||
+                                getLocationFormgroup(i).controls['state'].hasError &&
+                                (getLocationFormgroup(i).controls['state'].dirty ||
+                                getLocationFormgroup(i).controls['state'].touched) " class="error-msg">
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('required')">
+                          State is required </div>
+                        <div *ngIf="getLocationFormgroup(i).controls['state'].hasError('maxword')">
+                          {{FORMERROR.STATE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <input type="text" maxlength="100" placeholder="Landmark (Optional)" formControlName="street"
+                        class="form-control input-sm">
+                      <small id="helpId" class="form-text text-muted">(Street/ Road/ Nearby location)</small>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 control-label  font-normal">Headquarters</label>
+                <div class="col-md-6">
+                  <div class="custom-checkbox"
+                    *ngIf=" hide==false ||  companyLocationDetails.value[i].headquarters==true">
+                    <label class="checkbox-label font-normal" style="text-align: center;">
+                      <input type="checkbox" (change)="curOrg($event, i)" formControlName="headquarters"
+                        name="headquarters">
+                      <span style="margin-top: -7px;" title="Check if this is headquarters" class="checkmark"></span>
+                    </label>
+                  </div>
+
+                  <div class="custom-checkbox"
+                    *ngIf=" hide==true &&  companyLocationDetails.value[i].headquarters!=true">
+                    <label class="checkbox-label" style="text-align: center;">
+                      <input type="checkbox" (click)="changelocation($event,i)" formControlName="headquarters"
+                        name="headquarters">
+                      <span title="Check if this is headquarters" style="margin-top: -7px;" class="checkmark"></span>
+
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group row"
+                *ngIf="commonVariables?.locationId == companyLocationDetails.value[i].locationId">
+                <label class="col-sm-3 required-field control-label font-normal">Current Location</label>
+                <div class="col-sm-6">
+                  <div class="custom-checkbox" title="Check this if you want to keep this location as primary">
+                    <label class="checkbox-label font-normal" style="text-align: center">
+                      <!-- <div style="display: inline-block;"> -->
+                      <input type="checkbox" formControlName="primary" (change)="keepPrimary($event, i)"
+                        name="primary" />
+                      <small style="position: relative; top: -6px;">By checking Current Location, this location
+                        will be shown to public as your primary address</small>
+                      <!-- </div> -->
+                      <span class="checkmark" style="top: -5px"></span>
+                    </label>
+                    <div style="position: relative; float: left; margin-left: 17px;" *ngIf="
+                          (ldSubmit &&
+                            getLocationFormgroup(i).controls['primary']
+                              .hasError) ||
+                          (getLocationFormgroup(i).controls['primary']
+                            .hasError &&
+                            (getLocationFormgroup(i).controls['primary']
+                              .dirty ||
+                              getLocationFormgroup(i).controls['primary']
+                                .touched))
+                        " class="error-msg">
+                      <div *ngIf="
+                            getLocationFormgroup(i).controls[
+                              'primary'
+                            ].hasError('required')
+                          ">
+                        At least one current location is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="businessPhone" class="col-sm-3 required-field control-label font-normal">Business
+                  Phone</label>
+                <div class="col-sm-8">
+                  <input type="text" (keypress)="digitKeyOnly($event)" maxlength="16" formControlName="businessPhone"
+                    class="form-control input-sm" placeholder="Business Phone Number"
+                    [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['businessPhone'].hasError}">
+
+                  <div class="error-msg" *ngIf="ldSubmit && getLocationFormgroup(i).controls['businessPhone'].hasError ||
+                                    getLocationFormgroup(i).controls['businessPhone'].hasError &&
+                                    (getLocationFormgroup(i).controls['businessPhone'].dirty ||
+                                    getLocationFormgroup(i).controls['businessPhone'].touched)">
+                    <div *ngIf="getLocationFormgroup(i).controls['businessPhone'].hasError('maxword')">
+                      {{FORMERROR.BUSINESSPHONE_MAX}}
+                    </div>
+                    <div *ngIf="getLocationFormgroup(i).controls['businessPhone'].hasError('minword')">
+                      {{FORMERROR.BUSINESSPHONE_MIN}}
+                    </div>
+                    <div *ngIf="getLocationFormgroup(i).controls['businessPhone'].hasError('required')">
+                      Business Phone is required
+                    </div>
+                  </div>
+                  <div class="error-msg" *ngIf="getLocationFormgroup(i).controls['businessPhone'].hasError('pattern')">
+                    {{FORMERROR.NUMBER_PATTERN}}</div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="website" class="col-sm-3 control-label required-field font-normal">Website</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="website" class="form-control input-sm" placeholder="Website"
+                    [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['website'].hasError}">
+                  <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['website'].hasError ||
+                                        getLocationFormgroup(i).controls['website'].hasError &&
+                                        (getLocationFormgroup(i).controls['website'].dirty ||
+                                        getLocationFormgroup(i).controls['website'].touched)" class="error-msg">
+                    <div *ngIf="getLocationFormgroup(i).controls['website'].hasError('required')">
+                      Website is required</div>
+                    <div *ngIf="getLocationFormgroup(i).controls['website'].hasError('pattern')">
+                      Enter valid website format
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="businessEmail" class="col-sm-3 control-label required-field font-normal">Business
+                  Email</label>
+                <div class="col-sm-8">
+                  <input disabled type="text" formControlName="businessEmail" class="form-control input-sm"
+                    placeholder="Business Email"
+                    [ngClass]="{ 'is-invalid': ldSubmit && getLocationFormgroup(i).controls['businessEmail'].hasError}">
+                  <div *ngIf="ldSubmit && getLocationFormgroup(i).controls['businessEmail'].hasError ||
+                                            (getLocationFormgroup(i).controls['businessEmail'].hasError &&
+                                            (getLocationFormgroup(i).controls['businessEmail'].dirty ||
+                                            getLocationFormgroup(i).controls['businessEmail'].touched))"
+                    class="error-msg">
+                    <div *ngIf="getLocationFormgroup(i).controls['businessEmail'].hasError('required')">
+                      Business Email is required</div>
+                    <div *ngIf="getLocationFormgroup(i).controls['businessEmail'].hasError('email')">
+                      Please enter a valid email ID</div>
+                    <div *ngIf="getLocationFormgroup(i).controls['businessEmail'].hasError('notSameDomain')">
+                      Please enter a email domain that is same as the website domain </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr *ngIf="!lastItem">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm " (click)="decline()">
+          Cancel
+        </button>
+
+        <button class="btn primary-btn btn-sm " *ngIf="locationEditFlag" (click)="locationSave('edit')">
+          Update
+        </button>
+        <button class="btn primary-btn btn-sm " *ngIf="locationAddFlag" (click)="locationSave('add')">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #socialPresenceTemplate>
+
+  <div class="common-header-flex">
+    <div>Social Presence</div>
+    <button>
+      <span class="common-close" (click)="modalRef.hide()">&times;</span>
+    </button>
+  </div>
+
+  <div class="panel-body">
+    <form [formGroup]="userSocialPresenceForm" class="custom-form">
+      <div class="row form-horizontal">
+        <div class="form-group">
+          <label for="linkedin" class="col-sm-3 control-label">LinkedIn</label>
+          <div class="col-sm-8">
+            <input type="text" maxlength="100" class="form-control input-sm" placeholder="Linkedin"
+              formControlName="linkedin">
+            <div class="error-msg"
+              *ngIf="userSocialPresenceForm.controls.linkedin.invalid && userSocialPresenceForm.controls.linkedin.errors?.pattern">
+              {{FORMERROR.HTTP_VALID}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="certificationName" class="col-sm-3 control-label">Twitter</label>
+          <div class="col-sm-8">
+            <input type="text" maxlength="100" class="form-control input-sm" placeholder="Twitter"
+              formControlName="twitter">
+            <div class="error-msg"
+              *ngIf="userSocialPresenceForm.controls.twitter.invalid && userSocialPresenceForm.controls.twitter.errors?.pattern">
+              {{FORMERROR.HTTP_VALID}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="facebook" class="col-sm-3 control-label">Facebook</label>
+          <div class="col-sm-8">
+            <input type="text" maxlength="100" class="form-control input-sm" placeholder="Facebook"
+              formControlName="facebook">
+            <div class="error-msg"
+              *ngIf="userSocialPresenceForm.controls.facebook.invalid && userSocialPresenceForm.controls.facebook.errors?.pattern">
+              {{FORMERROR.HTTP_VALID}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="blogURL" class="col-sm-3 control-label">Blog</label>
+          <div class="col-sm-8">
+            <input type="text" maxlength="100" class="form-control input-sm" placeholder="Blog"
+              formControlName="blogURL">
+            <div class="error-msg"
+              *ngIf="userSocialPresenceForm.controls.blogURL.invalid && userSocialPresenceForm.controls.blogURL.errors?.pattern">
+              {{FORMERROR.HTTP_VALID}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="alternamePageLink" class="col-sm-3 control-label">Personal Website</label>
+          <div class="col-sm-8">
+            <input type="text" maxlength="100" class="form-control input-sm" placeholder="Personal Website"
+              formControlName="alternamePageLink">
+            <div class="error-msg"
+              *ngIf="userSocialPresenceForm.controls.alternamePageLink.invalid && userSocialPresenceForm.controls.alternamePageLink.errors?.pattern">
+              {{FORMERROR.HTTP_VALID}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default btn-sm " (click)="decline()">
+          Cancel
+        </button>
+        <button class="btn primary-btn btn-sm " (click)="userSocialPresenceSave()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>

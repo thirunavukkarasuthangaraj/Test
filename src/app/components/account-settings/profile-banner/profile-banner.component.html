@@ -1,0 +1,869 @@
+<div class="business-banner-top post-box-shadow">
+  <div class="business-banner">
+    <div class="banner-shadow"></div>
+    <img class="banner-img" [ngStyle]="{'background-image': 'url(' + bannerimg.src + ')'}">
+    <div class="banner-overlay">
+      <div class="banner-edit" title="Edit banner" (click)="uploadBannerHere()" style="cursor: pointer;"
+        *ngIf="commonVariables?.localUser">
+        <input type="file" style="display: none!important;" accept=".jpg,.jpeg, .png" #myFileInput title="Edit banner"
+          (change)="fileChangeEvent($event,template)" />
+        <div class="image-upload"></div>
+        <i class="fa fa-camera" aria-hidden="true"></i>
+      </div>
+      <div title="Change or remove picture" *ngIf="commonVariables.localUser" yPosition="below" xPosition="after"
+        [matMenuTriggerFor]="menu" style="position: absolute; bottom: -25px;">
+
+        <div *ngIf="infoData.photo != null">
+          <img (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" style="cursor: pointer;" class="img-small1"
+            src="{{ profilePhoto?.src }}">
+        </div>
+        <div *ngIf="infoData.photo == undefined">
+          <div class="circles img-small1" style="cursor: pointer;"
+            [style.background-color]="getColor(profileitems?.firstName, profileitems?.lastName)"
+            (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+            <div class="circle-text font-size-50 pad-tp-20">{{ getInitials(profileitems?.firstName,
+              profileitems?.lastName) }}</div>
+          </div>
+
+        </div>
+        <span class='sssld' (mouseenter)="onMouseEnter1()" (mouseleave)="onMouseLeave1()">
+          <i *ngIf="showImage || showImage1" class="fa fa-camera" aria-hidden="true"></i>
+        </span>
+        <mat-menu #menu="matMenu">
+          <input #myFileInput2 style="display: none;" type="file" (click)="myFileInput2.value=null"
+            (change)="fileChangeEvent2($event, profilePhotoUpload)" accept=".jpg, .jpeg, .png" />
+          <button class="mat-menu-height" mat-menu-item (click)="uploadPhotoHere()">
+            <span class="ixym"><i class="far fa-user-circle fa-lg"></i></span>
+            <span class="skpax">Change profile photo</span>
+          </button>
+          <button type="button" (click)="openSweetalert()" class="mat-menu-height" mat-menu-item>
+            <span class="ixym"><i class="fas fa-user-slash"></i></span>
+            <span>Remove profile photo</span>
+          </button>
+          <!-- <button  class="mat-menu-height" mat-menu-item>
+              <span class="ixym"><i class="far fa-user-circle fa-lg"></i></span>
+              <span>View profile photo</span>
+            </button> -->
+        </mat-menu>
+      </div>
+      <div *ngIf="profilePhoto != undefined &&!commonVariables.localUser" style="position: absolute; bottom: -25px;">
+        <img class="img-small1" src="{{profilePhoto?.src}}">
+      </div>
+      <div *ngIf="profilePhoto == undefined &&!commonVariables.localUser">
+        <div style="position: absolute; bottom: -25px;" class="circles img-small1"
+          [style.background-color]="getColor(infoData?.firstName, infoData?.lastName)">
+          <div class="circle-text font-size-50 pad-tp-20">{{ getInitials(infoData?.firstName, infoData?.lastName) }}
+          </div>
+        </div>
+      </div>
+
+      <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button> -->
+
+    </div>
+  </div>
+
+  <div class="business-details1 hpanel border-radius-top-left-right-0" style="word-wrap: break-word;">
+      <div class="col-md-8 banr-detail-pos">
+        <div *ngIf="this.infoData.userType !== 'student'">
+          <p *ngIf="infoData.firstName && infoData.lastName" class="profile-name ellipse2"
+            title="{{infoData.firstName + ' ' + infoData.lastName}}" data-toggle="tooltip" data-placement="top">
+            {{infoData.firstName + " " + infoData.lastName}}
+          </p>
+          <p title="{{infoData.pitch}}" *ngIf="infoData.pitch" class="profile-tag ellipse1" data-toggle="tooltip"
+            data-placement="top">
+            <!-- <span>
+              <i class="fas fa-quote-left"></i>
+            </span> -->
+            {{infoData.pitch}}
+          </p>
+          <div class="banner-title-details">
+            <p *ngIf="experelement.title" class="profile-others ellipse1" title="{{experelement.title}}">
+              {{experelement.title}}
+            </p>
+            <p *ngIf="experelement.organisationName" class="profile-others ellipse1"
+              title="{{experelement.organisationName}}">
+              @ {{experelement.organisationName}}
+            </p>
+          </div>
+          <p *ngIf="infoData.city && infoData.state" class="profile-others ellipse1"
+            title="{{infoData.city + ', ' + infoData.state}}">
+            {{infoData.city + ', ' + infoData.state}}
+          </p>
+        </div>
+
+        <div *ngIf="this.infoData.userType === 'student'">
+          <p *ngIf="infoData.firstName && infoData.lastName" class="profile-name ellipse2"
+            title="{{infoData.firstName + ' ' + infoData.lastName}}" data-toggle="tooltip" data-placement="top">
+            {{infoData.firstName + " " + infoData.lastName}}
+          </p>
+          <p *ngIf="infoData.pitch" class="profile-tag ellipse" data-toggle="tooltip" data-placement="top">
+            {{infoData.pitch}}
+          </p>
+
+          <!-- <p class="profile-others ellipse">
+  
+          </p> -->
+          <div class="col-sm-1">
+          </div>
+          <p *ngIf="educationElement.schoolName" class="profile-others ellipse" title="{{educationElement.schoolName}}">
+            <span>
+              Student @
+            </span>
+            <span>
+              <i class="fas fa-user-graduate "></i>
+            </span>
+            {{educationElement.schoolName}}
+          </p>
+
+          <p *ngIf="educationElement.city && educationElement.state" class="profile-others"
+            title="{{educationElement.city + ', ' + educationElement.state}}">
+            {{educationElement.city + ', ' + educationElement.state}}
+          </p>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="col-md-4">
+        <div class="pull-right row ">
+          <div class="col-md-1" *ngIf="commonVariables?.localUser">
+            <div class="btn-group">
+              <div title="Edit personal info" (click)="infoEdit(infoTemplate, null)">
+                <button [disabled]="duplicatepopup" id="profileBannerEdit" class="edit-pencil">
+                  <span>
+                    <i class="fas fa-pencil-alt "
+                      style="cursor: pointer; color: rgb(60,64,67)!important;font-size: 15px;"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="iuiy1">
+            <div *ngIf="!commonVariables?.localUser">
+              <button *ngIf="connected" class="btn primary-btn btn-sm" (click)="sendMessage($event)">
+                Send Message
+                <i class="pe-7s-mail jwsk" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div *ngIf="!commonVariables?.localUser" style="padding-left: 0px; ">
+              <div style="display: flex;" *ngIf="requestPending">
+                <div class="btn-group" dropdown style="display: contents;">
+                  <button type="button" class="btn primary-btn btn-sm" (click)="accept()">Accept</button>
+                  <button id="button-split" type="button" dropdownToggle
+                    class="btn primary-btn btn-sm dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                    <span class="caret"></span>
+                  </button>
+                  <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
+                    aria-labelledby="button-split">
+                    <li role="menuitem"><a class="dropdown-item" (click)="reject()">Reject</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div *ngIf="notConnected">
+                <button [disabled]="duplicateconnects" class="btn primary-btn btn-sm" (click)="connect()">
+                  Connect
+                </button>
+              </div>
+              <div *ngIf="requestSent">
+                <button class="btn btn-sm btn-primary" (click)="cancelConnectionRequest() ">
+                  Cancel Request
+                </button>
+              </div>
+              <div ngbDropdown *ngIf="connected">
+                <div class="btn-group smxv" dropdown (onShown)="onShown()" (onHidden)="onHidden()"
+                  (isOpenChange)="isOpenChange()">
+
+                  <a id="button-animated" dropdownToggle>
+                    <img src="assets/icon/icon-vert-thr-dot.png" alt="" srcset="" class="Vthree-dote">
+                  </a>
+                  <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" style="margin-left: -160px; "
+                    role="menu" aria-labelledby="basic-link">
+                    <li role="menuitem"><a class="dropdown-item" (click)="removeConnection()">Remove Connection</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+<ng-template #template>
+  <div class="common-header-flex">
+    <div>Profile Banner Image</div>
+    <button><span class="common-close" aria-hidden="true" (click)="closePhoto()">&times;</span></button>
+  </div>
+
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4.5 / 1"
+      format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default " (click)="closePhoto()">Cancel</button>
+        <button class="btn btn-primary" (click)="imageLoaded()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</ng-template>
+
+<ng-template #profilePhotoUpload>
+
+  <div class="common-header-flex">
+    <div>Profile Photo</div>
+    <button>
+      <span class="common-close" (click)="closePhoto2()">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+      format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+
+  <div class="custom-panel-footer">
+    <div class="panel-footer">
+      <div class="footer-flex">
+        <button class="btn btn-default" (click)="closePhoto2()">Cancel</button>
+        <button class="btn btn-primary" (click)="imageLoaded2()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+
+
+<ng-template #infoTemplate>
+
+  <div *ngIf="medPrompt == false && studPrompt == false && !otpValidForm ">
+
+    <div class="common-header-flex">
+      <div>Personal Details</div>
+      <button>
+        <span class="common-close" (click)="decline()">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="panel-body custom-modal-body">
+      <div>
+        <form [formGroup]="personalInfoForm">
+          <div class="container-fluid app-form form-horizontal">
+            <div class="row">
+              <div class="form-group">
+                <div class="col-sm-3" style="padding-left: 41px;">
+                  <img *ngIf="photoId !== undefined && photoId !== null" alt="logo" class="rc" [src]="img4.src">
+
+                  <div *ngIf="photoId === undefined || photoId === null" class="circle-text prof-logo"
+                    [style.background-color]="getColor(profileitems?.firstName, profileitems?.lastName)">{{
+                    getInitials(profileitems?.firstName, profileitems?.lastName) }}</div>
+                </div>
+                <div class="col-sm-8">
+                  <label for="userType" class="control-label required-field font-light">I am</label>
+
+                  <select class="form-control input-sm" formControlName="userType" id="userType1"
+                    (change)="onChangeIam($event.target.value)" open>
+                    <option value="null" *ngIf="personalInfoForm.value.userType==null" selected>
+                      Choose your user type</option>
+
+                    <option title="Recruiter can create jobs on the platform to attract consultants" value="RECRUITER">
+                      Recruiter </option>
+                    <option title="Bench Recruiter can create consultants on the platform to attract jobs"
+                      value="BENCH_RECRUITER">Bench Sales Recruiter </option>
+                    <option title="Management Talent Acquisition can create consultants on the platform to attract jobs"
+                      value="MANAGEMENT_TALENT_ACQUISITION">Management Talent Acquisition </option>
+                    <option title="Freelance Recruiter can create jobs." value="FREELANCE_RECRUITER">Freelance
+                      Recruiter</option>
+                    <option title="Job Seeker can look up for jobs posted by recruiters" value="JOB_SEEKER">Job Seeker
+                    </option>
+                    <!-- <option value="Other">Other</option> -->
+                  </select>
+                  <div *ngIf="p.userType.invalid && (p.userType.dirty || p.userType.touched)" class="error-msg">
+                    <div *ngIf="p.userType.errors.required"> This field is required</div>
+                  </div>
+                  <div *ngIf="commonVariables?.previousFlag" class="error-msg">
+                    <div>Change your user type here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label required-field font-light">First Name</label>
+                <div class="col-sm-8">
+                  <input type="text" maxlength="21" class="form-control input-sm" placeholder="First Name"
+                    formControlName="firstName">
+                  <div *ngIf="p.firstName.invalid && (p.firstName.dirty || p.firstName.touched)" class="error-msg">
+                    <div *ngIf="p.firstName.errors.required">First Name is required</div>
+                    <div *ngIf="p.firstName.errors.pattern" style="color: #c3002f;">
+                      {{FORMERROR.FIRSTNAME_VALID}}
+                    </div>
+                    <div *ngIf="p.firstName.errors.minword" style="color: #c3002fed;">
+                      {{FORMERROR.FIRSTNAME_MIN}}
+                    </div>
+                    <div *ngIf="p.firstName.errors.maxword" style="color: #c3002fed;">
+                      {{FORMERROR.FIRSTNAME_MAX}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label required-field font-light">Last Name</label>
+                <div class="col-sm-8">
+                  <input type="text" maxlength="41" class="form-control input-sm" placeholder="Last Name"
+                    formControlName="lastName">
+                  <div *ngIf="p.lastName.invalid && (p.lastName.dirty || p.lastName.touched)" class="error-msg">
+                    <div *ngIf="p.lastName.errors.required">Last Name is required</div>
+                    <div *ngIf="p.lastName.errors.pattern" style="color:  #c3002f;">
+                      {{FORMERROR.LASTNAME_VALID}}
+                    </div>
+                    <div *ngIf="p.lastName.errors.minword" style="color: #c3002f;">
+                      {{FORMERROR.LASTNAME_MIN}}
+                    </div>
+                    <div *ngIf="p.lastName.errors.maxword" style="color: #c3002f;">
+                      {{FORMERROR.LASTNAME_MAX}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-3 control-label font-light">Pitch</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-sm" placeholder="Pitch" formControlName="pitch">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label style="text-align: right;" class="col-sm-3 control-label font-light">Photo</label>
+                <div class="col-sm-8">
+                  <input id="myFileInput" input formControlName="photo" title="Choose a photo"
+                    placeholder="Choose a photo" type="file" accept=".jpg, .jpeg, .png" class="form-control"
+                    (change)="fileChangeEvent1($event, templateNested)" />
+                  <ng-template #templateNested>
+
+
+                    <div class="common-header-flex">
+                      <div>Profile Photo</div>
+                      <button><span class="common-close" (click)="closeImage()"
+                          aria-hidden="true">&times;</span></button>
+                    </div>
+
+
+                    <div class="modal-body">
+                      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="4   / 4" format="png,jpeg" (imageCropped)="imageCropped($event)"
+                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+
+                      </image-cropper>
+                    </div>
+
+
+                    <div class="custom-panel-footer">
+                      <div class="panel-footer">
+                        <div class="footer-flex">
+                          <button class="btn btn-default " (click)="closeImage()">Cancel</button>
+                          <button class="btn btn-primary " (click)="imageLoaded1()">Apply</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </ng-template>
+
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row"
+              *ngIf="infoData.userType != 'student' && infoData.userType != 'JOB_SEEKER' && infoData.userType != 'FREELANCE_RECRUITER'">
+              <div class="form-group">
+                <label for="title" class="col-sm-3 control-label required-field text-right font-light">Current
+                  Organization
+                  Type</label>
+                <div class="col-sm-8">
+                  <input type="text" disabled class="form-control input-sm" placeholder="current Organization Type"
+                    formControlName="clientType">
+                  <!-- <select class="form-control input-sm" disabled formControlName="clientType" type="text"
+                      [ngClass]="{ 'is-invalid': p.clientType.hasError }">
+                      <option value="null" selected disabled>Organization Type</option>
+                      <option *ngFor="let clientType of clientTypeList" [value]="clientType">
+                        {{clientType}}</option>
+                    </select> -->
+                  <!-- <div *ngIf="p.clientType.invalid && (p.clientType.dirty || p.clientType.touched)" class="error-msg">
+                      <div *ngIf="p.clientType.errors.required"> This field is required</div>
+                    </div> -->
+                  <!-- <div *ngIf="workSaveFlag && getWorkFormGroup(i).controls['clientType'].hasError ||
+                                  getWorkFormGroup(i).controls['clientType'].hasError &&
+                                  (getWorkFormGroup(i).controls['clientType'].dirty ||
+                                  getWorkFormGroup(i).controls['clientType'].touched) " class="error-msg">
+                      <div *ngIf="getWorkFormGroup(i).controls['clientType'].hasError('required')">Organization Type is
+                        required</div>
+                    </div> -->
+
+                  <!-- <div style="color:#c3002f; font-weight:500; text-align: justify;"
+                      *ngIf="getWorkFormGroup(i).controls['clientType'].hasError('clientTypeMismatch')">You've chosen a
+                      different
+                      organization type than what you chose while signing up. Please note that credit consumptions are dependent
+                      on the type of organization chosen.</div> -->
+                  <!-- <div class="row" style="float:right;margin-right: 0px;">
+                      <button class="btn btn-primary clitntypebtn" (click)="overRideclient()"
+                        *ngIf="getWorkFormGroup(i).controls['clientType'].hasError('clientTypeMismatch')">Change Organization
+                        Type</button>
+                    </div> -->
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label for="phoneNo" class="col-sm-3 control-label required-field font-light">Phone</label>
+                <div class="col-sm-8">
+                  <input type="text" maxlength="16" class="form-control input-sm" placeholder="Phone"
+                    formControlName="phoneNo">
+                  <div class="error-msg" *ngIf="p.phoneNo.invalid">
+                    <div *ngIf="p.phoneNo.errors.required">
+                      Phone is required
+                    </div>
+                    <div *ngIf="p.phoneNo.errors.minword && !p.phoneNo.errors.pattern">
+                      {{FORMERROR.PHONE_MIN}}
+                    </div>
+                    <div *ngIf="p.phoneNo.errors.maxword">
+                      {{FORMERROR.PHONE_MAX}}
+                    </div>
+                    <div *ngIf="p.phoneNo.errors.pattern">
+                      {{FORMERROR.NUMBER_PATTERN}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label for="username" class="col-sm-3 control-label required-field font-light">Primary
+                  Email ID</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control input-sm" disabled placeholder="Primary Email ID"
+                    formControlName="email">
+                  <div *ngIf="p.email.invalid && (p.email.dirty || p.email.touched)" class="error-msg">
+                    <div *ngIf="p.email.errors.required">Primary Email ID is required</div>
+                    <div *ngIf="p.email.errors.email"> Please enter a valid Email ID</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label for="secondaryEmail" class="col-sm-3 control-label font-light">Secondary Email
+                  ID</label>
+                <div class="col-sm-8">
+                  <input type="email" maxlength="51" class="form-control input-sm"
+                    (input)="emailidcehck($event.target.value)" placeholder="Secondary Email ID" trim="blur"
+                    formControlName="secondaryEmail" id='highlightSecondary'>
+                  <div *ngIf="p.secondaryEmail.invalid" class="error-msg">
+                    <div *ngIf="p.secondaryEmail.errors.pattern">
+                      {{FORMERROR.EMAIL_VALID}}
+                    </div>
+                    <div *ngIf="p.secondaryEmail.errors.maxword">
+                      {{FORMERROR.EMAIL_MAX}}
+                    </div>
+                    <div *ngIf="p.secondaryEmail.errors.mustMatch">Secondary Email cannot be the
+                      same as Primary Email
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label class="control-label col-sm-3 required-field font-light">Location</label>
+                <div class="col-sm-8">
+                  <div class="row form-group">
+                    <div class="col-sm-6">
+                      <select class="form-control input-sm" formControlName="country"
+                        (change)="onChangeCountry($event.target.value, 'user', 'user')">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+
+                      </select>
+                      <div *ngIf="p.country.invalid && (p.country.dirty || p.country.touched)" class="error-msg">
+                        <div *ngIf="p.country.errors.required"> Country is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input type="text" maxlength="12" (keypress)="digitKeyOnly($event)" class="form-control input-sm"
+                        placeholder="Zipcode" (keyup)="onKeyZip($event,'user', 'user')" formControlName="zipcode">
+                      <div *ngIf="personalInfoForm.value.country=='US'&&( p.zipcode.invalid ||
+                                   p.zipcode.invalid && (p.zipcode.dirty ||
+                                    p.zipcode.touched))" class="error-msg">
+                        <div *ngIf="p.zipcode.errors.required"> Zipcode is required</div>
+                        <div *ngIf="p.zipcode.errors?.minword">
+                          {{FORMERROR.ZIPCODE_MIN}}
+                        </div>
+                        <div *ngIf="p.zipcode.errors?.maxword">
+                          {{FORMERROR.ZIPCODE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='IN'&&( p.state.invalid ||
+                                          p.state.invalid && (p.state.dirty ||
+                                           p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='CA'&&( p.state.invalid ||
+                                      p.state.invalid && (p.state.dirty ||
+                                       p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">
+                          {{state.stateName}}</option>
+                      </select>
+                      <div *ngIf="personalInfoForm.value.country=='AU'&&( p.state.invalid ||
+                                  p.state.invalid && (p.state.dirty ||
+                                   p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required"> State is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='AU'&&
+                                                            personalInfoForm.value.country!='CA'&&
+                                                            personalInfoForm.value.country!='IN'&&
+                                                            personalInfoForm.value.country!='US'">
+                      <input formControlName="state" maxlength="51" class="form-control input-sm" placeholder="State">
+                      <div *ngIf="personalInfoForm.value.country!='AU'&&
+                                            personalInfoForm.value.country!='CA'&&
+                                            personalInfoForm.value.country!='IN'&&
+                                            personalInfoForm.value.country!='US'&&( p.state.invalid ||
+                                            p.state.invalid && (p.state.dirty ||
+                                            p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required">
+                          State is required
+                        </div>
+                        <div *ngIf="p.state.errors.maxword">
+                          {{FORMERROR.STATE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input type="text" maxlength="51" disabled placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+                      <div *ngIf=" p.city.invalid || p.city.invalid && (p.city.dirty || p.city.touched)"
+                        class="error-msg">
+                        <div *ngIf="p.city.errors.required">
+                          {{FORMERROR.CITY_MAX}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='US'">
+                      <input type="text" maxlength="51" placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+                      <div *ngIf=" p.city.invalid || p.city.invalid && (p.city.dirty || p.city.touched)"
+                        class="error-msg">
+                        <div *ngIf="p.city.errors.required">
+                          City is required
+                        </div>
+                        <div *ngIf="p.city.errors.maxword">
+                          {{FORMERROR.CITY_MAX}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country=='US'">
+                      <input disabled formControlName="state" maxlength="51" class="form-control input-sm"
+                        placeholder="State">
+                      <div *ngIf="personalInfoForm.value.country=='US'&&( p.state.invalid ||
+                                              p.state.invalid && (p.state.dirty ||
+                                              p.state.touched))" class="error-msg">
+                        <div *ngIf="p.state.errors.required">
+                          State is required
+                        </div>
+                        <div *ngIf="p.state.errors.maxword">
+                          {{FORMERROR.STATE_MAX}}
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="personalInfoForm.value.country!='US'">
+                      <input type="text" maxlength="12" (keypress)="digitKeyOnly($event)" class="form-control input-sm"
+                        placeholder="Zipcode" formControlName="zipcode">
+                      <div *ngIf="personalInfoForm.value.country!='US'&&( p.zipcode.invalid ||
+                                       p.zipcode.invalid && (p.zipcode.dirty ||
+                                        p.zipcode.touched))" class="error-msg">
+                        <div *ngIf="p.zipcode.errors.required"> Zipcode is required</div>
+                        <div *ngIf="p.zipcode.errors?.minword">
+                          {{FORMERROR.ZIPCODE_MIN}}
+                        </div>
+                        <div *ngIf="p.zipcode.errors?.maxword">
+                          {{FORMERROR.ZIPCODE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-default btn-sm " (click)="decline()">
+            Cancel
+          </button>
+          <button *ngIf="!weird" class="btn primary-btn btn-sm " (click)="infoSave()"
+            [disabled]="!personalInfoForm.valid">
+            Submit
+          </button>
+          <button class="btn primary-btn btn-sm " *ngIf="weird" (click)="onChangePhysician1()"
+            [disabled]="!personalInfoForm.valid">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="otpValidForm">
+    <div class="common-header-flex">
+      <div>Authenticate Secondary Email Address</div>
+      <button>
+        <span class="common-close" (click)="closeOTP()">&times;</span>
+      </button>
+    </div>
+
+    <div class="panel-body">
+      <div class="col-sm-12">
+
+        <div class="alert alert-info addd-dngr">
+          An authentication code has been sent to your Secondary email. Please, enter it below.
+        </div>
+
+        <form [formGroup]="OtpForm">
+          <label class="control-label required-field font-bold">Enter OTP</label>
+          <input type="text" placeholder="Enter OTP Code" formControlName="domainValidationOtp"
+            class="form-control input-sm" />
+
+          <div class="red"
+            *ngIf="OtpControls.domainValidationOtp.invalid &&  (OtpControls.domainValidationOtp.dirty || OtpControls.domainValidationOtp.touched )">
+            <div class="error-msg" *ngIf="OtpControls.domainValidationOtp.errors?.required">
+              Please Enter OTP
+            </div>
+            <div class="error-msg" *ngIf="OtpControls.domainValidationOtp.errors?.pattern">
+              Enter Only Numbers
+            </div>
+            <div class="error-msg" *ngIf="OtpControls.domainValidationOtp.errors?.wrongDomainValidationOtp">
+              Incorrect OTP. Enter the right one.
+            </div>
+          </div>
+
+        </form>
+
+        <div>
+          <p class="mr-tp-10 OtpDesign" style="color: unset; text-decoration: none;" *ngIf="(resentOTPCode | async) ">
+            Resend OTP in <countdown [config]="{ leftTime: 30, format: 'ss' }"></countdown> seconds</p>
+          <p class="OtpDesign" *ngIf="!(resentOTPCode | async)" (click)="resendOtp(true)">
+            Resend OTP</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-sm btn-default" (click)="closeOTP()"> Cancel </button>
+          <button class="btn btn-sm btn-primary" (click)="submitOtp()"> Submit </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="modal-dialog "> -->
+  <div class="panel-body" *ngIf="medPrompt">
+    <div style="justify-content: center; display: flex; padding: 10px;">
+      <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+    </div>
+    <div class="text-center"><label>Are you sure?</label></div>
+    <div style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+      <p>Changing to {{"'" + userTypeValue + "'"}} user type requires your work experience. If you hadn't
+        provided your
+        work experience details, on submitting the
+        form you will be asked to fill your work experience. Do you wish to continue?
+      </p><br>
+    </div>
+    <div class="row" style="padding: 10px;">
+      <div class="col-sm-6">
+        <button (click)="hidePhyPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+      </div>
+      <div class="col-sm-6">
+        <button (click)="changeToPhysician()" class="btn primary-btn btn-sm btn-block">Continue</button>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <!-- <div class="modal-dialog"> -->
+  <div class="panel-body" *ngIf="studPrompt">
+    <div style="justify-content: center; display: flex; padding: 10px;">
+      <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+    </div>
+    <div class="text-center"><label>Are you sure?</label></div>
+    <div style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+      <p>Changing to 'Student (Medical/ Healthcare)' user type requires your education
+        qualifications. If you
+        hadn't provided your education details already, on submitting the
+        form you will be asked to fill your education details. Do you wish to continue?
+      </p><br>
+    </div>
+    <div class="row" style="padding: 10px;">
+      <div class="col-sm-6">
+        <button (click)="hideStudPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+      </div>
+      <div class="col-sm-6">
+        <button (click)="changeToStudent()" class="btn primary-btn btn-sm btn-block">Continue</button>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+
+</ng-template>
+
+<!-- <ng-template #physicianPrompTemplate>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div style="justify-content: center; display: flex; padding: 10px;">
+        <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+      </div>
+      <div class="text-center"><label>Are you sure?</label></div>
+      <div class="modal-body" style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+        <p>Changing to {{"'" + userTypeValue + "'"}} user type requires your work experience. If you hadn't
+          provided your
+          work experience details, on submitting the
+          form you will be asked to fill your work experience. Do you wish to continue?
+        </p><br>
+      </div>
+      <div class="row" style="padding: 10px;">
+        <div class="col-sm-6">
+          <button (click)="hidePhyPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button (click)="changeToPhysician()" class="btn primary-btn btn-sm btn-block">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<!-- <ng-template #studentPrompTemplate>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div style="justify-content: center; display: flex; padding: 10px;">
+        <img style="height: 80px; width: 80px;" src="assets/icon/warning.png">
+      </div>
+      <div class="text-center"><label>Are you sure?</label></div>
+      <div class="modal-body" style="padding: 0px 0px 0px 22px; justify-content: center; display: flex">
+        <p>Changing to 'Student (Medical/ Healthcare)' user type requires your education
+          qualifications. If you
+          hadn't provided your education details already, on submitting the
+          form you will be asked to fill your education details. Do you wish to continue?
+        </p><br>
+      </div>
+      <div class="row" style="padding: 10px;">
+        <div class="col-sm-6">
+          <button (click)="hideStudPrompt()" class="btn secondary-btn btn-sm btn-block">Cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button (click)="changeToStudent()" class="btn primary-btn btn-sm btn-block">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+<ng-template #photoDeleteTemplate>
+  <button type="button" style="font-size: 31px;padding-right: 17px;padding-top: 7px;font-weight: 400;"
+    class="close pull-right" aria-label="Close" (click)="no()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <label style="margin: 6px 10px 14px 10px;padding-top:10px">Remove Profile Photo</label>
+  <hr style="margin: 0px !important;">
+  <div class="modal-body ">
+    <div class="text-left">
+      <p>Are you sure you want to delete the profile photo?</p>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-default" (click)="no()">No</button>
+      <button type="button" class="btn btn-primary" (click)="yes()" style="margin-left: 0.5rem;">Yes</button>
+    </div>
+  </div>
+</ng-template>

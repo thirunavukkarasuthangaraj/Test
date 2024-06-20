@@ -1,0 +1,129 @@
+<div class="hpanel ">
+  <div class="panel-body border-radius-top-left-right-6">
+    <div class="price-summary-header-container">
+      <div class="price-summary-title">
+        <label class="control-label btn-font-sizess">Monthly Consumption
+          Matrix</label>
+      </div>
+      <div class="price-summary-btn-container">
+        <div class="price-summary-upgrade-btn">
+          <button type="button" tabindex="0" class="btn btn-sm btn-primary" [routerLink]="['/plan-quota']"> Upgrade Plan
+          </button>
+        </div>
+        <div class="price-summary-header-note">
+          Your credits reset the 1st of each month.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hpanel" *ngIf="screendata">
+  <div class="panel-body pad-0 border-radius-top-left-right-6">
+    <table cellpadding="1" cellspacing="1" class="tableone">
+      <thead class="th-center" *ngIf="!loaddata">
+        <tr>
+          <th><i class="fa fa-refresh refreshsshsh" (click)="reload()" title="Refresh" style="margin-left: 10px;"></i>
+          </th>
+          <th *ngFor="let items of summarylist; let i = index"> {{items.benefitDescription}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="loaddata">
+          <tr>
+            <td colspan="8">
+              <app-common-skeleton [countforView]="10" [NameOftheScreen]="'billingHistory'"></app-common-skeleton>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="!loaddata">
+          <tr>
+            <th>
+              <ng-container *ngFor="let item of summarylist">
+
+                <span style="text-align: center;" *ngIf="item.benefitKey=='JOB_CANDIDATE_POSTINGS'">
+                  <span style="text-align: center;" *ngIf="item.actual==5"> Free Plan</span>
+                  <span style="text-align: center;" *ngIf="item.actual==10"> Team Plan</span>
+                  <span style="text-align: center;" *ngIf="item.actual==25"> Business Plan</span>
+                  <span style="text-align: center;" *ngIf="item.actual==50"> Enterprise Plan</span>
+                </span>
+
+              </ng-container>
+
+            </th>
+            <td *ngFor="let items of summarylist; let i = index">{{items.actual}}</td>
+          </tr>
+          <tr>
+            <th>Utilized</th>
+            <td *ngFor="let items of summarylist; let i = index">{{items.utilized}}</td>
+          </tr>
+          <tr>
+            <th>Available</th>
+            <td *ngFor="let items of summarylist; let i = index">{{items.available}}</td>
+          </tr>
+          <!-- <tr>
+            <th>Pay as you Go</th>
+            <td *ngFor="let items of summarylist; let i = index">{{items.payAsyouGo}}</td>
+          </tr> -->
+          <tr>
+            <th>Promotional Credits</th>
+            <td *ngFor="let items of summarylist; let i = index">{{items.promotional}}</td>
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="hpanel">
+  <div class="panel-body border-radius-top-left-right-6 footer-instruction-container">
+    <p class="footer-instruction-item"> All features are limited by transaction number based on plan type.</p>
+    <p class="footer-instruction-item"> Transaction limits mentioned above are Monthly limits.</p>
+    <p class="footer-instruction-item"> Talk to Sales to increase transaction limits on any plan.</p>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="common-header-flex">
+    <div>Plan Expired</div>
+    <button>
+      <span (click)="modalRef.hide()" class="common-close">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <h3 class="plan-exp-h3"> Your Current Pro Plan is Expired</h3>
+    <br>
+    <p class="plan-exp-ptag"> I want to upgrade the plan </p>
+
+    <div style="text-align: center;  ">
+      <button type="button" class="btn btn-primary" (click)="modalRef.hide()" [routerLink]="['/plan-quota']">Upgrade
+        Plan </button>
+    </div>
+
+    <br>
+    <p style="text-align: center; font-size: 15px;">(or)</p>
+
+    <p class="plan-exp-ptag"> Continue with existing plan </p>
+    <div class="button-box">
+      <input type='radio' id='true' checked='checked' name='radio' value="monthly">
+      <label for='true' (click)="plan(false)">Monthly</label>
+      <input type='radio' id='false' name='radio' value="annually">
+      <label for='false' (click)="plan(true)">Annually</label>
+      <span class="label label-warning mr-m-30 span-dicount">Save up to 25% </span>
+
+    </div>
+    <div style="text-align: center;">
+      <button type="button" class="btn btn-primary"> $<span *ngIf="!yearmonth">25</span> <span
+          *ngIf="yearmonth">250</span> Continue </button>
+
+    </div>
+
+
+
+    <br><br>
+
+  </div>
+
+</ng-template>

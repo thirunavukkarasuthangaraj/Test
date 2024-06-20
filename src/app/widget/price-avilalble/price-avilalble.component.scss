@@ -1,0 +1,299 @@
+.mar-top-30 {
+  margin-top: 61px;
+  width: 155px;
+}
+
+.modal-dialog {
+  width: 330px !important;
+  margin: 30px auto;
+}
+
+.modal-header {
+  padding: 15px 15px 15px 15px !important;
+  /* background: white !important; */
+  border-radius: 3px;
+  background: #49a7a9;
+  color: #fff;
+}
+
+.modal-body {
+  padding: 0px 15px !important;
+}
+
+.mt-m-9 {
+  margin-top: -10px;
+}
+
+.nav-tabs {
+  // border-bottom: 1px solid #fff
+}
+.page-design-tabel{
+
+  font-size: 9px;
+  // color: #111;
+  // font-weight: 800;
+
+}
+.plan-name {
+  text-align: center;
+  color: #111;
+  font-size: 17px;
+  padding: 10px;
+  background-color: #cbe2ff;
+}
+
+.w-715 {
+  width: 350px;
+  background: #fff;
+
+  .no-bottom-border td {
+    border-bottom: none;
+  }
+}
+
+.fleccccc {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order-btn {
+  display: inline-block;
+  /* margin-bottom: 7px; */
+  border: 3px solid #ddd;
+  color: #fff;
+  font-size: 11px;
+  padding: 6px 20px;
+  border-radius: 3px;
+  -webkit-margin-end: 14px;
+  /* position: absolute; */
+  margin-inline-end: 14px;
+  background: #63cfbe;
+  font-weight: 500;
+  transition: 0.3s linear;
+  margin-top: 14px;
+  float: right;
+}
+
+.poinstsCnt1 {
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+
+  button {
+    margin: 0 5px;
+  }
+}
+
+.line-tag {
+
+  border: 0;
+  border-top: 1px solid #0d0505;
+}
+
+.cm-disc {
+  font-size: 10px;
+}
+
+.modal-footer {
+  background: #f7f9fa;
+  border-radius: 3px !important;
+  padding: 4px;
+  text-align: center;
+}
+
+.credit-title {
+  font-size: 15px;
+  color: #fff;
+}
+
+
+.panel-body-fiels{
+  margin-bottom: 10px;
+    padding: 1px;
+    font-weight: 600;
+    font-size: 11px;
+    text-align: center;
+}
+
+.panel-body-fiels .nav>li>a {
+  position: relative;
+  display: block;
+  padding: 3px 3px !important;
+}
+
+.li-one{
+  margin-inline-end: -18px;
+    margin-left: 0px;
+    margin-block-start: 0px;
+    width: 60px;
+}
+
+.line-two{
+  margin-inline-end: -13px;
+  /* margin-inline-start: -9px; */
+  width: 92px;
+
+}
+
+.line-three{
+  margin-inline-start: -4px;
+  width: 73px;
+}
+
+.flexsssss {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.f-s-45 {
+  font-size: 20px;
+  color: black;
+}
+
+.f-s-25 {
+  // font-size: 20px;
+}
+
+.flexsssss .p {
+  text-align: center;
+  font-size: 45px;
+}
+
+.refreshsshsh {
+  margin-top: 6px;
+  float: right;
+  margin-inline-end: 2px;
+}
+
+
+
+.close-icoon {
+  font-weight: 400;
+  font-size: 26px;
+  color: #fff;
+}
+
+.modal-title {
+  font-size: 19px;
+  font-weight: 300;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 3px 6px 0;
+  float: left;
+  line-height: normal;
+}
+
+.m-t-6 {
+  margin-top: 6px;
+}
+
+.txt-al-ce {
+  text-align: center;
+}
+
+.m-b-9 {
+  margin-bottom: 9px;
+}
+
+
+
+.faq-tableheader {
+  background: #eee;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.header-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.faq-table-align {
+  width: 160px;
+  text-align: center !important;
+}
+
+.faq-table-align-value {
+  width: 160px;
+  text-align: left !important;
+}
+
+$color1: #fff;
+$color2: #63cfbe;
+
+.radio {
+  margin: 0.5rem;
+
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+
+    +.radio-label {
+      &:before {
+        content: '';
+        background: $color1;
+        border-radius: 100%;
+        border: 1px solid darken($color1, 25%);
+        display: inline-block;
+        width: 1.4em;
+        height: 1.4em;
+        position: relative;
+        top: 1px;
+        margin-right: 1em;
+        vertical-align: top;
+        cursor: pointer;
+        text-align: center;
+        transition: all 250ms ease;
+      }
+    }
+
+    &:checked {
+      +.radio-label {
+        &:before {
+          background-color: $color2;
+          box-shadow: inset 0 0 0 4px $color1;
+        }
+      }
+    }
+
+    &:focus {
+      +.radio-label {
+        &:before {
+          outline: none;
+          border-color: $color2;
+        }
+      }
+    }
+
+    &:disabled {
+      +.radio-label {
+        &:before {
+          box-shadow: inset 0 0 0 4px $color1;
+          border-color: darken($color1, 25%);
+          background: darken($color1, 25%);
+        }
+      }
+    }
+
+    +.radio-label {
+      &:empty {
+        &:before {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+button.btn.btn-link.ng-star-inserted.collapsed i {
+  float: right;
+  position: absolute;
+  right: 0;
+  margin-right: 30px;
+}
+
+

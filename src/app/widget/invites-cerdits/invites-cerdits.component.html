@@ -1,0 +1,100 @@
+<div class="hpanel">
+  <ul class="nav nav-tabs">
+    <li [ngClass]="{'color':id === '1' ? 'white' : 'green' }"> <a [ngClass]="{'active': id=='1'}"
+        [ngStyle]="id=='1'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='1' && {'background-color': 'white' ,'color':'#111'}"
+        data-toggle="tab" (click)="activeTab('1')"> Invites </a></li>
+    <li [ngClass]="{'color':id === '1' ? 'white' : 'green' }"> <a [ngClass]="{'active': id=='2'}"
+        [ngStyle]="id=='2'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='2' && {'background-color': 'white' ,'color':'#111'}"
+        data-toggle="tab" (click)="activeTab('2')"> Referral credits</a></li>
+        <li style="left:40px;cursor: pointer;" title="Refresh" > <a  class="fa fa-refresh" aria-hidden="true"
+          data-toggle="tab" (click)="refershIvitesCount()"></a></li>
+
+  </ul>
+
+  <!-- <span style="float: right;" (click)="refershSugestedjob()"><i class="fa fa-refresh" aria-hidden="true"></i></span> -->
+
+
+  <div class="panel-body">
+    <div class="tab-content" *ngIf="loadAPIcall">
+      <div class="tab-pane" title="Invites" [ngClass]="{'active': id=='1'}" id={{id}}>
+        <app-common-skeleton *ngIf="loadAPIcall" [countforView]="1"
+          [NameOftheScreen]="'widgets'"></app-common-skeleton>
+      </div>
+      <div class="tab-pane" [ngClass]="{'active': id=='2'}" id={{id}}>
+        <app-common-skeleton *ngIf="loadAPIcall" [countforView]="1"
+          [NameOftheScreen]="'widgets'"></app-common-skeleton>
+      </div>
+    </div>
+    <div *ngIf="!loadAPIcall"class="tab-content">
+      <div class="tab-pane" title="Invites" [ngClass]="{'active': id=='1'}" id={{id}}>
+
+        <div class=" table-responsive">
+          <table class="table noborder">
+            <!-- <thead>
+              <tr>
+                <th>Total Invites </th>
+                <td>120</td>
+              </tr>
+            </thead> -->
+            <tbody>
+              <tr>
+                <td>Total Invites </td>
+                <td>{{invitesdata?.data?.totalCount}}</td>
+              </tr>
+
+              <tr>
+                <td>Invites Accepted </td>
+                <td>{{invitesdata?.data?.acceptedCount}}</td>
+              </tr>
+
+              <tr>
+                <td>Pending Acceptance </td>
+                <td>{{invitesdata?.data?.pendingCount}}</td>
+              </tr>
+
+              <tr>
+                <td>Invites Cancelled </td>
+                <td>{{invitesdata?.data?.cancelledCount}}</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="tab-pane" [ngClass]="{'active': id=='2'}" id={{id}}>
+
+        <div class=" table-responsive">
+          <table class="table noborder">
+
+            <tbody>
+              <tr>
+                <td>Total Referral credits </td>
+                <td>{{invitesdata?.data?.totalReferralPoints}}</td>
+              </tr>
+
+              <tr>
+                <td>Redeemed  </td>
+                <td>{{invitesdata?.data?.redeemedPoints}}</td>
+              </tr>
+
+              <tr>
+                <td>Available to redeem  </td>
+                <td>{{invitesdata?.data?.availableReferralPoints}}</td>
+              </tr>
+
+
+
+
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

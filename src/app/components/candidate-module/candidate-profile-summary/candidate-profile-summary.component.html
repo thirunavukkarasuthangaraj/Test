@@ -1,0 +1,1786 @@
+<!-- <div class="hpanel">
+
+
+  <div class="panel-body ">
+
+    <div class="row job-can-toggle">
+
+      <div [ngClass]="{'disabled': modalOpen==true}" *ngIf="candidateDetails?.createdBy==userId" id="candidateViewEdit"
+        class="edit-candidate-job-pencil">
+        <img (click)="editCandidate(candidateTemplate,'Edit Candidate')" src="assets/icon/pencil-transparent.png" alt=""
+          srcset="">
+      </div>
+      <div class="panel-tools" [ngClass]="{'disabled': toggleOpen}">
+        <label class="switch">
+          <input id="toogleBar" (click)="enableCandidate($event)"
+            [disabled]="candidateDetails?.createdBy != userId ||candidateDetails?.status == 'DRAFTED' "
+            [ngModel]="candidateDetails?.status == 'ACTIVE'" [ngModelOptions]="{standalone: true}" type="checkbox">
+          <span [ngClass]="candidateDetails?.createdBy != userId ? 'slider hides' : 'slider round' "></span>
+        </label>
+      </div>
+      <div *ngIf="candidateDetails?.status == 'ACTIVE'">Available</div>
+      <div *ngIf="candidateDetails?.status == 'DRAFTED'">Drafted</div>
+      <div *ngIf="candidateDetails?.status == 'INACTIVE'">Unavailable</div>
+      <input #myFileInput2 style="display: none;" type="file" (click)="myFileInput2.value=null"
+        (change)="fileChangeEvent($event, profilePhotoUpload)" accept=".jpg,.jpeg,.png" />
+      <button title="Invite To Apply" class="btn-primary btn btn-sm "
+        *ngIf="candidateDetails?.createdBy!=userId && (userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')"
+        (click)="invite(candidateDetails, connectionTemplate)">Invite To Apply</button>
+
+
+    </div>
+
+    <div class="col-sm-2 griddd">
+      <img *ngIf="
+      candidateDetails?.photo != null" style="width: 100px;
+      border-radius: 50%;
+      height: 100px;" src={{url+candidateDetails?.photo}} onerror="this.src='assets/images/userAvatar.png';">
+      <img *ngIf="
+       candidateDetails?.photo == null && userType == 'JOB_SEEKER'" style="width: 100px;
+       border-radius: 50%;
+       height: 100px;" src={{url+candidateDetails?.user?.photo}} onerror="this.src='assets/images/userAvatar.png';">
+
+      <div>
+        <b>Candidate ID</b>
+      </div>
+      <div style="text-align:center;">
+        {{candidateDetails?.candidateReferenceId}}
+      </div>
+    </div>
+
+    <div class="col-sm-10">
+
+      <div class="cus-wrap">
+
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row form-group  text-wrapsfilte">
+              <div class="col-sm-6 ">
+                <label for="clientType" class="control-label  text-wrapsfilte font-bold-600">Name</label>
+              </div>
+              <div class="col-sm-6 text-wrapsfilte" *ngIf="candidateDetails?.firstName!=null && candidateDetails?.lastName!=null"
+                title="{{candidateDetails?.firstName}}  {{candidateDetails?.lastName}}"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{candidateDetails?.firstName + " " + candidateDetails?.lastName}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Title</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.jobTitle}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Experience</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.totalExperience}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <label for="clientType" class="control-label  font-bold-600">Primary Skills</label>
+              </div>
+              <div class="col-sm-12 flxx">
+                <div class="skills-wrapper" *ngIf="candidateDetails?.primarySkills?.length==1">
+                  <div *ngFor="let data of candidateDetails?.primarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-1-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="skills-wrapper" *ngIf="candidateDetails?.primarySkills?.length==2">
+                  <div *ngFor="let data of candidateDetails?.primarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-2-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="skills-wrapper" *ngIf="candidateDetails?.primarySkills?.length==3">
+                  <div *ngFor="let data of candidateDetails?.primarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-3-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <label for="clientType" class="control-label  font-bold-600">Secondary Skills</label>
+              </div>
+              <div class="col-sm-12 flxx">
+                <div class="skills-wrapper" *ngIf="candidateDetails?.secondarySkills?.length==1">
+                  <div *ngFor="let data of candidateDetails?.secondarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-1-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="skills-wrapper" *ngIf="candidateDetails?.secondarySkills?.length==2">
+                  <div *ngFor="let data of candidateDetails?.secondarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-2-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="skills-wrapper" *ngIf="candidateDetails?.secondarySkills?.length==3">
+                  <div *ngFor="let data of candidateDetails?.secondarySkills; let i = index;">
+                    <div title="{{data}}" class="ioxlp-3-ele">
+                      {{data}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Remote Only </label>
+              </div>
+              <div class="col-sm-6">
+
+                <div class="custom-radiobox">
+                  <label class="containerR" style="padding-right: 10px;">Yes
+                    <input type="radio" [ngModel]="candidateDetails?.remoteWork==true" [ngModelOptions]="{standalone: true}"
+                      disabled name="candidateDetails?.remoteWork" id="inlineRadio1" [value]=true>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+                <div class="custom-radiobox">
+                  <label class="containerR">No
+                    <input type="radio" [ngModel]="candidateDetails?.remoteWork==false" [ngModelOptions]="{standalone: true}"
+                      disabled name="candidateDetails?.remoteWork" id="inlineRadio2" [value]=true>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Work From Home</label>
+              </div>
+              <div class="col-sm-6">
+                <div class="custom-radiobox">
+                  <label class="containerR" style="padding-right: 10px;">Yes
+                    <input type="radio" [ngModel]="candidateDetails?.workFromHome" [ngModelOptions]="{standalone: true}" disabled
+                      name="candidateDetails?.workFromHome" id="inlineRadio1" [value]=true>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+                <div class="custom-radiobox">
+                  <label class="containerR">No
+                    <input type="radio" [ngModel]="candidateDetails?.workFromHome" [ngModelOptions]="{standalone: true}" disabled
+                      name="candidateDetails?.workFromHome" id="inlineRadio2" [value]=false>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Relocation Required</label>
+              </div>
+              <div class="col-sm-6">
+                <div class="custom-radiobox">
+                  <label class="containerR" style="padding-right: 10px;">Yes
+                    <input type="radio" [ngModel]="candidateDetails?.relocationRequired" [ngModelOptions]="{standalone: true}"
+                      disabled name="candidateDetails?.relocationRequired" id="inlineRadio1" [value]=true>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+                <div class="custom-radiobox">
+                  <label class="containerR">No
+                    <input type="radio" disabled [ngModel]="candidateDetails?.relocationRequired"
+                      [ngModelOptions]="{standalone: true}" name="candidateDetails?.relocationRequired" id="inlineRadio2"
+                      [value]=false>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Security Clearance</label>
+              </div>
+              <div class="col-sm-6">
+                <div class="custom-radiobox">
+                  <label class="containerR" style="padding-right: 10px;">Yes
+                    <input type="radio" [ngModel]="candidateDetails?.securityClearance" [ngModelOptions]="{standalone: true}"
+                      disabled name="candidateDetails?.securityClearance" id="inlineRadio1" [value]=true>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+                <div class="custom-radiobox">
+                  <label class="containerR">No
+                    <input type="radio" [ngModel]="candidateDetails?.securityClearance" [ngModelOptions]="{standalone: true}"
+                      disabled name="candidateDetails?.securityClearance" id="inlineRadio2" [value]=false>
+                    <span class="checkmarkR radio_c"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Pay Type</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.payType}}
+              </div>
+            </div>
+
+          </div>
+          <div class="col-sm-6">
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="Phone" class="control-label  font-bold-600">Phone</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.phone}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Email ID</label>
+              </div>
+              <div title="{{candidateDetails?.email}}" class="col-sm-6">
+                {{candidateDetails?.email | truncate:25}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Location</label>
+              </div>
+              <div class="col-sm-6 w-break">
+                {{candidateDetails?.city}}, {{candidateDetails?.state}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Availability</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.availableIn}}
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Engagement Type</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.engagementType}}
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Work Authorization</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.workAuthorization}}
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Target Rate From</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.targetRateFrom}}
+                <span *ngIf="candidateDetails?.country=='US' || candidateDetails?.country==null" class="currency-type">USD</span>
+                <span *ngIf="candidateDetails?.country=='IN'" class="currency-type">INR</span>
+                <span *ngIf="candidateDetails?.country=='CA'" class="currency-type">CAD</span>
+                <span *ngIf="candidateDetails?.country=='AU'" class="currency-type">AUD</span>
+                <span
+                  *ngIf="candidateDetails?.country!='US' && candidateDetails?.country!='IN' && candidateDetails?.country!='CA' && candidateDetails?.country!='AU' && candidateDetails?.country!=null"
+                  class="currency-type">CUR</span>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Target Rate To</label>
+              </div>
+              <div class="col-sm-6">
+                {{candidateDetails?.targetRateTo}}
+                <span *ngIf="candidateDetails?.country=='US' || candidateDetails?.country==null" class="currency-type">USD</span>
+                <span *ngIf="candidateDetails?.country=='IN'" class="currency-type">INR</span>
+                <span *ngIf="candidateDetails?.country=='CA'" class="currency-type">CAD</span>
+                <span *ngIf="candidateDetails?.country=='AU'" class="currency-type">AUD</span>
+                <span
+                  *ngIf="candidateDetails?.country!='US' && candidateDetails?.country!='IN' && candidateDetails?.country!='CA' && candidateDetails?.country!='AU' && candidateDetails?.country!=null"
+                  class="currency-type">CUR</span>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="clientType" class="control-label  font-bold-600">Preferred States</label>
+              </div>
+              <div class="col-sm-6 otherstatesdesgin">
+                <div *ngFor="let candidateDetails of candidateDetails?.otherPreferedStates">
+                  {{candidateDetails}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <label for="clientType" class="control-label  font-bold-600">Resume</label>
+
+                <div *ngIf="candidateDetails?.resumes?.length ===  null" class="not-Attach">
+                  <i style="font-size: 17px;" class="far fa-file-alt"></i> Not Attached
+                </div>
+
+                <div [ngClass]="candidateDetails?.createdBy===userId ? 'col-sm-12 pl-0' : 'not-Attach'">
+                  <ng-container *ngFor="let newitem of candidateDetails?.resumes">
+                    <div class="fileUpList" *ngIf="candidateDetails?.createdBy===userId; else otherUser">
+                      <i *ngIf="newitem.mimeType==='application/pdf'" class="fa fa-file-pdf-o pdfClr"
+                        aria-hidden="true"></i>
+                      <i *ngIf="newitem.mimeType==='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                       || newitem.mimeType=='application/msword'" class="fa fa-file-word-o wordClr"
+                        aria-hidden="true"></i>
+                      <i *ngIf="newitem.mimeType==='text/plain'" class="fa fa-file-text-o txtClr"
+                        aria-hidden="true"></i>
+                      <p>{{newitem.fileName | spliter}}</p>
+                      <a href="{{url+newitem?.fileId}}" target="_blank" download> <i class="fa fa-download"> </i> <span
+                          *ngIf="newitem.isDefault==true"> (Primary Resume)</span></a>
+                    </div>
+
+                    <ng-template #otherUser>
+                      <div class="fileUpList" *ngIf="newitem.isDefault==true">
+                        <a href="{{url+newitem?.fileId}}" target="_blank" download> <i class="fa fa-download"> </i>
+                          <span> Download Resume </span></a>
+                      </div>
+                    </ng-template>
+
+                  </ng-container>
+                </div>
+
+              </div>
+
+
+            </div>
+            <div class="row form-group" *ngIf="candidateDetails?.createdBy==userId">
+              <div class="col-sm-4" *ngIf="candidateDetails?.status == 'ACTIVE'">
+                <label for="resume list" class="control-label  font-bold-600">Resume List</label>
+              </div>
+              <div class="col-sm-6 otherstatesdesgin">
+                <div>
+                  <a style="text-decoration:underline; color: rgb(87, 154, 242);" (click)="open(content,'null')"> Add /
+                    Remove resume</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="clientType" class="control-label  font-bold-600">Resume Summary</label>
+        </div>
+        <div class="col-sm-12 brk-wrd" [ngxSummernoteView]="candidateDetails?.resumeSummary">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div> -->
+<div class="sub-entities-scroll-container" *ngIf="candidateDetails?.candidateReferenceId != null">
+  <div class="hpanel">
+    <div class="panel-body br-bt-none">
+      <div class="col-sm-12 card-details">
+        <div class="row">
+          <div class="pad-0 col-sm-5 flex-row-center" *ngIf="candidateDetails?.user?.userType!='FREELANCE_RECRUITER'">
+
+            <img *ngIf="!candidateDetails?.user?.workExperience[0]?.businessLogo" class="normal-image"
+              src="assets/images/gallery/company.png" alt="Business Logo">
+            <img *ngIf="candidateDetails?.user?.workExperience[0]?.businessLogo" class="normal-image"
+              [src]="url+candidateDetails?.user?.workExperience[0]?.businessLogo" alt="Object Photo">
+            <ng-container *ngFor="let experience of candidateDetails?.user?.workExperience; let i = index;">
+              <div *ngIf="experience.currentOrganization">
+                {{ experience?.organisationName }}
+                <i class="fa fa-star"></i>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="pad-0 col-sm-5 flex-row-center" *ngIf="candidateDetails?.user?.userType=='FREELANCE_RECRUITER'">
+
+            <div *ngFor="let experience of candidateDetails?.user?.workExperience; let i = index;">
+              <div *ngIf="candidateDetails.postedBehalfOf == experience.organisationName">
+                <img *ngIf="experience?.businessLogo==null" class="normal-image" src="assets/images/gallery/company.png"
+                  alt="Business Logo">
+                <img *ngIf="experience?.businessLogo!=null" class="normal-image" [src]="url+experience?.businessLogo"
+                  alt="Object Photo">
+              </div>
+            </div>
+
+
+            <!-- <img *ngIf="!candidateDetails?.user?.workExperience[0]?.businessLogo" class="normal-image"
+              src="assets/images/gallery/company.png" alt="Business Logo">
+            <img *ngIf="candidateDetails?.user?.workExperience[0]?.businessLogo" class="normal-image"
+              [src]="url+candidateDetails?.user?.workExperience[0]?.businessLogo" alt="Object Photo"> -->
+            <ng-container *ngFor="let experience of candidateDetails?.user?.workExperience; let i = index;">
+              <div *ngIf="candidateDetails.postedBehalfOf == experience.organisationName">
+                {{ experience?.organisationName }}
+                <i class="fa fa-star"></i>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="col-sm-7 p-0 justify-content-left flex">
+            <app-connection-template [page]="'candidate-profile-1'"
+              [connectionStatus]="candidateDetails?.connectionStatus" [counterpartsDetails]="candidateDetails?.user"
+              [values]="candidateDetails" [module]="'candidate'"></app-connection-template>
+            <!-- <div class="col-sm-3 p-0">
+              <img class="normal-image" src="assets/images/userAvatar.png" alt="">
+              <i class="fa fa-link link"></i>
+              <button *ngIf="candidateDetails?.createdBy != userId" (click)="connect(candidateDetails?.createdBy)" class="btn-primary btn-sm"
+                style="border: none;">Connect</button>
+            </div>
+
+            <div class="col-sm-9 p-0">
+              <span class="text-ellipse" title="{{candidateDetails?.user?.fullname}}">{{candidateDetails?.user?.fullname}}</span>
+              <span *ngIf="candidateDetails?.user?.userType == 'MANAGEMENT_TALENT_ACQUISITION'" class="text-ellipse"
+                title="{{candidateDetails?.user?.userType}}"> Management Talent Acquisition </span>
+              <span *ngIf="candidateDetails?.user?.userType == 'FREELANCE_RECRUITER'" class="text-ellipse"
+                title="{{candidateDetails?.user?.userType}}"> Freelance Recruiter </span>
+              <span *ngIf="candidateDetails?.user?.userType == 'RECRUITER'" class="text-ellipse" title="{{candidateDetails?.user?.userType}}">
+                Recruiter </span>
+              <span *ngIf="candidateDetails?.user?.userType == 'BENCH_RECRUITER'" class="text-ellipse"
+                title="{{candidateDetails?.user?.userType}}"> Bench Recruiter </span>
+              <span *ngIf="candidateDetails?.user?.userType == 'JOB_SEEKER'" class="text-ellipse"
+                title="{{candidateDetails?.user?.userType}}"> Job Seeker </span>
+              <span class="text-ellipse" title="{{candidateDetails?.user?.workExperience[0].organisationName}}"
+                *ngIf="candidateDetails?.user?.workExperience?.length > 0"> {{candidateDetails?.user?.workExperience[0].organisationName}}
+              </span>
+              <button class="btn-primary btn-sm btn-flex" style="border: none;">Live Chat <i
+                  class="fa fa-comments"></i></button>
+            </div> -->
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="item">
+
+            <div class="row card-item-2">
+              <div class="col-sm-12 flex-1rem-center">
+                <div class="col-sm-1 p-0">
+                  <div *ngIf="candidateDetails?.photo != undefined">
+                    <img alt="logo" class="photo-style" [src]="url + candidateDetails.photo">
+                  </div>
+                  <div *ngIf="candidateDetails?.photo ==undefined &&userType!='JOB_SEEKER'">
+                    <div class="circles"
+                      [style.background-color]="getColortwo(candidateDetails?.firstName, candidateDetails?.lastName)">
+                      <div class="circle-text">{{ getInitialstwo(candidateDetails?.firstName,
+                        candidateDetails?.lastName) }}</div>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="candidateDetails?.photo == undefined &&userType=='JOB_SEEKER'&&candidateDetails?.user?.photo!=undefined">
+                    <img alt="logo" class="photo-style" [src]="url + candidateDetails?.user?.photo">
+                  </div>
+                  <div
+                    *ngIf="candidateDetails?.photo ==undefined &&userType=='JOB_SEEKER'&&candidateDetails?.user?.photo==undefined">
+                    <div class="circles"
+                      [style.background-color]="getColortwo(candidateDetails?.firstName, candidateDetails?.lastName)">
+                      <div class="circle-text">{{ getInitialstwo(candidateDetails?.firstName,
+                        candidateDetails?.lastName) }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="title-grid-container">
+                    <p class="fw-bold p-0 title">
+                      {{candidateDetails?.firstName|titlecase}} {{candidateDetails?.lastName|titlecase}}
+                    </p>
+                    <div class="flex-1rem-center">
+                      <p>
+                        Created On
+                      </p>
+                      <p>
+                        {{ candidateDetails?.createdOn | date:"MM/dd/yyyy hh:mm:ss a":"+0000"}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4 pr-0 candidate-profile-action-container">
+                  <div class="entity-status-card">
+                    {{candidateDetails?.status === "INACTIVE" ? 'UnAvailable' : 'Available'}}
+                  </div>
+
+                  <!-- <div *ngIf="candidateDetails?.status == 'ACTIVE'">Available</div>
+                  <div *ngIf="candidateDetails?.status == 'DRAFTED'">Drafted</div>
+                  <div *ngIf="candidateDetails?.status == 'INACTIVE'">Unavailable</div> -->
+                  <input #myFileInput2 style="display: none;" type="file" (click)="myFileInput2.value=null"
+                    (change)="fileChangeEvent($event, profilePhotoUpload)" accept=".jpg,.jpeg,.png" />
+                  <div>
+                    <button title="Invite To Apply" class="btn-primary btn btn-sm "
+                      [ngClass]="{'disabled': !candidateDetails?.availability || candidateDetails?.status != 'ACTIVE'}"
+                      *ngIf="candidateDetails?.createdBy!=userId && (userType == 'RECRUITER' || userType == 'FREELANCE_RECRUITER' || userType == 'MANAGEMENT_TALENT_ACQUISITION')"
+                      (click)="invite(candidateDetails, jobsupplytemplate, connectionTemplate)">Invite To Apply</button>
+                  </div>
+                  <div *ngIf="candidateDetails?.resumeAttached==false">
+                    <button title="Upload Resume" class="btn-primary btn btn-sm "
+                      *ngIf="candidateDetails?.createdBy==userId &&candidateDetails?.status=='ACTIVE'"
+                      (click)="model(candidateDetails,template,'null')">Upload Resume</button>
+                  </div>
+                  <div class="panel-tools" [ngClass]="{'disabled': toggleOpen}">
+                    <label class="switch">
+                      <input id="toogleBar" (click)="enableCandidate($event)"
+                        [disabled]="candidateDetails?.createdBy != userId ||candidateDetails?.status == 'DRAFTED' "
+                        [ngModel]="candidateDetails?.status == 'ACTIVE'" [ngModelOptions]="{standalone: true}"
+                        type="checkbox">
+                      <span [ngClass]="candidateDetails?.createdBy != userId ? 'slider hides' : 'slider round' "></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-sm-1 p-0 edit-candidate-job-pencil" *ngIf="candidateDetails?.createdBy === userId">
+                  <img class="normal-image" alt="pencil image" src="assets/icon/pencil-transparent.png"
+                    (click)="editCandidate(candidateTemplate,'Edit Candidate')">
+                </div>
+              </div>
+              <div class="col-sm-12 flex-1rem-center">
+                <div class="col-sm-5 fw-bold p-0 title">
+                  <span>{{candidateDetails?.jobTitle}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 flex-1rem-center">
+                Candidate ID:{{candidateDetails?.candidateReferenceId}}
+              </div>
+              <div class="col-sm-12 flex-1rem-center">
+                <!-- <i class="fa fa-map-marker"></i> -->
+                <app-svg-templates class="svg-position" [svgType]="'MAP'"></app-svg-templates>
+                {{candidateDetails?.state}} , {{candidateDetails?.country}}
+              </div>
+
+              <div class="col-sm-12 flex-1rem-center position-svg">
+                <span class="fw-bold">
+                  <app-svg-templates class="svg-position" [svgType]="'DOLLAR'"></app-svg-templates>
+                </span> <span>Pay Rate : {{candidateDetails?.targetRateFrom}} -
+                  {{candidateDetails?.targetRateTo}}
+                  {{getHours(candidateDetails?.payType)}} </span>
+              </div>
+
+              <div class="col-sm-12 flex-1rem-center">
+                <app-svg-templates class="svg-position" [svgType]="'BUILDING'"></app-svg-templates>
+                <!-- <i class="fa fa-building"></i> -->
+                <span> Experience : {{candidateDetails?.totalExperience}} Years</span>
+                <app-svg-templates class="svg-position" [svgType]="'CALENDAR'"></app-svg-templates>
+                <!-- <i class="fa fa-calendar"></i> -->
+                <span>Availability : {{candidateDetails?.availableIn}}</span>
+              </div>
+
+              <div class="col-sm-12 flex-1rem-center row-wrap">
+                <div class="innerflex">
+                  <app-svg-templates class="svg-position" [svgType]="'SUITCASE_SMALL'"></app-svg-templates>
+                  <!-- <i class="fa fa-briefcase"></i> -->
+                  <span>Corp to Corp</span>
+                </div>
+                <div class="innerflex">
+                  <!-- <i [ngClass]="candidateDetails?.remoteWork ? 'fa fa-check green' : 'fa fa-times pure-red'"></i> -->
+                  <app-svg-templates *ngIf="!candidateDetails?.remoteWork" class="svg-position"
+                    [svgType]="'CROSS_RED'"></app-svg-templates>
+                  <app-svg-templates *ngIf="candidateDetails?.remoteWork" class="svg-position"
+                    [svgType]="'CHECKED_GREEN'"></app-svg-templates>
+                  <span>Remote</span>
+                </div>
+                <div class="innerflex">
+                  <!-- <i [ngClass]="candidateDetails?.relocationRequired ? 'fa fa-check green' : 'fa fa-times pure-red'"></i> -->
+                  <app-svg-templates *ngIf="!candidateDetails?.relocationRequired" class="svg-position"
+                    [svgType]="'CROSS_RED'"></app-svg-templates>
+                  <app-svg-templates *ngIf="candidateDetails?.relocationRequired" class="svg-position"
+                    [svgType]="'CHECKED_GREEN'"></app-svg-templates>
+                  <span>Relocation</span>
+                </div>
+                <div class="innerflex">
+                  <!-- <i [ngClass]="candidateDetails?.workFromHome ? 'fa fa-check green' : 'fa fa-times pure-red'"></i> -->
+                  <app-svg-templates *ngIf="!candidateDetails?.workFromHome" class="svg-position"
+                    [svgType]="'CROSS_RED'"></app-svg-templates>
+                  <app-svg-templates *ngIf="candidateDetails?.workFromHome" class="svg-position"
+                    [svgType]="'CHECKED_GREEN'"></app-svg-templates>
+                  <span>Work from Home</span>
+                </div>
+                <div class="innerflex">
+                  <!-- <i [ngClass]="candidateDetails?.securityClearance ? 'fa fa-check green' : 'fa fa-times pure-red'"></i> -->
+                  <app-svg-templates *ngIf="!candidateDetails?.securityClearance" class="svg-position"
+                    [svgType]="'CROSS_RED'"></app-svg-templates>
+                  <app-svg-templates *ngIf="candidateDetails?.securityClearance" class="svg-position"
+                    [svgType]="'CHECKED_GREEN'"></app-svg-templates>
+                  <span>Security Clearance</span>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12 flex-1rem-center row-wrap">
+                <div class="innerflex" *ngIf="candidateDetails.status=='ACTIVE'">
+                  <app-svg-templates *ngIf="!candidateDetails?.resumeAttached" class="svg-position"
+                    [svgType]="'CROSS_RED'"></app-svg-templates>
+                  <app-svg-templates *ngIf="candidateDetails?.resumeAttached" class="svg-position"
+                    [svgType]="'CHECKED_GREEN'"></app-svg-templates>
+                  <span>Resume</span>
+                  <div>
+                    <ng-container *ngFor="let newitem of candidateDetails?.resumes">
+                      <div *ngIf="newitem?.isDefault"> <a
+                          (click)="downloadResume(candidateDetails,userId,newitem?.fileId)" target="_blank" download> <i
+                            class="fa fa-download"> </i>
+                          <span> {{ newitem?.fileName.split('_')[1] }} </span></a>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+
+
+
+
+
+
+                <!-- <div *ngIf="candidateDetails?.resumes?.length ===  null" class="not-Attach">
+                    <i style="font-size: 17px;" class="far fa-file-alt"></i> Not Attached
+                  </div> -->
+
+                <!-- <div [ngClass]="candidateDetails?.createdBy===userId ? 'col-sm-12 pl-0' : 'not-Attach'">
+                    <ng-container *ngFor="let newitem of candidateDetails?.resumes">
+                      <div class="fileUpList" *ngIf="candidateDetails?.createdBy===userId; else otherUser">
+                        <i *ngIf="newitem.mimeType==='application/pdf'" class="fa fa-file-pdf-o pdfClr"
+                          aria-hidden="true"></i>
+                        <i *ngIf="newitem.mimeType==='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                         || newitem.mimeType=='application/msword'" class="fa fa-file-word-o wordClr"
+                          aria-hidden="true"></i>
+                        <i *ngIf="newitem.mimeType==='text/plain'" class="fa fa-file-text-o txtClr"
+                          aria-hidden="true"></i>
+                        <p>{{newitem.fileName | spliter}}</p>
+                        <a href="{{url+newitem?.fileId}}" target="_blank" download> <i class="fa fa-download"> </i> <span
+                            *ngIf="newitem.isDefault==true"> (Primary Resume)</span></a>
+                      </div>
+
+                      <ng-template #otherUser>
+                        <div class="fileUpList" *ngIf="newitem.isDefault==true">
+                          <a href="{{url+newitem?.fileId}}" target="_blank" download> <i class="fa fa-download"> </i>
+                            <span> Download Resume </span></a>
+                        </div>
+                      </ng-template>
+
+                    </ng-container>
+                  </div> -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="card-item-2" style="gap: 1.5rem;">
+            <div class="col-sm-12 pad-0 title">
+              <div class="fw-bold">Candidate Details</div>
+            </div>
+            <div class="col-sm-12 pad-0 flex-1rem-center">
+              <div class="col-sm-4 pad-0">Primary Skills</div>
+              <div class="col-sm-8 p-0 flex-gap-1">
+                <div title="{{item}}" class="col-sm-4 skills-container"
+                  *ngFor="let item of candidateDetails?.primarySkills">
+                  {{item}}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 pad-0 flex-1rem-center">
+              <div class="col-sm-4 pad-0">Secondary Skills</div>
+              <div class="col-sm-8 p-0 flex-gap-1">
+                <div title="{{item}}" class="col-sm-4 skills-container"
+                  *ngFor="let item of candidateDetails?.secondarySkills">
+                  {{item}}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 pad-0 flex-1rem-center">
+              <div class="col-sm-4 pad-0">Experience </div>
+              <div class="col-sm-8 p-0"> {{candidateDetails?.totalExperience}} Years</div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row card-item-2">
+          <div class="col-sm-12 pad-0 fw-bold title">
+            Candidate Summary
+          </div>
+          <div class="col-sm-12 pad-0">
+            <div class="wrap-break" style="word-wrap: break-word;"
+              [ngxSummernoteView]="candidateDetails?.resumeSummary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Candidate posting -->
+  <ng-template #candidateTemplate>
+    <!-- [@slide-in]="animState2" -->
+    <div class="common-header-flex">
+
+      <div class="f-1">
+        <div
+          *ngIf="candidateDetails?.status != 'ACTIVE'&&candidateDetails?.status != 'DRAFTED'&&candidateDetails?.status != 'AWAITING HOST'">
+          Make
+          Candidate Available </div>
+        <div
+          *ngIf="candidateDetails?.status == 'ACTIVE'||candidateDetails?.status == 'DRAFTED'||candidateDetails?.status == 'AWAITING HOST'">
+          Edit
+          Candidate </div>
+      </div>
+
+      <div>
+        <button>
+          <span class="common-close" (click)="cancelcloseCandidate()">&times;</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="panel-body custom-modal-body">
+      <form [formGroup]="candidatePostForm" action="">
+        <div class="app-form">
+
+
+          <div class="flecs">
+            <div class="row">
+              <div class="col-sm-3 griddd">
+                <img *ngIf="fileshow==undefined &&candidateDetails?.photo!=undefined"
+                  src={{url+candidateDetails?.photo}} style="width: 80%; border-radius: 60px;" class="candidate-image"
+                  alt="">
+                <img *ngIf="fileshow!=undefined" src="{{fileshow}}" onerror="this.src='assets/images/userAvatar.png';"
+                  style="width: 80%;  border-radius: 60px; " class="candidate-image" alt="">
+                <div *ngIf="fileshow==undefined &&candidateDetails?.photo==undefined">
+                  <div class="circles candidate-image" style="border-radius: 60px;"
+                    [style.background-color]="getColortwo(candidateDetails?.firstName, candidateDetails?.lastName)">
+                    <div class="circle-text">{{ getInitialstwo(candidateDetails?.firstName,
+                      candidateDetails?.lastName) }}</div>
+                  </div>
+                </div>
+                <div (click)="uploadPhotoHere()">
+                  <button class="btn btn-sm btn-primary paydd" for="file-input"> Upload Photo </button>
+                </div>
+
+                <div> <b *ngIf="candidatePostForm.value.candidateId != null">{{candidatePostForm.value.candidateId}}</b>
+                </div>
+              </div>
+              <div class="col-sm-9">
+                <div class="dropdox" appDnd (fileDropped)="onFileDropped($event)">
+                  <input style="display: none"
+                    accept="application/pdf, image/jpeg, image/jpg, application/docx, application/doc," type="file"
+                    #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
+                  <div>
+                    <label style="font-size: 17px; font-weight:900;color:#63cfbe;margin:-10px;cursor: pointer;">Upload
+                      Your Resume</label>
+                  </div>
+                  <div>
+                    <label for="fileDropRef" id="aad">Drag your files here or click in this area.</label>
+                  </div>
+                  <div>
+                    <small>Only PDF, DOCX, DOC, and TXT file formats supported.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="files-list" *ngIf="fileDragdrop">
+            <div class="single-file">
+              <div class="file-icon" style="width: 50px"></div>
+              <div class="info">
+                <h4 class="name"> {{ fileDragdrop?.name }} </h4>
+                <p title="Download" class="cursor-pointer top-eye" (click)="onDownload()">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                </p>
+                <div title="Remove File" (click)="removeFiles()" class="tiimes">x</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <!-- first & last name  -->
+            <div class="row">
+              <div class="col-sm-6" style="padding-bottom: 7px;">
+                <label for="firstName" class="control-label required-field font-bold">First Name</label>
+                <input type="text" class="form-control input-sm" maxlength="21" placeholder="First Name" id="firstName"
+                  formControlName="firstName" (keypress)="checkspace($event)">
+                <div *ngIf="
+                           (candidateSubmit && candidateControls.firstName.invalid) ||
+                           (candidateControls.firstName.invalid &&
+                             (candidateControls.firstName.dirty ||
+                               candidateControls.firstName.touched))
+                         ">
+                  <div class="error-msg" *ngIf="candidateControls.firstName.errors.required">
+                    First Name is required
+                  </div>
+                  <div
+                    *ngIf="candidateControls.firstName.errors?.pattern && !candidateControls.firstName.errors?.maxword"
+                    class="error-msg ps-init">
+                    Enter valid first Name
+                  </div>
+                  <div class="error-msg w-wrap " *ngIf="candidateControls.firstName.errors?.minword">
+                    {{FORMERROR.FIRSTNAME_MIN}}
+                  </div>
+                  <div class="error-msg w-wrap " *ngIf="candidateControls.firstName.errors?.maxword">
+                    {{FORMERROR.FIRSTNAME_MAX}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" style="padding-bottom: 7px;">
+                <label for="lastName" class="control-label required-field font-bold">Last Name</label>
+                <input type="text" class="form-control input-sm" maxlength="41" placeholder="Last Name" id="lastName"
+                  formControlName="lastName" (keypress)="checkspace($event)">
+                <div *ngIf="
+                           (candidateSubmit && candidateControls.lastName.invalid) ||
+                           (candidateControls.lastName.invalid &&
+                             (candidateControls.lastName.dirty ||
+                               candidateControls.lastName.touched))
+                         ">
+                  <div class="error-msg" *ngIf="candidateControls.lastName.errors.required">
+                    Last Name is required
+                  </div>
+                  <div *ngIf="candidateControls.lastName.errors?.pattern && !candidateControls.lastName.errors?.maxword"
+                    class="error-msg ps-init">
+                    Enter valid Last Name
+                  </div>
+                  <div class="error-msg w-wrap " *ngIf="candidateControls.lastName.errors?.minword">
+                    {{FORMERROR.LASTNAME_MIN}}
+                  </div>
+                  <div class="error-msg w-wrap " *ngIf="candidateControls.lastName.errors?.maxword">
+                    {{FORMERROR.LASTNAME_MAX}}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- phone & email  -->
+            <div class="row">
+              <div class="col-sm-6" style="padding-bottom: 7px;">
+                <label for="phone" class="control-label required-field font-bold">Phone</label>
+                <input type="text" class="form-control input-sm" placeholder="Phone" id="phone" formControlName="phone"
+                  maxlength="16">
+
+                <div *ngIf="candidateSubmit && (candidateControls.phone.touched || candidateControls.phone.invalid)"
+                  class="error-msg">
+                  <div *ngIf="candidateControls.phone.errors?.required">Phone Number is required.</div>
+                </div>
+                <div class="error-msg" *ngIf="candidateControls.phone.errors?.maxword">
+                  {{FORMERROR.PHONE_MAX}}
+                </div>
+                <div class="error-msg"
+                  *ngIf="candidateControls.phone.errors?.minword && !candidateControls.phone.errors?.pattern">
+                  {{FORMERROR.PHONE_MIN}}
+                </div>
+                <div class="error-msg"
+                  *ngIf="candidateControls.phone.errors?.pattern && !candidateControls.phone.errors?.maxword ">
+                  {{FORMERROR.NUMBER_PATTERN}}
+                </div>
+              </div>
+              <div class="col-sm-6" style="padding-bottom: 7px;">
+                <label for="clientName" class="control-label required-field  font-bold">Email ID</label>
+                <input type="text" maxlength="51  " class="form-control input-sm" (keyup)="patchEmail()"
+                  placeholder="Email ID" id="email" formControlName="email">
+                <div *ngIf="
+                        (candidateSubmit && candidateControls.email.invalid) ||
+                        (candidateControls.email.invalid &&
+                          (candidateControls.email.dirty ||
+                            candidateControls.email.touched))
+                      " class=" w-wrap ">
+                  <div class="error-msg" *ngIf="candidateControls.email.errors.existingEmailAddress">
+                    This email address is taken
+                  </div>
+                  <div class="error-msg" *ngIf="candidateControls.email?.errors?.required">
+                    Email ID is required
+                  </div>
+                  <div class="error-msg"
+                    *ngIf="candidateControls.email.errors.pattern && !candidateControls.email.errors.maxword">
+                    {{FORMERROR.EMAIL_VALID}}
+                  </div>
+                  <div class="error-msg" *ngIf="candidateControls.email.errors.maxword">
+                    {{FORMERROR.EMAIL_MAX}}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="availableIn" class="control-label required-field font-bold">Availability</label>
+                <select class="form-control input-sm" formControlName="availableIn" type="text"
+                  (change)="onChangePeriod($event.target.value)">
+                  <option value="null" selected disabled>Select One</option>
+                  <option *ngFor="let list of periodList" [value]="list">
+                    {{list}}</option>
+                </select>
+                <div *ngIf="
+                            (candidateSubmit && candidateControls.availableIn.invalid) ||
+                            (candidateControls.availableIn.invalid &&
+                              (candidateControls.availableIn.dirty ||
+                                candidateControls.availableIn.touched))
+                          " class="error-msg">
+                  <div *ngIf="candidateControls.availableIn.errors.required">
+                    Availablility is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" style="padding-bottom: 7px;">
+                <label for="engagementType" class="control-label required-field font-bold">Engagement Type</label>
+                <select class="form-control input-sm" formControlName="engagementType" type="text">
+                  <option value="null" selected disabled>Select Your Engagement Type</option>
+                  <option *ngFor="let engagementType of engagementTypeList" [value]="engagementType">
+                    {{engagementType}}</option>
+                </select>
+
+                <div *ngIf="
+                   (candidateSubmit && candidateControls.engagementType.invalid) ||
+                   (candidateControls.engagementType.invalid &&
+                     (candidateControls.engagementType.dirty ||
+                       candidateControls.engagementType.touched))
+                 " class="error-msg">
+                  <div *ngIf="candidateControls.engagementType.errors.required">
+                    Engagement Type is required
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <!-- country  -->
+              <div class="col-sm-6">
+
+                <div class="col-sm-12 pl-0 pr-0">
+                  <div class="col-sm-12 pl-0 pr-0">
+                    <label for="title" class="control-label required-field font-bold">Job Title</label>
+                    <div class="custom-ng-select">
+                      <ng-select [inputAttrs]="{maxlength: '101'}" [items]="candidateJobTitleList" [addTag]="true"
+                        [hideSelected]="false" dropdownPosition="bottom" formControlName="jobTitle" [multiple]="false"
+                        placeholder="Job Title">
+                      </ng-select>
+                    </div>
+
+                    <div *ngIf="
+                                  (candidateSubmit && candidateControls.jobTitle.invalid) ||
+                                  (candidateControls.jobTitle.invalid &&
+                                    (candidateControls.jobTitle.dirty ||
+                                      candidateControls.jobTitle.touched))
+                                " class="error-msg">
+                      <div *ngIf="candidateControls.jobTitle.errors.required">
+                        Job Title is required
+                      </div>
+                      <div *ngIf="candidateControls.jobTitle.errors.minword">
+                        {{FORMERROR.JOBTITLE_MIN}}
+                      </div>
+                      <div *ngIf="candidateControls.jobTitle.errors.maxword">
+                        {{FORMERROR.JOBTITLE_MAX}}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-sm-12 pl-0 pr-0" style="padding-bottom: 7px;">
+                    <label for="totalExperience" class="control-label required-field font-bold">Total Experience</label>
+                    <select type="text" formControlName="totalExperience" class="form-control input-sm">
+                      <option value="null" disabled selected hidden>Select the number of years of experience</option>
+                      <option [value]="totalExperience" *ngFor="let totalExperience of totalExperienceList">
+                        {{totalExperience}}</option>
+                    </select>
+                    <div *ngIf="
+                                            (candidateSubmit && candidateControls.totalExperience.invalid) ||
+                                            (candidateControls.totalExperience.invalid &&
+                                              (candidateControls.totalExperience.dirty ||
+                                                candidateControls.totalExperience.touched))
+                                          " class="error-msg">
+                      <div *ngIf="candidateControls.totalExperience.errors.required">
+                        Total Experience is required
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-sm-6 pl-0 pr-0">
+
+                <div class="col-sm-12" style="padding-bottom: 7px;">
+                  <label for="location" class="control-label required-field font-bold">Current Location</label>
+                  <div class="row form-group">
+                    <div class="col-sm-6" style="padding-bottom: 7px;">
+                      <select class="form-control input-sm" formControlName="country" type="text"
+                        (change)="onChangeCountry($event.target.value, 'candidates')">
+                        <option value="null" selected disabled>Country</option>
+                        <option *ngFor="let country of countryList" [value]="country.countryCode">
+                          {{country.countryName}}</option>
+                      </select>
+                      <div *ngIf="
+                          (candidateSubmit && candidateControls.country.invalid) ||
+                          (candidateControls.country.invalid &&
+                            (candidateControls.country.dirty ||
+                              candidateControls.country.touched))
+                        " class="error-msg">
+                        <div *ngIf="candidateControls.country.errors.required">
+                          Country is required
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='US'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of usStatesList" [value]="state">{{state}}
+                        </option>
+                      </select>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.state.invalid) ||
+                      (candidateControls.state.invalid &&
+                        (candidateControls.state.dirty ||
+                          candidateControls.state.touched))
+                    " class="error-msg">
+                        <div *ngIf="candidateControls.state.errors.required">
+                          State is required
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='CA'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListCA" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.state.invalid) ||
+                      (candidateControls.state.invalid &&
+                        (candidateControls.state.dirty ||
+                          candidateControls.state.touched))
+                    " class="error-msg">
+                        <div *ngIf="candidateControls.state.errors.required">
+                          State is required
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='IN'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListIN" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.state.invalid) ||
+                      (candidateControls.state.invalid &&
+                        (candidateControls.state.dirty ||
+                          candidateControls.state.touched))
+                    " class="error-msg">
+                        <div *ngIf="candidateControls.state.errors.required">
+                          State is required
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country=='AU'">
+                      <select class="form-control input-sm" formControlName="state" type="text">
+                        <option value="null" selected=true disabled>State</option>
+                        <option *ngFor="let state of stateListAU" [value]="state.stateName">{{state.stateName}}
+                        </option>
+                      </select>
+                      <div *ngIf="
+                      (candidateSubmit && candidateControls.state.invalid) ||
+                      (candidateControls.state.invalid &&
+                        (candidateControls.state.dirty ||
+                          candidateControls.state.touched))
+                    " class="error-msg">
+                        <div *ngIf="candidateControls.state.errors.required">
+                          State is required
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6" *ngIf="candidatePostForm.value.country!='AU'&&
+                                                              candidatePostForm.value.country!='IN'&&
+                                                              candidatePostForm.value.country!='CA'&&
+                                                              candidatePostForm.value.country!='US'">
+                      <input type="text" maxlength="51" placeholder="State" formControlName="state"
+                        class="form-control input-sm">
+                      <div *ngIf="
+                          (candidateSubmit && candidateControls.state.invalid) ||
+                          (candidateControls.state.invalid &&
+                            (candidateControls.state.dirty ||
+                              candidateControls.state.touched))
+                        " class="error-msg">
+                        <div *ngIf="candidateControls.state.errors.required">
+                          State is required.
+                        </div>
+                        <div *ngIf="candidateControls.state.errors.pattern">
+                          Enter text only
+                        </div>
+                        <div *ngIf="candidateControls.state.errors.maxword">
+                          {{FORMERROR.STATE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pt-10">
+                    <div class="col-sm-6">
+                      <input maxlength="51" type="text" placeholder="City" formControlName="city"
+                        class="form-control input-sm">
+                      <div *ngIf="
+                            (candidateSubmit && candidateControls.city.invalid) ||
+                            (candidateControls.city.invalid &&
+                              (candidateControls.city.dirty ||
+                                candidateControls.city.touched))
+                          " class="error-msg">
+                        <div *ngIf="candidateControls.city.errors.required">
+                          City is required
+                        </div>
+                        <div *ngIf="candidateControls.city.errors.maxword">
+                          {{FORMERROR.CITY_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" maxlength="12" placeholder="Zip Code" formControlName="zipCode"
+                        class="form-control input-sm">
+                      <div *ngIf="
+                          (candidateSubmit && candidateControls.zipCode.invalid) ||
+                          (candidateControls.zipCode.invalid &&
+                            (candidateControls.zipCode.dirty ||
+                              candidateControls.zipCode.touched))
+                        " class="error-msg">
+                        <div *ngIf="candidateControls.zipCode.errors?.required">
+                          Zipcode is required
+                        </div>
+                        <div class="w-wrap" *ngIf="candidateControls.zipCode.errors?.minword">
+                          {{FORMERROR.ZIPCODE_MIN}}
+                        </div>
+                        <div class="w-wrap" *ngIf="candidateControls.zipCode.errors?.maxword">
+                          {{FORMERROR.ZIPCODE_MAX}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+            <!-- primary & secondary skills  -->
+            <div class="col-sm-12" style="padding-bottom: 7px;">
+              <div class="row">
+                <div class="col-sm-6 pl-0">
+                  <label for="primarySkills" class="control-label required-field font-bold">Primary Skills</label>
+                  <div class="custom-ng-select">
+                    <ng-select [items]="primarySkillsList" [addTag]="true" [hideSelected]="false"
+                      dropdownPosition="bottom" formControlName="primarySkills" maxSelectedItems="3" [multiple]="true"
+                      [closeOnSelect]="false" [clearSearchOnAdd]="true" placeholder="e.g. Java, Spring, Hibernate"
+                      [(ngModel)]="primarySkillsSelected">
+
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-radio flexSelect">
+                          <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                            [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                            [disabled]="primarySkillsSelected?.length==3" >
+                          <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                  <div style="display:flex">
+                    <div>
+                      <small style="font-size: 12px;">Enter no more than 3</small>
+                    </div>
+                    <div *ngIf="
+                            (candidateSubmit && candidateControls.primarySkills.invalid) ||
+                            (candidateControls.primarySkills.invalid &&
+                              (candidateControls.primarySkills.dirty ||
+                                candidateControls.primarySkills.touched))
+                          " class="error-msg">
+                      <div *ngIf="candidateControls.primarySkills.errors.required">
+                        Primary Skills is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 pr-0">
+                  <label for="secondarySkills" class="control-label font-bold">Secondary
+                    Skills</label>
+                  <div class="custom-ng-select">
+                    <ng-select [items]="secondarySkillsList" [addTag]="true" [hideSelected]="false"
+                      dropdownPosition="bottom" formControlName="secondarySkills" maxSelectedItems="3" [multiple]="true"
+                      [closeOnSelect]="false" [clearSearchOnAdd]="true" placeholder="e.g. Java, Spring, Hibernate"
+                      [(ngModel)]="secondarySkillsSelected">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-radio flexSelect">
+                          <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                            [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected"
+                            [disabled]="secondarySkillsSelected?.length==3">
+                          <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                  <div style="display:flex">
+                    <div>
+                      <small style="font-size: 12px;">Enter no more than 3</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12" style="padding-bottom: 7px;">
+              <div class="row">
+                <div class="col-sm-6 pl-0">
+                  <div class="col-sm-12 pl-0 pr-0" style="padding-bottom: 7px;">
+                    <label for="workAuthorization" class="control-label required-field font-bold">Work
+                      Authorization</label>
+                    <select [disabled]="workflag" class="form-control input-sm" formControlName="workAuthorization"
+                      type="text">
+                      <option value="null" selected disabled>Select Work Authorization</option>
+                      <option *ngFor="let workAuthorization of workAuthorizationList" [value]="workAuthorization"
+                        [disabled]="workAuthorization?.length==0">
+                        {{workAuthorization}} </option>
+                    </select>
+                    <div *ngIf="
+                                                    (candidateSubmit && candidateControls.workAuthorization.invalid) ||
+                                                    (candidateControls.workAuthorization.invalid &&
+                                                      (candidateControls.workAuthorization.dirty ||
+                                                        candidateControls.workAuthorization.touched))
+                                                  " class="error-msg">
+                      <div *ngIf="candidateControls.workAuthorization.errors.required">
+                        Work Authorization is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 pl-0 pr-0">
+                  <div class="col-sm-12" style="padding-right: 5px;">
+                    <label for="payType" class="control-label required-field font-bold">Pay Type</label>
+                    <select (change)="onChangePayType($event.target.value, 'candidates')" type="text"
+                      formControlName="payType" class="form-control input-sm">
+                      <option [selected]=true [value]=null disabled>Select Pay Type</option>
+                      <option [value]="list" *ngFor="let list of payTypeList">{{list}}</option>
+                    </select>
+                    <div *ngIf="
+                                            (candidateSubmit && candidateControls.payType.invalid) ||
+                                            (candidateControls.payType.invalid &&
+                                              (candidateControls.payType.dirty ||
+                                                candidateControls.payType.touched))
+                                          " class="error-msg">
+                      <div *ngIf="candidateControls.payType.errors.required">
+                        Pay Type is required
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12" style="padding-bottom: 7px;">
+              <div class="row">
+                <div class="col-sm-3" style="padding-bottom: 7px;padding-left: 0px;">
+                  <label for="targetRate" class="control-label required-field font-bold">Target Rate Range</label>
+                  <div style="display: flex;">
+                    <label *ngIf="candidatePostForm.value.country=='US' || candidatePostForm.value.country == null"
+                      for="USD" class="currency-type">USD</label>
+                    <label *ngIf="candidatePostForm.value.country=='IN'" for="INR" class="currency-type">INR</label>
+                    <label *ngIf="candidatePostForm.value.country=='CA'" for="CAD" class="currency-type">CAD</label>
+                    <label *ngIf="candidatePostForm.value.country=='AU'" for="AUD" class="currency-type">AUD</label>
+                    <label
+                      *ngIf="candidatePostForm.value.country!='US' && candidatePostForm.value.country!='IN' && candidatePostForm.value.country!='CA' && candidatePostForm.value.country!='AU' && candidatePostForm.value.country!=null"
+                      for="CUR" class="currency-type">CUR</label>
+                    <input type="text" maxlength="9" (keypress)="decimalFilter($event)"
+                      (keyup)="onTargetRateTyped($event.target.value, 'candidates')" class="form-control input-sm"
+                      placeholder="From" id="targetRate" formControlName="targetRateFrom">
+
+                  </div>
+                  <div *ngIf="
+                                                                    (candidateSubmit && candidateControls.targetRateFrom.invalid) ||
+                                                                    (candidateControls.targetRateFrom.invalid &&
+                                                                      (candidateControls.targetRateFrom.dirty ||
+                                                                        candidateControls.targetRateFrom.touched))
+                                                                  " class="error-msg">
+                    <div class="tar-len" *ngIf="candidateControls?.targetRateFrom?.errors?.required">
+                      Target Rate is required
+                    </div>
+                    <div class="w-wrap" *ngIf="candidateControls?.targetRateFrom?.errors?.minword">
+                      {{FORMERROR.TARGETRATE_MIN}}
+                    </div>
+                    <div *ngIf="candidateControls?.targetRateFrom?.errors?.maxword">
+                      {{FORMERROR.TARGETRATE_MAX}}
+                    </div>
+
+                    <div  class="text-wrapsfilter" style="padding-left: 9px;" *ngIf="candidateControls.targetRateFrom.errors?.invalidDecimal&& !candidateControls?.targetRateFrom?.errors?.maxword">
+                      {{FORMERROR.TARGETRATE_PATTERN}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3 " style="padding-bottom: 7px;padding-left: 0px;margin-top:33px;">
+
+                  <div style="display: flex;">
+                    <label *ngIf="candidatePostForm.value.country=='US' || candidatePostForm.value.country == null"
+                      for="USD" class="currency-type">USD</label>
+                    <label *ngIf="candidatePostForm.value.country=='IN'" for="INR" class="currency-type">INR</label>
+                    <label *ngIf="candidatePostForm.value.country=='CA'" for="CAD" class="currency-type">CAD</label>
+                    <label *ngIf="candidatePostForm.value.country=='AU'" for="AUD" class="currency-type">AUD</label>
+                    <label
+                      *ngIf="candidatePostForm.value.country!='US' && candidatePostForm.value.country!='IN' && candidatePostForm.value.country!='CA' && candidatePostForm.value.country!='AU' && candidatePostForm.value.country!=null"
+                      for="CUR" class="currency-type">CUR</label>
+                    <input type="text" maxlength="9" (keypress)="decimalFilter($event)"
+                      (keyup)="onTargetRateTyped($event.target.value, 'candidates')" class="form-control input-sm"
+                      placeholder="To" id="targetRate" formControlName="targetRateTo">
+
+                  </div>
+                  <div *ngIf="
+                                                                    (candidateSubmit  ) ||
+                                                                    (
+                                                                      (candidateControls.targetRateTo.dirty ||
+                                                                        candidateControls.targetRateTo.touched))
+                                                                  " class="error-msg">
+                    <div class="tar-len" *ngIf="candidateControls?.targetRateTo?.errors?.required">
+                      Target Rate is required
+                    </div>
+                    <div class="w-wrap" *ngIf="candidateControls?.targetRateTo?.errors?.minword">
+                      {{FORMERROR.TARGETRATE_MIN}}
+                    </div>
+                    <div *ngIf="candidateControls?.targetRateTo?.errors?.maxword">
+                      {{FORMERROR.TARGETRATE_MAX}}
+                    </div>
+                    <div class="w-wrap" *ngIf="candidatePostForm.errors && candidatePostForm?.errors?.rangevalidation&&!candidateControls.targetRateFrom.errors?.invalidDecimal">
+                      Invalid target rate range</div>
+
+                    <div  class="text-wrapsfilter" style="padding-left: 9px;"*ngIf="candidateControls.targetRateTo.errors?.invalidDecimal&& !candidateControls?.targetRateTo?.errors?.maxword">
+                      {{FORMERROR.TARGETRATE_PATTERN}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" style=" margin-top: 34px;">
+                  <div class="row">
+                    <div class="col-sm-7" style="padding-bottom: 7px;">
+                      <label for="remoteWork" class="control-label  font-bold">Remote Work</label>
+                    </div>
+                    <div class="col-sm-5" style="position: relative; right: 22px;">
+                      <div class="row" style="    margin-top: 6px;">
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> Yes
+                              <input type="radio" [value]="true" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-bottom: 7px;">
+                          <div class="custom-checkbox margin-top-5">
+                            <label class="checkbox-label font-normal"> No
+                              <input type="radio" [value]="false" formControlName="remoteWork" name="remoteWork">
+                              <span title="Check Working Days" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-12 pl-0">
+
+
+
+              <div class="col-sm-6" style="margin-top:12px;padding-left:0px;">
+                <div class="row">
+                  <div class="col-sm-7" style="padding-bottom: 7px;">
+                    <label for="relocationRequired" class="control-label  font-bold">Open To Relocate</label>
+                  </div>
+                  <div class="col-sm-5" style="position: relative; right: 22px;">
+                    <div class="row" style="    margin-top: 6px;">
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> Yes
+                            <input type="radio" [value]="true" formControlName="relocationRequired"
+                              name="relocationRequired">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> No
+                            <input type="radio" [value]="false" formControlName="relocationRequired"
+                              name="relocationRequired">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-6" style="padding-bottom: 7px;padding-right: 3px;margin-top: 17px;">
+                <div class="row">
+                  <div class="col-sm-7" style="padding-bottom: 7px;">
+                    <label for="securityClearance" class="control-label font-bold">Security Clearance</label>
+                  </div>
+                  <div class="col-sm-5" style="position: relative; right: 22px;">
+                    <div class="row" style="    margin-top: 6px;">
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> Yes
+                            <input type="radio" [value]="true" formControlName="securityClearance"
+                              name="securityClearance">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> No
+                            <input type="radio" [value]="false" formControlName="securityClearance"
+                              name="securityClearance">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-6" style="padding-bottom: 7px;padding-left:0px;">
+                <div class="row">
+                  <div class="col-sm-7" style="padding-bottom: 7px;">
+                    <label for="workFromHome" class="control-label font-bold">Work From Home</label>
+                  </div>
+                  <div class="col-sm-5" style="position: relative; right: 22px;">
+                    <div class="row" style="    margin-top: 6px;">
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> Yes
+                            <input type="radio" [value]="true" formControlName="workFromHome" name="workFromHome">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6" style="padding-bottom: 7px;">
+                        <div class="custom-checkbox margin-top-5">
+                          <label class="checkbox-label font-normal"> No
+                            <input type="radio" [value]="false" formControlName="workFromHome" name="workFromHome">
+                            <span title="Check Working Days" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" *ngIf="userType!='JOB_SEEKER'" style=" margin-top: -4px;">
+                <div class="custom-checkbox">
+                  <label class="checkbox-label font-bold w-wrap"> Create
+                    Candidate Profile on the Platform
+                    <input type="checkbox" name="createCandidateOnPlatform" (click)="createCandidateOnProf($event)"
+                      formControlName="createCandidateOnPlatform">
+                    <span class="checkmark" title="You can check or uncheck this to show or hide  client type"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+
+                <div class="col-sm-6" style="margin-left: -28px;">
+                  <div class="form-group">
+                    <div class="custom-checkbox">
+                      <label class="checkbox-label font-bold w-wrap"> Other
+                        Preferred States
+                        <input type="checkbox" name="otherPrefered" formControlName="otherPrefered">
+                        <span class="checkmark"
+                          title="You can check or uncheck this to show or hide  client type"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="custom-ng-select">
+                    <ng-select [inputAttrs]="{maxlength: '50'}" *ngIf="candidatePostForm.value.otherPrefered == true"
+                      [items]="otherStatesList" [addTag]="true" [hideSelected]="false" dropdownPosition="bottom"
+                      [(ngModel)]="otherSelectedStates" formControlName="otherPreferedStates" [multiple]="true"
+                      [closeOnSelect]="false" [clearSearchOnAdd]="true" placeholder="Other Preferred States">
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <div class="custom-control custom-radio flexSelect">
+                          <input id="item-{{index}}" type="checkbox" [checked]="false" name="item-{{index}}"
+                            [ngModelOptions]="{ standalone : true }" [ngModel]="item$.selected" >
+                          <label class="form-radio-label m-t-5 custom-control-label flexLabel">{{item}}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="row">
+
+                <div class="col-sm-12 pr-0">
+                  <label class="control-label required-field font-bold">Resume Summary</label>
+                  <div formControlName="resumeSummary" [ngxSummernote]="config2" class="note-editor.note-frame"></div>
+                  <div *ngIf="
+                              (candidateSubmit && candidateControls.resumeSummary.invalid) ||
+                              (candidateControls.resumeSummary.invalid &&
+                                (candidateControls.resumeSummary.dirty ||
+                                  candidateControls.resumeSummary.touched))
+                            " class="error-msg">
+                    <div *ngIf="candidateControls.resumeSummary.errors.required">
+                      Resume Summary is required
+                    </div>
+                    <div *ngIf="candidateControls.resumeSummary.errors.minword">
+                      Resume summary should at least have 50 words
+                    </div>
+                    <div *ngIf="candidateControls.resumeSummary.errors.maxword">
+                      Resume Summary can have a maximum of 1500 words
+                    </div>
+                  </div>
+                  <small>Maximum of 1500 words allowed</small>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button [ngClass]="{'disabled': disable_for_draft==true}" class="btn btn-sm btn-default"
+            (click)="cancelcloseCandidate()">Cancel</button>
+          <button [ngClass]="{'disabled': disable_for_draft==true}" class="btn btn-sm btn-primary" type="submit"
+            *ngIf="candidateDetails.status!='ACTIVE'&& candidateDetails.status!='INACTIVE_DUE_TO_LOW_CREDITS'&& candidateDetails.status!='DEACTIVATED'&& candidateDetails.status!='INACTIVE' && candidateDetails?.status!='AWAITING HOST'"
+            (click)="updateCandidate('DRAFTED')">Save as Draft</button>
+          <button class="btn btn-sm btn-primary" type="submit"
+            *ngIf="candidateDetails.status!='DRAFTED' && (candidateDetails.status=='AWAITING HOST'|| candidateDetails.status=='ACTIVE') "
+            (click)="updateCandidate('ALL')">Update</button>
+          <button class="btn btn-sm btn-primary" type="submit"
+            *ngIf="(candidateDetails.status=='DRAFTED' || candidateDetails.status=='INACTIVE_DUE_TO_LOW_CREDITS'||
+             candidateDetails.status=='INACTIVE' || candidateDetails.status=='DEACTIVATED')  && ActivateContent=='Make Candidate Available'"
+            (click)="updateCandidate('ALL')">Update</button>
+          <button class="btn btn-sm btn-primary" type="submit"
+            *ngIf="(candidateDetails.status=='DRAFTED' ||candidateDetails.status=='INACTIVE_DUE_TO_LOW_CREDITS'||
+            candidateDetails.status=='INACTIVE' || candidateDetails.status=='DEACTIVATED') &&ActivateContent!='Make Candidate Available'"
+            (click)="updateCandidate('ALL')">Update</button>
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #profilePhotoUpload>
+    <!-- <button type="button" style="font-size: 31px;padding-right: 17px;font-weight: 400;padding-top: 7px;"
+      class="close pull-right" aria-label="Close" (click)="closePhoto2()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <label style="margin: 6px 10px 14px 10px;padding-top:10px">Profile Photo</label>
+    <hr style="margin: 0px !important;"> -->
+
+    <!-- <div class="hpanel">
+      <div class="panel-heading">
+        <div class="row panel-tools">
+          <div class="col-sm-2">
+            <button type="button" class="close" aria-label="Close" (click)="closePhoto2()">
+              <span style="font-size: 26px;font-weight: 400;color:#fff;" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="padding-top-0 margin-bottom-5 margin-top-5"
+          style="margin-left: 8px !important; color: #fff;font-size: 17px;">Profile
+          Photo</div>
+      </div>
+    </div> -->
+    <div class="common-header-flex">
+      <div>Profile Photo</div>
+      <button><span class="common-close" (click)="closePhoto2()" aria-hidden="true">&times;</span></button>
+    </div>
+
+
+    <div class="modal-body">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+        format="jpeg" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </div>
+
+
+    <div class="modal-footer" style="border-radius: 5px !important;">
+      <button class="btn default-btn btn-sm m-r-18" (click)="closePhoto2()">Cancel</button>
+      <button class="btn primary-btn btn-sm m-r-18" (click)="imageLoaded2()">Apply</button>
+    </div>
+
+
+
+  </ng-template>
+
+  <ng-template #connectionTemplate>
+    <app-connection-template [page]="'candidate-profile'" [connectionStatus]="connectionStatus"
+      [counterpartsDetails]="counterpartsDetails" [values]="values" [module]="'candidate'"></app-connection-template>
+  </ng-template>
+  <ng-template #jobsupplytemplate>
+    <app-new-job [focus]="focus" [screenName]="'invite-job-listing'" [filterData]="passCandidateData"></app-new-job>
+  </ng-template>
+
+  <!-- <ng-template #content let-modal>
+
+    <div class="modal-body-padding">
+
+      <div class="common-header-flex">
+        <div>Resumes List</div>
+        <button>
+          <span (click)="closemodel()" class="common-close">&times;</span>
+        </button>
+      </div>
+
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table cellpadding="1" cellspacing="1" class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Resumes</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Download</th>
+                <th scope="col">Primary Resume</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let resume of resumelist; let i = index">
+              <tr>
+                <th scope="row">{{i+1}}</th>
+
+                <td>{{resume.fileName | spliter}}</td>
+                <td>
+                  <button (click)="opens(template,resume.fileId,resume.isDefault)"><i class="fas fa-pen"></i></button>
+                </td>
+                <td>
+                  <button [disabled]="resume.isDefault==true" (click)="deleteResumes(resume.fileId)"><i
+                      class='fas fa-trash-alt'></i> </button>
+                </td>
+                <td>
+                  <button> <a href="{{url+resume?.fileId}}" target="_blank" download> <i class='fa fa-download'></i></a>
+                  </button>
+                </td>
+                <td><input type="checkbox" class="largerCheckbox" [checked]="resume.isDefault==true"
+                    [disabled]="resume.isDefault==true" (click)="setPrimary(resume.fileId, $event)"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="custom-panel-footer">
+        <div class="panel-footer">
+          <div class="footer-flex">
+            <button class="btn btn-sm btn-default resume" (click)="closemodel()"> Cancel</button>
+            <button class="btn btn-sm btn-primary resume" (click)="model(candidateDetails,template,'null')"> Attach
+              Resume</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </ng-template> -->
+
+
+  <ng-template #template>
+
+    <div class="common-header-flex">
+      <div> Resume Upload </div>
+      <button>
+        <span class="common-close" (click)="close()">&times;</span>
+      </button>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="col-sm-12" style="margin-top: 17px;">
+        <div class="dropdox" appDnd (fileDropped)="onFileDropped($event)">
+          <input style="display: none" accept=".pdf,.doc,.docx,.txt" type="file" #fileDropRef id="fileDropRef"
+            (change)="fileBrowseHandler($event.target.files)" />
+          <div>
+            <!-- <div style="font-size: 14px; font-weight:500;color:#63cfbe;" class="file-boreder"  for="fileDropRef">Upload Your Resume</div> -->
+            <label style="font-size: 14px; font-weight:900;color:#63cfbe;cursor: pointer;" class="file-boreder"
+              for="fileDropRef">Upload Your Resume</label>
+
+            <label class="file-boreder" id="aad" for="fileDropRef">Drag your files here or click in this area.</label>
+          </div>
+          <div>
+            <small>Only PDF, DOCX, DOC, and TXT file formats supported.</small>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="files-list" *ngIf="fileDragdrop">
+
+        <div class="upFileWrap">
+          <div class="fileUPinfo" style="cursor:pointer;">
+            <i class="pe-7s-upload pe-7s-news-paper"></i>
+            <h4 class="name"> {{ fileDragdrop?.name }} </h4>
+            <p title="Download" class="cursor-pointer top-eye" (click)="onDownload()">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </p>
+            <div title="Remove File" (click)="removeFiles()" class="uploadTiimes">x</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-panel-footer">
+      <div class="panel-footer">
+        <div class="footer-flex">
+          <button class="btn btn-sm btn-default" (click)="close()">Cancel </button>
+          <button class="btn btn-sm btn-primary btn-save" (click)="editresumes()">Save </button>
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+</div>

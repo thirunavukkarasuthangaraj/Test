@@ -1,0 +1,801 @@
+<div class="hpanel" style="background: #fff;">
+  <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs">
+      <li><a [ngClass]="{'active': id=='1'}"
+          [ngStyle]="id=='1'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='1' && {'background-color': 'white' ,'color':'#111'}"
+          data-toggle="tab" (click)="activeTab('1')">Credits </a></li>
+      <!-- <li><a [ngClass]="{'active': id=='2'}"
+          [ngStyle]="id=='2'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='2' && {'background-color': 'white' ,'color':'#111'}"
+          data-toggle="tab" (click)="activeTab('2')">Consumption Matrix</a></li> -->
+
+      <!-- <li><a [ngClass]="{'active': id=='3'}"
+          [ngStyle]="id=='3'&& {'background-color': '#cbe2ff', 'color':'white'} || id!='3' && {'background-color': 'white' ,'color':'#111'}"
+          data-toggle="tab" (click)="activeTab('3')">FAQ-Credit </a></li> -->
+
+    </ul>
+  </ul>
+</div>
+
+<div>
+  <div  title="Membership" class="tab-pane" [ngClass]="{'active': id=='1'}" id={{id}}>
+    <app-common-skeleton *ngIf="loadAPIcall" [countforView]="1"
+      [NameOftheScreen]="'notification'"></app-common-skeleton>
+  </div>
+</div>
+
+    <div *ngIf="!loadAPIcall"class="tab-pane" title="Membership" [ngClass]="{'active': id=='1'}" id={{id}}>
+      <div>
+
+
+        <div class="hpanel" style="padding: 0px 0px 0px 2px;">
+          <div class="panel-heading hbuilt" style="color: black;">Referral Credits</div>
+          <div class="panel-body boxShadowGrey">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="row">
+                  <div class="col-lg-6 border-right">
+                    <p>Available Referral Credits </p>
+                  </div>
+                  <div class="col-lg-6 ">
+                    <p> {{points?.userCredits}} </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 text-right">
+                <button type="button" class="btn btn-primary btn-sm" style="width: 155px;"
+                  (click)="RedeeModel(RedeemModel)">Redeem </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="hpanel" style="padding: 0px 0px 0px 2px;">
+        <div class="panel-heading hbuilt" style="color: black;">GigSumo Credits</div>
+
+        <div class="panel-body boxShadowGrey">
+          <div class="row customRowGig">
+            <div class="col-lg-8">
+              <div class="row">
+                <div class="col-lg-6 border-right">
+                  <p> Available GigSumo Credits </p>
+                </div>
+                <div class="col-lg-6 ">
+                  <p> {{points?.creditPoints}} </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 text-right">
+              <a  style="width: 155px; color: #fff;"    [routerLink]="['/checkout']" class="btn btn-primary btn-sm" >Buy GigSumo Credits</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+
+
+    <div class="tab-pane customAccordion panel-body " *ngIf="id=='2'" style="padding: 0px;"
+      [ngClass]="{'active': id=='2'}" id={{id}}>
+      <div class="hpanel panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="flex panel-body " style="margin-bottom: 10px;">
+          <div class="radio">
+            <input id="radio-1" [(ngModel)]="project.duration" checked value="1" name="radio" type="radio">
+            <label for="radio-1" class="radio-label"> Role based Consumption</label>
+          </div>
+
+          <div class="radio">
+            <input id="radio-2" [(ngModel)]="project.duration" value="2" name="radio" type="radio">
+            <label for="radio-2" class="radio-label">Activity based Consumption</label>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="panel-body">
+
+
+          <div class="col-sm-12">
+            <div style="margin-top: 20px;">
+
+              <ng-container
+                *ngIf="project.duration=='1' && this.userType == 'RECRUITER' || project.duration=='1' &&  this.userType == 'FREELANCE_RECRUITER' || project.duration=='1' &&  this.userType == 'MANAGEMENT_TALENT_ACQUISITION' ">
+                <h4 class="header-title"> Recruiter Credit Consumption Matrix </h4>
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">Recruiter / Freelance Recruiter/ Manager </th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed </th>
+                        <th class="faq-table-align faq-tableheader"> Frequency </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Job </td>
+                        <td class="faq-table-align"> {{getelement(getName.CREATE_JOB)?.points}} </td>
+                        <td class="faq-table-align-value"> daily for each active job </td>
+
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Featured Job </td>
+                        <td class="faq-table-align">{{getelement(getName.UPGRADED_JOB)?.points}}</td>
+                        <td class="faq-table-align-value">daily for each active featured job</td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">View Supplier Candidate </td>
+                        <td class="faq-table-align">{{getelement(getName.INVITE_SUPPLER_CANDIDATE)?.points}}</td>
+                        <td class="faq-table-align-value">once, 1st time a user views a supplier candidate profile </td>
+
+                      </tr>
+
+
+                      <tr>
+                        <td class="faq-table-align-value">View Jobseeker </td>
+                        <td class="faq-table-align">{{getelement(getName.VIEW_JOBSEEKER)?.points}}</td>
+                        <td class="faq-table-align-value">once, 1st time a user views a jobseeker profile </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Invite Supplier Candidate </td>
+                        <td class="faq-table-align">{{getelement(getName.INVITE_SUPPLER_CANDIDATE)?.points}}</td>
+                        <td class="faq-table-align-value">per invite sent to a supplier candidate </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Invite Jobseeker </td>
+                        <td class="faq-table-align">{{getelement(getName.INVITE_JOBSEEKER)?.points}}</td>
+                        <td class="faq-table-align-value">per invite sent to a jobseeker </td>
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Request Supplier candidate Resume </td>
+                        <td class="faq-table-align">{{getelement(getName.REQUEST_RESUME_SUPPLIER)?.points}}</td>
+                        <td class="faq-table-align-value">per resume request to a supplier </td>
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Request Jobseeker Resume </td>
+                        <td class="faq-table-align">{{getelement(getName.REQUEST_RESUME_JOB_SEEKER)?.points}}</td>
+                        <td class="faq-table-align-value">per resume request to a jobseeker </td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+
+
+
+              <ng-container
+                *ngIf="project.duration=='1' && this.userType == 'BENCH_RECRUITER' || project.duration=='1' &&  this.userType == 'FREELANCE_RECRUITER' || project.duration=='1' &&  this.userType == 'MANAGEMENT_TALENT_ACQUISITION'">
+                <h4 class="header-title"> Bench Sales Credit Consumption Matrix </h4>
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">Bench Sales Recruiter / Freelance Sales Recruiter /
+                          Manager </th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed </th>
+                        <th class="faq-table-align faq-tableheader"> Frequency </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">Candidate </td>
+                        <td class="faq-table-align"> {{getelement(getName.CREATE_CANDIDATE)?.points}} </td>
+                        <td class="faq-table-align-value"> daily for each active candidate </td>
+
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Featured Candidate </td>
+                        <td class="faq-table-align">{{getelement(getName.UPGRADE_CANDIDATE)?.points}}</td>
+                        <td class="faq-table-align-value">daily for each active featured candidate </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">View Job </td>
+                        <td class="faq-table-align">{{getelement(getName.JOB_VIEW)?.points}}</td>
+                        <td class="faq-table-align-value">once, 1st time a user views a job </td>
+
+                      </tr>
+
+
+                      <tr>
+                        <td class="faq-table-align-value">Apply to Client Job </td>
+                        <td class="faq-table-align">{{getelement(getName.JOB_APPLY)?.points}}</td>
+                        <td class="faq-table-align-value">per client job applied </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Apply to SI Job </td>
+                        <td class="faq-table-align">{{getelement(getName.SI_JOB_APPLY)?.points}}</td>
+                        <td class="faq-table-align-value">per SI job applied </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Apply to Staffing Agency Job </td>
+                        <td class="faq-table-align">{{getelement(getName.PRIME_VENDORE)?.points}}</td>
+                        <td class="faq-table-align-value">per Staffing Agency job applied </td>
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Apply to Vendor Job </td>
+                        <td class="faq-table-align">{{getelement(getName.VENDOR_JOB_APPLY)?.points}}</td>
+                        <td class="faq-table-align-value">per Vendor job applied </td>
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Apply to Freelancer Job </td>
+                        <td class="faq-table-align">{{getelement(getName.FREELANCER_JOB_APPLY)?.points}}</td>
+                        <td class="faq-table-align-value">per freelancer job applied </td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+
+
+              <ng-container *ngIf="project.duration=='1'&& this.userType == 'JOB_SEEKER'  ">
+                <h4 class="header-title"> Jobseeker Credit Consumption Matrix </h4>
+                <div class="table-responsive">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th class="faq-table-align faq-tableheader">Jobseeker </th>
+                        <th class="faq-table-align faq-tableheader"> Credits Consumed </th>
+                        <th class="faq-table-align faq-tableheader"> Frequency </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="faq-table-align-value">View Job </td>
+                        <td class="faq-table-align"> {{getelement(getName.CREATE_CANDIDATE)?.points}} </td>
+                        <td class="faq-table-align-value">N/A </td>
+
+
+                      </tr>
+                      <tr>
+                        <td class="faq-table-align-value">Apply Job </td>
+                        <td class="faq-table-align">{{getelement(getName.UPGRADE_CANDIDATE)?.points}}</td>
+                        <td class="faq-table-align-value">N/A </td>
+
+                      </tr>
+
+                      <tr>
+                        <td class="faq-table-align-value">Candidate Spotlight </td>
+                        <td class="faq-table-align">{{getelement(getName.UPGRADE_CANDIDATE)?.points}}</td>
+                        <td class="faq-table-align-value">Daily.Spotlight is available in 7, 15 & 30 day options. </td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+
+
+              <ng-container *ngIf="project.duration=='2'">
+
+                <h4 class="header-title">Activity based Credit Consumption Matrix</h4>
+
+                <div>
+                  <div class="col-sm-6">
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">POST</th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (daily per active job /candidate)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value">Job </td>
+                              <td class="faq-table-align"> {{getelement(getName.CREATE_JOB)?.points}} </td>
+
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value">Candidate </td>
+                              <td class="faq-table-align">{{getelement(getName.CREATE_CANDIDATE)?.points}}</td>
+
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+
+
+
+                    </div>
+
+
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">VIEW</th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (1st time the activity is performed)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value"> Job </td>
+                              <td class="faq-table-align"> {{getelement(getName.JOB_VIEW)?.points}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value"> Supplier Candidate </td>
+                              <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}} </td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value"> Jobseeker </td>
+                              <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}}
+                              </td>
+                            </tr>
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">INVITE </th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (per invite sent)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value">Supplier Candidate </td>
+                              <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value"> Jobseeker </td>
+                              <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}}
+                              </td>
+                            </tr>
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">Request Resume </th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (per request sent)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value">Supplier candidate Resume</td>
+                              <td class="faq-table-align"> {{getelement(getName.VIEW_CANDIDATE)?.points}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value"> Jobseeker Resume </td>
+                              <td class="faq-table-align"> {{getelement(getName.CANDIDATE_INVITE_JOB_SEEKER)?.points}}
+                              </td>
+                            </tr>
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+                  <div class="col-sm-6">
+
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">UPGRADE</th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (daily per active upgraded job /candidate)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value">Job </td>
+                              <td class="faq-table-align"> {{getelement(getName.UPGRADED_JOB)?.points}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value">Candidate </td>
+                              <td class="faq-table-align">{{getelement(getName.UPGRADE_CANDIDATE)?.points}}</td>
+                            </tr>
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+                    <div style="margin-top: 20px;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered ">
+                          <thead>
+                            <tr>
+                              <th class="faq-table-align faq-tableheader">APPLY</th>
+                              <th class="faq-table-align faq-tableheader"> Credits Consumed
+                                <br>
+                                <span style="font-size: 10px;"> (per job applied)</span>
+                              </th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="faq-table-align-value">Client Job </td>
+                              <td class="faq-table-align"> {{getelement(getName.JOB_APPLY)?.points}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faq-table-align-value">SI Job </td>
+                              <td class="faq-table-align">{{getelement(getName.SI_JOB_APPLY)?.points}}</td>
+                            </tr>
+
+                            <tr>
+
+                              <td class="faq-table-align-value">Prime Vendor/ Staffing Agency </td>
+                              <td class="faq-table-align">{{getelement(getName.PRIME_VENDORE)?.points}}</td>
+                            </tr>
+
+
+                            <tr>
+                              <td class="faq-table-align-value">Vendor Job </td>
+                              <td class="faq-table-align">{{getelement(getName.VENDOR_JOB_APPLY)?.points}}</td>
+                            </tr>
+
+                            <tr>
+                              <td class="faq-table-align-value">Freelancer Job </td>
+                              <td class="faq-table-align">{{getelement(getName.FREELANCER_JOB_APPLY)?.points}}</td>
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+
+
+
+
+                  </div>
+
+                </div>
+
+              </ng-container>
+
+
+
+
+
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tab-pane customAccordion panel-body " *ngIf="id=='3'" style="padding: 0px; background: #fff;"
+      [ngClass]="{'active': id=='3'}" id={{id}}>
+
+      <div class="panel-body" style="height: 85vh; overflow: auto;">
+        <h4>FAQ's Credit </h4>
+
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+          <ng-container *ngFor="let data of faqresponse?.faqList">
+            <ngb-panel>
+              <ng-template ngbPanelTitle style="padding-left: 0;">
+                <span style="font-size: 13px;"> <b> {{data.question}}</b> </span>
+                <i class="fa fa-chevron-down pull-right text-muted"></i>
+                <!-- <i class="fa fa-chevron-down pull-right text-muted"></i> -->
+              </ng-template>
+
+              <ng-template ngbPanelContent>
+                <!-- {{data.answer}} -->
+                <span [innerHTML]="data?.answer"> </span>
+              </ng-template>
+
+            </ngb-panel>
+          </ng-container>
+
+
+        </ngb-accordion>
+      </div>
+    </div>
+
+    <ng-template #model>
+      <div class="modal-header">
+        <div class="modal-title pull-left credit-title"> Buy Credits </div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closemodel()">
+          <span aria-hidden="true" class="close-icoon">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group app-form">
+
+          <ng-container *ngIf="creditPoint!='1'">
+            <form [formGroup]="creditformnew">
+              <div class="panel-body">
+                <div method="get" class="form-horizontal">
+                  <div class="form-group"><label class="col-sm-2 control-label">Select Credits</label>
+                    <div class="col-sm-8 poinstsCnt1">
+                      <button class="btn btn-sm btn-primary btn-sm" (click)="calcredit('50')"
+                        [ngStyle]="(creditPoint=='50') && {'background-color': '#f46836f2' }" type="button">50</button>
+                      <button class="btn btn-sm btn-primary btn-sm" (click)="calcredit('100')"
+                        [ngStyle]="(creditPoint=='100') && {'background-color': '#f46836f2' }"
+                        type="button">100</button>
+                      <button class="btn btn-sm btn-primary btn-sm" (click)="calcredit('200')"
+                        [ngStyle]="(creditPoint=='200') && {'background-color': '#f46836f2' }"
+                        type="button">200</button>
+                      <button class="btn btn-sm btn-primary btn-sm" (click)="calcredit('500')"
+                        [ngStyle]="(creditPoint=='500') && {'background-color': '#f46836f2' }"
+                        type="button">500</button>
+                      <button class="btn btn-sm btn-primary btn-sm" (click)="calcredit('1000')"
+                        [ngStyle]="(creditPoint=='1000') && {'background-color': '#f46836f2'}"
+                        type="button">1000</button>
+                    </div>
+
+
+                  </div>
+
+                  <div class="form-group" style="display: none;">
+                    <div class="col-sm-8"><input type="text" formControlName="amount" class="form-control"> </div>
+                  </div>
+
+                  <div class="form-group"><label class="col-sm-2 control-label">Cost</label>
+                    <div class="col-sm-8"><input type="text" formControlName="cost" class="form-control" name="cost"
+                        placeholder="cost" readonlY>
+                      <div *ngIf="creditformnew.controls.cost.touched && creditformnew.controls.cost.errors?.required"
+                        class="text text-danger mt-1">Cost is required
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group"><label class="col-sm-2 control-label">Card Number</label>
+
+                    <div class="col-sm-8"><input type="text" formControlName="cardNumber" OnlyNumber="true"
+                        maxlength="16" minlength="16" placeholder="card number" class="form-control">
+                      <div
+                        *ngIf="creditformnew.controls.cardNumber.touched && creditformnew.controls.cardNumber.errors?.required"
+                        class="text text-danger mt-1">Card Number is required
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group"><label class="col-lg-2 control-label">Name on Card</label>
+
+                    <div class="col-lg-8"><input type="text" formControlName="nameoncard" placeholder="card name"
+                        class="form-control">
+                      <div
+                        *ngIf="creditformnew.controls.nameoncard.touched && creditformnew.controls.nameoncard.errors?.required"
+                        class="text text-danger mt-1">Card Name is required
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group"><label class="col-lg-2 control-label">Expiration Date</label>
+                    <div class="col-lg-4"><select type="text" formControlName="expMonth" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>Month</option>
+                        <option *ngFor="let date of month" [value]="date">{{date}}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="creditformnew.controls.expMonth.touched && creditformnew.controls.expMonth.errors?.required"
+                        class="text text-danger mt-1">Month is required
+                      </div>
+                    </div>
+                    <div class="col-lg-4"><select type="text" formControlName="expYear" class="form-control input-sm">
+                        <option value=null disabled [selected]=true>Year</option>
+                        <option *ngFor="let year of years" [value]="year">{{year}}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="creditformnew.controls.expYear.touched && creditformnew.controls.expYear.errors?.required"
+                        class="text text-danger mt-1">Year is required
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">CVV</label>
+
+                    <div class="col-lg-8"><input type="text" formControlName="cvc" OnlyNumber="true" maxlength="5"
+                        placeholder="Enter CVV" class="form-control">
+                      <div *ngIf="creditformnew.controls.cvc.touched && creditformnew.controls.cvc.errors?.required"
+                        class="text text-danger mt-1">CVV is required
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <p class="cm-disc">* Unused credits will rollover to the next month</p>
+                    <p class="cm-disc">* Credits in this purchase will expire 12 months from today.</p>
+                    <p class="cm-disc">* By clicking "Buy" you are authorizing GiSumo to charge your account on file.
+                    </p>
+                  </div>
+                  <hr class="line-tag">
+                  <div style="float:right;">
+                    <p style="    float: left;
+                  margin-right: 290px;
+                  margin-top: 5px;"><b>Powered by Stripe</b></p>
+                    <button class="btn btn-default" style="margin-right:24px;" (click)="closemodel()"
+                      data-dismiss="modal" id="btn-cancel2" type="button">Cancel</button>
+                    <button class="btn btn-primary" style="background-color: #f46836f2" (click)="getcardtoken()"
+                      data-dismiss="modal" id="btn-save2" type="button">Buy</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-container>
+
+          <ng-container *ngIf="creditPoint=='1'">
+            <div class="row text-center m-t-lg m-b-lg">
+              <div class="col-lg-12">
+                <i class="pe-7s-check fa-5x text-muted" style="color: green;"></i>
+                <p class="small m-t-md">
+                  <strong> PAYMENT COMPLETE </strong>
+                </p>
+              </div>
+
+              <div class="checkbox col-lg-12">
+                <div>
+                  <button class="btn btn-primary" style="background-color: green" (click)="closemodel()"
+                    data-dismiss="modal" id="btn-save2" type="button">ok</button>
+
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+        </div>
+
+      </div>
+    </ng-template>
+
+
+    <ng-template #RedeemModel>
+
+      <div class="common-header-flex">
+        <div> Redeem Referral Credits </div>
+        <button>
+          <span (click)="modalRef.hide()" class="common-close">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body ">
+        <ng-container>
+          <form [formGroup]="redeimform" class="form-horizontal padding15">
+            <div class="form-group"><label class="col-sm-5 control-label text-right">Available </label>
+              <div class="col-sm-7"><input type="text" formControlName="available" disabled class="form-control"></div>
+            </div>
+            <div class="form-group"><label class="col-sm-5 control-label text-right">Redeem to GigSumo Credits </label>
+              <div class="col-sm-7"><input type="text" #input OnlyNumber="true" (change)="checkReferalpoint($event)"
+                  formControlName="gigsumocredit" class="form-control"></div>
+
+            </div>
+
+            <p class="text-danger text-right" *ngIf="messageShow"> {{message}}</p>
+
+          </form>
+        </ng-container>
+      </div>
+
+      <div class="custom-panel-footer">
+        <div class="panel-footer">
+          <div class="footer-flex">
+            <button class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+            <button class="btn btn-primary" (click)="RedeemPoint()">Add to GigSumo Credits </button>
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+    <!-- <ng-template #model>
+      <div class="modal-header">
+        <div class="modal-title pull-left credit-title"> Credits </div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true" class="close-icoon">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container>
+          <div class="list-group app-form">
+            <form [formGroup]="creditform">
+              <div class="form-group"> <label class="col-sm-4 m-t-6 control-label text-right"> Buy credit </label>
+                <div class="col-sm-5">
+                  <input type="text" formControlName="point" #input OnlyNumber="true" placeholder="Enter Point"
+                    class="form-control">
+
+                  <div class="error-msg">
+                    <span *ngIf="submited && credit.point.errors?.required"> Enter credit points</span>
+                    <span *ngIf="!submited && credit.point.errors?.required && credit.point.touched"> Enter credit
+                      points</span>
+                    <span *ngIf="submited && credit.point.errors?.pattern"> This value cannot start with zero</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-primary btn-sm" (click)="buycredit('noval')"> Buy </button>
+            </form>
+            <div class="panel-body pointsSelectWp">
+              <p class="text-center m-b-15"><b>(OR)</b></p>
+              <p class="text-center">
+                Select Credit points
+              </p>
+              <div class="poinstsCnt">
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('10')" type="button">10</button>
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('50')" type="button">50</button>
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('100')" type="button">100</button>
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('200')" type="button">200</button>
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('500')" type="button">500</button>
+                <button class="btn btn-sm btn-primary btn-sm" (click)="buycredit('1000')" type="button">1000</button>
+              </div>
+
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+    </ng-template> -->
